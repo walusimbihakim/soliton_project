@@ -1,0 +1,408 @@
+{% extends './base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% comment %} {%block page_title%} {% endcomment %}
+           
+{% comment %} {% endblock%} {% endcomment %}
+
+{% block content %}    
+    <div class="container-fluid"> 
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Widget: user widget style 1 -->
+                <div class="card card-widget widget-user">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header text-white"
+                        style="background: url('{{site.site_image.url}}') center center;">
+                    <h3 class="widget-user-username text-right">{{site.site_name}}</h3>
+                    <h5 class="widget-user-desc text-right">{{site.site_location}}</h5>
+                    </div>            
+                </div>
+                <!-- /.widget-user -->
+            </div>
+            <!-- /.col --> 
+        </div>
+        <!-- ./row -->
+        <div class="row">
+            <!-- ./col -->
+            <div class="col-12">
+                <div class="card card-primary card-outline card-outline-tabs">
+                    <div class="card-header p-0 border-bottom-0">
+                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="overview-tab" data-toggle="pill" href="#tabs-for-overview" role="tab" aria-controls="tabs-for-overview" aria-selected="true">Overview</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="fd-tab" data-toggle="pill" href="#tabs-for-fd" role="tab" aria-controls="tabs-for-fd" aria-selected="false">BOQ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="sites-tab" data-toggle="pill" href="#tabs-for-sites" role="tab" aria-controls="tabs-for-sites" aria-selected="false">PIP</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="manholes-tab" data-toggle="pill" href="#tabs-for-manholes" role="tab" aria-controls="tabs-for-manholes" aria-selected="false">Documents</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tower-tab" data-toggle="pill" href="#tabs-for-tower" role="tab" aria-controls="tabs-for-tower" aria-selected="false">Reports</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="equipment-tab" data-toggle="pill" href="#tabs-for-equipment" role="tab" aria-controls="tabs-for-equipment" aria-selected="false">Gallery</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="road-crossing-tab" data-toggle="pill" href="#tabs-for-road-crossing" role="tab" aria-controls="tabs-for-road-crossing" aria-selected="false">Quality Checks</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-four-tabContent">
+                            <div class="tab-pane fade show active" id="tabs-for-overview" role="tabpanel" aria-labelledby="tabs-for-overview">                                
+                                <!-- ./row Overview -->
+                                <div class="row">
+                                    <!-- ./col -->
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <!-- ./ card-header -->
+                                            <div class="card-header">
+                                                <h3 class="card-title">Recent Activities</h3>
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <!-- ./card-body -->
+                                            <div class="card-body">
+                                                <table id="example1" class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No.</th>
+                                                            <th>Activity</th>
+                                                            <th>Progress</th>
+                                                            <th>Executed By</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>                                                        
+                                                        <tr>
+                                                            <td>
+
+                                                            </td>                                                            
+                                                        </tr>
+                                                    </tbody>
+                                                </table>                        
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row overview -->
+
+                                <!-- ./row Survey-->
+                                <div class="row">
+                                    <!-- ./col -->
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <!-- ./ card-header -->
+                                            <div class="card-header">
+                                                <h3 class="card-title">Survey</h3>
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <!-- ./card-body -->
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-site">
+                                                    New Survey
+                                                </button>
+                                                <table id="example1" class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Surveyor</th>
+                                                            <th>Date</th>
+                                                            <th>Checked By</th>
+                                                            <th>Approved By</th>
+                                                            <th>Status</th>
+                                                            <th>#</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for survey in surveys%}
+                                                        <tr>
+                                                          
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>                        
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <!-- ./row -->
+                                <div class="row">
+                                    <!-- ./col -->
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <!-- ./ card-header -->
+                                            <div class="card-header">
+                                                <h3 class="card-title">Teams (15)</h3>
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <!-- ./card-body -->
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-site">
+                                                    Add Member
+                                                </button>
+                                                <table id="example1" class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Role</th>
+                                                            <th>Contact</th>
+                                                            <th>#</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for employee in employees%}
+                                                        <tr>
+                                                           
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>                        
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <!-- ./row -->
+                                <div class="row">
+                                    <!-- ./col -->
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <!-- ./ card-header -->
+                                            <div class="card-header">
+                                                <h3 class="card-title">Fleet (5)</h3>
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <!-- ./card-body -->
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-site">
+                                                    Add Fleet
+                                                </button>
+                                                <table id="example1" class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Plate No</th>
+                                                            <th>Type</th>
+                                                            <th>Driver</th>
+                                                            <th>Status</th>
+                                                            <th>#</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for fleet in fleets%}
+                                                        <tr>
+                                                            <td>
+                                                            <td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>                        
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                            <div class="tab-pane fade" id="tabs-for-fd" role="tabpanel" aria-labelledby="tabs-for-fd">                                
+                                <div class="card">
+                                    <!-- ./ card-header -->
+                                    <div class="card-header">
+                                        <h3 class="card-title">Site BOQ</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <!-- ./card-body -->
+                                    <div class="card-body">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new">
+                                            Add BOQ
+                                        </button>
+                                        <table id="example1" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Unit</th>
+                                                    <th>Unit Cost</th>
+                                                    <th>Estimated Qty</th>
+                                                    <th>Estimated Cost</th>
+                                                    <th>Actual Qty</th>
+                                                    <th>Total Cost</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for boq in boqs%}
+                                                <tr>                                                    
+                                                    <td>
+                                                        
+                                                    <td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>                        
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card --> 
+                            </div>
+                            <div class="tab-pane fade" id="tabs-for-sites" role="tabpanel" aria-labelledby="tabs-for-sites">
+                                <div class="card">
+                                    <!-- ./ card-header -->
+                                    <div class="card-header">
+                                        <h3 class="card-title">Site PIPs</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <!-- ./card-body -->
+                                    <div class="card-body">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new">
+                                            Add PIP
+                                        </button>
+                                        <table id="example1" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Task</th>
+                                                    <th>Start</th>
+                                                    <th>End</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for pip in pips%}
+                                                <tr>                                                    
+                                                    <td>
+                                                        
+                                                    <td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>                        
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <div class="tab-pane fade" id="tabs-for-manholes" role="tabpanel" aria-labelledby="tabs-for-manholes">
+                                <div class="card">
+                                    <!-- ./ card-header -->
+                                    <div class="card-header">
+                                        <h3 class="card-title">Site Documents</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <!-- ./card-body -->
+                                    <div class="card-body">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new">
+                                            Add Document
+                                        </button>
+                                        <table id="example1" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Document</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for document in documents%}
+                                                <tr>                                                    
+                                                    <td>
+                                                        
+                                                    <td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>                        
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <div class="tab-pane fade" id="tabs-for-tower" role="tabpanel" aria-labelledby="tabs-for-tower">
+                                Site Reports
+                            </div>
+                            <div class="tab-pane fade" id="tabs-for-equipment" role="tabpanel" aria-labelledby="tabs-for-equipment">
+                                Site Gallery
+                            </div>
+                            <div class="tab-pane fade" id="tabs-for-road-crossing" role="tabpanel" aria-labelledby="tabs-for-road-crossing">
+                                Quality Checks
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>             
+        
+    </div>
+    <!-- /.container-fluid --> 
+
+    <div class="modal fade" id="modal-add-project">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Add New Project</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+<!-- DataTables -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+{% endblock content %}

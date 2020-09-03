@@ -1,0 +1,218 @@
+{% extends './base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block page_title%}
+Projects Settings
+{% endblock%}
+
+{% block content %}    
+    <div class="container-fluid">
+        <!-- ./row -->
+        <div class="row">
+            <!-- ./col -->
+            <div class="col-12">
+                <div class="card card-primary card-outline card-outline-tabs">
+                    <div class="card-header p-0 border-bottom-0">
+                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Project Types</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Duct System</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Cables</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-four-tabContent">
+                            <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">                                
+                                <div class="card">
+                                    <!-- ./ card-header -->
+                                    <div class="card-header">
+                                        <h3 class="card-title">Manage Project Types</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <!-- ./card-body -->
+                                    <div class="card-body">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-project-type">
+                                            New Project Type
+                                        </button>
+                                        <table id="example1" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Code</th>
+                                                    <th>Type</th>
+                                                    <th>Description</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for type in project_types%}
+                                                <tr>
+                                                    <td>{{type.code}}</td>
+                                                    <td>{{type.project_type}}</td>
+                                                    <td>{{type.description}}</td>
+                                                    <td>
+                                                        <a href="#" style="color:inherit">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <a href="#" style="color: inherit" ...
+                                                            onclick="">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    <td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>                        
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">                                
+                                <div class="card">
+                                    <!-- ./ card-header -->
+                                    <div class="card-header">
+                                        <h3 class="card-title">Manage Duct System</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <!-- ./card-body -->
+                                    <div class="card-body">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-duct">
+                                            New Duct
+                                        </button>
+                                        <table id="example1" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Code</th>
+                                                    <th>Duct</th>
+                                                    <th>Description</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for duct in ducts%}
+                                                <tr>
+                                                    <td>{{duct.duct_code}}</td>
+                                                    <td>{{duct.duct_type}}</td>
+                                                    <td>{{duct.description}}</td>
+                                                    <td>
+                                                        <a href="#" style="color:inherit">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <a href="#" style="color: inherit" ...
+                                                            onclick="">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    <td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>                        
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
+                                Cable System
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid --> 
+
+    <!-- Modal Add Project Type-->
+    <div class="modal fade" id="modal-add-project-type">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Add New Project Type</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ project_type_form|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+      <!-- Modal Add Duct Type-->
+    <div class="modal fade" id="modal-add-duct">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Add New Duct</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ duct_form|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+<!-- DataTables -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+        "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "responsive": true,
+      "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+{% endblock content %}

@@ -1,0 +1,64 @@
+from django.db import models
+from model_utils.models import TimeStampedModel
+
+from projects.models.sites import Site
+
+class Survey(TimeStampedModel):
+    creator = models.CharField(max_length=50, null=True, blank=True)
+    site_name = models.CharField(max_length=50, null=True)
+    coordinates_lat = models.CharField(max_length=20, null=True)
+    coordinates_long = models.CharField(max_length=20, null=True)
+    surveyor = models.CharField(max_length=50, null=True, blank=True)
+    ack = models.BooleanField(default=False)
+    ack_user = models.CharField(max_length=50, null=True, blank=True)
+
+class SurveyResult(TimeStampedModel):
+    file_url = models.FileField(upload_to='files', null=True)
+    title = models.CharField(max_length=50, null=True)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE, null=True, blank=True, related_name="surveyresult_site")
+    surveyor = models.CharField(max_length=50, null=True, blank=True)
+    acceptStatus = models.BooleanField(default=False)
+
+    # def number_of_comments(self):
+    #     from api.models.survey_result_comments import SurveyResultComment
+    #     return SurveyResultComment.objects.filter(survey_result=self).count()
+
+    def save(self, *args, **kwargs):
+        surveyor = self.surveyor
+        acceptStatus = self.acceptStatus
+        note1 = 'Pending Review'
+        note2 = 'survey_results_accepted'
+        note3 = 'Survey results were rejected'
+
+        if acceptStatus == None:
+            print("Pending Review")
+            p = Notification(user=surveyor, notification=note1)
+            p.save()
+            super(SurveyResult, self).save(*args, **kwargs)
+
+        elif acceptStatus == True:  # shouldn't do this
+            print("survey_results_accepted")
+            p = Notification(user=surveyor, notification=note2)
+            p.save()
+            super(SurveyResult, self).save(*args, **kwargs)
+
+        else:
+            print("Survey results were rejected")
+            p = Notification(user=surveyor, notification=note3)
+            p.save()
+            super(SurveyResult, self).save(*args, **kwargs)
+
+class SurveyResultComment(TimeStampedModel):
+    survey_result = models.ForeignKey(SurveyResult, on_delete=models.CASCADE, null=True, blank=True,
+                                      related_name="SurveyResult_survey_result")
+    comment = models.CharField(max_length=255)
+    readStatus = models.BooleanField(default=False)
+    surveyor = models.CharField(max_length=50, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        surveyor = self.surveyor
+        note = 'There is a new comment on the uploaded survey resutls'
+        print("There is a new comment on the uploaded survey resutls")
+        p = Notification(user=surveyor, notification=note)
+        p.save() 
+        super(SurveyResultComment, self).save(*args, **kwargs)

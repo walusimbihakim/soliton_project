@@ -1,0 +1,150 @@
+{% extends './base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block page_title%}
+{{project}} - Sites
+{% endblock%}
+
+{% block content %}    
+    <div class="container-fluid">        
+      <div class="card animated fadeInUp">
+          <div class="card-body">
+          {% if sites %}
+          <!-- ./row -->
+          <div class="row">
+            <div class="input-group md-form form-sm form-1 pl-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text cyan lighten-2" id="basic-text1"><i class="fas fa-search text-white"
+                    aria-hidden="true"></i></span>
+              </div>
+              <input class="form-control my-0 py-1" type="text" placeholder="Search" aria-label="Search">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-site">
+                  Add Site
+              </button>
+            </div>
+          </div>
+          <!-- /.row -->
+          <br/>
+          <!-- ./row -->
+            <div class="row">
+              {% for site in sites %}
+                    <!-- /.col -->
+                  <div class="col-md-4">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="card card-widget widget-user">
+                      
+                      <a href="{% url 'site_details' site.project_id site.id %}">
+                      <!-- Add the bg color to the header using any of the bg-* classes -->
+                      <div class="widget-user-header text-white"
+                          style="background: url('{{site.site_image.url}}') center center;">
+                        <h3 class="widget-user-username text-right">{{site.site_name}}</h3>
+                        <h5 class="widget-user-desc text-right">{{site.site_location}}</h5>
+                      </div>
+                      </a>
+                      <div class="card-footer">
+                        <div class="row">
+                          <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                              <h5 class="description-header">5</h5>
+                              <span class="description-text">Teams</span>
+                            </div>
+                            <!-- /.description-block -->
+                          </div>
+                          <!-- /.col -->
+                          <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                              <h5 class="description-header">10</h5>
+                              <span class="description-text">Fleet</span>
+                            </div>
+                            <!-- /.description-block -->
+                          </div>
+                          <!-- /.col -->
+                          <div class="col-sm-4">
+                            <div class="description-block">
+                              <h5 class="description-header">35</h5>
+                              <span class="description-text">Machines</span>
+                            </div>
+                            <!-- /.description-block -->
+                          </div>
+                          <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                      </div>
+                    </div>
+                    <!-- /.widget-user -->
+                  </div>
+                  <!-- /.col -->
+              {% if forloop.counter|divisibleby:4 %}
+            </div>
+            <div class="row">
+                {% endif %}
+                {% endfor %}
+            </div> 
+            <!-- /.row -->
+        {% else %}
+          <center>
+            <h2> No registered Sites for this Project</h2>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-site">
+                  Add Site
+            </button>
+          </center>
+
+        {% endif %}
+      </div>
+    </div>
+  </div>
+    <!-- /.container-fluid --> 
+
+    <!-- ./modal -->
+    <div class="modal fade" id="modal-add-site">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Add New Site</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ site_form|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+<!-- DataTables -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+{% endblock content %}
