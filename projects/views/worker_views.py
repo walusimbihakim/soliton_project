@@ -28,6 +28,25 @@ def manage_workers_page(request):
     return render(request, "wagebill/manage_workers.html", context)
 
 
+def edit_worker_page(request, id):
+    worker = get_worker(id)
+    form = WorkerForm(instance=worker)
+    if request.method == "POST":
+        form = WorkerForm(request.POST, request.FILES, instance=worker)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Successfully edited a worker")
+        else:
+            messages.error(request, "Integrity problems while saving worker")
+        return HttpResponseRedirect(reverse(manage_workers_page))
+    context = {
+        "wagebill": "active",
+        "manage_workers": "active",
+        "form": form,
+    }
+    return render(request, "wagebill/edit_worker.html", context)
+
+
 def delete_worker(request, id):
     worker = get_worker(id)
     worker.delete()

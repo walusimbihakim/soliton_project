@@ -63,7 +63,7 @@ Manage Workers
                             <td>{{worker.address}}</td>
                             <td>{{worker.next_of_kin}}</td>
                             <td>
-                                <a href="#" style="color:inherit">
+                                <a href="{%url 'edit_worker' worker.id%}" style="color:inherit">
                                     <i class="fa fa-edit"></i>
                                 </a>
                                 <a href="{%url 'delete_worker' worker.id%}" style="color: inherit">
