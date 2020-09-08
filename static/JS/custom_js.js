@@ -107,7 +107,7 @@ $(document).ready(() => {
         });
     })
 
-    // Save Employee Contact
+    // Save Client Contact
     $("#add_client_contact").click(() => {
         var form_data = $("#contact_form").serialize();
         $.ajax({
@@ -137,4 +137,6 @@ $(document).ready(() => {
             }
         });
     })
+
+
 });
