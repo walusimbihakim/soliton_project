@@ -8,35 +8,38 @@ from django.http import JsonResponse
 from projects.selectors.project_selectors import *
 from projects.forms import *
 
+
 # Create your views here.
 def index_page(request):
     return render(request, "index.html")
 
+
 def projects_page_view(request):
     form = ProjectForm(request.POST, request.FILES)
-    
-    if request.method=="POST":      
+
+    if request.method == "POST":
         if form.is_valid():
             form.save()
 
             redirect('manage_projects')
-    
+
     projects = get_projects()
-    context ={
-        'projects': projects, 
+    context = {
+        'projects': projects,
         'form': form,
     }
     return render(request, "manage_projects.html", context)
+
 
 def projects_settings_view(request):
     project_type_form = ProjectTypeForm(request.POST, request.FILES)
 
     duct_form = DuctForm(request.POST, request.FILES)
 
-    if request.method=="POST":
+    if request.method == "POST":
         if project_type_form.is_valid():
             project_type_form.save()
-        
+
         if duct_form.is_valid():
             duct_form.save()
 
@@ -52,10 +55,11 @@ def projects_settings_view(request):
     }
     return render(request, 'project_settings.html', context)
 
+
 def project_details_view(request, project_id):
     project = get_project(project_id)
 
     context = {
-        "project": project, 
+        "project": project,
     }
     return render(request, 'project_details.html', context)
