@@ -180,28 +180,42 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="projects.html" class="nav-link {{dashboard}}">
+            <a href="{% url 'index_page' %}" class="nav-link {{dashboard}}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{% url 'manage_clients' %}" class="nav-link">
+          <li class="nav-item has-treeview">
+            <a href="{% url 'manage_clients' %}" class="nav-link{{client}}">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Clients
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{% url 'manage_projects' %}" class="nav-link">
+          <li class="nav-item has-treeview">
+            <a href="" class="nav-link {{projects}}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Projects
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'manage_activities' %}" class="nav-link {{activity_list}}">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Activity Pool List</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'manage_projects' %}" class="nav-link {{projects_item}}">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Projects</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -235,7 +249,7 @@
           </li>
 
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-cog"></i>
               <p>
                 Settings
@@ -243,13 +257,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url 'project_settings' %}" class="nav-link">
+                <a href="{% url 'project_settings' %}" class="nav-link {{project_settings}}">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>Projects Settings</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index2.html" class="nav-link">
+                <a href="../../index2.html" class="nav-link {{client_settings}}">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>Clients Settings</p>
                 </a>

@@ -5,4 +5,5 @@ from .manholes import *
 from .lans import *
 from .road_crossings import *
 from .towers import *
+from .activity_list import *
 from projects.models.workers import Worker
