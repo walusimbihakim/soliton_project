@@ -180,28 +180,42 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="projects.html" class="nav-link active">
+            <a href="{% url 'index_page' %}" class="nav-link {{dashboard}}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
-            </a>            
+            </a>
           </li>
-          <li class="nav-item">
-            <a href="{% url 'manage_clients' %}" class="nav-link">
+          <li class="nav-item has-treeview">
+            <a href="{% url 'manage_clients' %}" class="nav-link{{client}}">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Clients
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{% url 'manage_projects' %}" class="nav-link">
+          <li class="nav-item has-treeview">
+            <a href="" class="nav-link {{projects}}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Projects
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'manage_activities' %}" class="nav-link {{activity_list}}">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Activity Pool List</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'manage_projects' %}" class="nav-link {{projects_item}}">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Projects</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -212,7 +226,30 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link {{wagebill}}">
+              <i class="fas fa-money-bill-wave nav-icon"></i>
+              <p>
+                Wage Bill
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'manage_workers_page' %}" class="nav-link {{manage_workers}}">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Manage Workers Details</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../../index2.html" class="nav-link">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Clients Settings</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-cog"></i>
               <p>
                 Settings
@@ -220,13 +257,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url 'project_settings' %}" class="nav-link">
+                <a href="{% url 'project_settings' %}" class="nav-link {{project_settings}}">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>Projects Settings</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index2.html" class="nav-link">
+                <a href="../../index2.html" class="nav-link {{client_settings}}">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>Clients Settings</p>
                 </a>
@@ -250,36 +287,36 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <div class="content-header">
-          <div class="container-fluid">
-              <div class="row mb-2">
-                  <div class="col-sm-6">
-                      <h1 class="m-0 text-dark">
-                          {%block page_title %}{% endblock %}
-                      </h1>
-                  </div><!-- /.col -->
-                  <div class="col-sm-6">
-                      <ol class="breadcrumb float-sm-right">
-                        {% block right_button%}
-                        {% endblock%}
-                      </ol>
-                  </div><!-- /.col -->
-              </div><!-- /.row -->
-          </div><!-- /.container-fluid -->
-      </div>
-      <!-- /.content-header -->
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">
+              {%block page_title %}{% endblock %}
+            </h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              {% block right_button%}
+              {% endblock%}
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
-      <!-- Main content -->
-      <section class="content">    
-        <!-- Content Block -->
-        {% block content %}
-        {% endblock %}
-        <!-- /.Content Block -->
-      </section>
-      <!-- /.content -->
+    <!-- Main content -->
+    <section class="content">
+      <!-- Content Block -->
+      {% block content %}
+      {% endblock %}
+      <!-- /.Content Block -->
+    </section>
+    <!-- /.content -->
   </div>
-    <!-- /.content-wrapper -->
+  <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>Copyright &copy; 2020 <a href="https://www.soliton.co.ke/">Soliton Telmec</a>.</strong>
     All rights reserved.

@@ -9,23 +9,24 @@ from projects.forms.site_forms import SiteForm
 from projects.selectors.sites_selectors import *
 from projects.selectors.project_selectors import *
 
+
 def sites_page_view(request, project_id):
     site_form = SiteForm(
-        request.POST, 
+        request.POST,
         request.FILES,
         initial={
             'project': project_id
         }
     )
 
-    if request.method=="POST":
+    if request.method == "POST":
         if site_form.is_valid():
             site_form.save()
-    
+
     sites = get_sites(project_id)
     project = get_project(project_id)
 
-    context={
+    context = {
         "project": project,
         "sites": sites,
         "site_form": site_form
@@ -33,10 +34,11 @@ def sites_page_view(request, project_id):
 
     return render(request, "manage_sites.html", context)
 
+
 def site_details_view(request, project_id, site_id):
     site = get_site(site_id)
-   
-    context={
+
+    context = {
         "site": site,
     }
     return render(request, "site_details.html", context)

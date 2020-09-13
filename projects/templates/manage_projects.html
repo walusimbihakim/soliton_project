@@ -10,7 +10,7 @@ Projects
     New Project
 </button>
 {% endblock %}
-{% block content %}    
+{% block content %}
     <div class="container-fluid">
         <!-- ./row -->
         <div class="row">
@@ -44,7 +44,7 @@ Projects
                                       </a>
                                     </td>
                                     <td>
-                                      <img class="img-size-50 mr-3 img-circle" src="{{project.client.profile_pic.url}}"/>                                    
+                                      <img class="img-size-50 mr-3 img-circle" src="{{project.client.profile_pic.url}}"/>
                                     </td>
                                     <td>{{project.start_date}}</td>
                                     <td>{{project.expected_end_date}}</td>
@@ -62,7 +62,7 @@ Projects
                                 </tr>
                                 {% endfor %}
                             </tbody>
-                        </table>                        
+                        </table>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -72,7 +72,7 @@ Projects
         </div>
         <!-- /.row -->
     </div>
-    <!-- /.container-fluid --> 
+    <!-- /.container-fluid -->
 
     <div class="modal fade" id="modal-add-project">
         <div class="modal-dialog modal-lg">

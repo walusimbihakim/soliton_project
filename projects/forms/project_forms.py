@@ -4,19 +4,19 @@ from crispy_forms.layout import Layout
 from crispy_forms.bootstrap import TabHolder, Tab, Field
 from projects.models.projects import Project, ProjectWorks, DuctSystem, ProjectType
 
+
 class ProjectForm(forms.ModelForm):
-    
     class Meta:
         model = Project
         fields = (
-            "project_code", 
-            "name", 
-            "client", 
-            "description", 
+            "project_code",
+            "name",
+            "client",
+            "description",
             "start_date",
             "expected_end_date"
-            )
-    
+        )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -38,24 +38,24 @@ class ProjectForm(forms.ModelForm):
             )
         )
 
+
 class ProjectTypeForm(forms.ModelForm):
-    
     class Meta:
         model = ProjectType
         fields = ("code", "project_type", "description")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-    
+
         self.Helper = FormHelper()
 
+
 class DuctForm(forms.ModelForm):
-    
     class Meta:
         model = DuctSystem
         fields = ("duct_code", "duct_type", "description")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-    
+
         self.Helper = FormHelper()
