@@ -2,15 +2,26 @@ from django.db import models
 from model_utils.models import TimeStampedModel
 
 from projects.models.sites import Site
+from projects.models.projects import Project
 
-class Survey(TimeStampedModel):
-    creator = models.CharField(max_length=50, null=True, blank=True)
-    site_name = models.CharField(max_length=50, null=True)
+class Survey(TimeStampedModel):   
+    survey_type_choices = (
+        ('FD-UG', 'Fibre Underground'),
+        ('FD-Aerial', 'Fibre Aerial'),
+        ('Site', 'Site'),
+        ('LAN', 'LAN'),
+        ('Tower', 'Tower')
+        ('Equipment', 'Equipment')
+    ) 
+    survey_date = models.DateField(auto_now=False, auto_now_add=False)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    survey_type = models.CharField(max_length=50, choices=survey_type_choices)
     coordinates_lat = models.CharField(max_length=20, null=True)
     coordinates_long = models.CharField(max_length=20, null=True)
     surveyor = models.CharField(max_length=50, null=True, blank=True)
-    ack = models.BooleanField(default=False)
-    ack_user = models.CharField(max_length=50, null=True, blank=True)
+    checked_by = models.CharField(max_length=50)
+    approved_by = models.CharField(max_length=50)
+    client_approved = models.BooleanField(default )
 
 class SurveyResult(TimeStampedModel):
     file_url = models.FileField(upload_to='files', null=True)
@@ -18,10 +29,6 @@ class SurveyResult(TimeStampedModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE, null=True, blank=True, related_name="surveyresult_site")
     surveyor = models.CharField(max_length=50, null=True, blank=True)
     acceptStatus = models.BooleanField(default=False)
-
-    # def number_of_comments(self):
-    #     from api.models.survey_result_comments import SurveyResultComment
-    #     return SurveyResultComment.objects.filter(survey_result=self).count()
 
     def save(self, *args, **kwargs):
         surveyor = self.surveyor
