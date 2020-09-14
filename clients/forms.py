@@ -8,7 +8,7 @@ class ClientForm(forms.ModelForm):
     
     class Meta:
         model = Client
-        fields = ("company_name", "adress", "email", "contact", "website","contact_person", "profile_pic")
+        fields = ("company_name", "address", "email", "contact", "website","contact_person", "profile_pic")
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,7 +19,7 @@ class ClientForm(forms.ModelForm):
                 Tab(
                     'Basic Information',
                     Field('company_name', css_class="col-md-12"),
-                    Field('adress', wrapper_class="col-md-12"),
+                    Field('address', wrapper_class="col-md-12"),
                     Field('email', wrapper_class="col-md-6"),
                     Field('contact', wrapper_class="col-md-6"),
                     Field('website', wrapper_class="col-md-6"),

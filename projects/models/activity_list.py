@@ -3,6 +3,7 @@ from model_utils.models import TimeStampedModel
 from clients.models import Client
 from .projects import Project
 
+
 class Activity(TimeStampedModel):
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=150)
@@ -14,7 +15,6 @@ class Activity(TimeStampedModel):
     is_lan_installation = models.BooleanField(default=False, blank=True, null=True)
     is_equipment_installation = models.BooleanField(default=False, blank=True, null=True)
     is_manhole_installation = models.BooleanField(default=False, blank=True, null=True)
-    
 
     class Meta:
         verbose_name = ("Activity")
