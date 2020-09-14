@@ -6,6 +6,7 @@ urlpatterns = [
     path('delete_client', delete_client, name='delete_client'),
 ]
 
+
 # JS routes
 def javascript_settings():
     js_conf = {

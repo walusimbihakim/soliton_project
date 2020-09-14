@@ -1,0 +1,89 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block page_title%}
+Projects
+{% endblock%}
+{% block right_button%}
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-project">
+    New Project
+</button>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+            <div class="card">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Manage BOQs</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- ./card-body -->
+                <div class="card-body">
+                    <table id="example1" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Client</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for project in projects%}
+                        <tr>
+                            <td>
+                                <a href="{% url 'project_details' project.id%}">
+                                    {{project.name}}<br>({{project.project_code}})
+                                </a>
+                            </td>
+                            <td>
+                                <img class="img-size-50 mr-3 img-circle" src="{{project.client.profile_pic.url}}"/>
+                            </td>
+                            <td>
+                                <a href="{%url 'manage_project_boqs' project.id%}" style="color:inherit">
+                                  <button>Survey List</button>
+                                </a>
+                            <td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+
+<!-- DataTables -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+{% endblock content %}
