@@ -72,151 +72,68 @@ Project Details
             <!-- ./col -->
         </div>
         <!-- /.row -->
-        {% comment %} <!-- ./row -->
+
+        <!--Overview Row-->
         <div class="row">
-            <!-- ./col -->
-            <div class="col-12">
-                <div class="card card-primary card-outline card-outline-tabs">
-                    <div class="card-header p-0 border-bottom-0">
-                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="overview-tab" data-toggle="pill" href="#tabs-for-overview" role="tab" aria-controls="tabs-for-overview" aria-selected="true">Overview</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="fd-tab" data-toggle="pill" href="#tabs-for-fd" role="tab" aria-controls="tabs-for-fd" aria-selected="false">Fibre Deployement</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="sites-tab" data-toggle="pill" href="#tabs-for-sites" role="tab" aria-controls="tabs-for-sites" aria-selected="false">Sites</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="manholes-tab" data-toggle="pill" href="#tabs-for-manholes" role="tab" aria-controls="tabs-for-manholes" aria-selected="false">Manholes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="tower-tab" data-toggle="pill" href="#tabs-for-tower" role="tab" aria-controls="tabs-for-tower" aria-selected="false">Tower Construction</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="equipment-tab" data-toggle="pill" href="#tabs-for-equipment" role="tab" aria-controls="tabs-for-equipment" aria-selected="false">Equipment Installation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="road-crossing-tab" data-toggle="pill" href="#tabs-for-road-crossing" role="tab" aria-controls="tabs-for-road-crossing" aria-selected="false">Road Crossing</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="tab-content" id="custom-tabs-four-tabContent">
-                            <div class="tab-pane fade show active" id="tabs-for-overview" role="tabpanel" aria-labelledby="tabs-for-overview">                                
-                                Overview
-                            </div>
-                            <div class="tab-pane fade" id="tabs-for-fd" role="tabpanel" aria-labelledby="tabs-for-fd">                                
-                                <div class="card">
-                                    <!-- ./ card-header -->
-                                    <div class="card-header">
-                                        <h3 class="card-title">Fibre Deployements</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <!-- ./card-body -->
-                                    <div class="card-body">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new">
-                                            Add New
-                                        </button>
-                                        <table id="example1" class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Code</th>
-                                                    <th>Duct</th>
-                                                    <th>Description</th>
-                                                    <th>#</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for duct in ducts%}
-                                                <tr>
-                                                    <td>{{duct.duct_code}}</td>
-                                                    <td>{{duct.duct_type}}</td>
-                                                    <td>{{duct.description}}</td>
-                                                    <td>
-                                                        <a href="#" style="color:inherit">
-                                                            <i class="fa fa-edit"></i>
-                                                        </a>
-                                                        <a href="#" style="color: inherit" ...
-                                                            onclick="">
-                                                            <i class="fa fa-trash"></i>
-                                                        </a>
-                                                    <td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>                        
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                            <div class="tab-pane fade" id="tabs-for-sites" role="tabpanel" aria-labelledby="tabs-for-sites">
-                                <div class="card">
-                                    <!-- ./ card-header -->
-                                    <div class="card-header">
-                                        <h3 class="card-title">Manage Sites</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <!-- ./card-body -->
-                                    <div class="card-body">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new">
-                                            Add Site
-                                        </button>
-                                        <table id="example1" class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Code</th>
-                                                    <th>Duct</th>
-                                                    <th>Description</th>
-                                                    <th>#</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for duct in ducts%}
-                                                <tr>
-                                                    <td>{{duct.duct_code}}</td>
-                                                    <td>{{duct.duct_type}}</td>
-                                                    <td>{{duct.description}}</td>
-                                                    <td>
-                                                        <a href="#" style="color:inherit">
-                                                            <i class="fa fa-edit"></i>
-                                                        </a>
-                                                        <a href="#" style="color: inherit" ...
-                                                            onclick="">
-                                                            <i class="fa fa-trash"></i>
-                                                        </a>
-                                                    <td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>                        
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                            <div class="tab-pane fade" id="tabs-for-manholes" role="tabpanel" aria-labelledby="tabs-for-manholes">
-                                Manholes
-                            </div>
-                            <div class="tab-pane fade" id="tabs-for-tower" role="tabpanel" aria-labelledby="tabs-for-tower">
-                                Tower Construction
-                            </div>
-                            <div class="tab-pane fade" id="tabs-for-equipment" role="tabpanel" aria-labelledby="tabs-for-equipment">
-                                Equipment Installation
-                            </div>
-                            <div class="tab-pane fade" id="tabs-for-road-crossing" role="tabpanel" aria-labelledby="tabs-for-road-crossing">
-                                Road Crossing
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.card -->
+            <div class="card-body">
+            <h4>Menu List</h4>
+            <div class="row">
+              <div class="col-3 col-sm-2">
+                <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                  <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">Overview</a>
+                  <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Surveys</a>
+                  <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false">BOQ</a>
+                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Scope</a>
+                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">PIP</a>
+                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Budget</a>
                 </div>
-            </div>
-            <!-- /.col -->
+              </div>
+              <div class="col-7 col-sm-9">
+                <div class="tab-content" id="vert-tabs-tabContent">
+                  <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                    
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                    <!-- ./card-Survey -->
+                    <div class="card-body">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-site">
+                            New Survey
+                        </button>
+                        <table id="example1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Surveyor</th>
+                                    <th>Date</th>
+                                    <th>Checked By</th>
+                                    <th>Approved By</th>
+                                    <th>Status</th>
+                                    <th>#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for survey in surveys%}
+                                <tr>
+                                    
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>                        
+                    </div>
+                    <!-- /.card-Survey -->
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab">
+                     Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-settings" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+                     Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                  </div>
+                </div>
+              </div>
+            </div>            
+          </div>
+          <!-- /.card -->
         </div>
-        <!-- /.row --> {% endcomment %}
+        <!-- /.row -->
     </div>
     <!-- /.container-fluid --> 
 
