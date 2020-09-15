@@ -4,15 +4,16 @@ from model_utils.models import TimeStampedModel
 from projects.models.sites import Site
 from projects.models.projects import Project
 
-class Survey(TimeStampedModel):   
+
+class Survey(TimeStampedModel):
     survey_type_choices = (
         ('FD-UG', 'Fibre Underground'),
         ('FD-Aerial', 'Fibre Aerial'),
         ('Site', 'Site'),
         ('LAN', 'LAN'),
-        ('Tower', 'Tower')
-        ('Equipment', 'Equipment')
-    ) 
+        ('Tower', 'Tower'),
+        ('Equipment', 'Equipment'),
+    )
     survey_date = models.DateField(auto_now=False, auto_now_add=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     survey_type = models.CharField(max_length=50, choices=survey_type_choices)
@@ -21,7 +22,11 @@ class Survey(TimeStampedModel):
     surveyor = models.CharField(max_length=50, null=True, blank=True)
     checked_by = models.CharField(max_length=50)
     approved_by = models.CharField(max_length=50)
-    client_approved = models.BooleanField(default )
+    client_approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "Survey {} at {},{}".format(self.id, self.coordinates_lat, self.coordinates_long)
+
 
 class SurveyResult(TimeStampedModel):
     file_url = models.FileField(upload_to='files', null=True)
@@ -55,6 +60,7 @@ class SurveyResult(TimeStampedModel):
             p.save()
             super(SurveyResult, self).save(*args, **kwargs)
 
+
 class SurveyResultComment(TimeStampedModel):
     survey_result = models.ForeignKey(SurveyResult, on_delete=models.CASCADE, null=True, blank=True,
                                       related_name="SurveyResult_survey_result")
@@ -67,5 +73,5 @@ class SurveyResultComment(TimeStampedModel):
         note = 'There is a new comment on the uploaded survey resutls'
         print("There is a new comment on the uploaded survey resutls")
         p = Notification(user=surveyor, notification=note)
-        p.save() 
+        p.save()
         super(SurveyResultComment, self).save(*args, **kwargs)
