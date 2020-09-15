@@ -16,7 +16,10 @@ boq_urls = [
     path('manage_project_boqs/<int:id>/', boq_views.manage_project_boqs, name='manage_project_boqs'),
     path('create_boq/<int:survey_id>/', boq_views.create_boq, name='create_boq'),
     path('manage_boq_items/<int:id>/', boq_views.manage_boq_items, name='manage_boq_items'),
+    path('add_materialboq/<int:id>/', boq_views.add_materialboq, name="add_materialboq"),
+    path('add_serviceboq/<int:id>/', boq_views.add_serviceboq, name="add_serviceboq"),
 ]
+
 urlpatterns = [
                   path('', index_page, name='index_page'),
                   path('projects/', projects_page_view, name='manage_projects'),

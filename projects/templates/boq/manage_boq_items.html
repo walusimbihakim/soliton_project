@@ -6,8 +6,11 @@
 BOQ items
 {% endblock%}
 {% block right_button%}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-project">
-    New Project
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-material-boq">
+    Add Material BOQ Item
+</button>|
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-service-boq">
+    Add Service BOQ Item
 </button>
 {% endblock %}
 {% block content %}
@@ -24,34 +27,90 @@ BOQ items
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
+                    {%if materialboqitems %}
+                    <h3>Materials</h3>
                     <table id="example1" class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Project</th>
-                            <th>Client</th>
-                            <th>Actions</th>
+                            <th>Material</th>
+                            <th>Quantity</th>
+                            <th>Cost</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for project in projects%}
+                        {% for materialboqitem in materialboqitems%}
                         <tr>
                             <td>
-                                <a >
-                                    {{project.name}}<br>({{project.project_code}})
-                                </a>
+                                {{materialboqitem.material}}
                             </td>
                             <td>
-                                <img class="img-size-50 mr-3 img-circle" src="{{project.client.profile_pic.url}}"/>
+                                {{materialboqitem.quantity}} {{materialboqitem.material.uom}}
+                            </td>
+                            <td>
+                                {{materialboqitem.cost}} {{materialboqitem.material.currency}}
                             </td>
                             <td>
                                 <a href="#" style="color:inherit">
-                                  <button>Survey List</button>
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="#" style="color: inherit" ...
+                                   onclick="">
+                                    <i class="fa fa-trash"></i>
                                 </a>
                             <td>
                         </tr>
                         {% endfor %}
                         </tbody>
                     </table>
+                    {%else%}
+                    <h4>No Material Items</h4>
+                    {%endif%}
+                    <br/>
+                    {%if serviceboqitems %}
+                    <h3>Services</h3>
+                    <table id="example1" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Quantity</th>
+                            <th>Cost</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for serviceboqitem in serviceboqitems%}
+                        <tr>
+                            <td>
+                                {{serviceboqitem}}
+                            </td>
+                            <td>
+                                {{serviceboqitem.quantity}} {{materialboqitem.activity.unit_of_measure}}
+                            </td>
+                            <td>
+                                {{serviceboqitem.cost}}
+                            </td>
+                             <td>
+                                {{serviceboqitem.description}}
+                            </td>
+                            <td>
+                                <a href="#" style="color:inherit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="#" style="color: inherit" ...
+                                   onclick="">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            <td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {%else%}
+                    <h4>No Service Items</h4>
+                    {%endif%}
+
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -60,6 +119,56 @@ BOQ items
         <!-- /.col -->
     </div>
     <!-- /.row -->
+</div>
+<div class="modal fade" id="modal-add-material-boq">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Material BOQ Item</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{%url 'add_materialboq' boq.id%}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ materialboqform|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modal-add-service-boq">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Service BOQ Item</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{%url 'add_serviceboq' boq.id%}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ serviceboqform|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
 
 <!-- DataTables -->

@@ -1,10 +1,8 @@
 from django.db import models
 
-from clients.selectors import get_activity_client_rate
 from projects.models import Activity
 from projects.models.materials import Material
 from projects.models.survey import Survey
-
 
 
 class BOQ(models.Model):
@@ -30,8 +28,11 @@ class ServiceBOQItem(models.Model):
     description = models.TextField()
     quantity = models.IntegerField()
 
+    def __str__(self):
+        return self.activity.name
+
     @property
     def cost(self):
-        unit_cost = get_activity_client_rate(self.activity)
+        unit_cost = 0
         cost = unit_cost * self.quantity
         return cost

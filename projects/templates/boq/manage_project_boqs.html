@@ -43,8 +43,8 @@ Surveys
                                     <button>CREATE BOQ</button>
                                 </a>
                                 {%else%}
-                                <a href="#" style="color:inherit">
-                                    <button>EDIT BOQ</button>
+                                <a href="{%url 'manage_boq_items' survey.boq.id%}" style="color:inherit">
+                                    <button>MANAGE BOQ ITEMS</button>
                                 </a>
                                 {%endif%}
                             <td>

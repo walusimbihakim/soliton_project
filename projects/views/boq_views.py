@@ -1,10 +1,13 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from projects.models.boqs import BOQ
-from projects.selectors.boq import get_boq
+from projects.forms.material_boq_form import MaterialBOQForm
+from projects.forms.service_boq_form import ServiceBOQForm
+from projects.selectors.boq import get_boq, get_materialboqitems, get_serviceboqitems
 from projects.selectors.project_selectors import get_projects, get_project, get_surveys, get_survey
+from projects.services.boq_services import create_boq_from_survey
 
 
 def manage_boqs(request):
@@ -26,19 +29,52 @@ def manage_project_boqs(request, id):
 
 def manage_boq_items(request, id):
     boq = get_boq(id)
+    materialboqitems = get_materialboqitems(boq)
+    materialboqform = MaterialBOQForm()
+    serviceboqitems = get_serviceboqitems(boq)
+    serviceboqform = ServiceBOQForm()
+
     context = {
-        'surveys': "",
+        'materialboqitems': materialboqitems,
+        'materialboqform': materialboqform,
+        'serviceboqitems': serviceboqitems,
+        'serviceboqform': serviceboqform,
+        "boq": boq
     }
     return render(request, "boq/manage_boq_items.html", context)
 
 
+def add_materialboq(request, id):
+    boq = get_boq(id)
+    form = MaterialBOQForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+            materialboq = form.save(commit=False)
+            materialboq.boq = boq
+            materialboq.save()
+            messages.success(request, "Successfully added a material BOQ item")
+        else:
+            messages.error(request, "Integrity problems while saving worker")
+
+    return HttpResponseRedirect(reverse(manage_boq_items, args=[id]))
+
+
+def add_serviceboq(request, id):
+    boq = get_boq(id)
+    form = ServiceBOQForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+            serviceboq = form.save(commit=False)
+            serviceboq.boq = boq
+            serviceboq.save()
+            messages.success(request, "Successfully added a material BOQ item")
+        else:
+            messages.error(request, "Integrity problems while saving worker")
+
+    return HttpResponseRedirect(reverse(manage_boq_items, args=[id]))
+
+
 def create_boq(request, survey_id):
     survey = get_survey(survey_id)
-    try:
-        boq = BOQ.objects.create(
-            survey=survey
-        )
-    except Exception:
-        boq = survey.boq
-
+    boq = create_boq_from_survey(survey)
     return HttpResponseRedirect(reverse(manage_boq_items, args=[boq.id]))
