@@ -299,6 +299,9 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">
+              <a href="{{ request.META.HTTP_REFERER }}" style="color:inherit; font-size:0.8em">
+                <i class="fas fa-angle-left"></i>
+              </a>
               {%block page_title %}{% endblock %}
             </h1>
           </div><!-- /.col -->

@@ -99,6 +99,7 @@ def add_serviceboq(request, id):
             serviceboq.boq = boq
             try:
                 serviceboq.save()
+                print("The cost is ",serviceboq.cost)
             except IntegrityError:
                 messages.error(request, "Service BOQ Item already available. You can delete or edit it")
                 return HttpResponseRedirect(reverse(manage_boq_items, args=[id]))

@@ -3,6 +3,7 @@ from django.db import models
 from projects.models import Activity
 from projects.models.materials import Material
 from projects.models.survey import Survey
+from projects.selectors.client_activity_rate import get_client_activity_rate, get_client_activity_currency
 
 
 class BOQ(models.Model):
@@ -20,6 +21,7 @@ class MaterialBOQItem(models.Model):
 
     def __str__(self):
         return self.material
+
 
     @property
     def cost(self):
@@ -41,7 +43,18 @@ class ServiceBOQItem(models.Model):
         return self.activity.name
 
     @property
+    def unit_cost(self):
+        client = self.boq.survey.project.client
+        unit_cost = get_client_activity_rate(client, self.activity)
+        return unit_cost
+
+    @property
     def cost(self):
-        unit_cost = 0
-        cost = unit_cost * self.quantity
+        cost = self.unit_cost * self.quantity
         return cost
+
+    @property
+    def currency(self):
+        client = self.boq.survey.project.client
+        currency = get_client_activity_currency(client, self.activity)
+        return currency
