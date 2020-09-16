@@ -18,6 +18,10 @@ boq_urls = [
     path('manage_boq_items/<int:id>/', boq_views.manage_boq_items, name='manage_boq_items'),
     path('add_materialboq/<int:id>/', boq_views.add_materialboq, name="add_materialboq"),
     path('add_serviceboq/<int:id>/', boq_views.add_serviceboq, name="add_serviceboq"),
+    path('edit_material_boq_item/<int:id>/', boq_views.edit_materialboq, name="edit_material_boq_item"),
+    path('delete_material_boq_item/<int:id>/', boq_views.delete_materialboq, name="delete_material_boq_item"),
+    path('delete_service_boq_item/<int:id>/', boq_views.delete_serviceboq, name="delete_service_boq_item"),
+    path('edit_service_boq_item/<int:id>/', boq_views.edit_serviceboq, name="edit_service_boq_item"),
 ]
 
 urlpatterns = [

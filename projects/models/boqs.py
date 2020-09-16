@@ -15,6 +15,12 @@ class MaterialBOQItem(models.Model):
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
     quantity = models.IntegerField()
 
+    class Meta:
+        unique_together = ('boq', 'material',)
+
+    def __str__(self):
+        return self.material
+
     @property
     def cost(self):
         unit_cost = self.material.unit_cost
@@ -27,6 +33,9 @@ class ServiceBOQItem(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     description = models.TextField()
     quantity = models.IntegerField()
+
+    class Meta:
+        unique_together = ('boq', 'activity',)
 
     def __str__(self):
         return self.activity.name
