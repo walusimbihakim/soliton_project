@@ -1,0 +1,36 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block page_title%}
+Edit Material BOQ Item
+{% endblock%}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+            <div class="card">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Material BOQ Item</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- ./card-body -->
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ materialboqform|crispy }}
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    {% endblock content %}

@@ -51,11 +51,12 @@ BOQ items
                                 {{materialboqitem.cost}} {{materialboqitem.material.currency}}
                             </td>
                             <td>
-                                <a href="#" style="color:inherit">
+                                <a href="{%url 'edit_material_boq_item' materialboqitem.id %}" style="color:inherit"
+                                >
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="#" style="color: inherit" ...
-                                   onclick="">
+                                <a href="{%url 'delete_material_boq_item' materialboqitem.id %}" style="color: inherit" ...
+                                   onclick="return confirm('Do you want to delete {{ materialboqitem.material }} material item')">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             <td>
@@ -91,15 +92,15 @@ BOQ items
                             <td>
                                 {{serviceboqitem.cost}}
                             </td>
-                             <td>
+                            <td>
                                 {{serviceboqitem.description}}
                             </td>
                             <td>
-                                <a href="#" style="color:inherit">
+                                <a href="{%url 'edit_service_boq_item' serviceboqitem.id%}" style="color:inherit">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="#" style="color: inherit" ...
-                                   onclick="">
+                                <a href="{%url 'delete_service_boq_item' serviceboqitem.id%}" style="color: inherit" ...
+                                   onclick="return confirm('Do you want to delete {{ serviceboqitem.activity }} service item')" >
                                     <i class="fa fa-trash"></i>
                                 </a>
                             <td>
