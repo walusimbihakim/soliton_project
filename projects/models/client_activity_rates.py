@@ -12,3 +12,6 @@ class ClientActivityRate(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     rate = models.IntegerField(default=0)
     currency = models.CharField(max_length=3, default="UGX", choices=CURRENCY_CHOICES)
+
+    class Meta:
+        unique_together = ('client', 'activity',)

@@ -34,6 +34,7 @@ BOQ items
                         <tr>
                             <th>Material</th>
                             <th>Quantity</th>
+                            <th>Unit Cost</th>
                             <th>Cost</th>
                             <th>Action</th>
                         </tr>
@@ -46,6 +47,9 @@ BOQ items
                             </td>
                             <td>
                                 {{materialboqitem.quantity}} {{materialboqitem.material.uom}}
+                            </td>
+                             <td>
+                                {{materialboqitem.material.unit_cost}} {{materialboqitem.material.currency}}
                             </td>
                             <td>
                                 {{materialboqitem.cost}} {{materialboqitem.material.currency}}
@@ -75,6 +79,7 @@ BOQ items
                         <tr>
                             <th>Activity</th>
                             <th>Quantity</th>
+                            <th>Unit Cost</th>
                             <th>Cost</th>
                             <th>Description</th>
                             <th>Action</th>
@@ -90,7 +95,10 @@ BOQ items
                                 {{serviceboqitem.quantity}} {{materialboqitem.activity.unit_of_measure}}
                             </td>
                             <td>
-                                {{serviceboqitem.cost}}
+                                {{serviceboqitem.unit_cost}} {{serviceboqitem.currency}}
+                            </td>
+                            <td>
+                                {{serviceboqitem.cost}} {{serviceboqitem.currency}}
                             </td>
                             <td>
                                 {{serviceboqitem.description}}
