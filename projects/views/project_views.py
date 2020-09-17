@@ -15,9 +15,11 @@ def index_page(request):
 
 
 def projects_page_view(request):
-    form = ProjectForm(request.POST, request.FILES)
+    form = ProjectForm()
 
     if request.method == "POST":
+        ProjectForm(request.POST, request.FILES)
+        
         if form.is_valid():
             form.save()
 
@@ -32,11 +34,13 @@ def projects_page_view(request):
 
 
 def projects_settings_view(request):
-    project_type_form = ProjectTypeForm(request.POST, request.FILES)
+    project_type_form = ProjectTypeForm()
 
     duct_form = DuctForm(request.POST, request.FILES)
 
     if request.method == "POST":
+        project_type_form = ProjectTypeForm(request.POST, request.FILES)
+
         if project_type_form.is_valid():
             project_type_form.save()
 
