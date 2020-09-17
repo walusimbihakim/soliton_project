@@ -25,16 +25,6 @@ Manage Workers
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
-                    {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li{% if message.tags %} class="alert alert-warning }}"{% endif %}>
-                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-                        {{ message }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
                     <table id="example1" class="table table-striped">
                         <thead>
                         <tr>

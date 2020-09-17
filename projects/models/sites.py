@@ -1,6 +1,5 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
-from clients.models import Client
 from .projects import Project
 
 

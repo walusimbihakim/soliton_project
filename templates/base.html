@@ -215,6 +215,12 @@
                   <p>Projects</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{% url 'manage_boqs' %}" class="nav-link {{projects_item}}">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Manage BOQs</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item has-treeview">
@@ -293,6 +299,9 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">
+              <a href="{{ request.META.HTTP_REFERER }}" style="color:inherit; font-size:0.8em">
+                <i class="fas fa-angle-left"></i>
+              </a>
               {%block page_title %}{% endblock %}
             </h1>
           </div><!-- /.col -->
@@ -310,6 +319,16 @@
     <!-- Main content -->
     <section class="content">
       <!-- Content Block -->
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="alert alert-warning }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
       {% block content %}
       {% endblock %}
       <!-- /.Content Block -->
