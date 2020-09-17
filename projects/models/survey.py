@@ -10,18 +10,23 @@ class Survey(TimeStampedModel):
         ('FD-Aerial', 'Fibre Aerial'),
         ('Site', 'Site'),
         ('LAN', 'LAN'),
-        ('Tower', 'Tower')
+        ('Tower', 'Tower'),
         ('Equipment', 'Equipment')
     ) 
-    survey_date = models.DateField(auto_now=False, auto_now_add=False)
+    survey_date = models.DateField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     survey_type = models.CharField(max_length=50, choices=survey_type_choices)
+    scope = models.IntegerField()
+    unit_of_measure = models.CharField(max_length=15)
     coordinates_lat = models.CharField(max_length=20, null=True)
     coordinates_long = models.CharField(max_length=20, null=True)
     surveyor = models.CharField(max_length=50, null=True, blank=True)
+    is_checked = models.BooleanField(default=False)
     checked_by = models.CharField(max_length=50)
+    is_approved = models.BooleanField(default=False)
     approved_by = models.CharField(max_length=50)
-    client_approved = models.BooleanField(default )
+    is_client_approved = models.BooleanField(default=False)
+    status = models.CharField(max_length=20)
 
 class SurveyResult(TimeStampedModel):
     file_url = models.FileField(upload_to='files', null=True)
