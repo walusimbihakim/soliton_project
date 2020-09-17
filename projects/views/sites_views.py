@@ -11,15 +11,11 @@ from projects.selectors.project_selectors import *
 
 
 def sites_page_view(request, project_id):
-    site_form = SiteForm(
-        request.POST,
-        request.FILES,
-        initial={
-            'project': project_id
-        }
-    )
+    site_form = SiteForm()
 
     if request.method == "POST":
+        site_form = SiteForm(request.POST, request.FILES, initial={'project': project_id})
+        
         if site_form.is_valid():
             site_form.save()
 

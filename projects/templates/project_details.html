@@ -3,80 +3,15 @@
 {% load crispy_forms_tags %}
 
 {%block page_title%}
-Project Details
+{{project}} - Details
 {% endblock%}
 
 {% block content %}    
     <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <!-- ./col -->
-            <div class="col-lg-3 col-3">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>44</h3>
-
-                    <p>Fibre Deployement</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-3">
-                <!-- small box -->
-                <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>150</h3>
-
-                    <p>Sites</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                <a href="{% url 'manage_sites' project.id %}" class="small-box-footer">View Sites <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box --> 
-                <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>53</h3>
-
-                    <p>Manholes</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-archive"></i>
-                </div>
-                <a href="#" class="small-box-footer">View Manholes <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>            
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>65</h3>
-
-                    <p>Towers</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
-                    <a href="#" class="small-box-footer">View Towers <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-        </div>
-        <!-- /.row -->
-
         <!--Overview Row-->
         <div class="row">
             <div class="card-body">
-            <h4>Menu List</h4>
+            {% comment %} <h4>Menu List</h4> {% endcomment %}
             <div class="row">
               <div class="col-3 col-sm-2">
                 <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
@@ -86,34 +21,134 @@ Project Details
                   <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Scope</a>
                   <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">PIP</a>
                   <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Budget</a>
+                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Sites</a>
                 </div>
               </div>
-              <div class="col-7 col-sm-9">
+              <div class="col-7 col-sm-10">
                 <div class="tab-content" id="vert-tabs-tabContent">
                   <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
-                    
+                    <div class="row">
+                        <div class="col-12 col-sm-3">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">Estimated budget</span>
+                            <span class="info-box-number text-center text-muted mb-0">2300</span>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">Total amount spent</span>
+                            <span class="info-box-number text-center text-muted mb-0">2000</span>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">Estimated project duration</span>
+                                <span class="info-box-number text-center text-muted mb-0">20</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">Estimated project duration</span>
+                                <span class="info-box-number text-center text-muted mb-0">20</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-3">
+                            <!-- small box -->
+                            <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3>44</h3>
+
+                                <p>Fibre Deployement</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-3">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>150</h3>
+
+                                <p>Sites</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="{% url 'manage_sites' project.id %}" class="small-box-footer">View Sites <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-6">
+                            <!-- small box --> 
+                            <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>53</h3>
+
+                                <p>Manholes</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-archive"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">View Manholes <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>            
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>65</h3>
+
+                                <p>Towers</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+                                <a href="#" class="small-box-footer">View Towers <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                    </div>
                   </div>
-                  <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                  <div class="tab-pane fade clearfix" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                     <!-- ./card-Survey -->
-                    <div class="card-body">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-site">
-                            New Survey
-                        </button>
-                        <table id="example1" class="table table-striped">
+                    <div class="card-body ">
+                        <a href="{% url 'manage_surveys' project.id %}" class="btn btn-primary float-right">
+                            Manage Surveys
+                        </a>
+                        <table id="survey_table" class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th>Survey Type</th>
+                                    <th>Scope</th>                                    
+                                    <th>UOM</th>
                                     <th>Surveyor</th>
-                                    <th>Date</th>
-                                    <th>Checked By</th>
-                                    <th>Approved By</th>
                                     <th>Status</th>
-                                    <th>#</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for survey in surveys%}
                                 <tr>
-                                    
+                                    <tr>
+                                    <td>{{survey.survey_type}}</td>
+                                    <td>{{survey.scope}}</td>
+                                    <td>{{survey.unit_of_measure}}</td>
+                                    <td>{{survey.surveyor}}</td>
+                                    <td>{{survey.status}}                                    
                                 </tr>
                                 {% endfor %}
                             </tbody>

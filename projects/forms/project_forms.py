@@ -18,7 +18,7 @@ class ProjectForm(forms.ModelForm):
         )
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(ProjectForm, self).__init__(*args, **kwargs)
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
@@ -37,6 +37,7 @@ class ProjectForm(forms.ModelForm):
                 )
             )
         )
+        self.helper.form_show_errors = False
 
 
 class ProjectTypeForm(forms.ModelForm):
@@ -56,6 +57,9 @@ class DuctForm(forms.ModelForm):
         fields = ("duct_code", "duct_type", "description")
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(SurveyForm, self).__init__(*args, **kwargs)
 
         self.Helper = FormHelper()
+        self.Helper.form_show_errors = False
+
+
