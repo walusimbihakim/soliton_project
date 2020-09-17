@@ -21,7 +21,6 @@ def get_project_type(project_type_id):
 def get_ducts():
     return DuctSystem.objects.all()
 
-
 def get_surveys(project):
     surveys = Survey.objects.filter(project=project)
     return surveys

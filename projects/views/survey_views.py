@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 
 from projects.forms.survey_form import *
-from projects.selectors.survey_selectors import *
+from projects.selectors.survey_selectors import get_surveys
 from projects.selectors.project_selectors import *
 
 
@@ -21,7 +21,8 @@ def survey_page_view(request, id):
 
             messages.success(request, "Survey Saved Successfully")
     
-    surveys = get_surveys()
+    project = get_project(id)
+    surveys = get_surveys(project)
 
     context = {
         "surveys": surveys,
