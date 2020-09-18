@@ -1,0 +1,133 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block page_title%}
+Manage Survey Scopes
+{% endblock%}
+{% block right_button%}
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-project">
+    New Scope
+</button>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+            <div class="card">
+                {%if workers%}
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Scopes</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- ./card-body -->
+                <div class="card-body">
+                    <table id="example1" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>National ID</th>
+                            <th>Joined Date</th>
+                            <th>Gender</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                            <th>Next of Kin/ Emergency contact</th>
+                            <th>#</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for worker in workers%}
+                        <tr>
+                            <td>
+                                {{worker.name}}
+                            </td>
+                            <td>
+                                {{worker.id}}
+                            </td>
+                            <td>{{worker.joining_date}}</td>
+                            <td>{{worker.gender}}</td>
+                            <td>{{worker.contact}}</td>
+                            <td>{{worker.address}}</td>
+                            <td>{{worker.next_of_kin}}</td>
+                            <td>
+                                <a href="{%url 'edit_worker' worker.id%}" style="color:inherit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="{%url 'delete_worker' worker.id%}" style="color: inherit">
+                                    <i class="fa fa-trash" onclick="return 'Do you want to delete {{worker.name}}?'"></i>
+                                </a>
+                            <td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+                {%else%}
+                <div class="card-body">
+                    <h4>No executable scopes available</h4>
+                </div>
+                {%endif%}
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+<div class="modal fade" id="modal-add-project">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Worker</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- DataTables -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+{% endblock content %}
