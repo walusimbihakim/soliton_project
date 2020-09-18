@@ -11,8 +11,9 @@ from projects.selectors.workers import get_all_workers, get_worker
 
 def manage_workers_page(request):
     workers = get_all_workers()
-    form = WorkerForm(request.POST, request.FILES)
+    form = WorkerForm()
     if request.method == "POST":
+        form = WorkerForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Successfully added a worker")
