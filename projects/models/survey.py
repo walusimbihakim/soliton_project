@@ -15,6 +15,7 @@ class Survey(TimeStampedModel):
         ('Equipment', 'Equipment'),
     )
     survey_date = models.DateField(auto_now=False, auto_now_add=False)
+    segmate = models.CharField(max_length=50, null=True, blank=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     survey_type = models.CharField(max_length=50, choices=survey_type_choices)
     scope = models.IntegerField()
