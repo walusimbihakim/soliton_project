@@ -17,7 +17,7 @@ Manage Survey Scopes
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if workers%}
+                {%if scopes%}
                 <!-- ./ card-header -->
                 <div class="card-header">
                     <h3 class="card-title">Scopes</h3>
@@ -28,36 +28,32 @@ Manage Survey Scopes
                     <table id="example1" class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>National ID</th>
-                            <th>Joined Date</th>
-                            <th>Gender</th>
-                            <th>Contact</th>
-                            <th>Address</th>
-                            <th>Next of Kin/ Emergency contact</th>
+                            <th>Scope ID</th>
+                            <th>Survey Type</th>
+                            <th>Quantity</th>
+                            <th>Description</th>
                             <th>#</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for worker in workers%}
+                        {% for scope in scopes%}
                         <tr>
                             <td>
-                                {{worker.name}}
+                                {{scope.id}}
                             </td>
+                            <td>{{scope.survey.survey_type}}</td>
                             <td>
-                                {{worker.id}}
+                                {{scope.quantity}} {{scope.survey.unit_of_measure }}
                             </td>
-                            <td>{{worker.joining_date}}</td>
-                            <td>{{worker.gender}}</td>
-                            <td>{{worker.contact}}</td>
-                            <td>{{worker.address}}</td>
-                            <td>{{worker.next_of_kin}}</td>
+                            <td>{{scope.description}}</td>
                             <td>
-                                <a href="{%url 'edit_worker' worker.id%}" style="color:inherit">
+                                <a href="{%url 'edit_scope' scope.id%}" style="color:inherit">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="{%url 'delete_worker' worker.id%}" style="color: inherit">
-                                    <i class="fa fa-trash" onclick="return 'Do you want to delete {{worker.name}}?'"></i>
+                                <a href="{%url 'delete_scope' scope.id%}"
+                                   style="color: inherit"
+                                   onclick="return confirm('Do you want to delete scope {{scope.id}}?')">
+                                    <i class="fa fa-trash"></i>
                                 </a>
                             <td>
                         </tr>
@@ -84,7 +80,7 @@ Manage Survey Scopes
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add New Worker</h4>
+                <h4 class="modal-title">Add New Executable Scope</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
