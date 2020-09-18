@@ -1,4 +1,6 @@
 from django.urls import path
+
+from .views import scope_views
 from .views.project_views import *
 from .views.sites_views import *
 from .views.activity_list_views import *
@@ -18,6 +20,9 @@ survey_urls = [
     path('project/<int:survey_id>/', delete_survey, name="delete_survey"),
 ]
 
+scope_urls = [
+    path('manage_scopes', scope_views.manage_scopes_page, name="manage_scopes_page")
+]
 boq_urls = [
     path('manage_boqs/', boq_views.manage_boqs, name='manage_boqs'),
     path('manage_project_boqs/<int:id>/', boq_views.manage_project_boqs, name='manage_project_boqs'),
@@ -30,6 +35,8 @@ boq_urls = [
     path('delete_service_boq_item/<int:id>/', boq_views.delete_serviceboq, name="delete_service_boq_item"),
     path('edit_service_boq_item/<int:id>/', boq_views.edit_serviceboq, name="edit_service_boq_item"),
 ]
+
+
 urlpatterns = [
     path('', index_page, name='index_page'),
     path('projects/', projects_page_view, name='manage_projects'),
@@ -40,5 +47,5 @@ urlpatterns = [
     path('activity_list/', activity_page_view, name='manage_activities'),
     path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
     path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
-] + worker_urls + survey_urls + boq_urls
+] + worker_urls + survey_urls + boq_urls + scope_urls
 
