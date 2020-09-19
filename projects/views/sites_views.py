@@ -28,7 +28,7 @@ def sites_page_view(request, project_id):
         "site_form": site_form
     }
 
-    return render(request, "manage_sites.html", context)
+    return render(request, "site/manage_sites.html", context)
 
 
 def site_details_view(request, project_id, site_id):
@@ -37,4 +37,4 @@ def site_details_view(request, project_id, site_id):
     context = {
         "site": site,
     }
-    return render(request, "site_details.html", context)
+    return render(request, "site/site_details.html", context)

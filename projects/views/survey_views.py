@@ -30,7 +30,7 @@ def survey_page_view(request, id):
         "project": get_project(id)
     }
 
-    return render(request, "manage_surveys.html", context)
+    return render(request, "survey/manage_surveys.html", context)
 
 def edit_survey(request, id, survey_id):
     survey = get_survey(survey_id)
@@ -51,7 +51,7 @@ def edit_survey(request, id, survey_id):
         "survey_form": survey_form,
         "project": get_project(id)
     }
-    return render(request, "edit_survey.html", context)
+    return render(request, "survey/edit_survey.html", context)
 
 def delete_survey(request, survey_id):
     survey = get_survey(survey_id)

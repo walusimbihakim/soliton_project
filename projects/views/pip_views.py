@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 
 from projects.forms.pip_forms import PIPForm
-from projects.selector.pip_selectors import get_pips, get_pip
+from projects.selectors.pip_selectors import get_pips, get_pip
 
 def pip_page_view(request, scope_id):
     pip_form = PIPForm()
