@@ -16,5 +16,4 @@ class PIP(TimeStampedModel):
 class Predecessor(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     predecessor = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name="activty_dependecies")
-    status = models.CharField(max_length=50)
     
