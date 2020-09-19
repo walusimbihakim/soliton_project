@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {%block page_title%}
-Manage BOQs
+Manage Project Scopes
 {% endblock%}
 {% block content %}
 <div class="container-fluid">
@@ -14,39 +14,41 @@ Manage BOQs
             <div class="card">
                 <!-- ./ card-header -->
                 <div class="card-header">
-                    <h3 class="card-title">Projects</h3>
+                    <h3 class="card-title">Surveys</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
+                    {%if surveys%}
                     <table id="example1" class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Project</th>
-                            <th>Client</th>
+                            <th>Survey</th>
+                            <th>Type</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for project in projects%}
+                        {% for survey in surveys%}
                         <tr>
                             <td>
-                                <a href="{% url 'project_details' project.id%}">
-                                    {{project.name}}<br>({{project.project_code}})
-                                </a>
+                                {{survey}}
                             </td>
                             <td>
-                                <img class="img-size-50 mr-3 img-circle" src="{{project.client.profile_pic.url}}"/>
+                                {{survey.survey_type}}
                             </td>
                             <td>
-                                <a href="{%url 'manage_project_boqs' project.id%}" style="color:inherit">
-                                    <button>Survey List</button>
+                                <a href="{%url 'manage_survey_scopes' survey.id%}" style="color:inherit">
+                                    <button>MANAGE EXECUTABLE SCOPES</button>
                                 </a>
                             <td>
                         </tr>
                         {% endfor %}
                         </tbody>
                     </table>
+                    {%else%}
+                    <h3>No surveys available for the project</h3>
+                    {%endif%}
                 </div>
                 <!-- /.card-body -->
             </div>

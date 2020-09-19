@@ -22,7 +22,11 @@ survey_urls = [
 ]
 
 scope_urls = [
-    path('manage_scopes', scope_views.manage_scopes_page, name="manage_scopes_page")
+    path('manage_scopes', scope_views.manage_scopes, name="manage_scopes_page"),
+    path('manage_project_scopes/<int:id>/', scope_views.manage_project_scopes, name='manage_project_scopes'),
+    path('manage_survey_scopes/<int:id>/', scope_views.manage_survey_scopes, name='manage_survey_scopes'),
+    path('delete_scope/<int:id>/', scope_views.delete_scope, name='delete_scope'),
+    path('edit_scope/<int:id>/', scope_views.edit_scope, name='edit_scope'),
 ]
 boq_urls = [
     path('manage_boqs/', boq_views.manage_boqs, name='manage_boqs'),
