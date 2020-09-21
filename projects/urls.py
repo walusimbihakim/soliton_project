@@ -7,6 +7,7 @@ from .views.activity_list_views import *
 import projects.views.worker_views  as worker_views
 from .views.survey_views import *
 import projects.views.boq_views as boq_views
+from .views import pip_views
 
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page, name='manage_workers_page'),
@@ -40,16 +41,22 @@ boq_urls = [
     path('edit_service_boq_item/<int:id>/', boq_views.edit_serviceboq, name="edit_service_boq_item"),
 ]
 
+pip_urls = [
+    path('scope/<int:scope_id>/pips/', pip_views.pip_page_view, name='manage_pips'),
+    path('scope/<int:scope_id>/pip/<int:pip_id>', pip_views.edit_pip_view, name='edit_pip'),
+    path('scope/pip/<int:pip_id>', pip_views.delete_pip, name='delete_pip'),
+]
+
 
 urlpatterns = [
-                  path('', index_page, name='index_page'),
-                  path('projects/', projects_page_view, name='manage_projects'),
-                  path('project_details/<int:project_id>/', project_details_view, name='project_details'),
-                  path('project_settings/', projects_settings_view, name='project_settings'),
-                  path('project/<int:project_id>/sites/', sites_page_view, name='manage_sites'),
-                  path('project/<int:project_id>/site/<int:site_id>/', site_details_view, name='site_details'),
-                  path('activity_list/', activity_page_view, name='manage_activities'),
-                  path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
-                  path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
-              ] + worker_urls + survey_urls + boq_urls + scope_urls
+    path('', index_page, name='index_page'),
+    path('projects/', projects_page_view, name='manage_projects'),
+    path('project_details/<int:project_id>/', project_details_view, name='project_details'),
+    path('project_settings/', projects_settings_view, name='project_settings'),
+    path('project/<int:project_id>/sites/', sites_page_view, name='manage_sites'),
+    path('project/<int:project_id>/site/<int:site_id>/', site_details_view, name='site_details'),
+    path('activity_list/', activity_page_view, name='manage_activities'),
+    path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
+    path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
+] + worker_urls + survey_urls + boq_urls + scope_urls + pip_urls
 

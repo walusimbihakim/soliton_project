@@ -9,3 +9,4 @@ from .activity_list import *
 from projects.models.workers import Worker
 from projects.models.survey import Survey
 from projects.models.scopes import ExecutionScope
+from projects.models.pip import PIP, Predecessor

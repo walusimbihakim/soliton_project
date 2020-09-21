@@ -1,4 +1,4 @@
-{% extends './base.html' %}
+{% extends '../base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 
@@ -26,23 +26,39 @@
                     <div class="card-body">
                         <table id="example1" class="table table-striped">
                             <thead>
-                                <tr>
-                                    <th>Survey Type</th>
-                                    <th>Scope</th>                                    
-                                    <th>UOM</th>
-                                    <th>Surveyor</th>
-                                    <th>Status</th>
-                                    <th>#</th>
+                                <tr>                                  
+                                    <th>Survey</th>
+                                    <th>Type</th>
+                                    <th>Scope</th>  
+                                    <th><center>Options</center></th>
+                                    <th><center>#</center></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for survey in surveys%}
                                 <tr>
+                                    <td>{{survey}}</td>
                                     <td>{{survey.survey_type}}</td>
                                     <td>{{survey.scope}}</td>
-                                    <td>{{survey.unit_of_measure}}</td>
-                                    <td>{{survey.surveyor}}</td>
-                                    <td>{{survey.status}}
+                                    <td>
+                                      {%if not survey.boq%}
+                                        <a href="{%url 'create_boq' survey.id%}" style="color:inherit">
+                                            <button class="btn btn-outline-info btn-rounded waves-effect">
+                                                Create BOQ
+                                            </button>
+                                        </a>
+                                        {%else%}
+                                        <a href="{%url 'manage_boq_items' survey.boq.id%}" style="color:inherit">
+                                            <button class="btn btn-outline-info btn-rounded waves-effect">
+                                                Manage BOQ
+                                            </button>
+                                        </a>
+                                      {%endif%}                                       
+                                      <a href="{% url 'manage_survey_scopes' survey.id %}">
+                                        <button class="btn btn-outline-info btn-rounded waves-effect">
+                                            Manage Scope
+                                        </button>
+                                      </a> 
                                     </td>
                                     <td>
                                         <a href="#" style="color:inherit">
