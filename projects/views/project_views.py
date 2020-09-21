@@ -30,7 +30,7 @@ def projects_page_view(request):
         'projects': projects,
         'form': form,
     }
-    return render(request, "manage_projects.html", context)
+    return render(request, "project/manage_projects.html", context)
 
 
 def projects_settings_view(request):
@@ -57,7 +57,7 @@ def projects_settings_view(request):
         "project_type_form": project_type_form,
         "ducts": ducts,
     }
-    return render(request, 'project_settings.html', context)
+    return render(request, "project/project_settings.html", context)
 
 
 def project_details_view(request, project_id):
@@ -66,4 +66,4 @@ def project_details_view(request, project_id):
     context = {
         "project": project,
     }
-    return render(request, 'project_details.html', context)
+    return render(request, "project/project_details.html", context)

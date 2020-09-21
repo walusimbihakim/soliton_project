@@ -32,6 +32,7 @@ Manage Survey Scopes
                             <th>Survey Type</th>
                             <th>Quantity</th>
                             <th>Description</th>
+                            <th>PIP</th>
                             <th>#</th>
                         </tr>
                         </thead>
@@ -46,6 +47,13 @@ Manage Survey Scopes
                                 {{scope.quantity}} {{scope.survey.unit_of_measure }}
                             </td>
                             <td>{{scope.description}}</td>
+                            <td>
+                                <a href="{%url 'manage_pips' scope.id%}" style="color:inherit">
+                                    <button class="btn btn-outline-info btn-rounded waves-effect">
+                                        PIP
+                                    </button>
+                                </a>
+                            </td>
                             <td>
                                 <a href="{%url 'edit_scope' scope.id%}" style="color:inherit">
                                     <i class="fa fa-edit"></i>

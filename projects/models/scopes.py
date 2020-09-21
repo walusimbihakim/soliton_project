@@ -9,4 +9,4 @@ class ExecutionScope(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return "{} Execution Scope".format(self.survey)
+        return "{} ".format(self.survey)
