@@ -26,7 +26,7 @@ def activity_page_view(request):
         "activity_form": activity_form,
     }
 
-    return render(request, "activity_list.html", context)
+    return render(request, "activity/activity_list.html", context)
 
 def edit_activity_view(request, activity_id):
     activity = get_activity(activity_id)
@@ -47,7 +47,7 @@ def edit_activity_view(request, activity_id):
         "activity_form": activity_form,
         "activity":activity,
     }
-    return render(request, 'edit_activity_list.html', context)
+    return render(request, 'activity/edit_activity_list.html', context)
 
 def delete_activity_view(request, activity_id):
     activity = get_activity(activity_id)

@@ -30,7 +30,7 @@ class Survey(TimeStampedModel):
     client_approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return "Survey {} at {},{}".format(self.id, self.coordinates_lat, self.coordinates_long)
+        return "{} ({},{})".format(self.segmate, self.coordinates_lat, self.coordinates_long)
 
 
 class SurveyResult(TimeStampedModel):
