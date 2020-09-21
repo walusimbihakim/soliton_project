@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {%block page_title%}
-{{scope}} - PIP
+{{scope}} {{scope.survey.survey_type}} - PIP
 {% endblock%}
 {% block right_button%}
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-pip">
@@ -17,6 +17,7 @@
             <!-- ./col -->
             <div class="col-12">
                 <div class="card">
+                    {% if pips %}
                     <!-- ./ card-header -->
                     <div class="card-header">
                         <h3 class="card-title">Manage PIP</h3>
@@ -47,10 +48,10 @@
                                     <td>{{pip.status}}
                                     </td>
                                     <td>
-                                        <a href="" style="color:inherit">
+                                        <a href="{% url 'edit_pip' pip.scope.id pip.id %}" style="color:inherit">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="" style="color: inherit" ...
+                                        <a href="{% url 'delete_pip' pip.id %}" style="color: inherit" ...
                                             onclick="">
                                             <i class="fa fa-trash"></i>
                                         </a>
@@ -61,6 +62,11 @@
                         </table>
                     </div>
                     <!-- /.card-body -->
+                    {% else %}
+                        <div class="card-body">
+                            <h4>No PIP Record for the selected scope</h4>
+                        </div>
+                    {% endif %}
                 </div>
                 <!-- /.card -->
             </div>

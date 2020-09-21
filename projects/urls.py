@@ -42,7 +42,9 @@ boq_urls = [
 ]
 
 pip_urls = [
-    path('scope/<int:scope_id/pip/', pip_views.pip_page_view, name='manage_pips'),
+    path('scope/<int:scope_id>/pips/', pip_views.pip_page_view, name='manage_pips'),
+    path('scope/<int:scope_id>/pip/<int:pip_id>', pip_views.edit_pip_view, name='edit_pip'),
+    path('scope/pip/<int:pip_id>', pip_views.delete_pip, name='delete_pip'),
 ]
 
 

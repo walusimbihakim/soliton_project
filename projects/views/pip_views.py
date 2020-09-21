@@ -7,6 +7,7 @@ from django.http import JsonResponse
 
 from projects.forms.pip_forms import PIPForm
 from projects.selectors.pip_selectors import get_pips, get_pip
+from projects.selectors.scopes import get_scope
 
 def pip_page_view(request, scope_id):
     pip_form = PIPForm()
@@ -31,15 +32,15 @@ def pip_page_view(request, scope_id):
         "scope": scope
     }
 
-    return render(request, "manage_pips.html", context)
+    return render(request, "pip/manage_pip.html", context)
 
-def edit_pip_view(request, pip_id):
+def edit_pip_view(request, scope_id, pip_id):
     pip = get_pip(pip_id)
 
-    pip_form = PIPForm(intance=pip)
+    pip_form = PIPForm(instance=pip)
 
     if request.method=="POST":
-        pip_form = PIPForm(request.POST, request.FILES)
+        pip_form = PIPForm(request.POST, request.FILES, instance=pip)
 
         if pip_form.is_valid():
             pip_form.save()
@@ -59,4 +60,15 @@ def edit_pip_view(request, pip_id):
         "pip_form": pip_form,
     }
 
-    return render(request, "edit_pip.html", context)
+    return render(request, "pip/edit_pip.html", context)
+
+def delete_pip(request, pip_id):
+    pip = get_pip(pip_id)
+
+    pip.delete()
+
+    messages.success(request, 'PIP record Delete Successfully')
+
+    return HttpResponseRedirect(reverse(pip_page_view, args=[pip.scope.id]))
+
+
