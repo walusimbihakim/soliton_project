@@ -2,10 +2,12 @@ from django.db import models
 
 
 class Worker(models.Model):
+
     GENDER_CHOICES = [
         ('Male', 'Male'),
         ('Female', 'Female')
     ]
+
     ROLE_CHOICES = [
         ('Supervisor', 'Supervisor'),
         ('Operator', 'Operator'),
@@ -13,6 +15,7 @@ class Worker(models.Model):
         ('OFC', 'OFC'),
         ('Financial', 'Financial'),
     ]
+
     BUSINESS_UNIT_CHOICES = [
         ('MS', 'Managed Services'),
         ('CN', 'Connectivity'),
