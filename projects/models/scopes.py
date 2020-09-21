@@ -8,8 +8,5 @@ class ExecutionScope(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     description = models.TextField()
 
-    class Meta:
-        unique_together = ("quantity", "survey")
-
     def __str__(self):
-        return "{} Execution Scope".format(self.survey)
+        return "{} ".format(self.survey)

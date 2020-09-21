@@ -12,6 +12,7 @@ class SurveyForm(forms.ModelForm):
         fields = (
             "project",
             "survey_date",
+            "segmate",
             "survey_type", 
             "scope",
             "unit_of_measure", 

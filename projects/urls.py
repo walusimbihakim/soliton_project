@@ -7,6 +7,7 @@ from .views.activity_list_views import *
 import projects.views.worker_views  as worker_views
 from .views.survey_views import *
 import projects.views.boq_views as boq_views
+from .views import pip_views
 
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page, name='manage_workers_page'),
@@ -21,7 +22,11 @@ survey_urls = [
 ]
 
 scope_urls = [
-    path('manage_scopes', scope_views.manage_scopes_page, name="manage_scopes_page")
+    path('manage_scopes', scope_views.manage_scopes, name="manage_scopes_page"),
+    path('manage_project_scopes/<int:id>/', scope_views.manage_project_scopes, name='manage_project_scopes'),
+    path('manage_survey_scopes/<int:id>/', scope_views.manage_survey_scopes, name='manage_survey_scopes'),
+    path('delete_scope/<int:id>/', scope_views.delete_scope, name='delete_scope'),
+    path('edit_scope/<int:id>/', scope_views.edit_scope, name='edit_scope'),
 ]
 boq_urls = [
     path('manage_boqs/', boq_views.manage_boqs, name='manage_boqs'),
@@ -36,6 +41,12 @@ boq_urls = [
     path('edit_service_boq_item/<int:id>/', boq_views.edit_serviceboq, name="edit_service_boq_item"),
 ]
 
+pip_urls = [
+    path('scope/<int:scope_id>/pips/', pip_views.pip_page_view, name='manage_pips'),
+    path('scope/<int:scope_id>/pip/<int:pip_id>', pip_views.edit_pip_view, name='edit_pip'),
+    path('scope/pip/<int:pip_id>', pip_views.delete_pip, name='delete_pip'),
+]
+
 
 urlpatterns = [
     path('', index_page, name='index_page'),
@@ -47,5 +58,5 @@ urlpatterns = [
     path('activity_list/', activity_page_view, name='manage_activities'),
     path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
     path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
-] + worker_urls + survey_urls + boq_urls + scope_urls
+] + worker_urls + survey_urls + boq_urls + scope_urls + pip_urls
 

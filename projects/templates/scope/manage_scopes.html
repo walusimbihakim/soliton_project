@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {%block page_title%}
-Manage BOQs
+Manage Scopes
 {% endblock%}
 {% block content %}
 <div class="container-fluid">
@@ -39,7 +39,7 @@ Manage BOQs
                                 <img class="img-size-50 mr-3 img-circle" src="{{project.client.profile_pic.url}}"/>
                             </td>
                             <td>
-                                <a href="{%url 'manage_project_boqs' project.id%}" style="color:inherit">
+                                <a href="{%url 'manage_project_scopes' project.id%}" style="color:inherit">
                                     <button>Survey List</button>
                                 </a>
                             <td>
