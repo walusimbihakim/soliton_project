@@ -10,3 +10,6 @@ from projects.models.workers import Worker
 from projects.models.survey import Survey
 from projects.models.scopes import ExecutionScope
 from projects.models.pip import PIP, Predecessor
+from projects.models.field_managers import FieldManager
+from projects.models.teams import Team, WorkerTeam
+from projects.models.activity_team_assignment import ActivityTeamAssignment

@@ -8,6 +8,7 @@ import projects.views.worker_views  as worker_views
 from .views.survey_views import *
 import projects.views.boq_views as boq_views
 from .views import pip_views
+import projects.views.field_manager_views as field_manage_views
 
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page, name='manage_workers_page'),
@@ -47,6 +48,12 @@ pip_urls = [
     path('scope/pip/<int:pip_id>', pip_views.delete_pip, name='delete_pip'),
 ]
 
+field_managers_urls = [
+    path('manage_field_managers/', field_manage_views.manage_field_managers, name='manage_field_managers'),
+    path('delete_field_manager/<int:id>/', field_manage_views.delete_field_manager, name='delete_field_manager'),
+    path('edit_field_manager/<int:id>/', field_manage_views.edit_field_manager, name="edit_field_manager"),
+]
+
 
 urlpatterns = [
     path('', index_page, name='index_page'),
@@ -58,5 +65,5 @@ urlpatterns = [
     path('activity_list/', activity_page_view, name='manage_activities'),
     path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
     path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
-] + worker_urls + survey_urls + boq_urls + scope_urls + pip_urls
+] + worker_urls + survey_urls + boq_urls + scope_urls + pip_urls+field_managers_urls
 
