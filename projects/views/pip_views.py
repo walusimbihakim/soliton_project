@@ -10,7 +10,8 @@ from projects.selectors.pip_selectors import get_pips, get_pip
 from projects.selectors.scopes import get_scope
 
 def pip_page_view(request, scope_id):
-    pip_form = PIPForm()
+    scope = get_scope(scope_id)
+    pip_form = PIPForm(initial={"scope": scope})
 
     if request.method=="POST":
         pip_form=PIPForm(request.POST, request.FILES)
@@ -24,7 +25,6 @@ def pip_page_view(request, scope_id):
             messages.warning(request, 'One or more Inputs not in correct format, check and try again')
 
     pips = get_pips(scope_id)
-    scope = get_scope(scope_id)
 
     context = {
         "pips": pips,

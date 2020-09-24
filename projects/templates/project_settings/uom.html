@@ -1,0 +1,123 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block page_title%}
+Units of Measure
+{% endblock%}
+{% block right_button%}
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-pip">
+    New Measure
+</button>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <!-- ./row -->
+        <div class="row">
+            <!-- ./col -->
+            <div class="col-12">
+                <div class="card">
+                    {% if units %}
+                    <!-- ./ card-header -->
+                    <div class="card-header">
+                        <h3 class="card-title">Manage UOM</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- ./card-body -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Measure</th>
+                                    <th>Description</th> 
+                                    <th>#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for unit in units%}
+                                <tr>
+                                    <td>{{unit.id}}</td>
+                                    <td>{{unit.unit_of_measure}}</td>
+                                    <td>{{unit.description}}</td>
+                                    </td>
+                                    <td>
+                                        <a href="" style="color:inherit">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="" style="color: inherit" ...
+                                            onclick="">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    <td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    {% else %}
+                        <div class="card-body">
+                            <h4>No Registered Unit of Measure</h4>
+                        </div>
+                    {% endif %}
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+    <div class="modal fade" id="modal-add-pip">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Add Measure</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{unit_form|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+<!-- DataTables -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+{% endblock content %}

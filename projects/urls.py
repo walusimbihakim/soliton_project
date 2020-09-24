@@ -7,7 +7,7 @@ from .views.activity_list_views import *
 import projects.views.worker_views  as worker_views
 from .views.survey_views import *
 import projects.views.boq_views as boq_views
-from .views import pip_views
+from .views import pip_views, project_settings_view
 
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page, name='manage_workers_page'),
@@ -47,6 +47,16 @@ pip_urls = [
     path('scope/pip/<int:pip_id>', pip_views.delete_pip, name='delete_pip'),
 ]
 
+uom_urls = [
+    path('uom/', project_settings_view.unit_of_measure_view, name='manage_uom'),
+]
+
+budget_urls = [
+    path('expenses/', project_settings_view.manage_expense_view, name='manage_expenses'),
+    path('edit_expense/<int:expense_id>/', project_settings_view.edit_expense_view, name='edit_expense'),
+    path('delete_expense/<int:expense_id>/', project_settings_view.delete_expense, name='delete_expense'),
+
+]
 
 urlpatterns = [
     path('', index_page, name='index_page'),
@@ -58,5 +68,5 @@ urlpatterns = [
     path('activity_list/', activity_page_view, name='manage_activities'),
     path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
     path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
-] + worker_urls + survey_urls + boq_urls + scope_urls + pip_urls
+] + worker_urls + survey_urls + boq_urls + scope_urls + pip_urls + uom_urls + budget_urls
 
