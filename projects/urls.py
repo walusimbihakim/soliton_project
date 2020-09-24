@@ -49,6 +49,12 @@ pip_urls = [
 
 uom_urls = [
     path('uom/', project_settings_view.unit_of_measure_view, name='manage_uom'),
+]
+
+budget_urls = [
+    path('expenses/', project_settings_view.manage_expense_view, name='manage_expenses'),
+    path('edit_expense/<int:expense_id>/', project_settings_view.edit_expense_view, name='edit_expense'),
+    path('delete_expense/<int:expense_id>/', project_settings_view.delete_expense, name='delete_expense'),
 
 ]
 
@@ -62,5 +68,5 @@ urlpatterns = [
     path('activity_list/', activity_page_view, name='manage_activities'),
     path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
     path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
-] + worker_urls + survey_urls + boq_urls + scope_urls + pip_urls + uom_urls
+] + worker_urls + survey_urls + boq_urls + scope_urls + pip_urls + uom_urls + budget_urls
 
