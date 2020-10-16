@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import scope_views, team_views
+from .views import scope_views, team_views, wage_sheet_views
 from .views.project_views import *
 from .views.sites_views import *
 from .views.activity_list_views import *
@@ -66,6 +66,15 @@ pip_team_urls = [
     path('edit_pip_team/<int:id>/', team_views.edit_pip_team_page, name="edit_pip_team"),
 ]
 
+wage_sheets_urls = [
+    path('manage_wage_sheets/', wage_sheet_views.manage_wage_sheets_page, name='manage_wage_sheets'),
+    path('delete_wage_sheet/<int:id>/', wage_sheet_views.delete_wage_sheet, name='delete_wage_sheet'),
+    path('edit_wage_sheet/<int:id>/', wage_sheet_views.edit_wage_sheet_page, name="edit_wage_sheet"),
+    path('manage_wages/<int:wage_sheet_id>', wage_sheet_views.manage_wages_page, name='manage_wages'),
+    path('delete_wage/<int:id>/', wage_sheet_views.delete_wage, name='delete_wage'),
+    path('edit_wage/<int:id>/', wage_sheet_views.edit_wage_page, name="edit_wage"),
+]
+
 urlpatterns = [
     path('', index_page, name='index_page'),
     path('projects/', projects_page_view, name='manage_projects'),
@@ -77,5 +86,5 @@ urlpatterns = [
     path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
     path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
 ] + worker_urls + survey_urls + boq_urls + scope_urls + \
-              pip_urls+field_managers_urls + teams_urls+pip_team_urls
+              pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls
 

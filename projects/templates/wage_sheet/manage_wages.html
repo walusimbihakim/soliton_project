@@ -1,13 +1,14 @@
 {% extends '../base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 
 {%block page_title%}
-Manage Workers
+Manage Wages for sheet {{wage_sheet.id}}
 {% endblock%}
 {% block right_button%}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-project">
-    New Worker
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-team">
+    New Wage
 </button>
 {% endblock %}
 {% block content %}
@@ -17,48 +18,58 @@ Manage Workers
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if workers%}
+                {%if wages%}
                 <!-- ./ card-header -->
                 <div class="card-header">
-                    <h3 class="card-title">Workers</h3>
+                    <h3 class="card-title">Wages</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
+                    Wage Sheet Info
+                    <table border="1" cellpadding="5">
+                        <tr>
+                             <th>Date</th>
+                            <td>{{wage_sheet.date}}</td>
+                            <th>Field Manager</th>
+                            <td>{{wage_sheet.team.field_manager}}</td>
+                            <th>Supervisor</th>
+                            <td>{{wage_sheet.team.supervisor}}</td>
+                            <th>Segment</th>
+                            <td>{{wage_sheet.segment}}</td>
+                        </tr>
+                    </table>
                     <table id="example1" class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>National ID</th>
-                            <th>Joined Date</th>
-                            <th>Gender</th>
-                            <th>Mobile Money Number</th>
-                            <th>Address</th>
-                            <th>Next of Kin contact</th>
+                            <th>Wage ID</th>
+                            <th>Worker</th>
+                            <th>Project</th>
+                            <th>Activity</th>
+                            <th>Quantity</th>
+                            <th>Payment</th>
                             <th>#</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for worker in workers%}
+                        {% for wage in wages%}
                         <tr>
+                            <td>{{wage.id}}</td>
+                            <td>{{wage.worker}}</td>
                             <td>
-                                {{worker.name}}
+                                {{wage.pip_activity.scope.survey.project}}
                             </td>
                             <td>
-                                {{worker.id}}
+                                {{wage.pip_activity.activity}}
                             </td>
-                            <td>{{worker.joining_date}}</td>
-                            <td>{{worker.gender}}</td>
-                            <td>{{worker.mobile_money_number}}</td>
-                            <td>{{worker.address}}</td>
-                            <td>{{worker.next_of_kin}}</td>
+                            <td>{{wage.quantity}}</td>
+                            <td>UGX {{wage.payment | intcomma}}</td>
                             <td>
-                                <a href="{%url 'edit_worker' worker.id%}" style="color:inherit">
+                                <a href="{%url 'edit_wage' wage.id%}" style="color:inherit">
                                     <i class="fa fa-edit"></i>
                                 </a> |
-                                <a href="{%url 'delete_worker' worker.id%}" style="color: inherit">
-                                    <i class="fa fa-trash"
-                                       onclick="return confirm('Do you want to delete {{worker.name}}?')"></i>
+                                <a href="{%url 'delete_wage' wage.id%}" style="color: inherit">
+                                    <i class="fa fa-trash" onclick="return 'Do you want to delete {{team.name}} team?'"></i>
                                 </a>
                             <td>
                         </tr>
@@ -69,7 +80,7 @@ Manage Workers
                 <!-- /.card-body -->
                 {%else%}
                 <div class="card-body">
-                    <h4>No workers available</h4>
+                    <h4>No wages available</h4>
                 </div>
                 {%endif%}
             </div>
@@ -81,11 +92,11 @@ Manage Workers
 </div>
 <!-- /.container-fluid -->
 
-<div class="modal fade" id="modal-add-project">
+<div class="modal fade" id="modal-add-team">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add New Worker</h4>
+                <h4 class="modal-title">Add New Wage</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
