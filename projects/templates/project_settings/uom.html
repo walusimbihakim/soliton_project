@@ -3,11 +3,11 @@
 {% load crispy_forms_tags %}
 
 {%block page_title%}
-{{scope}} - PIP <!--{{scope.survey.survey_type}}-->
+Units of Measure
 {% endblock%}
 {% block right_button%}
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-pip">
-    New Record
+    New Measure
 </button>
 {% endblock %}
 {% block content %}
@@ -17,10 +17,10 @@
             <!-- ./col -->
             <div class="col-12">
                 <div class="card">
-                    {% if pips %}
+                    {% if units %}
                     <!-- ./ card-header -->
                     <div class="card-header">
-                        <h3 class="card-title">Manage PIP</h3>
+                        <h3 class="card-title">Manage UOM</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- ./card-body -->
@@ -28,46 +28,24 @@
                         <table id="example1" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Activity</th>
-                                    <th>Duration</th>
-                                    <th>start</th>                                    
-                                    <th>Finish</th>
-                                    <th>Predecessor</th>
-                                    <th>Status</th>
-                                    <th>Budget</th>
+                                    <th>ID</th>
+                                    <th>Measure</th>
+                                    <th>Description</th> 
                                     <th>#</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for pip in pips%}
+                                {% for unit in units%}
                                 <tr>
-                                    <td>{{pip.activity}}</td>
-                                    <td>{{duration}}</td>
-                                    <td>{{pip.start_date}}</td>
-                                    <td>{{pip.end_date}}</td>
-                                    <td>{{pip.predecessor}}</td>
-                                    <td>{{pip.status}}</td>
-                                    <td>
-                                    {% comment %} pip.budget.id {% endcomment %}
-                                      {% if not pip.budget %}
-                                        <a href="{% url 'create_budget' pip.id %}" style="color:inherit">
-                                          <button class="btn btn-outline-info btn-rounded waves-effect">
-                                              Create Budget
-                                          </button>
-                                        </a>
-                                      {% else %}                                        
-                                        <a href="{% url 'manage_budgets' pip.budget.id %}" style="color:inherit">
-                                          <button class="btn btn-outline-info btn-rounded waves-effect">
-                                              Manage Budget
-                                          </button>
-                                        </a>
-                                      {% endif %}
+                                    <td>{{unit.id}}</td>
+                                    <td>{{unit.unit_of_measure}}</td>
+                                    <td>{{unit.description}}</td>
                                     </td>
                                     <td>
-                                        <a href="{% url 'edit_pip' pip.scope.id pip.id %}" style="color:inherit">
+                                        <a href="{% url 'edit_uom' unit.id %}" style="color:inherit">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="{% url 'delete_pip' pip.id %}" style="color: inherit" ...
+                                        <a href="{% url 'delete_uom' unit.id %}" style="color: inherit" ...
                                             onclick="">
                                             <i class="fa fa-trash"></i>
                                         </a>
@@ -80,7 +58,7 @@
                     <!-- /.card-body -->
                     {% else %}
                         <div class="card-body">
-                            <h4>No PIP Record for the selected scope</h4>
+                            <h4>No Registered Unit of Measure</h4>
                         </div>
                     {% endif %}
                 </div>
@@ -96,7 +74,7 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Add PIP Record</h4>
+              <h4 class="modal-title">Add Measure</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -104,7 +82,7 @@
             <div class="modal-body">
               <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{pip_form|crispy }}
+                {{unit_form|crispy }}
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

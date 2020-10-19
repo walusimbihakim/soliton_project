@@ -15,18 +15,18 @@
             <div class="row">
               <div class="col-3 col-sm-2">
                 <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
-                  <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">Overview</a>
-                  <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Surveys</a>
-                  <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false">BOQ</a>
-                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Scope</a>
-                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">PIP</a>
-                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Budget</a>
-                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Sites</a>
+                  <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-overview" role="tab" aria-controls="vert-tabs-home" aria-selected="true">Overview</a>
+                  <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-surveys" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Surveys</a>
+                  <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-boq" role="tab" aria-controls="vert-tabs-messages" aria-selected="false">BOQ</a>
+                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-scope" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Scope</a>
+                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-pip" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">PIP</a>
+                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-budget" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Budget</a>
+                  <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-sites" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Sites</a>
                 </div>
               </div>
               <div class="col-7 col-sm-10">
                 <div class="tab-content" id="vert-tabs-tabContent">
-                  <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                  <div class="tab-pane text-left fade show active" id="vert-tabs-overview" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
                     <div class="row">
                         <div class="col-12 col-sm-3">
                         <div class="info-box bg-light">
@@ -55,7 +55,7 @@
                         <div class="col-12 col-sm-3">
                             <div class="info-box bg-light">
                                 <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Estimated project duration</span>
+                                <span class="info-box-text text-center text-muted">Total Time Spent</span>
                                 <span class="info-box-number text-center text-muted mb-0">20</span>
                                 </div>
                             </div>
@@ -124,31 +124,35 @@
                         <!-- ./col -->
                     </div>
                   </div>
-                  <div class="tab-pane fade clearfix" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                  <div class="tab-pane fade clearfix" id="vert-tabs-surveys" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                     <!-- ./card-Survey -->
-                    <div class="card-body ">
-                        <a href="{% url 'manage_surveys' project.id %}" class="btn btn-primary float-right">
-                            Manage Surveys
-                        </a>
+                    <div class="card-body ">                        
                         <table id="survey_table" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Survey Type</th>
+                                    <th>Survey</th>
                                     <th>Scope</th>                                    
                                     <th>UOM</th>
                                     <th>Surveyor</th>
                                     <th>Status</th>
+                                    <th>#</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for survey in surveys%}
                                 <tr>
-                                    <tr>
-                                    <td>{{survey.survey_type}}</td>
-                                    <td>{{survey.scope}}</td>
-                                    <td>{{survey.unit_of_measure}}</td>
-                                    <td>{{survey.surveyor}}</td>
-                                    <td>{{survey.status}}                                    
+                                  <td>{{survey}}</td>
+                                  <td>{{survey.scope}}</td>
+                                  <td>{{survey.unit_of_measure}}</td>
+                                  <td>{{survey.surveyor}}</td>
+                                  <td>{{survey.status}}</td>
+                                  <td>
+                                    <a href="" style="color:inherit">
+                                      <button class="btn btn-outline-info btn-rounded waves-effect">
+                                          View Details
+                                      </button>                                        
+                                    </a>
+                                  </td>                                    
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -156,12 +160,211 @@
                     </div>
                     <!-- /.card-Survey -->
                   </div>
-                  <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab">
-                     Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+
+                  <!-- ./card-BOQ -->
+                  <div class="tab-pane fade" id="vert-tabs-boq" role="tabpanel" aria-labelledby="vert-tabs-messages-tab">                    
+                    <div class="card-body ">                        
+                        {% if material_boqs %}
+                          <h3>Materials</h3>
+                          <table id="survey_table" class="table table-striped">
+                              <thead>
+                                  <tr>
+                                      <th>Material</th>
+                                      <th>Quantity</th>                                    
+                                      <th>Unit Cost</th>
+                                      <th>Total Cost</th>
+                                      <th>#</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  {% for boq in material_boqs%}
+                                  <tr>
+                                    <td>{{boq.material}}</td>
+                                    <td>{{boq.material_total}}</td>
+                                    <td>{{boq.material.unist_cost}}</td>
+                                    <td>{{survey.status}}</td>
+                                    <td>
+                                      <a href="" style="color:inherit">
+                                        <button class="btn btn-outline-info btn-rounded waves-effect">
+                                            View Details
+                                        </button>                                        
+                                      </a>
+                                    </td>                                    
+                                  </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table> 
+                        {% else %}
+                          <h4> No Material BOQ Items</h4>
+                        {% endif %}
+                        {% if service_boqs %}
+                          <h4> Services</h4>
+                          <table id="services_table" class="table table-striped">
+                              <thead>
+                                  <tr>
+                                      <th>Activity</th>
+                                      <th>Scope</th>                                    
+                                      <th>Unit Cost</th>
+                                      <th>Total Cost</th>
+                                      <th>#</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  {% for boq in service_boqs%}
+                                  <tr>
+                                    <td>{{boq.activity}}</td>
+                                    <td>{{boq.activity_total}}</td>
+                                    <td>{{boq.activity.unist_cost}}</td>
+                                    <td>{{survey.status}}</td>
+                                    <td>
+                                      <a href="" style="color:inherit">
+                                        <button class="btn btn-outline-info btn-rounded waves-effect">
+                                            View Details
+                                        </button>                                        
+                                      </a>
+                                    </td>                                    
+                                  </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                        {% else %}
+                          <h4>No Service BOQ Items</h4>
+                        {% endif %}
+                    </div>   
                   </div>
-                  <div class="tab-pane fade" id="vert-tabs-settings" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
-                     Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                  <!-- /.card-BOQ -->
+                  <div class="tab-pane fade" id="vert-tabs-scope" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+                    <h3>Scopes</h3>
+                    <table id="services_table" class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Type</th>
+                              <th>Scope</th> 
+                              <th>#</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for scope in project_scopes%}
+                          <tr>
+                            <td>{{scope.survey}}</td>
+                            <td>{{scope.scope_total}}</td>
+                            <td>
+                              <a href="" style="color:inherit">
+                                <button class="btn btn-outline-info btn-rounded waves-effect">
+                                    View Details
+                                </button>                                        
+                              </a>
+                            </td>                                    
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>   
                   </div>
+
+                  <!--Pip tab-->
+                  <div class="tab-pane fade" id="vert-tabs-pip" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+                    <h3>PIP</h3>
+                    <table id="services_table" class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Activity</th>
+                              <th>Duration</th>
+                              <th>Start</th> 
+                              <th>End</th> 
+                              <th>Dependency</th>
+                              <th>#</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for scope in project_scopes%}
+                          <tr>
+                            <td>{{scope.survey}}</td>
+                            <td>{{scope.scope_total}}</td>
+                            <td>{{scope.survey}}</td>
+                            <td>{{scope.scope_total}}</td>
+                            <td>{{scope.survey}}</td>
+                            <td>
+                              <a href="" style="color:inherit">
+                                <button class="btn btn-outline-info btn-rounded waves-effect">
+                                    View Details
+                                </button>                                        
+                              </a>
+                            </td>                                    
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>   
+                  </div>
+
+                  <!--Budget tab-->
+                  <div class="tab-pane fade" id="vert-tabs-budget" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+                    <h3>Material Budget</h3>
+                    <table id="services_table" class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Material</th>
+                              <th>Quantity</th>
+                              <th>Unit Cost</th> 
+                              <th>Total Cost</th> 
+                              <th>#</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for scope in project_scopes%}
+                          <tr>
+                            <td>{{scope.survey}}</td>
+                            <td>{{scope.scope_total}}</td>
+                            <td>{{scope.survey}}</td>
+                            <td>{{scope.scope_total}}</td>
+                            <td>{{scope.survey}}</td>
+                            <td>
+                              <a href="" style="color:inherit">
+                                <button class="btn btn-outline-info btn-rounded waves-effect">
+                                    View Details
+                                </button>                                        
+                              </a>
+                            </td>                                    
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>   
+                  </div>
+
+                  <!--Sites tab-->
+                  <div class="tab-pane fade" id="vert-tabs-sites" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+                    <h3>Sites </h3>
+                    <table id="services_table" class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Activity</th>
+                              <th>Duration</th>
+                              <th>Start</th> 
+                              <th>End</th> 
+                              <th>Dependency</th>
+                              <th>#</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for scope in project_scopes%}
+                          <tr>
+                            <td>{{scope.survey}}</td>
+                            <td>{{scope.scope_total}}</td>
+                            <td>{{scope.survey}}</td>
+                            <td>{{scope.scope_total}}</td>
+                            <td>{{scope.survey}}</td>
+                            <td>
+                              <a href="" style="color:inherit">
+                                <button class="btn btn-outline-info btn-rounded waves-effect">
+                                    View Details
+                                </button>                                        
+                              </a>
+                            </td>                                    
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>   
+                  </div>
+
                 </div>
               </div>
             </div>            

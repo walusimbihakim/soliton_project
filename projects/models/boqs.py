@@ -20,7 +20,7 @@ class MaterialBOQItem(models.Model):
         unique_together = ('boq', 'material',)
 
     def __str__(self):
-        return self.material
+        return f"{self.material}"
 
 
     @property

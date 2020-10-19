@@ -281,6 +281,18 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="{% url 'manage_uom' %}" class="nav-link {{manage_uom}}">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Units Of Measure</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'manage_expenses' %}" class="nav-link {{manage_expenses}}">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Expenses</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{% url 'project_settings' %}" class="nav-link {{project_settings}}">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>Projects Settings</p>
@@ -340,7 +352,7 @@
       {% if messages %}
       <ul class="messages">
         {% for message in messages %}
-        <li{% if message.tags %} class="alert alert-warning }}"{% endif %}>
+        <li{% if message.tags %} class="alert alert-{{message.tags }}"{% endif %}>
         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
         {{ message }}
         </li>
