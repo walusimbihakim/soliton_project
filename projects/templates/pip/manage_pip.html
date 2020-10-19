@@ -34,6 +34,7 @@
                                     <th>Finish</th>
                                     <th>Predecessor</th>
                                     <th>Status</th>
+                                    <th>Budget</th>
                                     <th>#</th>
                                 </tr>
                             </thead>
@@ -45,7 +46,22 @@
                                     <td>{{pip.start_date}}</td>
                                     <td>{{pip.end_date}}</td>
                                     <td>{{pip.predecessor}}</td>
-                                    <td>{{pip.status}}
+                                    <td>{{pip.status}}</td>
+                                    <td>
+                                    {% comment %} pip.budget.id {% endcomment %}
+                                      {% if not pip.budget %}
+                                        <a href="{% url 'create_budget' pip.id %}" style="color:inherit">
+                                          <button class="btn btn-outline-info btn-rounded waves-effect">
+                                              Create Budget
+                                          </button>
+                                        </a>
+                                      {% else %}                                        
+                                        <a href="{% url 'manage_budgets' pip.budget.id %}" style="color:inherit">
+                                          <button class="btn btn-outline-info btn-rounded waves-effect">
+                                              Manage Budget
+                                          </button>
+                                        </a>
+                                      {% endif %}
                                     </td>
                                     <td>
                                         <a href="{% url 'edit_pip' pip.scope.id pip.id %}" style="color:inherit">
