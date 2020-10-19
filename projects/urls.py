@@ -1,13 +1,15 @@
-from django.urls import path
+from django.urls import path, reverse
 
-from .views import scope_views
+from .views import scope_views, team_views, wage_sheet_views
 from .views.project_views import *
 from .views.sites_views import *
 from .views.activity_list_views import *
 import projects.views.worker_views  as worker_views
 from .views.survey_views import *
 import projects.views.boq_views as boq_views
-from .views import pip_views, project_settings_view
+from .views import pip_views, project_settings_view, budget_views
+from .views import pip_views
+import projects.views.field_manager_views as field_manage_views
 
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page, name='manage_workers_page'),
@@ -47,15 +49,61 @@ pip_urls = [
     path('scope/pip/<int:pip_id>', pip_views.delete_pip, name='delete_pip'),
 ]
 
-uom_urls = [
+settings_urls = [
     path('uom/', project_settings_view.unit_of_measure_view, name='manage_uom'),
-]
-
-budget_urls = [
+    path('edit_uom/<int:uom_id>/', project_settings_view.edit_uom_view, name='edit_uom'),
+    path('delete_uom/<int:uom_id>/', project_settings_view.delete_uom, name='delete_uom'),
+    
     path('expenses/', project_settings_view.manage_expense_view, name='manage_expenses'),
     path('edit_expense/<int:expense_id>/', project_settings_view.edit_expense_view, name='edit_expense'),
     path('delete_expense/<int:expense_id>/', project_settings_view.delete_expense, name='delete_expense'),
+]
 
+budget_urls = [
+    path('create_budget/<int:pip_id>/', budget_views.create_budget, name='create_budget'),
+    path('manage_budgets/<int:budget_id>/', budget_views.manage_budgets_view, name='manage_budgets'),
+
+    path('add_material_budget/<budget_id>/', budget_views.add_material_budget_view, name='add_material_budget'),
+    path('edit_material_budget/<budget_id>/', budget_views.edit_material_budget_view, name='edit_material_budget'),
+    path('delete_material_budget/<budget_id>/', budget_views.delete_material_budget_view, name='delete_material_budget'),
+
+    path('add_execution_budget/<budget_id>/', budget_views.add_execution_budget_view, name='add_execution_budget'),
+    path('edit_execution_budget/<budget_id>/', budget_views.edit_execution_budget_view, name='edit_execution_budget'),
+    path('delete_execution_budget/<budget_id>/', budget_views.delete_execution_budget_view, name='delete_execution_budget'),
+
+    path('add_expense_budget/<budget_id>/', budget_views.add_expense_budget_view, name='add_expense_budget'),
+    path('edit_expense_budget/<budget_id>/', budget_views.edit_expense_budget_view, name='edit_expense_budget'),
+    path('delete_expense_budget/<budget_id>/', budget_views.delete_expense_budget_view, name='delete_expense_budget'),
+
+    path('get_material_unitcost/', budget_views.get_material_unitcost_view, name='get_material_unitcost'),
+    path('get_expense_rate/', budget_views.get_expense_rate_view, name='get_expense_rate'),
+]
+
+field_managers_urls = [
+    path('manage_field_managers/', field_manage_views.manage_field_managers, name='manage_field_managers'),
+    path('delete_field_manager/<int:id>/', field_manage_views.delete_field_manager, name='delete_field_manager'),
+    path('edit_field_manager/<int:id>/', field_manage_views.edit_field_manager, name="edit_field_manager"),
+]
+
+teams_urls = [
+    path('manage_teams/', team_views.manage_teams_page, name='manage_teams'),
+    path('delete_team/<int:id>/', team_views.delete_team, name='delete_team'),
+    path('edit_team/<int:id>/', team_views.edit_team_page, name="edit_team"),
+]
+
+pip_team_urls = [
+    path('manage_pip_teams/', team_views.manage_pip_team_page, name='manage_pip_teams'),
+    path('delete_pip_team/<int:id>/', team_views.delete_pip_team, name='delete_pip_team'),
+    path('edit_pip_team/<int:id>/', team_views.edit_pip_team_page, name="edit_pip_team"),
+]
+
+wage_sheets_urls = [
+    path('manage_wage_sheets/', wage_sheet_views.manage_wage_sheets_page, name='manage_wage_sheets'),
+    path('delete_wage_sheet/<int:id>/', wage_sheet_views.delete_wage_sheet, name='delete_wage_sheet'),
+    path('edit_wage_sheet/<int:id>/', wage_sheet_views.edit_wage_sheet_page, name="edit_wage_sheet"),
+    path('manage_wages/<int:wage_sheet_id>', wage_sheet_views.manage_wages_page, name='manage_wages'),
+    path('delete_wage/<int:id>/', wage_sheet_views.delete_wage, name='delete_wage'),
+    path('edit_wage/<int:id>/', wage_sheet_views.edit_wage_page, name="edit_wage"),
 ]
 
 urlpatterns = [
@@ -68,5 +116,14 @@ urlpatterns = [
     path('activity_list/', activity_page_view, name='manage_activities'),
     path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
     path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
-] + worker_urls + survey_urls + boq_urls + scope_urls + pip_urls + uom_urls + budget_urls
+] + worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
+              pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls
 
+
+# JS routes
+def javascript_settings():
+    js_conf = {
+        'get_material_unitcost': reverse('get_material_unitcost'),
+        'get_expense_rate': reverse('get_expense_rate'),
+    }
+    return js_conf

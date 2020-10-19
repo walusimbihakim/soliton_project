@@ -7,7 +7,12 @@ from django.http import JsonResponse
 
 from projects.models import UnitOfMeasure
 from projects.forms.project_settings_forms import UnitOfMeasureForm, ExpenseForm
-from projects.selectors.project_settings_selectors import get_measures, get_expenses, get_expense
+from projects.selectors.project_settings_selectors import (
+    get_measures, 
+    get_measure,
+    get_expenses, 
+    get_expense,
+)
 
 def unit_of_measure_view(request):
     unit_form = UnitOfMeasureForm()
@@ -28,6 +33,42 @@ def unit_of_measure_view(request):
     }
 
     return render(request, "project_settings/uom.html", context)
+
+def edit_uom_view(request, uom_id):
+    uom = get_measure(uom_id)
+
+    unit_form = UnitOfMeasureForm(instance=uom)
+
+    if request.method == "POST":
+        unit_form = UnitOfMeasureForm(request.POST, instance=uom)
+
+        if unit_form.is_valid():
+            unit_form.save()
+
+            messages.success(request, 'Changes Saved Successfully')
+
+            return HttpResponseRedirect(reverse(unit_of_measure_view))
+
+        else:
+            messages.success(request, 'One or More input value(s) are not in correct format, Check your inputs and try again')
+
+            return HttpResponseRedirect(reverse(unit_of_measure_view))
+    
+    context = {
+        "unit_form": unit_form,
+        "unit": uom
+    }
+
+    return render(request, "project_settings/edit_uom.html", context)
+
+def delete_uom(request, uom_id):
+    uom = get_measure(uom_id)
+
+    uom.delete()
+
+    messages.success(request, 'Unit of Measure Record Deleted Successfully')
+
+    return HttpResponseRedirect(reverse(unit_of_measure_view))
 
 def manage_expense_view(request):
     expense_form = ExpenseForm()

@@ -26,7 +26,7 @@ def manage_workers_page(request):
         "workers": workers,
         'form': form,
     }
-    return render(request, "wagebill/manage_workers.html", context)
+    return render(request, "worker/manage_workers.html", context)
 
 
 def edit_worker_page(request, id):
@@ -45,7 +45,7 @@ def edit_worker_page(request, id):
         "manage_workers": "active",
         "form": form,
     }
-    return render(request, "wagebill/edit_worker.html", context)
+    return render(request, "worker/edit_worker.html", context)
 
 
 def delete_worker(request, id):

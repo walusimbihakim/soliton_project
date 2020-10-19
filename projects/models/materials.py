@@ -12,4 +12,4 @@ class Material(models.Model):
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"

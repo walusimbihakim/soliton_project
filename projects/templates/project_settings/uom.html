@@ -42,10 +42,10 @@ Units of Measure
                                     <td>{{unit.description}}</td>
                                     </td>
                                     <td>
-                                        <a href="" style="color:inherit">
+                                        <a href="{% url 'edit_uom' unit.id %}" style="color:inherit">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="" style="color: inherit" ...
+                                        <a href="{% url 'delete_uom' unit.id %}" style="color: inherit" ...
                                             onclick="">
                                             <i class="fa fa-trash"></i>
                                         </a>
