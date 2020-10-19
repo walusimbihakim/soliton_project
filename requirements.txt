@@ -58,3 +58,6 @@ wrapt==1.11.2
 xhtml2pdf==0.2.3
 django-javascript-settings
 django-model-utils
+gunicorn
+psycopg2-binary
+django-on-heroku
