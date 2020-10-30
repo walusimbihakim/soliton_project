@@ -9,7 +9,6 @@ def get_projects():
 def get_project(project_id):
     return Project.objects.get(pk=project_id)
 
-
 def get_project_types():
     return ProjectType.objects.all()
 
