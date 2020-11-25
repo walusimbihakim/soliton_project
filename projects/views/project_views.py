@@ -78,6 +78,6 @@ def project_details_view(request, project_id):
         "surveys": surveys,
         "material_boqs": material_boqs,
         "service_boqs": service_boqs,
-        "project_scopes": project_scopes
+        "project_scopes": project_scopes,
     }
     return render(request, "project/project_details.html", context)

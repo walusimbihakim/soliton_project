@@ -1,6 +1,7 @@
 {% extends '../base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load project_extras %}
 
 {%block page_title%}
 {{project}} - Details
@@ -179,10 +180,10 @@
                               <tbody>
                                   {% for boq in material_boqs%}
                                   <tr>
-                                    <td>{{boq.material}}</td>
+                                    <td>{{ boq.material|material_name_filter }}</td>
                                     <td>{{boq.material_total}}</td>
-                                    <td>{{boq.material.unist_cost}}</td>
-                                    <td>{{survey.status}}</td>
+                                    <td>{{boq.material|material_unitcost_filter}}/-</td>
+                                    <td>{{boq.material|material_totalcost_filter:boq.material_total}}/-</td>
                                     <td>
                                       <a href="" style="color:inherit">
                                         <button class="btn btn-outline-info btn-rounded waves-effect">
@@ -212,10 +213,12 @@
                               <tbody>
                                   {% for boq in service_boqs%}
                                   <tr>
-                                    <td>{{boq.activity}}</td>
+                                    <td>{{boq.activity|activity_name_filter}}</td>
                                     <td>{{boq.activity_total}}</td>
-                                    <td>{{boq.activity.unist_cost}}</td>
-                                    <td>{{survey.status}}</td>
+                                    {% with boq.activity|activity_unitcost_filter:project.client_id as rate %}
+                                    <td>{{rate}}/-</td>
+                                    <td>{{boq.activity_total|activity_totalcost_filter:rate}}/-</td>
+                                    {% endwith %}
                                     <td>
                                       <a href="" style="color:inherit">
                                         <button class="btn btn-outline-info btn-rounded waves-effect">
@@ -246,7 +249,7 @@
                       <tbody>
                           {% for scope in project_scopes%}
                           <tr>
-                            <td>{{scope.survey}}</td>
+                            <td>{{scope.survey|survey_filter}}</td>
                             <td>{{scope.scope_total}}</td>
                             <td>
                               <a href="" style="color:inherit">
@@ -276,9 +279,9 @@
                           </tr>
                       </thead>
                       <tbody>
-                          {% for scope in project_scopes%}
+                          {% for pip in project_pips%}
                           <tr>
-                            <td>{{scope.survey}}</td>
+                            <td>{{pip.activity|activity_name_filter}}</td>
                             <td>{{scope.scope_total}}</td>
                             <td>{{scope.survey}}</td>
                             <td>{{scope.scope_total}}</td>
