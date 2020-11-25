@@ -221,7 +221,7 @@
                   <p>Manage BOQs</p>
                 </a>
               </li>
-               <li class="nav-item">
+              <li class="nav-item">
                 <a href="{% url 'manage_scopes_page' %}" class="nav-link {{projects_item}}">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>Manage Scopes</p>
@@ -252,9 +252,21 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index2.html" class="nav-link">
+                <a href="{% url 'manage_field_managers' %}" class="nav-link {{manage_field_managers}}">
                   <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Clients Settings</p>
+                  <p>Manage Field Managers</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{%url 'manage_teams'%}" class="nav-link">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Manage Teams</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{%url 'manage_wage_sheets'%}" class="nav-link {{manage_wage_sheets}}">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Manage Wage sheets</p>
                 </a>
               </li>
             </ul>
@@ -340,7 +352,7 @@
       {% if messages %}
       <ul class="messages">
         {% for message in messages %}
-        <li{% if message.tags %} class="alert alert-warning }}"{% endif %}>
+        <li{% if message.tags %} class="alert alert-{{message.tags }}"{% endif %}>
         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
         {{ message }}
         </li>

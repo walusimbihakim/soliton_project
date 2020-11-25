@@ -17,5 +17,5 @@ class ExpenseForm(ModelForm):
     
     class Meta:
         model = Expense
-        fields = ('expense', "description")
+        fields = ('expense', "rate", "description")
 
