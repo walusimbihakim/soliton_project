@@ -1,11 +1,11 @@
-from django import forms
+from django.forms import ModelForm, DateInput
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
 from crispy_forms.bootstrap import TabHolder, Tab, Field
 from projects.models.projects import Project, ProjectWorks, DuctSystem, ProjectType
 
 
-class ProjectForm(forms.ModelForm):
+class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = (
@@ -16,6 +16,10 @@ class ProjectForm(forms.ModelForm):
             "start_date",
             "expected_end_date"
         )
+        widgets = {
+            'start_date': DateInput(format=('%m/%d%/Y'), attrs={'type': 'date'}),
+            'expected_end_date': DateInput(format=('%m/%d/%Y'), attrs={'type': 'date'})
+        }
 
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
@@ -40,7 +44,7 @@ class ProjectForm(forms.ModelForm):
         self.helper.form_show_errors = False
 
 
-class ProjectTypeForm(forms.ModelForm):
+class ProjectTypeForm(ModelForm):
     class Meta:
         model = ProjectType
         fields = ("code", "project_type", "description")
@@ -51,7 +55,7 @@ class ProjectTypeForm(forms.ModelForm):
         self.Helper = FormHelper()
 
 
-class DuctForm(forms.ModelForm):
+class DuctForm(ModelForm):
     class Meta:
         model = DuctSystem
         fields = ("duct_code", "duct_type", "description")
