@@ -1,16 +1,16 @@
 from django.db import models
 
-from projects.models import Team, Project, Worker, PIP
+from projects.models import Worker, PIP, FieldManager
 
 
 class WageSheet(models.Model):
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    field_manager = models.ForeignKey(FieldManager, on_delete=models.CASCADE)
+    supervisor = models.ForeignKey(Worker, on_delete=models.CASCADE)
     date = models.DateField()
-    segment = models.CharField(max_length=40)
     description = models.TextField()
 
     class Meta:
-        unique_together = ('team', 'date')
+        unique_together = ('supervisor', 'field_manager', 'date')
 
     def __str__(self):
         return f"{self.team} Wage Sheet {self.id}"

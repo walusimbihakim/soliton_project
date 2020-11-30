@@ -32,7 +32,6 @@ Manage Wage Sheets
                             <th>Date</th>
                             <th>Field Manager</th>
                             <th>Supervisor</th>
-                            <th>Segment</th>
                             <th>Description</th>
                             <th>Action</th>
                             <th>#</th>
@@ -44,12 +43,11 @@ Manage Wage Sheets
                             <td>{{wage_sheet.id}}</td>
                             <td>{{wage_sheet.date}}</td>
                             <td>
-                                {{wage_sheet.team.field_manager}}
+                                {{wage_sheet.field_manager}}
                             </td>
                             <td>
-                                {{wage_sheet.team.supervisor}}
+                                {{wage_sheet.supervisor}}
                             </td>
-                            <td>{{wage_sheet.segment}}</td>
                             <td>{{wage_sheet.description}}</td>
                             <td>
                                 <a href="{%url 'manage_wages' wage_sheet.id%}">
