@@ -13,5 +13,4 @@ class PIP(TimeStampedModel):
     status = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.activity} Activity - {self.scope} Scope - {self.scope.survey} Survey -" \
-               f"{self.scope.survey.project} Project"
+        return f"{self.activity} Activity - {self.scope} Scope - " 
