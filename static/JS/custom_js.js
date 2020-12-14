@@ -125,7 +125,8 @@ $(document).ready(() => {
     // Delete Client 
     $("#delete_client_btn").click(() => {
         var client_id = $('input[type=hidden]').val();
-
+        alert("Hi: ", client_id);
+        document.querySelector("#table").children[0].children[r].children[c].innerText
         $.ajax({
             type: 'get',
             url: configuration['clients']['delete_client'],
@@ -167,7 +168,6 @@ $(document).ready(() => {
     // Get expense rate
     $("#id_expense").change(() => {
         expense = document.querySelector('#id_expense').value;
-        alert('hi ');
         $.ajax({
             type: 'get',
             url: configuration['projects']['get_expense_rate'],

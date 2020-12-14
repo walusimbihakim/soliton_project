@@ -39,7 +39,7 @@ Manage Wage Sheets
                         </thead>
                         <tbody>
                         {% for wage_sheet in wage_sheets%}
-                        <tr>
+                        <tr data-id={{wage_sheet.id}}>
                             <td>{{wage_sheet.id}}</td>
                             <td>{{wage_sheet.date}}</td>
                             <td>
@@ -54,6 +54,11 @@ Manage Wage Sheets
                                     <button class="btn-sm btn-outline-info btn-rounded waves-effect">
                                         Manage Wages
                                     </button>
+                                </a>|
+                                <a href="{%url 'submit_wage_sheet' wage_sheet.id%}" 
+                                class="btn btn-outline-info btn-rounded waves-effect"
+                                    onclick="return 'Are you sure you want to submit this Wagesheet?'">
+                                        Submit Sheet
                                 </a>
                             </td>
                             <td>
@@ -102,6 +107,30 @@ Manage Wage Sheets
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save changes</button>
                 </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Confirm Submit -->
+<div class="modal fade" id="modal-confirm-submit">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Submit</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to submit this Wagesheet?
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                <button type="submit" class="btn btn-success">Confirm</button>
             </div>
         </div>
         <!-- /.modal-content -->

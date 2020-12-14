@@ -107,3 +107,12 @@ def delete_wage(request, id):
     wage.delete()
     messages.success(request, "Successfully deleted a wage")
     return HttpResponseRedirect(reverse(manage_wages_page, args=[wage.wage_sheet.id]))
+
+def submit_wage_sheet(request, wage_sheet_id):
+    wage_sheet = get_wage_sheet(wage_sheet_id)
+
+    wage_sheet.is_submitted = True
+    wage_sheet.save()
+
+    messages.success(request, "Wage Sheet Submitted Successfully")
+    return HttpResponseRedirect(reverse(manage_wages_page, args=[wage_sheet.id]))
