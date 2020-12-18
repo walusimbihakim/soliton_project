@@ -49,17 +49,23 @@ Manage Wage Sheets
                                 {{wage_sheet.supervisor}}
                             </td>
                             <td>{{wage_sheet.description}}</td>
-                            <td>
-                                <a href="{%url 'manage_wages' wage_sheet.id%}">
-                                    <button class="btn-sm btn-outline-info btn-rounded waves-effect">
-                                        Manage Wages
-                                    </button>
-                                </a>|
-                                <a href="{%url 'submit_wage_sheet' wage_sheet.id%}" 
-                                class="btn btn-outline-info btn-rounded waves-effect"
-                                    onclick="return 'Are you sure you want to submit this Wagesheet?'">
+                            <td>                                
+                                {% if wage_sheet.is_submitted %}
+                                    <a href="{%url 'manage_submitted_sheet' wage_sheet.id%}"
+                                     class="btn btn-outline-info btn-rounded waves-effect">
+                                        Submitted|View Wages
+                                    </a>
+                                {% else %}                                    
+                                    <a href="{%url 'manage_wages' wage_sheet.id%}">
+                                        <button class="btn btn-outline-info btn-rounded waves-effect">
+                                            Manage Wages
+                                        </button>
+                                    </a>|
+                                    <a href="{%url 'submit_wage_sheet' wage_sheet.id%}" class="btn btn-outline-info btn-rounded waves-effect"
+                                    onclick="return confirm('Are you sure you want to submit this Wagesheet?')">
                                         Submit Sheet
-                                </a>
+                                    </a>
+                                {% endif %}
                             </td>
                             <td>
                                 <a href="{%url 'edit_wage_sheet' wage_sheet.id%}" style="color:inherit">

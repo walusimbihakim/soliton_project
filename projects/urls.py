@@ -105,6 +105,9 @@ wage_sheets_urls = [
     path('delete_wage/<int:id>/', wage_sheet_views.delete_wage, name='delete_wage'),
     path('edit_wage/<int:id>/', wage_sheet_views.edit_wage_page, name="edit_wage"),
     path('submit_wage_sheet/<int:wage_sheet_id>/', wage_sheet_views.submit_wage_sheet, name="submit_wage_sheet"),
+    path('submitted_wage_sheets/', wage_sheet_views.view_submitted_wagesheets, name="submitted_wage_sheets"),
+    path('manage_submitted_sheet/<int:wage_sheet_id>/<int:role>/', wage_sheet_views.manage_submitted_sheet, name="manage_submitted_sheet"),
+    path('approve_reject_wagesheet/<int:wagesheet_id>/', wage_sheet_views.approve_reject_wagesheet, name="approve_reject_wagesheet"),
 ]
 
 urlpatterns = [

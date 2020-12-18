@@ -8,9 +8,13 @@ class WageSheet(models.Model):
     supervisor = models.ForeignKey(Worker, on_delete=models.CASCADE)
     date = models.DateField()
     description = models.TextField()
-    is_submitted = models.BooleanField(default=False)
-    is_manager_approved = models.BooleanField(default=False)
-    is_project_manager_approved = models.BooleanField(default=False)
+    is_submitted = models.BooleanField()
+    manager_status = models.BooleanField()
+    manager_comment = models.TextField(default="-")
+    project_manager_status = models.BooleanField()
+    project_manager_comment = models.TextField(default="-")
+    gm_status = models.BooleanField()
+    gm_comment = models.TextField(default="-")
 
     class Meta:
         unique_together = ('supervisor', 'field_manager', 'date')
