@@ -17,3 +17,5 @@ from projects.models.field_managers import FieldManager
 from projects.models.teams import Team, PIPTeam
 from projects.models.wage_sheets import WageSheet, Wage
 from projects.models.segments import Segment
+from projects.models.complaints import Complaint
+from projects.models.deductions import Deduction

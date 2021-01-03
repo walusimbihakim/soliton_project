@@ -1,13 +1,14 @@
 {% extends '../base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 
 {%block page_title%}
-Manage Wage Sheets
+Manage Complaints for sheet {{wage_sheet.id}}
 {% endblock%}
 {% block right_button%}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-team">
-    New Wage Sheet
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-complaint">
+    New Complaint
 </button>
 {% endblock %}
 {% block content %}
@@ -17,61 +18,57 @@ Manage Wage Sheets
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if wage_sheets%}
+                {%if complaints%}
                 <!-- ./ card-header -->
                 <div class="card-header">
-                    <h3 class="card-title">Wage Sheets</h3>
+                    <h3 class="card-title">Complaints</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
+                    Wage Sheet Info
+                    <table border="1" cellpadding="5">
+                        <tr>
+                             <th>Date</th>
+                            <td>{{wage_sheet.date}}</td>
+                            <th>Field Manager</th>
+                            <td>{{wage_sheet.field_manager}}</td>
+                            <th>Supervisor</th>
+                            <td>{{wage_sheet.supervisor}}</td>
+                            <th>Segment</th>
+                            <td>{{wage_sheet.segment}}</td>
+                        </tr>
+                    </table>
                     <table id="example1" class="table table-striped">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Date</th>
-                            <th>Field Manager</th>
-                            <th>Supervisor</th>
+                            <th>Complaint ID</th>
+                            <th>Worker</th>
+                            <th>Activity</th>
+                            <th>Quantity</th>
                             <th>Description</th>
-                            <th>Action</th>
+                            <th>Payment</th>
                             <th>#</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for wage_sheet in wage_sheets%}
+                        {% for complaint in complaints%}
                         <tr>
-                            <td>{{wage_sheet.id}}</td>
-                            <td>{{wage_sheet.date}}</td>
+                            <td>{{complaint.id}}</td>
+                            <td>{{complaint.worker}}</td>
                             <td>
-                                {{wage_sheet.field_manager}}
+                                {{complaint.activity}}
                             </td>
+                            <td>{{complaint.quantity}} {{complaint.activity.unit_measure}}</td>
+                            <td>{{complaint.description}}</td>
+                            <td>UGX {{complaint.payment | intcomma}}</td>
                             <td>
-                                {{wage_sheet.supervisor}}
-                            </td>
-                            <td>{{wage_sheet.description}}</td>
-                            <td>
-                                <a href="{%url 'manage_wages' wage_sheet.id%}">
-                                    <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
-                                        Manage Wages
-                                    </button>
-                                </a>
-                                <a href="{%url 'manage_complaints' wage_sheet.id%}">
-                                    <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
-                                        Manage Complaints
-                                    </button>
-                                </a>
-                                <a href="{%url 'manage_deductions' wage_sheet.id%}">
-                                    <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
-                                        Manage Deductions
-                                    </button>
-                                </a>
-                            </td>
-                            <td>
-                                <a href="{%url 'edit_wage_sheet' wage_sheet.id%}" style="color:inherit">
+                                <a href="{%url 'edit_complaint' complaint.id%}" style="color:inherit">
                                     <i class="fa fa-edit"></i>
                                 </a> |
-                                <a href="{%url 'delete_wage_sheet' wage_sheet.id%}" style="color: inherit">
-                                    <i class="fa fa-trash" onclick="return 'Do you want to delete {{team.name}} team?'"></i>
+                                <a href="{%url 'delete_complaint' complaint.id%}" style="color: inherit">
+                                    <i class="fa fa-trash" onclick="return 'Do you want to delete
+                                    {{complaint.worker}} complaint?'"></i>
                                 </a>
                             <td>
                         </tr>
@@ -82,7 +79,7 @@ Manage Wage Sheets
                 <!-- /.card-body -->
                 {%else%}
                 <div class="card-body">
-                    <h4>No wage sheets available</h4>
+                    <h4>No complaints available</h4>
                 </div>
                 {%endif%}
             </div>
@@ -94,11 +91,11 @@ Manage Wage Sheets
 </div>
 <!-- /.container-fluid -->
 
-<div class="modal fade" id="modal-add-team">
+<div class="modal fade" id="modal-add-complaint">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add New Wage Sheet</h4>
+                <h4 class="modal-title">Add New Complaint</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

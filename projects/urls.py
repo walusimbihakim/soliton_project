@@ -11,6 +11,8 @@ from .views import pip_views, project_settings_view, budget_views
 from .views import pip_views
 import projects.views.field_manager_views as field_manage_views
 import projects.views.segment_views as segment_views
+import projects.views.complaint_views as complaint_views
+import projects.views.deduction_views as deduction_views
 
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page, name='manage_workers_page'),
@@ -113,6 +115,18 @@ segments_urls = [
     path('edit_segment/<int:id>/', segment_views.edit_segment_page, name="edit_segment"),
 ]
 
+complaint_urls = [
+    path('manage_complaints/<int:wage_sheet_id>', complaint_views.manage_complaints_page, name='manage_complaints'),
+    path('delete_complaint/<int:id>/', complaint_views.delete_complaint, name='delete_complaint'),
+    path('edit_complaint/<int:id>/', complaint_views.edit_complaint_page, name="edit_complaint"),
+]
+
+deduction_urls = [
+    path('manage_deductions/<int:wage_sheet_id>', deduction_views.manage_deductions_page, name='manage_deductions'),
+    path('delete_deduction/<int:id>/', deduction_views.delete_deduction, name='delete_deduction'),
+    path('edit_deduction/<int:id>/', deduction_views.edit_deduction_page, name="edit_deduction"),
+]
+
 urlpatterns = [
     path('', index_page, name='index_page'),
     path('projects/', projects_page_view, name='manage_projects'),
@@ -124,7 +138,8 @@ urlpatterns = [
     path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
     path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
 ] + worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
-              pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls + segments_urls
+              pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls \
+              + segments_urls + complaint_urls + deduction_urls
 
 
 # JS routes
