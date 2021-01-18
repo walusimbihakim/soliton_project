@@ -66,6 +66,22 @@ Manage Wage Sheets
                                         Submit Sheet
                                     </a>
                                 {% endif %}
+                            <td>
+                                <a href="{%url 'manage_wages' wage_sheet.id%}">
+                                    <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
+                                        Manage Wages
+                                    </button>
+                                </a>
+                                <a href="{%url 'manage_complaints' wage_sheet.id%}">
+                                    <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
+                                        Manage Complaints
+                                    </button>
+                                </a>
+                                <a href="{%url 'manage_deductions' wage_sheet.id%}">
+                                    <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
+                                        Manage Deductions
+                                    </button>
+                                </a>
                             </td>
                             <td>
                                 <a href="{%url 'edit_wage_sheet' wage_sheet.id%}" style="color:inherit">

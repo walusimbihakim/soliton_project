@@ -1,11 +1,12 @@
 from django.db import models
 
 from projects.models import Worker, PIP, FieldManager
-
+from projects.models.segments import Segment
 
 class WageSheet(models.Model):
     field_manager = models.ForeignKey(FieldManager, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(Worker, on_delete=models.CASCADE)
+    segment = models.ForeignKey(Segment, on_delete=models.CASCADE, default=1)
     date = models.DateField()
     description = models.TextField()
     is_submitted = models.BooleanField()

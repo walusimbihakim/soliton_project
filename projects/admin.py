@@ -5,6 +5,7 @@ from projects.models import Worker, Survey, ExecutionScope, Team, FieldManager, 
 from projects.models.boqs import BOQ, MaterialBOQItem, ServiceBOQItem
 from projects.models.client_activity_rates import ClientActivityRate
 from projects.models.materials import Material
+from projects.models.segments import Segment
 
 admin.site.register(Worker)
 admin.site.register(Survey)
@@ -19,4 +20,5 @@ admin.site.register(FieldManager)
 admin.site.register(PIPTeam)
 admin.site.register(WageSheet)
 admin.site.register(Wage)
+admin.site.register(Segment)
 
