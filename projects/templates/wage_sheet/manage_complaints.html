@@ -4,11 +4,11 @@
 {% load humanize %}
 
 {%block page_title%}
-Manage Wages for sheet {{wage_sheet.id}}
+Manage Complaints for sheet {{wage_sheet.id}}
 {% endblock%}
 {% block right_button%}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-team">
-    New Wage
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-complaint">
+    New Complaint
 </button>
 {% endblock %}
 {% block content %}
@@ -18,10 +18,10 @@ Manage Wages for sheet {{wage_sheet.id}}
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if wages%}
+                {%if complaints%}
                 <!-- ./ card-header -->
                 <div class="card-header">
-                    <h3 class="card-title">Wages</h3>
+                    <h3 class="card-title">Complaints</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- ./card-body -->
@@ -42,34 +42,33 @@ Manage Wages for sheet {{wage_sheet.id}}
                     <table id="example1" class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Wage ID</th>
+                            <th>Complaint ID</th>
                             <th>Worker</th>
-                            <th>Project</th>
                             <th>Activity</th>
                             <th>Quantity</th>
+                            <th>Description</th>
                             <th>Payment</th>
                             <th>#</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for wage in wages%}
+                        {% for complaint in complaints%}
                         <tr>
-                            <td>{{wage.id}}</td>
-                            <td>{{wage.worker}}</td>
+                            <td>{{complaint.id}}</td>
+                            <td>{{complaint.worker}}</td>
                             <td>
-                                {{wage.pip_activity.scope.survey.project}}
+                                {{complaint.activity}}
                             </td>
+                            <td>{{complaint.quantity}} {{complaint.activity.unit_measure}}</td>
+                            <td>{{complaint.description}}</td>
+                            <td>UGX {{complaint.payment | intcomma}}</td>
                             <td>
-                                {{wage.pip_activity.activity}}
-                            </td>
-                            <td>{{wage.quantity}}</td>
-                            <td>UGX {{wage.payment | intcomma}}</td>
-                            <td>
-                                <a href="{%url 'edit_wage' wage.id%}" style="color:inherit">
+                                <a href="{%url 'edit_complaint' complaint.id%}" style="color:inherit">
                                     <i class="fa fa-edit"></i>
                                 </a> |
-                                <a href="{%url 'delete_wage' wage.id%}" style="color: inherit">
-                                    <i class="fa fa-trash" onclick="return 'Do you want to delete {{team.name}} team?'"></i>
+                                <a href="{%url 'delete_complaint' complaint.id%}" style="color: inherit">
+                                    <i class="fa fa-trash" onclick="return 'Do you want to delete
+                                    {{complaint.worker}} complaint?'"></i>
                                 </a>
                             <td>
                         </tr>
@@ -80,7 +79,7 @@ Manage Wages for sheet {{wage_sheet.id}}
                 <!-- /.card-body -->
                 {%else%}
                 <div class="card-body">
-                    <h4>No wages available</h4>
+                    <h4>No complaints available</h4>
                 </div>
                 {%endif%}
             </div>
@@ -92,11 +91,11 @@ Manage Wages for sheet {{wage_sheet.id}}
 </div>
 <!-- /.container-fluid -->
 
-<div class="modal fade" id="modal-add-team">
+<div class="modal fade" id="modal-add-complaint">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add New Wage</h4>
+                <h4 class="modal-title">Add New Complaint</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -39,7 +39,7 @@ Manage Wage Sheets
                         </thead>
                         <tbody>
                         {% for wage_sheet in wage_sheets%}
-                        <tr>
+                        <tr data-id={{wage_sheet.id}}>
                             <td>{{wage_sheet.id}}</td>
                             <td>{{wage_sheet.date}}</td>
                             <td>
@@ -49,10 +49,37 @@ Manage Wage Sheets
                                 {{wage_sheet.supervisor}}
                             </td>
                             <td>{{wage_sheet.description}}</td>
+                            <td>                                
+                                {% if wage_sheet.is_submitted %}
+                                    <a href="{%url 'manage_submitted_sheet' wage_sheet.id 1 %}"
+                                     class="btn btn-outline-info btn-rounded waves-effect">
+                                        Submitted|View Wages
+                                    </a>
+                                {% else %}                                    
+                                    <a href="{%url 'manage_wages' wage_sheet.id%}">
+                                        <button class="btn btn-outline-info btn-rounded waves-effect">
+                                            Manage Wages
+                                        </button>
+                                    </a>|
+                                    <a href="{%url 'submit_wage_sheet' wage_sheet.id%}" class="btn btn-outline-info btn-rounded waves-effect"
+                                    onclick="return confirm('Are you sure you want to submit this Wagesheet?')">
+                                        Submit Sheet
+                                    </a>
+                                {% endif %}
                             <td>
                                 <a href="{%url 'manage_wages' wage_sheet.id%}">
-                                    <button class="btn-sm btn-outline-info btn-rounded waves-effect">
+                                    <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
                                         Manage Wages
+                                    </button>
+                                </a>
+                                <a href="{%url 'manage_complaints' wage_sheet.id%}">
+                                    <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
+                                        Manage Complaints
+                                    </button>
+                                </a>
+                                <a href="{%url 'manage_deductions' wage_sheet.id%}">
+                                    <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
+                                        Manage Deductions
                                     </button>
                                 </a>
                             </td>
@@ -102,6 +129,30 @@ Manage Wage Sheets
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save changes</button>
                 </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Confirm Submit -->
+<div class="modal fade" id="modal-confirm-submit">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Submit</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to submit this Wagesheet?
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                <button type="submit" class="btn btn-success">Confirm</button>
             </div>
         </div>
         <!-- /.modal-content -->
