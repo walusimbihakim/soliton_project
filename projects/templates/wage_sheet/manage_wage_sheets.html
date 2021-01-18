@@ -51,7 +51,7 @@ Manage Wage Sheets
                             <td>{{wage_sheet.description}}</td>
                             <td>                                
                                 {% if wage_sheet.is_submitted %}
-                                    <a href="{%url 'manage_submitted_sheet' wage_sheet.id%}"
+                                    <a href="{%url 'manage_submitted_sheet' wage_sheet.id 1 %}"
                                      class="btn btn-outline-info btn-rounded waves-effect">
                                         Submitted|View Wages
                                     </a>
