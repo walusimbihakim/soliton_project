@@ -9,11 +9,11 @@ class PIPForm(ModelForm):
     
     class Meta:
         model = PIP
-        fields = ('scope', 'activity', 'start_date', 'end_date')
+        fields = ('scope', 'activity', 'start_date', 'end_date', 'dependencies')
 
         widgets = {
             'start_date': DateInput(format=('%m/%d/%Y'), attrs={'type':'date'}),
-            'end_date': DateInput(format=('%m/%d/%Y'), attrs={'type':'date'})
+            'end_date': DateInput(format=('%m/%d/%Y'), attrs={'type':'date'}),
         }
 
     def __init__(self, *args, **kwargs):
