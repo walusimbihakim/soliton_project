@@ -1,3 +1,4 @@
+from projects.selectors.complaints import get_complaints
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -8,6 +9,7 @@ from projects.forms.team_forms import TeamForm
 from projects.forms.wage_sheet_forms import WageSheetForm, WageForm
 from projects.selectors.teams import get_all_teams, get_team, get_all_pip_teams, get_pip_team
 from projects.selectors.wage_sheets import get_all_wage_sheets, get_wage_sheet, get_wages, get_wage, get_submitted_wage_sheets
+from projects.selectors.deductions import get_deductions
 
 
 def manage_wage_sheets_page(request):
@@ -129,10 +131,14 @@ def manage_submitted_sheet(request, wage_sheet_id, role):
 
     wage_sheet = get_wage_sheet(wage_sheet_id)
     wages = get_wages(wage_sheet_id)
+    complaints = get_complaints(wage_sheet_id)
+    deductions = get_deductions(wage_sheet_id)
 
     context = {
         "wages": wages,
         "wage_sheet": wage_sheet,
+        "complaints": complaints,
+        "deductions": deductions,
         "role": role,
     }
 
