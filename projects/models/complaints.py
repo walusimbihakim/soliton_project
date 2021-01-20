@@ -11,7 +11,7 @@ class Complaint(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     payment = models.IntegerField()
-    description = models.TextField()
+    description = models.TextField(default="")
 
     class Meta:
         unique_together = ('worker', 'wage_sheet','activity')

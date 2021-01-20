@@ -16,7 +16,7 @@ class Deduction(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE)
     cause = models.CharField(max_length=12, choices=CAUSE_CHOICES)
     amount = models.IntegerField()
-    description = models.TextField()
+    description = models.TextField(default="")
 
     class Meta:
         unique_together = ('worker', 'wage_sheet')
