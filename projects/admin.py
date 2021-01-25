@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from projects.models import Worker, Survey, ExecutionScope, Team, FieldManager, PIPTeam, WageSheet, Wage
+from projects.models import Worker, Survey, ExecutionScope, Team, FieldManager, \
+    PIPTeam, WageSheet, Wage, Activity
 from projects.models.boqs import BOQ, MaterialBOQItem, ServiceBOQItem
 from projects.models.client_activity_rates import ClientActivityRate
 from projects.models.materials import Material
@@ -21,4 +22,5 @@ admin.site.register(PIPTeam)
 admin.site.register(WageSheet)
 admin.site.register(Wage)
 admin.site.register(Segment)
+admin.site.register(Activity)
 

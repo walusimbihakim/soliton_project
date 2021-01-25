@@ -7,7 +7,8 @@ from django.contrib import messages
 from projects.forms.team_forms import TeamForm
 from projects.forms.wage_sheet_forms import WageSheetForm, WageForm
 from projects.selectors.teams import get_all_teams, get_team, get_all_pip_teams, get_pip_team
-from projects.selectors.wage_sheets import get_all_wage_sheets, get_wage_sheet, get_wages, get_wage, get_submitted_wage_sheets
+from projects.selectors.wage_sheets import get_all_wage_sheets, get_wage_sheet, get_wages, get_wage, \
+    get_submitted_wage_sheets
 
 
 def manage_wage_sheets_page(request):
@@ -74,7 +75,7 @@ def manage_wages_page(request, wage_sheet_id):
         "wagebill": "active",
         "manage_wage_sheets": "active",
         "wages": wages,
-        "wage_sheet":wage_sheet,
+        "wage_sheet": wage_sheet,
         'form': form,
     }
     return render(request, "wage_sheet/manage_wages.html", context)
@@ -108,6 +109,7 @@ def delete_wage(request, id):
     messages.success(request, "Successfully deleted a wage")
     return HttpResponseRedirect(reverse(manage_wages_page, args=[wage.wage_sheet.id]))
 
+
 def submit_wage_sheet(request, wage_sheet_id):
     wage_sheet = get_wage_sheet(wage_sheet_id)
 
@@ -117,6 +119,7 @@ def submit_wage_sheet(request, wage_sheet_id):
     messages.success(request, "Wage Sheet Submitted Successfully")
     return HttpResponseRedirect(reverse(manage_wage_sheets_page))
 
+
 def view_submitted_wagesheets(request):
     wage_sheets = get_submitted_wage_sheets()
 
@@ -125,8 +128,8 @@ def view_submitted_wagesheets(request):
     }
     return render(request, "wage_sheet/submitted_wage_sheets.html", context)
 
-def manage_submitted_sheet(request, wage_sheet_id, role):
 
+def manage_submitted_sheet(request, wage_sheet_id, role):
     wage_sheet = get_wage_sheet(wage_sheet_id)
     wages = get_wages(wage_sheet_id)
 
@@ -138,34 +141,31 @@ def manage_submitted_sheet(request, wage_sheet_id, role):
 
     return render(request, "wage_sheet/manage_submitted_sheet.html", context)
 
+
 def approve_reject_wagesheet(request, wagesheet_id):
     if request.method == "POST":
         wage_sheet = get_wage_sheet(wagesheet_id)
-        
+
         role = request.POST.get("role")
 
-        if role == "1":            
+        if role == "1":
             wage_sheet.manager_comment = request.POST.get("wage_comment")
             wage_sheet.manager_status = request.POST.get("wage_action")
 
             wage_sheet.save()
-        
+
         elif role == "2":
             wage_sheet.project_manager_status = request.POST.get("wage_action")
             wage_sheet.project_manager_comment = request.POST.get("wage_comment")
 
             wage_sheet.save()
-        
+
         elif role == "3":
             wage_sheet.gm_status = request.POST.get("wage_action")
             wage_sheet.gm_comment = request.POST.get("wage_comment")
 
             wage_sheet.save()
-        
+
         messages.success(request, "Action saved Successfully")
-        
+
         return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wagesheet_id, role]))
-
-
-
-

@@ -1,14 +1,14 @@
 from django.urls import path, reverse
 
-from .views import scope_views, team_views, wage_sheet_views
-from .views.project_views import *
-from .views.sites_views import *
-from .views.activity_list_views import *
+from projects.views import scope_views, team_views, wage_sheet_views, boq_views
+from projects.views.sites_views import *
 import projects.views.worker_views  as worker_views
-from .views.survey_views import *
-import projects.views.boq_views as boq_views
-from .views import pip_views, project_settings_view, budget_views
-from .views import pip_views
+from projects.views.survey_views import *
+from projects.views.project_views import *
+from projects.views.activity_list_views import *
+import  projects.views.project_views
+from projects.views import pip_views, project_settings_view, budget_views
+from projects.views import pip_views
 import projects.views.field_manager_views as field_manage_views
 import projects.views.segment_views as segment_views
 import projects.views.complaint_views as complaint_views
@@ -56,7 +56,7 @@ settings_urls = [
     path('uom/', project_settings_view.unit_of_measure_view, name='manage_uom'),
     path('edit_uom/<int:uom_id>/', project_settings_view.edit_uom_view, name='edit_uom'),
     path('delete_uom/<int:uom_id>/', project_settings_view.delete_uom, name='delete_uom'),
-    
+
     path('expenses/', project_settings_view.manage_expense_view, name='manage_expenses'),
     path('edit_expense/<int:expense_id>/', project_settings_view.edit_expense_view, name='edit_expense'),
     path('delete_expense/<int:expense_id>/', project_settings_view.delete_expense, name='delete_expense'),
@@ -131,25 +131,32 @@ deduction_urls = [
     path('edit_deduction/<int:id>/', deduction_views.edit_deduction_page, name="edit_deduction"),
 ]
 
-urlpatterns = [
+activity_urls = [
+    path('activity_list/', activity_page_view, name='manage_activities'),
+    path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
+    path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
+    path('get_activity_rate/', get_activity_rate, name='get_activity_rate'),
+]
+
+project_urls =[
     path('', index_page, name='index_page'),
     path('projects/', projects_page_view, name='manage_projects'),
     path('project_details/<int:project_id>/', project_details_view, name='project_details'),
     path('project_settings/', projects_settings_view, name='project_settings'),
     path('project/<int:project_id>/sites/', sites_page_view, name='manage_sites'),
     path('project/<int:project_id>/site/<int:site_id>/', site_details_view, name='site_details'),
-    path('activity_list/', activity_page_view, name='manage_activities'),
-    path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
-    path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
-] + worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
+]
+
+urlpatterns = activity_urls+project_urls+worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
               pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls \
               + segments_urls + complaint_urls + deduction_urls
 
 
-# JS routes
+# customJS routes
 def javascript_settings():
     js_conf = {
         'get_material_unitcost': reverse('get_material_unitcost'),
         'get_expense_rate': reverse('get_expense_rate'),
+        'get_activity_rate': reverse('get_activity_rate'),
     }
     return js_conf

@@ -2,6 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load humanize %}
+{%load javascript_settings_tags %}
 
 {%block page_title%}
 Manage Wages for sheet {{wage_sheet.id}}
@@ -117,7 +118,8 @@ Manage Wages for sheet {{wage_sheet.id}}
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
+<!--Javascript settings-->
+<script type="text/javascript">{% javascript_settings %}</script>
 <!-- DataTables -->
 <script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
 <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>

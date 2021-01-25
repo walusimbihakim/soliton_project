@@ -23,5 +23,7 @@ class WageForm(forms.ModelForm):
         exclude = ("wage_sheet",)
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.Helper = FormHelper()
+        super(WageForm, self).__init__(*args, **kwargs)
+        self.fields['payment'].widget.attrs['readonly'] = True
+
+        self.helper = FormHelper()

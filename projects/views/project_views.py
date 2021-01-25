@@ -22,7 +22,7 @@ def projects_page_view(request):
     form = ProjectForm()
 
     if request.method == "POST":
-        ProjectForm(request.POST, request.FILES)
+        form = ProjectForm(request.POST, request.FILES)
         
         if form.is_valid():
             form.save()

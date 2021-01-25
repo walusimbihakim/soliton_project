@@ -15,10 +15,11 @@ class Activity(TimeStampedModel):
     is_lan_installation = models.BooleanField(default=False, blank=True, null=True)
     is_equipment_installation = models.BooleanField(default=False, blank=True, null=True)
     is_manhole_installation = models.BooleanField(default=False, blank=True, null=True)
+    unit_cost = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name = ("Activity")
-        verbose_name_plural = ("Activitys")
+        verbose_name = "Activity"
+        verbose_name_plural = ("Activities")
 
     def __str__(self):
         return self.name
