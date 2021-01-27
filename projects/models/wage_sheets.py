@@ -3,6 +3,7 @@ from django.db import models
 from projects.models import Worker, FieldManager, Activity
 from projects.models.segments import Segment
 
+
 class WageSheet(models.Model):
     field_manager = models.ForeignKey(FieldManager, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(Worker, on_delete=models.CASCADE)

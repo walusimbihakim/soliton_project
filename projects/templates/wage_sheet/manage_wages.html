@@ -58,10 +58,10 @@ Manage Wages for sheet {{wage_sheet.id}}
                             <td>{{wage.id}}</td>
                             <td>{{wage.worker}}</td>
                             <td>
-                                {{wage.pip_activity.scope.survey.project}}
+                                {{wage_sheet.segment.execution_scope.survey.project}}
                             </td>
                             <td>
-                                {{wage.pip_activity.activity}}
+                                {{wage.activity}}
                             </td>
                             <td>{{wage.quantity}}</td>
                             <td>UGX {{wage.payment | intcomma}}</td>
