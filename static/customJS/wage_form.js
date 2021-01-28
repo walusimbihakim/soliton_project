@@ -1,6 +1,6 @@
 $(document).ready(() => {
 
-    $("#id_quantity").change(() => {
+    $("#id_quantity").on("keyup",() => {
         // Set payment according to quantity and activity rate
         activity_id = document.querySelector('#id_activity').value;
         $.ajax({
@@ -15,8 +15,9 @@ $(document).ready(() => {
                          payment = data.activity_rate * quantity;
                          document.querySelector('#id_payment').value = payment;
                     }
-                } else {
+                    else {
                     document.querySelector('#id_payment').value = 0;
+                    }
                 }
             },
         });

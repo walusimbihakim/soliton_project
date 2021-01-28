@@ -1,7 +1,7 @@
 {% extends '../base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-
+{%load javascript_settings_tags %}
 {%block page_title%}
 Edit Wage
 {% endblock%}
@@ -35,29 +35,11 @@ Edit Wage
         <!-- /.row -->
     </div>
     <!-- /.container-fluid -->
+</div>
 
-    <!-- DataTables -->
-    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
-    <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
-    <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
-    <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+{% endblock%}
 
-    <!-- page script -->
-    <script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true,
-      "autoWidth": false,
-    });
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
-    {% endblock content %}
+{%block customJS%}
+<script type="text/javascript">{% javascript_settings %}</script>
+<script src="{% static 'customJS/wage_form.js'%}"></script>
+{%endblock%}
