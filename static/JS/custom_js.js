@@ -185,7 +185,6 @@ $(document).ready(() => {
                         total_cost = (quantity * rate)
                         document.querySelector('#id_total_cost').value = total_cost;
                     }
-
                 }
             },
         });
@@ -200,7 +199,5 @@ $(document).ready(() => {
         document.querySelector('#id_total_cost').value = total_cost;
 
     };
-
-
 
 });

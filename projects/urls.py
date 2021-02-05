@@ -111,6 +111,7 @@ wage_sheets_urls = [
     path('submitted_wage_sheets/', wage_sheet_views.view_submitted_wagesheets, name="submitted_wage_sheets"),
     path('manage_submitted_sheet/<int:wage_sheet_id>/<int:role>/', wage_sheet_views.manage_submitted_sheet, name="manage_submitted_sheet"),
     path('approve_reject_wagesheet/<int:wagesheet_id>/', wage_sheet_views.approve_reject_wagesheet, name="approve_reject_wagesheet"),
+    path('reject_wage/<int:wage_id>/<int:role>/', wage_sheet_views.reject_wage, name="reject_wage"),
 ]
 
 segments_urls = [
@@ -123,12 +124,14 @@ complaint_urls = [
     path('manage_complaints/<int:wage_sheet_id>', complaint_views.manage_complaints_page, name='manage_complaints'),
     path('delete_complaint/<int:id>/', complaint_views.delete_complaint, name='delete_complaint'),
     path('edit_complaint/<int:id>/', complaint_views.edit_complaint_page, name="edit_complaint"),
+    path('reject_complaint/<int:complaint_id>/<int:role>/', wage_sheet_views.reject_complaint, name="reject_complaint"),
 ]
 
 deduction_urls = [
     path('manage_deductions/<int:wage_sheet_id>', deduction_views.manage_deductions_page, name='manage_deductions'),
     path('delete_deduction/<int:id>/', deduction_views.delete_deduction, name='delete_deduction'),
     path('edit_deduction/<int:id>/', deduction_views.edit_deduction_page, name="edit_deduction"),
+    path('reject_deduction/<int:deduction_id>/<int:role>/', wage_sheet_views.reject_deduction, name="reject_deduction"),
 ]
 
 urlpatterns = [

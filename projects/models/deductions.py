@@ -17,6 +17,10 @@ class Deduction(models.Model):
     cause = models.CharField(max_length=12, choices=CAUSE_CHOICES)
     amount = models.IntegerField()
     description = models.TextField(default="")
+    is_manager_approved = models.BooleanField(default=True)
+    is_pm_approved = models.BooleanField(null=True)
+    is_gm_approved = models.BooleanField(null=True)
+    is_payed = models.BooleanField(null=True)
 
     class Meta:
         unique_together = ('worker', 'wage_sheet')

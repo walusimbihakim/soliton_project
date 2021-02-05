@@ -10,11 +10,11 @@ class WageSheet(models.Model):
     date = models.DateField()
     description = models.TextField()
     is_submitted = models.BooleanField()
-    manager_status = models.BooleanField()
+    manager_status = models.BooleanField(null=True)
     manager_comment = models.TextField(default="-")
-    project_manager_status = models.BooleanField()
+    project_manager_status = models.BooleanField(null=True)
     project_manager_comment = models.TextField(default="-")
-    gm_status = models.BooleanField()
+    gm_status = models.BooleanField(null=True)
     gm_comment = models.TextField(default="-")
 
     class Meta:
@@ -30,6 +30,10 @@ class Wage(models.Model):
     pip_activity = models.ForeignKey(PIP, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     payment = models.IntegerField()
+    is_manager_approved = models.BooleanField(default=True)
+    is_pm_approved = models.BooleanField(null=True)
+    is_gm_approved = models.BooleanField(null=True)
+    is_payed = models.BooleanField(null=True)
 
     class Meta:
         unique_together = ('worker', 'pip_activity')
