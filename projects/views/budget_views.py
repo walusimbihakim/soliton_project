@@ -228,11 +228,7 @@ def get_material_unitcost_view(request):
     return JsonResponse({'success': True, 'unit_cost': material_unitcost})
 
 def get_expense_rate_view(request):
-    print("Am here")
     expense_id = request.GET['expense']
-
     expense = get_expense(expense_id)
-
     expense_rate = expense.rate
-
     return JsonResponse({'success': True, 'rate': expense_rate})

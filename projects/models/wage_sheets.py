@@ -1,7 +1,8 @@
 from django.db import models
 
-from projects.models import Worker, PIP, FieldManager
+from projects.models import Worker, FieldManager, Activity
 from projects.models.segments import Segment
+
 
 class WageSheet(models.Model):
     field_manager = models.ForeignKey(FieldManager, on_delete=models.CASCADE)
@@ -27,7 +28,7 @@ class WageSheet(models.Model):
 class Wage(models.Model):
     wage_sheet = models.ForeignKey(WageSheet, on_delete=models.CASCADE)
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE)
-    pip_activity = models.ForeignKey(PIP, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     payment = models.IntegerField()
     is_manager_approved = models.BooleanField(default=True)
@@ -36,7 +37,7 @@ class Wage(models.Model):
     is_payed = models.BooleanField(null=True)
 
     class Meta:
-        unique_together = ('worker', 'pip_activity')
+        unique_together = ('worker', 'activity')
 
     def __str__(self):
         return f"{self.worker} - Wage ID {self.id}"
