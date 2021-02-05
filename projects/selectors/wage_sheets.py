@@ -9,8 +9,7 @@ def get_wage_sheet(id):
     return WageSheet.objects.get(pk=id)
 
 
-def get_wages(wage_sheet_id):
-    wage_sheet = get_wage_sheet(wage_sheet_id)
+def get_wages(wage_sheet):
     return Wage.objects.filter(wage_sheet=wage_sheet)
 
 

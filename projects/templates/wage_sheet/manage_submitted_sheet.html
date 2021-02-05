@@ -13,433 +13,326 @@ Approve/Reject
     <div class="row">
         <!-- ./col -->
         <div class="col-12">
-            {% comment %} {%if wages%} {% endcomment %}
-                <div class="card">
-                    <div class="card-body">
-                        <h4>Wage Sheet Info</h4>                        
-                        <table border="1" cellpadding="5">
-                            <tr>
-                                <th>Date</th>
-                                <td>{{wage_sheet.date}}</td>
-                                <th>Field Manager</th>
-                                <td>{{wage_sheet.field_manager}}</td>
-                                <th>Supervisor</th>
-                                <td>{{wage_sheet.supervisor}}</td>
-                                <th>Segment</th>
-                                <td>{{wage_sheet.segment}}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>                
-                <div class="card card-primary card-outline card-outline-tabs">
-                    <div class="card-header p-0 border-bottom-0">
-                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Wages</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Complaints</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Deductions</a>
-                        </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="tab-content" id="custom-tabs-four-tabContent">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Wage Sheet Info</h4>                        
+                    <table border="1" cellpadding="5">
+                        <tr>
+                            <th>Date</th>
+                            <td>{{wage_sheet.date}}</td>
+                            <th>Field Manager</th>
+                            <td>{{wage_sheet.field_manager}}</td>
+                            <th>Supervisor</th>
+                            <td>{{wage_sheet.supervisor}}</td>
+                            <th>Project</th>
+                            <td>{{wage_sheet.segment.execution_scope.survey.project}}</td> 
+                            <th>Segment</th>
+                            <td>{{wage_sheet.segment}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>                
+            <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Wages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Complaints</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Deductions</a>
+                    </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-four-tabContent">
                         <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">                            
                             <table id="wages_table" class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Wage ID</th>
-                                    <th>Worker</th>
-                                    <th>Project</th>
-                                    <th>Activity</th>
-                                    <th>Quantity</th>
-                                    <th>Payment</th>
-                                    <th></th>
+                                    <th class="text-center">Worker</th>
+                                    <th class="text-center">Activity</th>
+                                    <th class="text-center">Payment</th>
+                                    <th class="text-center">Manager</th>
+                                    <th class="text-center">PM</th>
+                                    <th class="text-center">GM</th>
+                                    <th class="text-center">#</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for wage in wages%}
                                 <tr>
-                                    <td>{{wage.id}}</td>
-                                    <td>{{wage.worker}}</td>
-                                    <td>
-                                        {{wage.pip_activity.scope.survey.project}}
-                                    </td>
-                                    <td>
+                                    <td class="text-center">{{wage.worker}}</td>
+                                    <td class="text-center">
                                         {{wage.pip_activity.activity}}
                                     </td>
-                                    <td>{{wage.quantity}}</td>
-                                    <td>UGX {{wage.payment | intcomma}}</td>
-                                    <td>
-                                        
-                                    <td>
+                                    <td class="text-center">
+                                        {{wage.quantity}} Meters - </br>
+                                        UGX {{wage.payment | intcomma}}/-
+                                    </td>
+                                    <td class="text-center">
+                                        {% if wage.is_manager_approved %}
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                        {% else %}
+                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                        {% endif %}                                        
+                                    </td>
+                                    <td class="text-center">
+                                        {% if wage.is_pm_approved %}
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                        {% else %}
+                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                        {% endif %}                                        
+                                    </td>
+                                    <td class="text-center">
+                                        {% if wage.is_gm_approved %}
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                        {% else %}
+                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                        {% endif %}                                        
+                                    </td>
+                                    <td class="text-center">
+                                        <a href = "{% url 'reject_wage' wage.id role %}" class="btn btn-outline-danger btn-rounded waves-effect"
+                                        onclick="return confirm('Are you sure you want to Reject this Wage?')">
+                                            Reject
+                                        </a>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>
-                            </table>
-
-                            <br/>
-                            <table class="table table-small">                        
-                                <form method="POST" id="approve_wage_form" action="{% url 'approve_reject_wagesheet' wage_sheet.id %}" > 
-                                    {% csrf_token %}
-                                    <input type="hidden" id="wage_sheet_id" name="wage_sheet_id" value="{{wage_sheet.id}}">
-                                    <input type="hidden" id="role" name="role" value="{{role}}">
-
-                                    {% if role == 1 %}
-                                        <tr>
-                                            <th scope="row">Manager Status:</th>
-                                            <td>
-                                                {% if wage_sheet.manager_status %}
-                                                    Approved
-                                                {% endif %}
-                                            </td>
-                                            <th scope="row">Manager Comment:</th>
-                                            <td>{{wage_sheet.manager_comment}}</td>
-                                        </tr>
-                                    {% elif role == 2%}
-                                        <tr>
-                                            <th scope="row">Manager Status:</th>
-                                            <td>
-                                                {% if wage_sheet.manager_status %}
-                                                    Approved
-                                                {% endif %}
-                                            </td>
-                                            <th scope="row">Manager Comment:</th>
-                                            <td>{{wage_sheet.manager_comment}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">PM Status:</th>
-                                            <td>{{wage_sheet.project_manager_status}}</td>
-                                            <th scope="row">PM Comment:</th>
-                                            <td>{{wage_sheet.project_manager_comment}}</td>
-                                        </tr>
-                                    {% elif role == 3%}
-                                        <tr>
-                                            <th scope="row">Manager Status:</th>
-                                            <td>
-                                                {% if wage_sheet.manager_status %}
-                                                    Approved
-                                                {% endif %}
-                                            </td>
-                                            <th scope="row">Manager Comment:</th>
-                                            <td>{{wage_sheet.manager_comment}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">PM Status:</th>
-                                            <td>{{wage_sheet.project_manager_status}}</td>
-                                            <th scope="row">PM Comment:</th>
-                                            <td>{{wage_sheet.project_manager_comment}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">GM Status:</th>
-                                            <td>{{wage_sheet.gm_status}}</td>
-                                            <th scope="row">GM Comment:</th>
-                                            <td>{{wage_sheet.gm_comment}}</td>
-                                        </tr>
-
-                                    {% endif %}
-
-                                    <!-- Approval -->                                    
-                                    <tr>
-                                        <th>Action:</th>
-                                        <td>                                            
-                                            <div class="form-group ">
-                                                <select id="wage_action" class="form-control" name="wage_action">                             
-                                                    <option>--- Choose Action ---</option>                                                
-                                                    <option value="1">Approve</option>
-                                                    <option value="0">Reject</option>                                                                                     
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <th>Comment:</th>
-                                        <td>
-                                            <div class="form-group green-border-focus">
-                                                <textarea class="form-control" name="wage_comment" id="wage_comment">                                                
-                                                </textarea>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan=4>
-                                            <button class="btn btn-primary btn-lg btn-block" type="submit" id="submit_wage_approval">
-                                                Submit
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </form>
-                            </table>
+                            </table>                   
                         </div>
                         <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
-                           <div class="tab-content" id="custom-tabs-four-tabContent">
-                            <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">                            
-                                <table id="example1" class="table table-striped">
-                                    <thead>
+                            <table id="example1" class="table table-striped">
+                                <thead>
                                     <tr>
-                                        <th>Complaint ID</th>
-                                        <th>Worker</th>
-                                        <th>Project</th>
-                                        <th>Activity</th>
-                                        <th>Quantity</th>
-                                        <th>Payment</th>
-                                        <th>Description</th>
+                                        <th class="text-center">Worker</th>
+                                        <th class="text-center">Activity</th>
+                                        <th class="text-center">Payment</th>
+                                        <th class="text-center">Description</th>
+                                        <th class="text-center">Manager</th>
+                                        <th class="text-center">PM</th>
+                                        <th class="text-center">GM</th>
+                                        <th class="text-center">#</th>
                                     </tr>
-                                    </thead>
-                                    <tbody>
+                                </thead>
+                                <tbody>
                                     {% for complaint in complaints%}
-                                    <tr>
-                                        <td>{{complaint.id}}</td>
-                                        <td>{{complaint.worker}}</td>
-                                        <td>
-                                            {{complaint.activity.scope.survey.project}}
-                                        </td>
-                                        <td>
-                                            {{complaint.activity}}
-                                        </td>
-                                        <td>{{complaint.quantity}}</td>
-                                        <td>UGX {{complaint.payment | intcomma}}</td>
-                                        <td>
-                                            {{complaint.description}}
-                                        <td>
-                                    </tr>
+                                        <tr>
+                                            <td class="text-center">{{complaint.worker}}</td>
+                                            <td class="text-center">
+                                                {{complaint.activity}}
+                                            </td>
+                                            <td class="text-center">
+                                                {{complaint.quantity}} Meters - </br>
+                                                UGX {{complaint.payment | intcomma}}/-
+                                            </td>
+                                            <td class="text-center">
+                                                {{complaint.description}}
+                                            <td class="text-center">
+                                                {% if complaint.is_manager_approved %}
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                {% else %}
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                {% endif %}                                        
+                                            </td>
+                                            <td class="text-center">
+                                                {% if complaint.is_pm_approved %}
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                {% else %}
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                {% endif %}                                        
+                                            </td>
+                                            <td class="text-center">
+                                                {% if complaint.is_gm_approved %}
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                {% else %}
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                {% endif %}                                        
+                                            </td>
+                                            <td class="text-center">
+                                                <a href = "{% url 'reject_complaint' complaint.id role %}" class="btn btn-outline-danger btn-rounded waves-effect"
+                                                onclick="return confirm('Are you sure you want to Reject this Complaint?')">
+                                                    Reject
+                                                </a>
+                                            </td>
+                                        </tr>
                                     {% endfor %}
-                                    </tbody>
-                                </table>
-
-                                <br/>
-                                <table class="table table-small">                        
-                                    <form method="POST" id="approve_wage_form" action="{% url 'approve_reject_wagesheet' wage_sheet.id %}" > 
-                                        {% csrf_token %}
-                                        <input type="hidden" id="wage_sheet_id" name="wage_sheet_id" value="{{wage_sheet.id}}">
-                                        <input type="hidden" id="role" name="role" value="{{role}}">
-
-                                        {% if role == 1 %}
-                                            <tr>
-                                                <th scope="row">Manager Status:</th>
-                                                <td>
-                                                    {% if wage_sheet.manager_status %}
-                                                        Approved
-                                                    {% endif %}
-                                                </td>
-                                                <th scope="row">Manager Comment:</th>
-                                                <td>{{wage_sheet.manager_comment}}</td>
-                                            </tr>
-                                        {% elif role == 2%}
-                                            <tr>
-                                                <th scope="row">Manager Status:</th>
-                                                <td>
-                                                    {% if wage_sheet.manager_status %}
-                                                        Approved
-                                                    {% endif %}
-                                                </td>
-                                                <th scope="row">Manager Comment:</th>
-                                                <td>{{wage_sheet.manager_comment}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">PM Status:</th>
-                                                <td>{{wage_sheet.project_manager_status}}</td>
-                                                <th scope="row">PM Comment:</th>
-                                                <td>{{wage_sheet.project_manager_comment}}</td>
-                                            </tr>
-                                        {% elif role == 3%}
-                                            <tr>
-                                                <th scope="row">Manager Status:</th>
-                                                <td>
-                                                    {% if wage_sheet.manager_status %}
-                                                        Approved
-                                                    {% endif %}
-                                                </td>
-                                                <th scope="row">Manager Comment:</th>
-                                                <td>{{wage_sheet.manager_comment}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">PM Status:</th>
-                                                <td>{{wage_sheet.project_manager_status}}</td>
-                                                <th scope="row">PM Comment:</th>
-                                                <td>{{wage_sheet.project_manager_comment}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">GM Status:</th>
-                                                <td>{{wage_sheet.gm_status}}</td>
-                                                <th scope="row">GM Comment:</th>
-                                                <td>{{wage_sheet.gm_comment}}</td>
-                                            </tr>
-
-                                        {% endif %}
-
-                                        <!-- Approval -->                                    
-                                        <tr>
-                                            <th>Action:</th>
-                                            <td>                                            
-                                                <div class="form-group ">
-                                                    <select id="wage_action" class="form-control" name="wage_action">                             
-                                                        <option>--- Choose Action ---</option>                                                
-                                                        <option value="1">Approve</option>
-                                                        <option value="0">Reject</option>                                                                                     
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <th>Comment:</th>
-                                            <td>
-                                                <div class="form-group green-border-focus">
-                                                    <textarea class="form-control" name="wage_comment" id="wage_comment">                                                
-                                                    </textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan=4>
-                                                <button class="btn btn-primary btn-lg btn-block" type="submit" id="submit_wage_approval">
-                                                    Submit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </form>
-                                </table>
-                            </div>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
-                            <div class="tab-content" id="custom-tabs-four-tabContent">
-                            <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">                            
-                                <table id="example1" class="table table-striped">
-                                    <thead>
+                        <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">                                                  
+                            <table id="example1" class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Worker</th>
+                                    <th class="text-center">Cause</th>
+                                    <th class="text-center">Deduction</th>
+                                    <th class="text-center">Description</th>
+                                    <th class="text-center">Manager</th>
+                                    <th class="text-center">PM</th>
+                                    <th class="text-center">GM</th>
+                                    <th class="text-center">#</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for deduction in deductions%}
                                     <tr>
-                                        <th>Deduction ID</th>
-                                        <th>Worker</th>
-                                        <th>Project</th>
-                                        <th>Activity</th>
-                                        <th>Quantity</th>
-                                        <th>Payment</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for deduction in deductions%}
-                                    <tr>
-                                        <td>{{deduction.id}}</td>
-                                        <td>{{deduction.worker}}</td>
-                                        <td>
-                                            {{deduction.activity.scope.survey.project}}
+                                        <td class="text-center">{{deduction.worker}}</td>
+                                        <td class="text-center">
+                                            {{deduction.cause}}
                                         </td>
-                                        <td>
-                                            {{deduction.activity.activity}}
+                                        <td class="text-center">
+                                            UGX {{deduction.amount | intcomma}}/-
                                         </td>
-                                        <td>{{deduction.quantity}}</td>
-                                        <td>UGX {{deduction.payment | intcomma}}</td>
-                                        <td>
+                                        <td class="text-center">
                                             {{deduction.description}}
-                                        <td>
+                                        <td class="text-center">
+                                            {% if deduction.is_manager_approved %}
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            {% else %}
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            {% endif %}                                        
+                                        </td>
+                                        <td class="text-center">
+                                            {% if deduction.is_pm_approved %}
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            {% else %}
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            {% endif %}                                        
+                                        </td>
+                                        <td class="text-center">
+                                            {% if deduction.is_gm_approved %}
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            {% else %}
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            {% endif %}                                        
+                                        </td>
+                                        <td class="text-center">
+                                            <a href = "{% url 'reject_deduction' deduction.id role %}" class="btn btn-outline-danger btn-rounded waves-effect"
+                                            onclick="return confirm('Are you sure you want to Reject this Deduction?')">
+                                                Reject
+                                            </a>
+                                        </td>
                                     </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+                                {% endfor %}
+                                </tbody>
+                            </table> 
+                        </div>  
+                    </div>
+                </div>
+                <!-- /.card body -->
+            </div> 
+            <!-- /.card content -->  
+            <!-- card Approval -->             
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-small">                        
+                        <form method="POST" id="approve_wage_form" action="{% url 'approve_reject_wagesheet' wage_sheet.id %}" > 
+                            {% csrf_token %}
+                            <input type="hidden" id="wage_sheet_id" name="wage_sheet_id" value="{{wage_sheet.id}}">
+                            <input type="hidden" id="role" name="role" value="{{role}}">
 
-                                <br/>
-                                <table class="table table-small">                        
-                                    <form method="POST" id="approve_wage_form" action="{% url 'approve_reject_wagesheet' wage_sheet.id %}" > 
-                                        {% csrf_token %}
-                                        <input type="hidden" id="wage_sheet_id" name="wage_sheet_id" value="{{wage_sheet.id}}">
-                                        <input type="hidden" id="role" name="role" value="{{role}}">
-
-                                        {% if role == 1 %}
-                                            <tr>
-                                                <th scope="row">Manager Status:</th>
-                                                <td>
-                                                    {% if wage_sheet.manager_status %}
-                                                        Approved
-                                                    {% endif %}
-                                                </td>
-                                                <th scope="row">Manager Comment:</th>
-                                                <td>{{wage_sheet.manager_comment}}</td>
-                                            </tr>
-                                        {% elif role == 2%}
-                                            <tr>
-                                                <th scope="row">Manager Status:</th>
-                                                <td>
-                                                    {% if wage_sheet.manager_status %}
-                                                        Approved
-                                                    {% endif %}
-                                                </td>
-                                                <th scope="row">Manager Comment:</th>
-                                                <td>{{wage_sheet.manager_comment}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">PM Status:</th>
-                                                <td>{{wage_sheet.project_manager_status}}</td>
-                                                <th scope="row">PM Comment:</th>
-                                                <td>{{wage_sheet.project_manager_comment}}</td>
-                                            </tr>
-                                        {% elif role == 3%}
-                                            <tr>
-                                                <th scope="row">Manager Status:</th>
-                                                <td>
-                                                    {% if wage_sheet.manager_status %}
-                                                        Approved
-                                                    {% endif %}
-                                                </td>
-                                                <th scope="row">Manager Comment:</th>
-                                                <td>{{wage_sheet.manager_comment}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">PM Status:</th>
-                                                <td>{{wage_sheet.project_manager_status}}</td>
-                                                <th scope="row">PM Comment:</th>
-                                                <td>{{wage_sheet.project_manager_comment}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">GM Status:</th>
-                                                <td>{{wage_sheet.gm_status}}</td>
-                                                <th scope="row">GM Comment:</th>
-                                                <td>{{wage_sheet.gm_comment}}</td>
-                                            </tr>
-
+                            {% if role == 1 %}
+                                <tr>
+                                    <th scope="row">Manager Status:</th>
+                                    <td>
+                                        {% if wage_sheet.manager_status == 1 %}
+                                            Approved
+                                        {% elif wage_sheet.manager_status == 0%}
+                                            Rejected
+                                        {% else %}
+                                            Pending
                                         {% endif %}
+                                    </td>
+                                    <th scope="row">Manager Comment:</th>
+                                    <td>{{wage_sheet.manager_comment}}</td>
+                                </tr>
+                            {% elif role == 2%}
+                                <tr>
+                                    <th scope="row">Manager Status:</th>
+                                    <td>
+                                        {% if wage_sheet.project_manager_status == 1 %}
+                                            Approved
+                                        {% elif wage_sheet.project_manager_status == 0%}
+                                            Rejected
+                                        {% else %}
+                                            Pending
+                                        {% endif %}
+                                    </td>
+                                    <th scope="row">Manager Comment:</th>
+                                    <td>{{wage_sheet.manager_comment}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">PM Status:</th>
+                                    <td>{{wage_sheet.project_manager_status}}</td>
+                                    <th scope="row">PM Comment:</th>
+                                    <td>{{wage_sheet.project_manager_comment}}</td>
+                                </tr>
+                            {% elif role == 3%}
+                                <tr>
+                                    <th scope="row">Manager Status:</th>
+                                    <td>
+                                        {% if wage_sheet.gm_status == 1 %}
+                                            Approved
+                                        {% elif wage_sheet.gm_status == 0%}
+                                            Rejected
+                                        {% else %}
+                                            Pending
+                                        {% endif %}
+                                    </td>
+                                    <th scope="row">Manager Comment:</th>
+                                    <td>{{wage_sheet.manager_comment}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">PM Status:</th>
+                                    <td>{{wage_sheet.project_manager_status}}</td>
+                                    <th scope="row">PM Comment:</th>
+                                    <td>{{wage_sheet.project_manager_comment}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">GM Status:</th>
+                                    <td>{{wage_sheet.gm_status}}</td>
+                                    <th scope="row">GM Comment:</th>
+                                    <td>{{wage_sheet.gm_comment}}</td>
+                                </tr>
 
-                                        <!-- Approval -->                                    
-                                        <tr>
-                                            <th>Action:</th>
-                                            <td>                                            
-                                                <div class="form-group ">
-                                                    <select id="wage_action" class="form-control" name="wage_action">                             
-                                                        <option>--- Choose Action ---</option>                                                
-                                                        <option value="1">Approve</option>
-                                                        <option value="0">Reject</option>                                                                                     
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <th>Comment:</th>
-                                            <td>
-                                                <div class="form-group green-border-focus">
-                                                    <textarea class="form-control" name="wage_comment" id="wage_comment">                                                
-                                                    </textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan=4>
-                                                <button class="btn btn-primary btn-lg btn-block" type="submit" id="submit_wage_approval">
-                                                    Submit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </form>
-                                </table>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!-- /.card -->
+                            {% endif %}
+
+                            <!-- Approval -->                                    
+                            <tr>
+                                <th>Action:</th>
+                                <td>                                            
+                                    <div class="form-group ">
+                                        <select id="wage_action" class="form-control" name="wage_action">                             
+                                            <option>--- Choose Action ---</option>                                                
+                                            <option value="1">Approve</option>
+                                            <option value="0">Reject</option>                                                                                     
+                                        </select>
+                                    </div>
+                                </td>
+                                <th>Comment:</th>
+                                <td>
+                                    <div class="form-group green-border-focus">
+                                        <textarea class="form-control" name="wage_comment" id="wage_comment">                                                
+                                        </textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan=4>
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="submit_wage_approval">
+                                        Submit
+                                    </button>
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
                 </div>
-            {% comment %} {% else %}                
-                <div class="card">
-                    <div class="card-body">
-                        <h4>Wage sheet is Empty</h4>
-                    </div>
-                </div>
-            {%endif%} {% endcomment %}
+            </div>
+            <!-- /.card approval -->
         </div>
         <!-- /.col -->
     </div>
