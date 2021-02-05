@@ -138,8 +138,12 @@ def manage_submitted_sheet(request, wage_sheet_id, role):
         wages = wages
     elif role == 2:
         wages = wages.filter(is_manager_approved=True)
+        complaints = complaints.filter(is_manager_approved=True)
+        deductions = deductions.filter(is_manager_approved = True)
     elif role == 3:
         wages = wages.filter(is_pm_approved = True)
+        complaints = complaints.filter(is_pm_approved=True)
+        deductions = deductions.filter(is_pm_approved = True)
 
 
     context = {
@@ -179,8 +183,8 @@ def approve_reject_wagesheet(request, wagesheet_id):
             wage_sheet.save()
 
             wages.filter(is_pm_approved=True).update(is_gm_approved = True)
-            complaints.filter(is_manager_approved=True).update(is_pm_approved = True)
-            deductions.filter(is_manager_approved=True).update(is_pm_approved = True)
+            complaints.filter(is_manager_approved=True).update(is_gm_approved = True)
+            deductions.filter(is_manager_approved=True).update(is_gm_approved = True)
         
         elif role == "3":
             wage_sheet.gm_status = request.POST.get("wage_action")

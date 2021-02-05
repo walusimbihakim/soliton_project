@@ -254,9 +254,9 @@ Approve/Reject
                                 <tr>
                                     <th scope="row">Manager Status:</th>
                                     <td>
-                                        {% if wage_sheet.project_manager_status == 1 %}
+                                        {% if wage_sheet.manager_status == 1 %}
                                             Approved
-                                        {% elif wage_sheet.project_manager_status == 0%}
+                                        {% elif wage_sheet.manager_status == 0%}
                                             Rejected
                                         {% else %}
                                             Pending
@@ -275,9 +275,9 @@ Approve/Reject
                                 <tr>
                                     <th scope="row">Manager Status:</th>
                                     <td>
-                                        {% if wage_sheet.gm_status == 1 %}
+                                        {% if wage_sheet.manager_status == 1 %}
                                             Approved
-                                        {% elif wage_sheet.gm_status == 0%}
+                                        {% elif wage_sheet.manager_status == 0%}
                                             Rejected
                                         {% else %}
                                             Pending
