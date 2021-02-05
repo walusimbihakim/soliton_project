@@ -246,7 +246,7 @@ def reject_deduction(request, deduction_id, role):
 
         messages.success(request, "deduction rejected")
     except:
-        messages.warning(request, "Operation was no successfull")
+        messages.warning(request, "Operation was not successfull")
         
     return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[deduction.wage_sheet.id, role]))
 
