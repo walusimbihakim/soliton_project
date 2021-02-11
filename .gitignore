@@ -167,6 +167,8 @@ db.sqlite3
 __pycache__/
 .idea/
 
-
+media/my_env
+pipfile
+pipfile.lock
 venv/
 media/
