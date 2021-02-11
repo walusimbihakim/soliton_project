@@ -168,4 +168,6 @@ __pycache__/
 .idea/
 
 #Media
-media/
+media/my_env
+pipfile
+pipfile.lock
