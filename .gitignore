@@ -167,7 +167,6 @@ db.sqlite3
 __pycache__/
 .idea/
 
-#Media
 media/my_env
 pipfile
 pipfile.lock
