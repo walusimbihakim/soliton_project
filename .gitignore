@@ -171,3 +171,4 @@ __pycache__/
 media/my_env
 pipfile
 pipfile.lock
+venv/
