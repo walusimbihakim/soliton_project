@@ -167,5 +167,6 @@ db.sqlite3
 __pycache__/
 .idea/
 
-#Media
+
+venv/
 media/

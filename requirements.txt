@@ -5,5 +5,4 @@ xhtml2pdf==0.2.3
 django-javascript-settings
 django-model-utils
 gunicorn
-psycopg2-binary>=2.8
 
