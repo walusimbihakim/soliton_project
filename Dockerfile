@@ -1,6 +1,5 @@
 #Grab the latest alpine image
 FROM alpine:latest
-
 # Install python and pip
 RUN apk add --no-cache --update python3 py3-pip bash
 RUN apk update \
@@ -11,13 +10,9 @@ RUN apk update \
     && apk add jpeg-dev zlib-dev libjpeg \
     && pip install Pillow \
     && apk del build-deps
-
 WORKDIR /code
 COPY requirements.txt /code/
-
-
 RUN python3 -m pip install --upgrade wheel
-
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install --upgrade pillow
 RUN pip install Django==2.2.2
@@ -26,14 +21,15 @@ RUN pip install django-javascript-settings
 RUN pip install django-model-utils
 RUN pip install gunicorn
 RUN pip install whitenoise==5.2.0
+RUN pip install celery
+RUN pip install redis
+RUN pip install python-decouple
 
 COPY . /code/
-
 # FOR HEROKU
 RUN python3 manage.py migrate --noinput
 # collect static files
 RUN python3 manage.py collectstatic --noinput
-
 # Run the image as a non-root user
 RUN adduser -D myuser
 USER myuser

@@ -5,4 +5,7 @@ xhtml2pdf==0.2.3
 django-javascript-settings
 django-model-utils
 gunicorn
-
+whitenoise
+celery
+redis
+python-decouple
