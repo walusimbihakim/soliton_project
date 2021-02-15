@@ -38,4 +38,3 @@ USER myuser
 # $PORT is set by Heroku
 CMD gunicorn --bind 0.0.0.0:$PORT project_manager.wsgi
 
-
