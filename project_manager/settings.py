@@ -18,6 +18,7 @@ DJANGO_APPS = [
     'django.contrib.humanize',
     'crispy_forms',
     'javascript_settings',
+    'django_celery_results'
 ]
 INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
@@ -76,7 +77,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Kampala'
 
 USE_I18N = True
 
@@ -101,4 +102,4 @@ CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
 CELERY_ACCEPT_CONTENT = config('CELERY_ACCEPT_CONTENT', cast=Csv())
 CELERY_TASK_SERIALIZER = config('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = config('CELERY_RESULT_SERIALIZER')
-CELERY_TIMEZONE = 'Africa/Nairobi'
+CELERY_TIMEZONE = 'Africa/Kampala'

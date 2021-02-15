@@ -24,6 +24,7 @@ RUN pip install whitenoise==5.2.0
 RUN pip install celery
 RUN pip install redis
 RUN pip install python-decouple
+RUN pip install django-celery-results
 
 COPY . /code/
 # FOR HEROKU

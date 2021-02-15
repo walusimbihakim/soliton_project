@@ -1,6 +1,7 @@
 from django.urls import path, reverse
 
 from projects.views import scope_views, team_views, wage_sheet_views, boq_views
+from projects.views.celery_test_view import django_celery_test
 from projects.views.sites_views import *
 import projects.views.worker_views  as worker_views
 from projects.views.survey_views import *
@@ -112,6 +113,7 @@ wage_sheets_urls = [
     path('manage_submitted_sheet/<int:wage_sheet_id>/<int:role>/', wage_sheet_views.manage_submitted_sheet, name="manage_submitted_sheet"),
     path('approve_reject_wagesheet/<int:wagesheet_id>/', wage_sheet_views.approve_reject_wagesheet, name="approve_reject_wagesheet"),
     path('reject_wage/<int:wage_id>/<int:role>/', wage_sheet_views.reject_wage, name="reject_wage"),
+
 ]
 
 segments_urls = [
@@ -152,7 +154,9 @@ project_urls =[
 
 urlpatterns = activity_urls+project_urls+worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
               pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls \
-              + segments_urls + complaint_urls + deduction_urls
+              + segments_urls + complaint_urls + deduction_urls + [
+               path('celery_test/', django_celery_test, name="celery_test")
+              ]
 
 
 # customJS routes
