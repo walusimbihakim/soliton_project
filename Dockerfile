@@ -43,8 +43,7 @@ RUN python3 manage.py migrate --noinput
 # collect static files
 RUN python3 manage.py collectstatic --noinput
 # Run the image as a non-root user
-RUN adduser -D myuser
-USER myuser
+USER root
 
 # Run the app.  CMD is required to run on Heroku
 # $PORT is set by Heroku
