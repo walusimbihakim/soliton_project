@@ -10,6 +10,6 @@ def go_to_sleep(self, duration):
     return 'Done'
 
 
-@shared_task
+@shared_task(bind=True)
 def fav_doctor():
     return "Bright is my fav doctor"
