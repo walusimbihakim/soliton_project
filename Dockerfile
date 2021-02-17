@@ -22,9 +22,6 @@ RUN apk update \
     && apk del build-deps
 WORKDIR /code
 COPY requirements.txt /code/
-RUN python3 -m pip install --upgrade wheel
-RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install --upgrade pillow
 RUN pip install Django==2.2.2
 RUN pip install django-crispy-forms==1.9.2
 RUN pip install django-javascript-settings
