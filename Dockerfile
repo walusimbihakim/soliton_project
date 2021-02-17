@@ -33,6 +33,7 @@ RUN pip install redis
 RUN pip install python-decouple
 RUN pip install django-celery-results
 RUN pip install django-celery-beat
+RUN pip install dj-database-url
 
 COPY . /code/
 # FOR HEROKU
@@ -40,7 +41,8 @@ RUN python3 manage.py migrate --noinput
 # collect static files
 RUN python3 manage.py collectstatic --noinput
 # Run the image as a non-root user
-USER root
+RUN adduser -D myuser
+USER myuser
 
 # Run the app.  CMD is required to run on Heroku
 # $PORT is set by Heroku

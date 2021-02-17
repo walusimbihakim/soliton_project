@@ -1,10 +1,13 @@
 import os
 from datetime import timedelta
 
+import dj_database_url
+from decouple import config, Csv
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = os.environ.get('SECRET_KEY')
-DEBUG = os.environ.get("DEBUG") == 'True'
-ALLOWED_HOSTS = ['.localhost', '.herokuapp.com', '127.0.0.1']
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default="127.0.0.1", cast=Csv())
 PROJECT_APPS = [
     'clients',
     'projects',
@@ -53,12 +56,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project_manager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = {'default': dj_database_url.config(
+    default=config("POSTGRES_URI")
+)}
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -99,12 +100,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # CELERY STUFF
-BROKER_URL = os.environ.get('REDIS_URL')
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
-CELERY_ACCEPT_CONTENT = os.environ.get('CELERY_ACCEPT_CONTENT')
-CELERY_TASK_SERIALIZER = os.environ.get('CELERY_TASK_SERIALIZER')
-CELERY_RESULT_SERIALIZER = os.environ.get('CELERY_RESULT_SERIALIZER')
-CELERY_TIMEZONE = os.environ.get('CELERY_TIMEZONE')
+BROKER_URL = config('REDIS_URL')
+CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = config('CELERY_ACCEPT_CONTENT')
+CELERY_TASK_SERIALIZER = config('CELERY_TASK_SERIALIZER')
+CELERY_RESULT_SERIALIZER = config('CELERY_RESULT_SERIALIZER')
+CELERY_TIMEZONE = config('CELERY_TIMEZONE', default="Africa/Kampala")
 
 CELERY_BEAT_SCHEDULE = {
     # Executes every Monday morning at 7:30 a.m.
