@@ -1,6 +1,6 @@
 from time import sleep
 
-from celery import shared_task, task
+from celery import shared_task
 
 
 @shared_task(bind=True)
@@ -10,6 +10,6 @@ def go_to_sleep(self, duration):
     return 'Done'
 
 
-@task
+@shared_task
 def fav_doctor():
     return "Bright is my fav doctor"
