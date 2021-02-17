@@ -35,6 +35,7 @@ RUN pip install celery
 RUN pip install redis
 RUN pip install python-decouple
 RUN pip install django-celery-results
+RUN pip install django-celery-beat
 
 COPY . /code/
 # FOR HEROKU

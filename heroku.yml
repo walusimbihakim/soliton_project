@@ -2,9 +2,13 @@ build:
   docker:
     web: Dockerfile
     worker: Dockerfile
+    beat: Dockerfile
 run:
   worker:
     command:
       - celery -A project_manager worker -l INFO
+  beat:
+    command:
+      - celery -A project_manager beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
 
 
