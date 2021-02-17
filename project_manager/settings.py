@@ -1,12 +1,10 @@
 import os
 from datetime import timedelta
 
-from decouple import config, Csv
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+SECRET_KEY = os.environ.get('SECRET_KEY')
+DEBUG = os.environ.get("DEBUG") == 'True'
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(",")
 PROJECT_APPS = [
     'clients',
     'projects',
@@ -101,12 +99,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # CELERY STUFF
-BROKER_URL = config('REDIS_URL')
-CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
-CELERY_ACCEPT_CONTENT = config('CELERY_ACCEPT_CONTENT', cast=Csv())
-CELERY_TASK_SERIALIZER = config('CELERY_TASK_SERIALIZER')
-CELERY_RESULT_SERIALIZER = config('CELERY_RESULT_SERIALIZER')
-CELERY_TIMEZONE = config('CELERY_TIMEZONE')
+BROKER_URL = os.environ.get('REDIS_URL')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = os.environ.get('CELERY_ACCEPT_CONTENT')
+CELERY_TASK_SERIALIZER = os.environ.get('CELERY_TASK_SERIALIZER')
+CELERY_RESULT_SERIALIZER = os.environ.get('CELERY_RESULT_SERIALIZER')
+CELERY_TIMEZONE = os.environ.get('CELERY_TIMEZONE')
 
 CELERY_BEAT_SCHEDULE = {
     # Executes every Monday morning at 7:30 a.m.
