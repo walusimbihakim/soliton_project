@@ -1,5 +1,8 @@
 import os
+from datetime import timedelta
+
 from decouple import config, Csv
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -18,7 +21,8 @@ DJANGO_APPS = [
     'django.contrib.humanize',
     'crispy_forms',
     'javascript_settings',
-    'django_celery_results'
+    'django_celery_results',
+    'django_celery_beat'
 ]
 INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
@@ -103,3 +107,11 @@ CELERY_ACCEPT_CONTENT = config('CELERY_ACCEPT_CONTENT', cast=Csv())
 CELERY_TASK_SERIALIZER = config('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = config('CELERY_RESULT_SERIALIZER')
 CELERY_TIMEZONE = 'Africa/Kampala'
+
+CELERY_BEAT_SCHEDULE = {
+    # Executes every Monday morning at 7:30 a.m.
+    'doctor-every-10-seconds': {
+        'task': 'projects.tasks.fav_doctor',
+        'schedule': timedelta(seconds=1),
+    },
+}

@@ -173,3 +173,4 @@ pipfile.lock
 venv/
 media/
 .env
+.env
