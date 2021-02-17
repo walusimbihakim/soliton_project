@@ -1,6 +1,16 @@
 #Grab the latest alpine image
 FROM alpine:latest
 # Install python and pip
+ENV SECRET_KEY 0d1*j&^q381!@3^^4htw!n-1p!yxxy93s3^2exrw7%4bf_!hcf
+ENV DEBUG True
+ENV ALLOWED_HOSTS .localhost, .herokuapp.com, 127.0.0.1
+ENV REDIS_URL redis://:p5a881ed3de5e49ff35a4ed3f7707c9f9095e35332405e81afff1d28cf1c24337@ec2-52-22-235-152.compute-1.amazonaws.com:13569
+ENV CELERY_RESULT_BACKEND django-db
+ENV CELERY_ACCEPT_CONTENT json
+ENV CELERY_TASK_SERIALIZER json
+ENV CELERY_RESULT_SERIALIZER json
+ENV CELERY_TIMEZONE Africa/Kampala
+
 RUN apk add --no-cache --update python3 py3-pip bash
 RUN apk update \
     && apk add --virtual build-deps gcc python3-dev musl-dev \
