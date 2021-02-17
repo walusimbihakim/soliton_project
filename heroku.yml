@@ -15,5 +15,8 @@ build:
     web: Dockerfile
     worker: Dockerfile
   run:
-    worker: celery -A project_manager worker -l INFO
+    worker:
+      command:
+        - celery -A project_manager worker -l INFO
+
 
