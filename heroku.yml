@@ -2,7 +2,6 @@ build:
   docker:
     web: Dockerfile
     worker: Dockerfile
-    beat: Dockerfile
 run:
   worker:
     command:
