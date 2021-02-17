@@ -13,4 +13,7 @@ setup:
 build:
   docker:
     web: Dockerfile
-    worker: worker/Dockerfile
+    worker: Dockerfile
+  run:
+    worker: celery -A project_manager worker -l INFO
+
