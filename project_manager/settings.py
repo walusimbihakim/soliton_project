@@ -107,10 +107,4 @@ CELERY_TASK_SERIALIZER = config('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = config('CELERY_RESULT_SERIALIZER')
 CELERY_TIMEZONE = config('CELERY_TIMEZONE', default="Africa/Kampala")
 
-CELERY_BEAT_SCHEDULE = {
-    # Executes every Monday morning at 7:30 a.m.
-    'doctor-every-10-seconds': {
-        'task': 'projects.tasks.fav_doctor',
-        'schedule': timedelta(seconds=1),
-    },
-}
+

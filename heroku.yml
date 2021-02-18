@@ -5,7 +5,7 @@ build:
 run:
   worker:
     command:
-      - celery -A project_manager worker --beat --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=info
+      - celery -A project_manager worker --INFO
 
 
 
