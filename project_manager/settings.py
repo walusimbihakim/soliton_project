@@ -1,7 +1,4 @@
 import os
-from datetime import timedelta
-
-import dj_database_url
 from decouple import config, Csv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -103,11 +100,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # CELERY STUFF
-BROKER_URL = config('REDIS_URL')
 CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
-CELERY_ACCEPT_CONTENT = config('CELERY_ACCEPT_CONTENT')
-CELERY_TASK_SERIALIZER = config('CELERY_TASK_SERIALIZER')
-CELERY_RESULT_SERIALIZER = config('CELERY_RESULT_SERIALIZER')
 CELERY_TIMEZONE = config('CELERY_TIMEZONE', default="Africa/Kampala")
 
 
