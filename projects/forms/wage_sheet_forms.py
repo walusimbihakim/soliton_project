@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.widgets import HiddenInput
 from crispy_forms.helper import FormHelper
 from projects.models import WageSheet, Wage
 
@@ -6,7 +7,7 @@ from projects.models import WageSheet, Wage
 class WageSheetForm(forms.ModelForm):
     class Meta:
         model = WageSheet
-        fields = ("field_manager", "supervisor", "segment", "date", "description")
+        fields = ("wage_bill", "field_manager", "supervisor", "segment", "date", "description")
 
         widgets = {
             "date": forms.DateInput(attrs={"type": "date"})
@@ -15,6 +16,8 @@ class WageSheetForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.Helper = FormHelper()
+
+        self.fields["wage_bill"].widget = HiddenInput()
 
 
 class WageForm(forms.ModelForm):
