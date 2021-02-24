@@ -22,28 +22,6 @@ $(document).ready(() => {
         });
     });
 
-    // Getting Leave End date
-    $("#st_date").change(() => {
-        start_date = document.querySelector('#st_date').value;
-        no_days = document.querySelector('#no_days').value;
-
-        $.ajax({
-            type: 'get',
-            url: configuration['leave']['get_end_date'],
-            data: { 'startDate': start_date, 'no_of_days': no_days },
-            dataType: 'json',
-            success: (data) => {
-                if (data.success) {
-                    document.querySelector('#end_date').value = data.end_date;
-                } else {
-                    // alert(data.message);
-                }
-
-            },
-
-        });
-    });
-
     // Approving/rejecting Leave Application
     $("#submit_leave_application").click(() => {
         var selected = $("#select_action :selected").text();
@@ -199,5 +177,27 @@ $(document).ready(() => {
         document.querySelector('#id_total_cost').value = total_cost;
 
     };
+
+    // Getting wage bill End date
+    $("#id_start_date").change(() => {
+        alert("Hello");
+        start_date = document.querySelector('#id_start_date').value;
+
+        $.ajax({
+            type: 'get',
+            url: configuration['projects']['get_end_date'],
+            data: { 'start_date': start_date },
+            dataType: 'json',
+            success: (data) => {
+                if (data.success) {
+                    document.querySelector('#id_end_date').value = data.end_date;
+                } else {
+                    // alert(data.message);
+                }
+
+            },
+
+        });
+    });
 
 });

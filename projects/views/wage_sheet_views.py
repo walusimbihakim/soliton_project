@@ -11,11 +11,16 @@ from projects.selectors.wage_sheets import get_all_wage_sheets, get_wage_sheet, 
 from projects.selectors.deductions import get_deductions, get_deduction
 from projects.selectors.wage_sheets import get_all_wage_sheets, get_wage_sheet, get_wages, get_wage, \
     get_submitted_wage_sheets
+import projects.selectors.wage_bill_selectors as wage_bill_selectors
 
 
 def manage_wage_sheets_page(request):
+
+    wage_bill = wage_bill_selectors.get_current_wage_bill()
+
     wage_sheets = get_all_wage_sheets()
-    form = WageSheetForm()
+    form = WageSheetForm(initial={"wage_bill": wage_bill})
+
     if request.method == "POST":
         form = WageSheetForm(request.POST, request.FILES)
         if form.is_valid():
@@ -28,6 +33,7 @@ def manage_wage_sheets_page(request):
         "wagebill": "active",
         "manage_wage_sheets": "active",
         "wage_sheets": wage_sheets,
+        "wage_bill": wage_bill,
         'form': form,
     }
     return render(request, "wage_sheet/manage_wage_sheets.html", context)
@@ -214,7 +220,7 @@ def reject_wage(request, wage_id, role):
 
         messages.success(request, "Wage rejected")
     except:
-        messages.warning(request, "Operation was no successfull")
+        messages.error(request, "Operation was no successfull")
 
     return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wage.wage_sheet.id, role]))
 
@@ -232,7 +238,7 @@ def reject_complaint(request, complaint_id, role):
 
         messages.success(request, "Complaint rejected")
     except:
-        messages.warning(request, "Operation was no successfull")
+        messages.error(request, "Operation was no successfull")
         
     return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[complaint.wage_sheet.id, role]))
 
@@ -250,7 +256,7 @@ def reject_deduction(request, deduction_id, role):
 
         messages.success(request, "deduction rejected")
     except:
-        messages.warning(request, "Operation was not successfull")
+        messages.error(request, "Operation was not successfull")
         
     return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[deduction.wage_sheet.id, role]))
 
