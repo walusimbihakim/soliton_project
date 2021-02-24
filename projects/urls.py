@@ -6,13 +6,13 @@ import projects.views.worker_views  as worker_views
 from projects.views.survey_views import *
 from projects.views.project_views import *
 from projects.views.activity_list_views import *
-import  projects.views.project_views
 from projects.views import pip_views, project_settings_view, budget_views
 from projects.views import pip_views
 import projects.views.field_manager_views as field_manage_views
 import projects.views.segment_views as segment_views
 import projects.views.complaint_views as complaint_views
 import projects.views.deduction_views as deduction_views
+import projects.views.wage_bill_views as wage_bill_views
 
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page, name='manage_workers_page'),
@@ -141,6 +141,15 @@ activity_urls = [
     path('get_activity_rate/', get_activity_rate, name='get_activity_rate'),
 ]
 
+wage_bill_urls = [
+    path('manage_wage_bill/', wage_bill_views.manage_wage_bill, name='manage_wage_bill'),
+    path('edit_wage_bill/<int:wage_bill_id>/', wage_bill_views.edit_wage_bill, name='edit_wage_bill'),
+    path('delete_wage_bill/<int:wage_bill_id>/', wage_bill_views.delete_wage_bill, name='delete_wage_bill'),
+    path('get_end_date/', wage_bill_views.get_end_date, name='get_end_date'),
+    path('consolidated_wage_bill/', wage_bill_views.consolidated_wage_bill, name='consolidated_wage_bill'),
+
+]
+
 project_urls =[
     path('', index_page, name='index_page'),
     path('projects/', projects_page_view, name='manage_projects'),
@@ -152,7 +161,7 @@ project_urls =[
 
 urlpatterns = activity_urls+project_urls+worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
               pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls \
-              + segments_urls + complaint_urls + deduction_urls
+              + segments_urls + complaint_urls + deduction_urls + wage_bill_urls
 
 
 # customJS routes
@@ -160,6 +169,7 @@ def javascript_settings():
     js_conf = {
         'get_material_unitcost': reverse('get_material_unitcost'),
         'get_expense_rate': reverse('get_expense_rate'),
-        'get_activity_rate': reverse('get_activity_rate'),
+        'get_activity_rate': reverse('get_activity_rate'), 
+        'get_end_date': reverse('get_end_date'), 
     }
     return js_conf

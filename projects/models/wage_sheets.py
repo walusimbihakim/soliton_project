@@ -2,15 +2,17 @@ from django.db import models
 
 from projects.models import Worker, FieldManager, Activity
 from projects.models.segments import Segment
+from projects.models.wage_bills import WageBill
 
 
 class WageSheet(models.Model):
+    wage_bill = models.ForeignKey(WageBill, on_delete=models.CASCADE)
     field_manager = models.ForeignKey(FieldManager, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(Worker, on_delete=models.CASCADE)
     segment = models.ForeignKey(Segment, on_delete=models.CASCADE, default=1)
     date = models.DateField()
     description = models.TextField()
-    is_submitted = models.BooleanField()
+    is_submitted = models.BooleanField(default=False)
     manager_status = models.BooleanField(null=True)
     manager_comment = models.TextField(default="-")
     project_manager_status = models.BooleanField(null=True)
@@ -22,7 +24,7 @@ class WageSheet(models.Model):
         unique_together = ('supervisor', 'field_manager', 'date')
 
     def __str__(self):
-        return f"{self.team} Wage Sheet {self.id}"
+        return f"{self.supervisor} Wage Sheet {self.id}"
 
 
 class Wage(models.Model):

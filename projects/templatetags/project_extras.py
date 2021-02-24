@@ -51,3 +51,4 @@ def activity_totalcost_filter(quantity, rate):
 @register.filter
 def survey_filter(survey_id):
     return Survey.objects.get(pk=survey_id)
+
