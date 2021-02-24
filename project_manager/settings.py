@@ -1,6 +1,6 @@
 import os
-
 import dj_database_url
+from django.contrib.messages import constants as messages
 from decouple import config, Csv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,13 +29,19 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # new to serve static files in production
+    # new to serve static files in production
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
+
 ROOT_URLCONF = 'project_manager.urls'
 TEMPLATES = [
     {
@@ -103,7 +109,7 @@ STATIC_ROOT = "/static_files/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-# media 
+# media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
