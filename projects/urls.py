@@ -1,8 +1,9 @@
 from django.urls import path, reverse
 
 from projects.views import scope_views, team_views, wage_sheet_views, boq_views
+from projects.views.celery_test_view import django_celery_test
 from projects.views.sites_views import *
-import projects.views.worker_views  as worker_views
+import projects.views.worker_views as worker_views
 from projects.views.survey_views import *
 from projects.views.project_views import *
 from projects.views.activity_list_views import *
@@ -15,77 +16,113 @@ import projects.views.deduction_views as deduction_views
 import projects.views.wage_bill_views as wage_bill_views
 
 worker_urls = [
-    path('manage_workers/', worker_views.manage_workers_page, name='manage_workers_page'),
-    path('delete_worker/<int:id>/', worker_views.delete_worker, name='delete_worker'),
+    path('manage_workers/', worker_views.manage_workers_page,
+         name='manage_workers_page'),
+    path('delete_worker/<int:id>/',
+         worker_views.delete_worker, name='delete_worker'),
     path('edit_worker/<int:id>/', worker_views.edit_worker_page, name="edit_worker"),
 ]
 
 survey_urls = [
     path('project/<int:id>/surveys', survey_page_view, name="manage_surveys"),
-    path('project/<int:id>/surveys/<int:survey_id>/', edit_survey, name="edit_survey"),
+    path('project/<int:id>/surveys/<int:survey_id>/',
+         edit_survey, name="edit_survey"),
     path('project/<int:survey_id>/', delete_survey, name="delete_survey"),
 ]
 
 scope_urls = [
     path('manage_scopes', scope_views.manage_scopes, name="manage_scopes_page"),
-    path('manage_project_scopes/<int:id>/', scope_views.manage_project_scopes, name='manage_project_scopes'),
-    path('manage_survey_scopes/<int:id>/', scope_views.manage_survey_scopes, name='manage_survey_scopes'),
+    path('manage_project_scopes/<int:id>/',
+         scope_views.manage_project_scopes, name='manage_project_scopes'),
+    path('manage_survey_scopes/<int:id>/',
+         scope_views.manage_survey_scopes, name='manage_survey_scopes'),
     path('delete_scope/<int:id>/', scope_views.delete_scope, name='delete_scope'),
     path('edit_scope/<int:id>/', scope_views.edit_scope, name='edit_scope'),
 ]
 boq_urls = [
     path('manage_boqs/', boq_views.manage_boqs, name='manage_boqs'),
-    path('manage_project_boqs/<int:id>/', boq_views.manage_project_boqs, name='manage_project_boqs'),
+    path('manage_project_boqs/<int:id>/',
+         boq_views.manage_project_boqs, name='manage_project_boqs'),
     path('create_boq/<int:survey_id>/', boq_views.create_boq, name='create_boq'),
-    path('manage_boq_items/<int:id>/', boq_views.manage_boq_items, name='manage_boq_items'),
-    path('add_materialboq/<int:id>/', boq_views.add_materialboq, name="add_materialboq"),
-    path('add_serviceboq/<int:id>/', boq_views.add_serviceboq, name="add_serviceboq"),
-    path('edit_material_boq_item/<int:id>/', boq_views.edit_materialboq, name="edit_material_boq_item"),
-    path('delete_material_boq_item/<int:id>/', boq_views.delete_materialboq, name="delete_material_boq_item"),
-    path('delete_service_boq_item/<int:id>/', boq_views.delete_serviceboq, name="delete_service_boq_item"),
-    path('edit_service_boq_item/<int:id>/', boq_views.edit_serviceboq, name="edit_service_boq_item"),
+    path('manage_boq_items/<int:id>/',
+         boq_views.manage_boq_items, name='manage_boq_items'),
+    path('add_materialboq/<int:id>/',
+         boq_views.add_materialboq, name="add_materialboq"),
+    path('add_serviceboq/<int:id>/',
+         boq_views.add_serviceboq, name="add_serviceboq"),
+    path('edit_material_boq_item/<int:id>/',
+         boq_views.edit_materialboq, name="edit_material_boq_item"),
+    path('delete_material_boq_item/<int:id>/',
+         boq_views.delete_materialboq, name="delete_material_boq_item"),
+    path('delete_service_boq_item/<int:id>/',
+         boq_views.delete_serviceboq, name="delete_service_boq_item"),
+    path('edit_service_boq_item/<int:id>/',
+         boq_views.edit_serviceboq, name="edit_service_boq_item"),
 ]
 
 pip_urls = [
-    path('scope/<int:scope_id>/pips/', pip_views.pip_page_view, name='manage_pips'),
-    path('scope/<int:scope_id>/pip/<int:pip_id>', pip_views.edit_pip_view, name='edit_pip'),
+    path('scope/<int:scope_id>/pips/',
+         pip_views.pip_page_view, name='manage_pips'),
+    path('scope/<int:scope_id>/pip/<int:pip_id>',
+         pip_views.edit_pip_view, name='edit_pip'),
     path('scope/pip/<int:pip_id>', pip_views.delete_pip, name='delete_pip'),
 ]
 
 settings_urls = [
     path('uom/', project_settings_view.unit_of_measure_view, name='manage_uom'),
-    path('edit_uom/<int:uom_id>/', project_settings_view.edit_uom_view, name='edit_uom'),
-    path('delete_uom/<int:uom_id>/', project_settings_view.delete_uom, name='delete_uom'),
+    path('edit_uom/<int:uom_id>/',
+         project_settings_view.edit_uom_view, name='edit_uom'),
+    path('delete_uom/<int:uom_id>/',
+         project_settings_view.delete_uom, name='delete_uom'),
 
-    path('expenses/', project_settings_view.manage_expense_view, name='manage_expenses'),
-    path('edit_expense/<int:expense_id>/', project_settings_view.edit_expense_view, name='edit_expense'),
-    path('delete_expense/<int:expense_id>/', project_settings_view.delete_expense, name='delete_expense'),
+    path('expenses/', project_settings_view.manage_expense_view,
+         name='manage_expenses'),
+    path('edit_expense/<int:expense_id>/',
+         project_settings_view.edit_expense_view, name='edit_expense'),
+    path('delete_expense/<int:expense_id>/',
+         project_settings_view.delete_expense, name='delete_expense'),
 ]
 
 budget_urls = [
-    path('create_budget/<int:pip_id>/', budget_views.create_budget, name='create_budget'),
-    path('manage_budgets/<int:budget_id>/', budget_views.manage_budgets_view, name='manage_budgets'),
+    path('create_budget/<int:pip_id>/',
+         budget_views.create_budget, name='create_budget'),
+    path('manage_budgets/<int:budget_id>/',
+         budget_views.manage_budgets_view, name='manage_budgets'),
 
-    path('add_material_budget/<budget_id>/', budget_views.add_material_budget_view, name='add_material_budget'),
-    path('edit_material_budget/<budget_id>/', budget_views.edit_material_budget_view, name='edit_material_budget'),
-    path('delete_material_budget/<budget_id>/', budget_views.delete_material_budget_view, name='delete_material_budget'),
+    path('add_material_budget/<budget_id>/',
+         budget_views.add_material_budget_view, name='add_material_budget'),
+    path('edit_material_budget/<budget_id>/',
+         budget_views.edit_material_budget_view, name='edit_material_budget'),
+    path('delete_material_budget/<budget_id>/',
+         budget_views.delete_material_budget_view, name='delete_material_budget'),
 
-    path('add_execution_budget/<budget_id>/', budget_views.add_execution_budget_view, name='add_execution_budget'),
-    path('edit_execution_budget/<budget_id>/', budget_views.edit_execution_budget_view, name='edit_execution_budget'),
-    path('delete_execution_budget/<budget_id>/', budget_views.delete_execution_budget_view, name='delete_execution_budget'),
+    path('add_execution_budget/<budget_id>/',
+         budget_views.add_execution_budget_view, name='add_execution_budget'),
+    path('edit_execution_budget/<budget_id>/',
+         budget_views.edit_execution_budget_view, name='edit_execution_budget'),
+    path('delete_execution_budget/<budget_id>/',
+         budget_views.delete_execution_budget_view, name='delete_execution_budget'),
 
-    path('add_expense_budget/<budget_id>/', budget_views.add_expense_budget_view, name='add_expense_budget'),
-    path('edit_expense_budget/<budget_id>/', budget_views.edit_expense_budget_view, name='edit_expense_budget'),
-    path('delete_expense_budget/<budget_id>/', budget_views.delete_expense_budget_view, name='delete_expense_budget'),
+    path('add_expense_budget/<budget_id>/',
+         budget_views.add_expense_budget_view, name='add_expense_budget'),
+    path('edit_expense_budget/<budget_id>/',
+         budget_views.edit_expense_budget_view, name='edit_expense_budget'),
+    path('delete_expense_budget/<budget_id>/',
+         budget_views.delete_expense_budget_view, name='delete_expense_budget'),
 
-    path('get_material_unitcost/', budget_views.get_material_unitcost_view, name='get_material_unitcost'),
-    path('get_expense_rate/', budget_views.get_expense_rate_view, name='get_expense_rate'),
+    path('get_material_unitcost/', budget_views.get_material_unitcost_view,
+         name='get_material_unitcost'),
+    path('get_expense_rate/', budget_views.get_expense_rate_view,
+         name='get_expense_rate'),
 ]
 
 field_managers_urls = [
-    path('manage_field_managers/', field_manage_views.manage_field_managers, name='manage_field_managers'),
-    path('delete_field_manager/<int:id>/', field_manage_views.delete_field_manager, name='delete_field_manager'),
-    path('edit_field_manager/<int:id>/', field_manage_views.edit_field_manager, name="edit_field_manager"),
+    path('manage_field_managers/', field_manage_views.manage_field_managers,
+         name='manage_field_managers'),
+    path('delete_field_manager/<int:id>/',
+         field_manage_views.delete_field_manager, name='delete_field_manager'),
+    path('edit_field_manager/<int:id>/',
+         field_manage_views.edit_field_manager, name="edit_field_manager"),
 ]
 
 teams_urls = [
@@ -95,73 +132,108 @@ teams_urls = [
 ]
 
 pip_team_urls = [
-    path('manage_pip_teams/', team_views.manage_pip_team_page, name='manage_pip_teams'),
-    path('delete_pip_team/<int:id>/', team_views.delete_pip_team, name='delete_pip_team'),
-    path('edit_pip_team/<int:id>/', team_views.edit_pip_team_page, name="edit_pip_team"),
+    path('manage_pip_teams/', team_views.manage_pip_team_page,
+         name='manage_pip_teams'),
+    path('delete_pip_team/<int:id>/',
+         team_views.delete_pip_team, name='delete_pip_team'),
+    path('edit_pip_team/<int:id>/',
+         team_views.edit_pip_team_page, name="edit_pip_team"),
 ]
 
 wage_sheets_urls = [
-    path('manage_wage_sheets/', wage_sheet_views.manage_wage_sheets_page, name='manage_wage_sheets'),
-    path('delete_wage_sheet/<int:id>/', wage_sheet_views.delete_wage_sheet, name='delete_wage_sheet'),
-    path('edit_wage_sheet/<int:id>/', wage_sheet_views.edit_wage_sheet_page, name="edit_wage_sheet"),
-    path('manage_wages/<int:wage_sheet_id>', wage_sheet_views.manage_wages_page, name='manage_wages'),
+    path('manage_wage_sheets/', wage_sheet_views.manage_wage_sheets_page,
+         name='manage_wage_sheets'),
+    path('delete_wage_sheet/<int:id>/',
+         wage_sheet_views.delete_wage_sheet, name='delete_wage_sheet'),
+    path('edit_wage_sheet/<int:id>/',
+         wage_sheet_views.edit_wage_sheet_page, name="edit_wage_sheet"),
+    path('manage_wages/<int:wage_sheet_id>',
+         wage_sheet_views.manage_wages_page, name='manage_wages'),
     path('delete_wage/<int:id>/', wage_sheet_views.delete_wage, name='delete_wage'),
     path('edit_wage/<int:id>/', wage_sheet_views.edit_wage_page, name="edit_wage"),
-    path('submit_wage_sheet/<int:wage_sheet_id>/', wage_sheet_views.submit_wage_sheet, name="submit_wage_sheet"),
-    path('submitted_wage_sheets/', wage_sheet_views.view_submitted_wagesheets, name="submitted_wage_sheets"),
-    path('manage_submitted_sheet/<int:wage_sheet_id>/<int:role>/', wage_sheet_views.manage_submitted_sheet, name="manage_submitted_sheet"),
-    path('approve_reject_wagesheet/<int:wagesheet_id>/', wage_sheet_views.approve_reject_wagesheet, name="approve_reject_wagesheet"),
-    path('reject_wage/<int:wage_id>/<int:role>/', wage_sheet_views.reject_wage, name="reject_wage"),
+    path('submit_wage_sheet/<int:wage_sheet_id>/',
+         wage_sheet_views.submit_wage_sheet, name="submit_wage_sheet"),
+    path('submitted_wage_sheets/', wage_sheet_views.view_submitted_wagesheets,
+         name="submitted_wage_sheets"),
+    path('manage_submitted_sheet/<int:wage_sheet_id>/<int:role>/',
+         wage_sheet_views.manage_submitted_sheet, name="manage_submitted_sheet"),
+    path('approve_reject_wagesheet/<int:wagesheet_id>/',
+         wage_sheet_views.approve_reject_wagesheet, name="approve_reject_wagesheet"),
+    path('reject_wage/<int:wage_id>/<int:role>/',
+         wage_sheet_views.reject_wage, name="reject_wage"),
+
 ]
 
 segments_urls = [
-    path('manage_segments/', segment_views.manage_segments_page, name='manage_segments'),
-    path('delete_segment/<int:id>/', segment_views.delete_segment, name='delete_segment'),
-    path('edit_segment/<int:id>/', segment_views.edit_segment_page, name="edit_segment"),
+    path('manage_segments/', segment_views.manage_segments_page,
+         name='manage_segments'),
+    path('delete_segment/<int:id>/',
+         segment_views.delete_segment, name='delete_segment'),
+    path('edit_segment/<int:id>/',
+         segment_views.edit_segment_page, name="edit_segment"),
 ]
 
 complaint_urls = [
-    path('manage_complaints/<int:wage_sheet_id>', complaint_views.manage_complaints_page, name='manage_complaints'),
-    path('delete_complaint/<int:id>/', complaint_views.delete_complaint, name='delete_complaint'),
-    path('edit_complaint/<int:id>/', complaint_views.edit_complaint_page, name="edit_complaint"),
-    path('reject_complaint/<int:complaint_id>/<int:role>/', wage_sheet_views.reject_complaint, name="reject_complaint"),
+    path('manage_complaints/<int:wage_sheet_id>',
+         complaint_views.manage_complaints_page, name='manage_complaints'),
+    path('delete_complaint/<int:id>/',
+         complaint_views.delete_complaint, name='delete_complaint'),
+    path('edit_complaint/<int:id>/',
+         complaint_views.edit_complaint_page, name="edit_complaint"),
+    path('reject_complaint/<int:complaint_id>/<int:role>/',
+         wage_sheet_views.reject_complaint, name="reject_complaint"),
 ]
 
 deduction_urls = [
-    path('manage_deductions/<int:wage_sheet_id>', deduction_views.manage_deductions_page, name='manage_deductions'),
-    path('delete_deduction/<int:id>/', deduction_views.delete_deduction, name='delete_deduction'),
-    path('edit_deduction/<int:id>/', deduction_views.edit_deduction_page, name="edit_deduction"),
-    path('reject_deduction/<int:deduction_id>/<int:role>/', wage_sheet_views.reject_deduction, name="reject_deduction"),
+    path('manage_deductions/<int:wage_sheet_id>',
+         deduction_views.manage_deductions_page, name='manage_deductions'),
+    path('delete_deduction/<int:id>/',
+         deduction_views.delete_deduction, name='delete_deduction'),
+    path('edit_deduction/<int:id>/',
+         deduction_views.edit_deduction_page, name="edit_deduction"),
+    path('reject_deduction/<int:deduction_id>/<int:role>/',
+         wage_sheet_views.reject_deduction, name="reject_deduction"),
 ]
 
 activity_urls = [
     path('activity_list/', activity_page_view, name='manage_activities'),
-    path('edit_activity/<int:activity_id>/', edit_activity_view, name='edit_activity'),
-    path('delete_activity/<int:activity_id>/', delete_activity_view, name='delete_activity'),
+    path('edit_activity/<int:activity_id>/',
+         edit_activity_view, name='edit_activity'),
+    path('delete_activity/<int:activity_id>/',
+         delete_activity_view, name='delete_activity'),
     path('get_activity_rate/', get_activity_rate, name='get_activity_rate'),
 ]
 
 wage_bill_urls = [
-    path('manage_wage_bill/', wage_bill_views.manage_wage_bill, name='manage_wage_bill'),
-    path('edit_wage_bill/<int:wage_bill_id>/', wage_bill_views.edit_wage_bill, name='edit_wage_bill'),
-    path('delete_wage_bill/<int:wage_bill_id>/', wage_bill_views.delete_wage_bill, name='delete_wage_bill'),
+    path('manage_wage_bill/', wage_bill_views.manage_wage_bill,
+         name='manage_wage_bill'),
+    path('edit_wage_bill/<int:wage_bill_id>/',
+         wage_bill_views.edit_wage_bill, name='edit_wage_bill'),
+    path('delete_wage_bill/<int:wage_bill_id>/',
+         wage_bill_views.delete_wage_bill, name='delete_wage_bill'),
     path('get_end_date/', wage_bill_views.get_end_date, name='get_end_date'),
-    path('consolidated_wage_bill/', wage_bill_views.consolidated_wage_bill, name='consolidated_wage_bill'),
+    path('consolidated_wage_bill/', wage_bill_views.consolidated_wage_bill,
+         name='consolidated_wage_bill'),
 
 ]
 
-project_urls =[
+project_urls = [
     path('', index_page, name='index_page'),
     path('projects/', projects_page_view, name='manage_projects'),
-    path('project_details/<int:project_id>/', project_details_view, name='project_details'),
+    path('project_details/<int:project_id>/',
+         project_details_view, name='project_details'),
     path('project_settings/', projects_settings_view, name='project_settings'),
-    path('project/<int:project_id>/sites/', sites_page_view, name='manage_sites'),
-    path('project/<int:project_id>/site/<int:site_id>/', site_details_view, name='site_details'),
+    path('project/<int:project_id>/sites/',
+         sites_page_view, name='manage_sites'),
+    path('project/<int:project_id>/site/<int:site_id>/',
+         site_details_view, name='site_details'),
 ]
 
 urlpatterns = activity_urls+project_urls+worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
-              pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls \
-              + segments_urls + complaint_urls + deduction_urls + wage_bill_urls
+    pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls \
+    + wage_bill_urls + segments_urls + complaint_urls + deduction_urls + [
+        path('celery_test/', django_celery_test, name="celery_test")
+    ]
 
 
 # customJS routes
@@ -169,7 +241,7 @@ def javascript_settings():
     js_conf = {
         'get_material_unitcost': reverse('get_material_unitcost'),
         'get_expense_rate': reverse('get_expense_rate'),
-        'get_activity_rate': reverse('get_activity_rate'), 
-        'get_end_date': reverse('get_end_date'), 
+        'get_activity_rate': reverse('get_activity_rate'),
+        'get_end_date': reverse('get_end_date'),
     }
     return js_conf
