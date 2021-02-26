@@ -21,64 +21,39 @@ Consolidated Wage Bill
                 <div class="card-header">
                     <h3 class="card-title">Wage Bill - {{wage_bill}}</h3>
                 </div>
-                <!-- /.card-header -->
-                <!-- ./card-body -->
                 <div class="card-body">
-                    <table id="example1" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th class="text-center">No.</th>
-                            <th class="text-center">Worker</th>
-                            <th class="text-center">Amount</th>
-                            <th class="text-center">Telphone</th>
-                            <th class="text-center">Supervisor</th>
-                            <th class="text-center">Charge</th>
-                            <th class="text-center">Total</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for wage in wages%}
+                    <a href="{%url 'current_consolidated_wage_bill_csv'%}">
+                        <button class="btn btn-outline-primary" style="margin:5px; float: right" >
+                            Export CSV
+                        </button>
+                    </a>
+                    <div class="table-responsive">
+                        <table id="consolidated_list" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th class="text-center">No.</th>
+                                <th class="text-center">Worker</th>
+                                <th class="text-center">Telephone</th>
+                                <th class="text-center">Amount</th>
+                                <th class="text-center">Charge</th>
+                                <th class="text-center">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for wage in aggregated_wages%}
                             <tr >
                                 <td class="text-center">1</td>
-                                <td class="text-center">
-                                    {{wage.worker}}
-                                </td> 
-                                <td class="text-center">{{wage.payment|intcomma}}/-</td> 
-                                <td class="text-center">{{wage.worker.mobile_money_number}}</td> 
-                                <td class="text-center">{{wage.wage_sheet.supervisor}}</td>  
-                                <td class="text-center">{{wage.payment|get_withdraw_charge_filter|intcomma}}/-</td>  
-                                <td class="text-center">{{wage.payment|wage_total_filter|intcomma}}/-</td>                                                       
-                               
+                                <td class="text-center">{{wage.worker|get_worker:1}}</td>
+                                <td class="text-center">{{wage.worker|get_worker:2}}</td>
+                                <td class="text-center">{{wage.payment|intcomma}}/-</td>
+                                <td class="text-center">{{wage.payment|get_withdraw_charge_filter|intcomma}}/-</td>
+                                <td class="text-center">{{wage.payment|wage_total_filter|intcomma}}/-</td>
+
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    <br>
-                    <table id="consolidated_list" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th class="text-center">No.</th>
-                            <th class="text-center">Worker</th>
-                            <th class="text-center">Telphone</th>
-                            <th class="text-center">Amount</th>
-                            <th class="text-center">Charge</th>
-                            <th class="text-center">Total</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {% for wage in aggregated_wages%}
-                                <tr >
-                                    <td class="text-center">1</td>
-                                    <td class="text-center">{{wage.worker|get_worker:1}}</td>
-                                    <td class="text-center">{{wage.worker|get_worker:2}}</td> 
-                                    <td class="text-center">{{wage.payment|intcomma}}/-</td>   
-                                    <td class="text-center">{{wage.payment|get_withdraw_charge_filter|intcomma}}/-</td>  
-                                    <td class="text-center">{{wage.payment|wage_total_filter|intcomma}}/-</td>                                                       
-                                
-                                </tr>
                             {% endfor %}
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
                 {%else%}
