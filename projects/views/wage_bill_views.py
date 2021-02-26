@@ -6,32 +6,23 @@ from django.urls import reverse
 from django.contrib import messages
 import datetime
 
-import projects.models.wage_bills as wage_bills
 import projects.forms.wage_bill_forms as wage_bill_forms
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
-import projects.selectors.wage_sheets as wage_sheet_selectors
 from projects.selectors.workers import get_worker
+from projects.services.wage_bill_services import set_current_wage_bill_status_to_done
 
 
 def manage_wage_bill(request):
     wage_bill_form = wage_bill_forms.WageBillForm()
-
     if request.method == "POST":
         wage_bill_form = wage_bill_forms.WageBillForm(request.POST, request.FILES)
-
         if wage_bill_form.is_valid():
-            current_wage_bill = wage_bill_selectors.get_current_wage_bill()
-            current_wage_bill.status = "Done"
-            current_wage_bill.save()
+            set_current_wage_bill_status_to_done()
             wage_bill_form.save()
-
             messages.success(request, "Wage Bill Record Saved Successfully")
-
         else:
             messages.warning(request, "Something went wrong, check your Input and try again")
-
     wagebills = wage_bill_selectors.get_wage_bills()
-
     context = {
         "wagebills": wagebills,
         "wage_bill_form": wage_bill_form

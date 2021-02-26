@@ -12,7 +12,11 @@ def get_wage_bill(wage_bill_id):
 
 
 def get_current_wage_bill():
-    return wage_bills.WageBill.objects.get(status="Current")
+    try:
+        wage_bill = wage_bills.WageBill.objects.get(status="Current")
+    except wage_bills.WageBill.DoesNotExist:
+        wage_bill = None
+    return wage_bill
 
 
 def get_wage_bill_sheets(wage_bill):
@@ -27,7 +31,6 @@ def get_wage_bill_wages(wage_bill):
 
 def get_aggregated_wage_bill(wage_bill):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
-
     aggregated_wages = wage_sheets.Wage.objects \
         .filter(wage_sheet__in=wage_bill_sheets, is_gm_approved=True) \
         .values("worker").annotate(payment=Sum("payment"))
