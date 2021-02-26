@@ -6,10 +6,10 @@ from projects.models.wage_bills import WageBill
 
 
 class WageSheet(models.Model):
-    wage_bill = models.ForeignKey(WageBill, on_delete=models.CASCADE)
+    wage_bill = models.ForeignKey(WageBill, on_delete=models.CASCADE, default=None, null=True)
     field_manager = models.ForeignKey(FieldManager, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(Worker, on_delete=models.CASCADE)
-    segment = models.ForeignKey(Segment, on_delete=models.CASCADE, default=1)
+    segment = models.ForeignKey(Segment, on_delete=models.CASCADE, null=True)
     date = models.DateField()
     description = models.TextField()
     is_submitted = models.BooleanField(default=False)
