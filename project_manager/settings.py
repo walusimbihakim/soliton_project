@@ -21,8 +21,6 @@ DJANGO_APPS = [
     'django.contrib.humanize',
     'crispy_forms',
     'javascript_settings',
-    'django_celery_results',
-    'django_celery_beat'
 ]
 INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
@@ -30,7 +28,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     # new to serve static files in production
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
