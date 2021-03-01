@@ -1,4 +1,4 @@
-from django.urls import path, reverse
+from django.urls import path
 
 from projects.views import scope_views, team_views, wage_sheet_views, boq_views
 from projects.views.celery_test_view import django_celery_test
@@ -7,7 +7,7 @@ import projects.views.worker_views as worker_views
 from projects.views.survey_views import *
 from projects.views.project_views import *
 from projects.views.activity_list_views import *
-from projects.views import pip_views, project_settings_view, budget_views
+from projects.views import project_settings_view, budget_views
 from projects.views import pip_views
 import projects.views.field_manager_views as field_manage_views
 import projects.views.segment_views as segment_views
@@ -213,8 +213,10 @@ wage_bill_urls = [
     path('delete_wage_bill/<int:wage_bill_id>/',
          wage_bill_views.delete_wage_bill, name='delete_wage_bill'),
     path('get_end_date/', wage_bill_views.get_end_date, name='get_end_date'),
-    path('consolidated_wage_bill/', wage_bill_views.consolidated_wage_bill,
-         name='consolidated_wage_bill'),
+    path('current_consolidated_wage_bill/', wage_bill_views.current_consolidated_wage_bill,
+         name='current_consolidated_wage_bill'),
+    path('current_consolidated_wage_bill_csv/', wage_bill_views.current_consolidated_wage_bill_csv,
+         name="current_consolidated_wage_bill_csv")
 
 ]
 

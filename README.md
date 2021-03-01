@@ -1,4 +1,4 @@
-# Tukole 2.0
+# Soliton Tujenge
 
 Foobar is a Python library for dealing with word pluralization.
 

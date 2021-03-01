@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  django_gunicorn:
+    build:
+      context: .
+    ports:
+    - "8000:8000"
+
+  nginx:
+    build: ./docker_nginx_container
+    ports:
+    - "80:80"
+    depends_on:
+      - django_gunicorn
+
+
+

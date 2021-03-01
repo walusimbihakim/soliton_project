@@ -2,8 +2,8 @@ from django.db import models
 from django.urls import reverse
 import calendar
 
-class WageBill(models.Model):
 
+class WageBill(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.CharField(max_length=50, default="Current")
@@ -16,13 +16,17 @@ class WageBill(models.Model):
         ordering = ["status"]
 
     def __str__(self):
-        start_month = calendar.month_abbr[self.start_date.month]
-        end_month = calendar.month_abbr[self.end_date.month]
+        if self.start_date and self.start_date:
+            start_month = calendar.month_abbr[self.start_date.month]
+            end_month = calendar.month_abbr[self.end_date.month]
 
-        if start_month == end_month:
-            return f"{self.start_date.day}th - {self.end_date.day}th {end_month} - {self.end_date.year}"
+            if start_month == end_month:
+                return f"{self.start_date.day}th - {self.end_date.day}th {end_month} - {self.end_date.year}"
+            else:
+                return f"{self.start_date.day}th {start_month} - {self.end_date.day}th {end_month} - {self.end_date.year}"
+
         else:
-            return f"{self.start_date.day}th {start_month} - {self.end_date.day}th {end_month} - {self.end_date.year}"
+            return "No start date or end date"
 
     def get_absolute_url(self):
         return reverse("WageBill_detail", kwargs={"pk": self.pk})
