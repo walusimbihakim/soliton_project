@@ -7,7 +7,7 @@ from decouple import config
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_manager.settings')
 
-app = Celery('project_manager', broker=config('REDIS_URI'))
+app = Celery('project_manager', broker=config('REDIS_URL'))
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.

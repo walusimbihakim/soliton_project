@@ -9,8 +9,9 @@ from .forms import *
 
 
 def clients_page_view(request):
-    form = ClientForm(request.POST, request.FILES)
+    form = ClientForm()
     if request.method == "POST":
+        form = ClientForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             redirect('manage_clients')

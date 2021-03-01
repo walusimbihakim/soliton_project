@@ -11,11 +11,19 @@ from projects.selectors.survey_selectors import get_surveys
 from projects.selectors.scopes import get_project_scopes
 from projects.selectors.boq import get_project_material_boqs, get_project_service_boqs
 from projects.forms.project_forms import ProjectForm, ProjectTypeForm, DuctForm
+from authentication.decorators import login_required
+
+from authentication.selectors import get_user
 
 
-# Create your views here.
 def index_page(request):
-    return render(request, "index.html")
+
+    user = get_user(request.session['username'])
+
+    context = {
+        "user": user
+    }
+    return render(request, "index.html", context)
 
 
 def projects_page_view(request):
@@ -23,7 +31,7 @@ def projects_page_view(request):
 
     if request.method == "POST":
         form = ProjectForm(request.POST, request.FILES)
-        
+
         if form.is_valid():
             form.save()
 

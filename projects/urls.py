@@ -14,6 +14,7 @@ import projects.views.segment_views as segment_views
 import projects.views.complaint_views as complaint_views
 import projects.views.deduction_views as deduction_views
 import projects.views.wage_bill_views as wage_bill_views
+import authentication.views as user_views
 
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page,
