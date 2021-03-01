@@ -2,8 +2,6 @@ version: '3.7'
 
 services:
   django_gunicorn:
-    volumes:
-    - static:/static_files
     build:
       context: .
     ports:
@@ -11,13 +9,10 @@ services:
 
   nginx:
     build: ./docker_nginx_container
-    volumes:
-    - static:/static_files
     ports:
     - "80:80"
     depends_on:
       - django_gunicorn
-volumes:
-  static:
+
 
 
