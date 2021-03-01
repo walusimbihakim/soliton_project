@@ -16,8 +16,10 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-COPY ./entrypoint.sh /
 
-ENTRYPOINT ["sh", "/entrypoint.sh"]
+RUN python3 manage.py collectstatic --no-input
+RUN python manage.py migrate --no-input
 
+#gunicorn project_manager.wsgi:application --bind 0.0.0.0:8000
+CMD gunicorn project_manager.wsgi:application --bind 0.0.0.0:$PORT
 

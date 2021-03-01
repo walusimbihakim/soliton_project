@@ -7,12 +7,15 @@ class Worker(models.Model):
         ('Female', 'Female')
     ]
 
-    ROLE_CHOICES = [
-        ('Supervisor', 'Supervisor'),
-        ('Operator', 'Operator'),
+    TYPE_CHOICES = [
         ('ISP', 'ISP'),
         ('OFC', 'OFC'),
         ('Financial', 'Financial'),
+        ('Warehouse', 'Warehouse'),
+        ('Power', 'Power'),
+        ('Maintenance', 'Maintenance'),
+        ('Workshop', 'Workshop'),
+        ('Administrator', 'Administrator'),
     ]
 
     BUSINESS_UNIT_CHOICES = [
@@ -21,18 +24,20 @@ class Worker(models.Model):
         ('ND', 'Network Deployment'),
         ('QL', 'Quality'),
         ('ET', 'Emerging Technologies'),
+        ('SU', 'Support')
     ]
 
     name = models.CharField(max_length=50)
-    national_id = models.CharField(max_length=20, unique=True)
+    national_id = models.CharField(max_length=20, blank=True)
     joining_date = models.DateField()
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     mobile_money_number = models.CharField(max_length=10, unique=True)
     address = models.CharField(max_length=15)
-    next_of_kin = models.CharField(max_length=15)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    next_of_kin = models.CharField(max_length=15, blank=True)
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     business_unit = models.CharField(max_length=2, choices=BUSINESS_UNIT_CHOICES)
-    national_id_document = models.FileField(upload_to="documents")
+    national_id_document = models.FileField(upload_to="documents", blank=True)
+    profile = models.FileField(upload_to="documents", blank=True)
 
     def __str__(self):
         return self.name

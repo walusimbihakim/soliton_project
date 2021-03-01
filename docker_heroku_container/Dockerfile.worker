@@ -1,3 +1,0 @@
-FROM registry.heroku.com/sol-project-docker/web
-
-CMD celery -A project_manager worker -l INFO

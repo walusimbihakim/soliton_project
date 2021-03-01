@@ -17,8 +17,10 @@ from authentication.selectors import get_user
 
 
 def index_page(request):
-
-    user = get_user(request.session['username'])
+    try:
+        user = get_user(request.session['username'])
+    except KeyError:
+        user = None
 
     context = {
         "user": user
