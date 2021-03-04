@@ -18,6 +18,7 @@ services:
       - ./dhparam:/etc/nginx/dhparam
       - ./certbot/conf:/etc/nginx/ssl
       - ./certbot/data:/usr/share/nginx/html/letsencrypt
+      - ./static_files:/static_files
     depends_on:
       - django_gunicorn
 
