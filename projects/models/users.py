@@ -1,7 +1,7 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
-from projects.constants import SUPERVISOR, MANAGER, PROJECT_MANAGER, GENERAL_MANAGER
+from projects.constants import SUPERVISOR, PROJECT_MANAGER, GENERAL_MANAGER, FIELD_MANAGER, FINANCE_OFFICER
 
 
 class UserManager(BaseUserManager):
@@ -28,7 +28,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     role_options = [
         (SUPERVISOR, SUPERVISOR),
-        (MANAGER, MANAGER),
+        (FIELD_MANAGER, FIELD_MANAGER),
+        (FINANCE_OFFICER, FINANCE_OFFICER),
         (PROJECT_MANAGER, PROJECT_MANAGER),
         (GENERAL_MANAGER, GENERAL_MANAGER)
     ]

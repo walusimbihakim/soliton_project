@@ -2,18 +2,17 @@
 {% load humanize %}
 {% load static %}
 {% block page_title %}
-Full Authorization Permission Required
+Project Manager Role Required
 {% endblock %}
-
 {%block content%}
 <div class="content">
     <div class="container-fluid">
         <div class="card animated fadeInUp">
             <div class="card-body">
                 <center>
-                    <i class="material-icons">lock</i>
+                    <i class="fas fa-lock"></i>
                     <p>401 Unauthorized</p>
-                    <h2>This module is locked. Full authorization permission is required to access it. </h2>
+                    <h2>This module is locked. The Project Manager role is required to access it. </h2>
                 </center>
             </div>
         </div>

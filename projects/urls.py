@@ -1,7 +1,8 @@
 from django.urls import path
 
 from projects.views import scope_views, team_views, wage_sheet_views, boq_views
-from projects.views.auth_views import super_admin_required_page
+from projects.views.auth_views import super_admin_required_page, project_manager_required_page, \
+    supervisor_required_page, finance_officer_required_page
 from projects.views.celery_test_view import django_celery_test
 from projects.views.sites_views import *
 import projects.views.worker_views as worker_views
@@ -240,12 +241,15 @@ user_urls = [
 ]
 
 auth_urls = [
-    path("super_admin_required_page/", super_admin_required_page, name="super_admin_required_page")
+    path("super_admin_required_page/", super_admin_required_page, name="super_admin_required_page"),
+    path("project_manager_required_page/", project_manager_required_page, name="project_manager_required_page"),
+    path("supervisor_required_page/", supervisor_required_page, name="supervisor_required_page"),
+    path("finance_officer_required_page/", finance_officer_required_page, name="finance_officer_required_page"),
 ]
 
-urlpatterns = activity_urls+project_urls+worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
-    pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls \
-    + wage_bill_urls + segments_urls + complaint_urls + deduction_urls + user_urls + auth_urls
+urlpatterns = activity_urls + project_urls + worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
+              pip_urls + field_managers_urls + teams_urls + pip_team_urls + wage_sheets_urls \
+              + wage_bill_urls + segments_urls + complaint_urls + deduction_urls + user_urls + auth_urls
 
 
 # customJS routes
