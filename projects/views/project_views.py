@@ -11,21 +11,11 @@ from projects.selectors.survey_selectors import get_surveys
 from projects.selectors.scopes import get_project_scopes
 from projects.selectors.boq import get_project_material_boqs, get_project_service_boqs
 from projects.forms.project_forms import ProjectForm, ProjectTypeForm, DuctForm
-from authentication.decorators import login_required
-
-from authentication.selectors import get_user
+from projects.selectors.user_selectors import get_user
 
 
-def index_page(request):
-    try:
-        user = get_user(request.session['username'])
-    except KeyError:
-        user = None
-
-    context = {
-        "user": user
-    }
-    return render(request, "index.html", context)
+def dashboard_page(request):
+    return render(request, "index.html")
 
 
 def projects_page_view(request):

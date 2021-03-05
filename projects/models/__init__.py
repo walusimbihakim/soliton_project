@@ -20,3 +20,4 @@ from projects.models.segments import Segment
 from projects.models.complaints import Complaint
 from projects.models.deductions import Deduction
 from projects.models.wage_bills import WageBill
+from projects.models.users import User

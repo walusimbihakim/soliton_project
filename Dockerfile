@@ -13,5 +13,8 @@ RUN apk update \
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
-ENTRYPOINT ["sh","entrypoint.sh"]
+RUN python3 manage.py collectstatic --no-input
+RUN python3 manage.py migrate --no-input
+
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "project_manager.wsgi:application"]
 

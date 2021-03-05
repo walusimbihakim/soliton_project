@@ -1,6 +1,7 @@
 from django.urls import path
 
 from projects.views import scope_views, team_views, wage_sheet_views, boq_views
+from projects.views.auth_views import super_admin_required_page
 from projects.views.celery_test_view import django_celery_test
 from projects.views.sites_views import *
 import projects.views.worker_views as worker_views
@@ -14,7 +15,7 @@ import projects.views.segment_views as segment_views
 import projects.views.complaint_views as complaint_views
 import projects.views.deduction_views as deduction_views
 import projects.views.wage_bill_views as wage_bill_views
-import authentication.views as user_views
+import projects.views.user_views as user_views
 
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page,
@@ -221,7 +222,7 @@ wage_bill_urls = [
 ]
 
 project_urls = [
-    path('', index_page, name='index_page'),
+    path('', dashboard_page, name='dashboard_page'),
     path('projects/', projects_page_view, name='manage_projects'),
     path('project_details/<int:project_id>/',
          project_details_view, name='project_details'),
@@ -232,11 +233,19 @@ project_urls = [
          site_details_view, name='site_details'),
 ]
 
+user_urls = [
+    path('manage_users/', user_views.manage_user_view,
+         name='manage_users'),
+    path("edit_user/<int:id>/", user_views.edit_user_view, name="edit_user")
+]
+
+auth_urls = [
+    path("super_admin_required_page/", super_admin_required_page, name="super_admin_required_page")
+]
+
 urlpatterns = activity_urls+project_urls+worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
     pip_urls+field_managers_urls + teams_urls+pip_team_urls+wage_sheets_urls \
-    + wage_bill_urls + segments_urls + complaint_urls + deduction_urls + [
-        path('celery_test/', django_celery_test, name="celery_test")
-    ]
+    + wage_bill_urls + segments_urls + complaint_urls + deduction_urls + user_urls + auth_urls
 
 
 # customJS routes
