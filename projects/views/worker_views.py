@@ -1,14 +1,14 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import render
+from django.urls import reverse
 from django.contrib import messages
-from django.http import JsonResponse
 
+from projects.decorators.auth_decorators import supervisor_required
 from projects.forms.worker_forms import WorkerForm
 from projects.selectors.workers import get_all_workers, get_worker
 
 
+@supervisor_required
 def manage_workers_page(request):
     workers = get_all_workers()
     form = WorkerForm()
@@ -29,6 +29,7 @@ def manage_workers_page(request):
     return render(request, "worker/manage_workers.html", context)
 
 
+@supervisor_required
 def edit_worker_page(request, id):
     worker = get_worker(id)
     form = WorkerForm(instance=worker)
@@ -48,6 +49,7 @@ def edit_worker_page(request, id):
     return render(request, "worker/edit_worker.html", context)
 
 
+@supervisor_required
 def delete_worker(request, id):
     worker = get_worker(id)
     worker.delete()

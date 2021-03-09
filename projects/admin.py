@@ -7,6 +7,7 @@ from projects.models.boqs import BOQ, MaterialBOQItem, ServiceBOQItem
 from projects.models.client_activity_rates import ClientActivityRate
 from projects.models.materials import Material
 from projects.models.segments import Segment
+from projects.models.users import User
 
 admin.site.register(Worker)
 admin.site.register(Survey)
@@ -23,4 +24,5 @@ admin.site.register(WageSheet)
 admin.site.register(Wage)
 admin.site.register(Segment)
 admin.site.register(Activity)
+admin.site.register(User)
 

@@ -6,6 +6,7 @@
 *.log
 *.pot
 *.pyc
+!**/__pycache__/
 __pycache__/
 local_settings.py
 db.sqlite3
@@ -265,5 +266,9 @@ fabric.properties
 [Ss]cripts
 pyvenv.cfg
 pip-selfcheck.json
+certbot/
+dhparam/
+static_files/
+.idea/
 
 # End of https://www.toptal.com/developers/gitignore/api/django,pycharm,venv,dotenv

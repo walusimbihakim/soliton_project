@@ -3,12 +3,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from projects.decorators.auth_decorators import project_manager_required
 from projects.forms.execution_scope_form import ExecutionScopeForm
 from projects.selectors.project_selectors import get_projects, get_project, get_survey
 from projects.selectors.scopes import get_all_scopes, get_scopes, get_scope
 from projects.selectors.survey_selectors import get_surveys
 
 
+@project_manager_required
 def manage_scopes(request):
     projects = get_projects()
     context = {
@@ -17,6 +19,7 @@ def manage_scopes(request):
     return render(request, "scope/manage_scopes.html", context)
 
 
+@project_manager_required
 def manage_project_scopes(request, id):
     project = get_project(id)
     surveys = get_surveys(project)
@@ -26,6 +29,7 @@ def manage_project_scopes(request, id):
     return render(request, "scope/manage_project_scopes.html", context)
 
 
+@project_manager_required
 def manage_survey_scopes(request, id):
     survey = get_survey(id)
     scopes = get_scopes(survey=survey)
@@ -49,6 +53,7 @@ def manage_survey_scopes(request, id):
     return render(request, "scope/manage_survey_scopes.html", context)
 
 
+@project_manager_required
 def delete_scope(request, id):
     scope = get_scope(id)
     survey = scope.survey
@@ -57,6 +62,7 @@ def delete_scope(request, id):
     return HttpResponseRedirect(reverse(manage_survey_scopes, args=[survey.id]))
 
 
+@project_manager_required
 def edit_scope(request, id):
     scope = get_scope(id)
     survey = scope.survey

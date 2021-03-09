@@ -8,11 +8,29 @@ services:
     - "8000:8000"
 
   nginx:
-    build: ./docker_nginx_container
+    image: nginx:1.14.2-alpine
+    restart: always
     ports:
     - "80:80"
+    - "443:443"
+    volumes:
+      - ./static_files:/static_files
+      - ./conf.d:/etc/nginx/conf.d
+      - ./dhparam:/etc/nginx/dhparam
+      - ./certbot/conf:/etc/nginx/ssl
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+
     depends_on:
       - django_gunicorn
 
 
-
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/logs:/var/log/letsencrypt
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email brightkanyange@outlook.com --agree-tos -d 2jenge.com

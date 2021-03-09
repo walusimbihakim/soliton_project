@@ -11,15 +11,6 @@ RUN apk update \
     && apk del build-deps
 
 COPY . /app
-
 WORKDIR /app
-
 RUN pip install -r requirements.txt
-
-
-RUN python3 manage.py collectstatic --no-input
-RUN python manage.py migrate --no-input
-
-#gunicorn project_manager.wsgi:application --bind 0.0.0.0:8000
-CMD gunicorn project_manager.wsgi:application --bind 0.0.0.0:$PORT
-
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "project_manager.wsgi:application"]
