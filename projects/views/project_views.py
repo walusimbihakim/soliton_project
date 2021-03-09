@@ -1,18 +1,10 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView
-from django.urls import reverse_lazy
-from django.contrib import messages
-from django.http import JsonResponse
-from django.db.models import Sum
-
 from projects.decorators.auth_decorators import project_manager_required
 from projects.selectors.project_selectors import get_project, get_projects, get_project_types, get_ducts
 from projects.selectors.survey_selectors import get_surveys
 from projects.selectors.scopes import get_project_scopes
 from projects.selectors.boq import get_project_material_boqs, get_project_service_boqs
 from projects.forms.project_forms import ProjectForm, ProjectTypeForm, DuctForm
-from projects.selectors.user_selectors import get_user
 
 
 def dashboard_page(request):
