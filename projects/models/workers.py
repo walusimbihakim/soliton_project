@@ -35,9 +35,11 @@ class Worker(models.Model):
     address = models.CharField(max_length=15)
     next_of_kin = models.CharField(max_length=15, blank=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
-    business_unit = models.CharField(max_length=2, choices=BUSINESS_UNIT_CHOICES)
+    business_unit = models.CharField(
+        max_length=2, choices=BUSINESS_UNIT_CHOICES)
     national_id_document = models.FileField(upload_to="documents", blank=True)
     profile = models.FileField(upload_to="documents", blank=True)
+    mobile_money_name = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.name
