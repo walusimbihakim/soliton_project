@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='worker',
             name='mobile_money_name',
-            field=models.CharField(default=None, max_length=50),
+            field=models.CharField(default=None, max_length=50, null=True),
             preserve_default=False,
         ),
     ]
