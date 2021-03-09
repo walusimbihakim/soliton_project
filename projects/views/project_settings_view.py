@@ -5,15 +5,18 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.http import JsonResponse
 
+from projects.decorators.auth_decorators import project_manager_required
 from projects.models import UnitOfMeasure
 from projects.forms.project_settings_forms import UnitOfMeasureForm, ExpenseForm
 from projects.selectors.project_settings_selectors import (
-    get_measures, 
+    get_measures,
     get_measure,
-    get_expenses, 
+    get_expenses,
     get_expense,
 )
 
+
+@project_manager_required
 def unit_of_measure_view(request):
     unit_form = UnitOfMeasureForm()
 
@@ -34,6 +37,8 @@ def unit_of_measure_view(request):
 
     return render(request, "project_settings/uom.html", context)
 
+
+@project_manager_required
 def edit_uom_view(request, uom_id):
     uom = get_measure(uom_id)
 
@@ -50,10 +55,11 @@ def edit_uom_view(request, uom_id):
             return HttpResponseRedirect(reverse(unit_of_measure_view))
 
         else:
-            messages.success(request, 'One or More input value(s) are not in correct format, Check your inputs and try again')
+            messages.success(request,
+                             'One or More input value(s) are not in correct format, Check your inputs and try again')
 
             return HttpResponseRedirect(reverse(unit_of_measure_view))
-    
+
     context = {
         "unit_form": unit_form,
         "unit": uom
@@ -61,6 +67,8 @@ def edit_uom_view(request, uom_id):
 
     return render(request, "project_settings/edit_uom.html", context)
 
+
+@project_manager_required
 def delete_uom(request, uom_id):
     uom = get_measure(uom_id)
 
@@ -69,6 +77,7 @@ def delete_uom(request, uom_id):
     messages.success(request, 'Unit of Measure Record Deleted Successfully')
 
     return HttpResponseRedirect(reverse(unit_of_measure_view))
+
 
 def manage_expense_view(request):
     expense_form = ExpenseForm()
@@ -82,8 +91,9 @@ def manage_expense_view(request):
             messages.success(request, 'Expense Record added Successfully')
 
         else:
-            messages.success(request, 'One or More input value(s) are not in correct format, Check your inputs and try again')
-    
+            messages.success(request,
+                             'One or More input value(s) are not in correct format, Check your inputs and try again')
+
     expenses = get_expenses()
 
     context = {
@@ -93,6 +103,8 @@ def manage_expense_view(request):
 
     return render(request, "project_settings/manage_expenses.html", context)
 
+
+@project_manager_required
 def edit_expense_view(request, expense_id):
     expense = get_expense(expense_id)
 
@@ -109,7 +121,8 @@ def edit_expense_view(request, expense_id):
             return HttpResponseRedirect(reverse(manage_expense_view))
 
         else:
-            messages.success(request, 'One or More input value(s) are not in correct format, Check your inputs and try again')
+            messages.success(request,
+                             'One or More input value(s) are not in correct format, Check your inputs and try again')
 
             return HttpResponseRedirect(reverse(manage_expense_view))
 
@@ -123,6 +136,8 @@ def edit_expense_view(request, expense_id):
 
     return render(request, "project_settings/edit_expense.html", context)
 
+
+@project_manager_required
 def delete_expense(request, expense_id):
     expense = get_expense(expense_id)
 
@@ -131,4 +146,3 @@ def delete_expense(request, expense_id):
     messages.success(request, 'Expense Record Deleted Successfully')
 
     return HttpResponseRedirect(reverse(manage_expense_view))
-

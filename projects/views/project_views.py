@@ -6,28 +6,20 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Sum
 
+from projects.decorators.auth_decorators import project_manager_required
 from projects.selectors.project_selectors import get_project, get_projects, get_project_types, get_ducts
 from projects.selectors.survey_selectors import get_surveys
 from projects.selectors.scopes import get_project_scopes
 from projects.selectors.boq import get_project_material_boqs, get_project_service_boqs
 from projects.forms.project_forms import ProjectForm, ProjectTypeForm, DuctForm
-from authentication.decorators import login_required
-
-from authentication.selectors import get_user
+from projects.selectors.user_selectors import get_user
 
 
-def index_page(request):
-    try:
-        user = get_user(request.session['username'])
-    except KeyError:
-        user = None
-
-    context = {
-        "user": user
-    }
-    return render(request, "index.html", context)
+def dashboard_page(request):
+    return render(request, "index.html")
 
 
+@project_manager_required
 def projects_page_view(request):
     form = ProjectForm()
 
@@ -47,6 +39,7 @@ def projects_page_view(request):
     return render(request, "project/manage_projects.html", context)
 
 
+@project_manager_required
 def projects_settings_view(request):
     project_type_form = ProjectTypeForm()
 
@@ -74,6 +67,7 @@ def projects_settings_view(request):
     return render(request, "project/project_settings.html", context)
 
 
+@project_manager_required
 def project_details_view(request, project_id):
     project = get_project(project_id)
 

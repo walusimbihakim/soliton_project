@@ -3,10 +3,12 @@ from django.shortcuts import render, reverse
 from django.contrib import messages
 from django.http import JsonResponse
 
+from projects.decorators.auth_decorators import project_manager_required
 from projects.forms.activity_list_form import *
 from projects.selectors.activity_selectors import *
 
 
+@project_manager_required
 def activity_page_view(request):
     activity_form = ActivityListForm(request.POST, request.FILES)
 
@@ -27,6 +29,7 @@ def activity_page_view(request):
     return render(request, "activity/activity_list.html", context)
 
 
+@project_manager_required
 def edit_activity_view(request, activity_id):
     activity = get_activity(activity_id)
 

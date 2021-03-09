@@ -31,6 +31,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'login_required.middleware.LoginRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # For heroku
@@ -112,5 +113,26 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'  # For Heroku
 
+SENDGRID_API_KEY = config('SENDGRID_API_KEY')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+
 # CELERY STUFF
 CELERY_TIMEZONE = config('CELERY_TIMEZONE', default="Africa/Kampala")
+LOGIN_REDIRECT_URL = 'dashboard_page'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [
+    'logout',
+    'login',
+    'password_reset',
+    'password_reset_done',
+    'password_reset_confirm',
+    'password_reset_complete',
+]
+
+AUTH_USER_MODEL = "projects.User"
+
+

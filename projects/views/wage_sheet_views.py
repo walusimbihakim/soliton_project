@@ -1,3 +1,4 @@
+from projects.decorators.auth_decorators import supervisor_required
 from projects.selectors.complaints import get_complaints, get_complaint
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -6,18 +7,15 @@ from django.urls import reverse
 from django.contrib import messages
 
 from projects.forms.wage_sheet_forms import WageSheetForm, WageForm
-from projects.selectors.teams import get_all_teams, get_team, get_all_pip_teams, get_pip_team
-from projects.selectors.wage_sheets import get_all_wage_sheets, get_wage_sheet, get_wages, get_wage, get_submitted_wage_sheets
 from projects.selectors.deductions import get_deductions, get_deduction
 from projects.selectors.wage_sheets import get_all_wage_sheets, get_wage_sheet, get_wages, get_wage, \
     get_submitted_wage_sheets
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 
 
+@supervisor_required
 def manage_wage_sheets_page(request):
-
     wage_bill = wage_bill_selectors.get_current_wage_bill()
-
     wage_sheets = get_all_wage_sheets()
     form = WageSheetForm(initial={"wage_bill": wage_bill})
 
@@ -39,6 +37,7 @@ def manage_wage_sheets_page(request):
     return render(request, "wage_sheet/manage_wage_sheets.html", context)
 
 
+@supervisor_required
 def edit_wage_sheet_page(request, id):
     wage_sheet = get_wage_sheet(id)
     form = WageSheetForm(instance=wage_sheet)
@@ -58,6 +57,7 @@ def edit_wage_sheet_page(request, id):
     return render(request, "wage_sheet/edit_wage_sheet.html", context)
 
 
+@supervisor_required
 def delete_wage_sheet(request, id):
     wage_sheet = get_wage_sheet(id)
     wage_sheet.delete()
@@ -65,6 +65,7 @@ def delete_wage_sheet(request, id):
     return HttpResponseRedirect(reverse(manage_wage_sheets_page))
 
 
+@supervisor_required
 def manage_wages_page(request, wage_sheet_id):
     wage_sheet = get_wage_sheet(wage_sheet_id)
     wages = get_wages(wage_sheet)
@@ -89,6 +90,7 @@ def manage_wages_page(request, wage_sheet_id):
     return render(request, "wage_sheet/manage_wages.html", context)
 
 
+@supervisor_required
 def edit_wage_page(request, id):
     wage = get_wage(id)
     wage_sheet = wage.wage_sheet
@@ -148,12 +150,11 @@ def manage_submitted_sheet(request, wage_sheet_id, role):
     elif role == 2:
         wages = wages.filter(is_manager_approved=True)
         complaints = complaints.filter(is_manager_approved=True)
-        deductions = deductions.filter(is_manager_approved = True)
+        deductions = deductions.filter(is_manager_approved=True)
     elif role == 3:
-        wages = wages.filter(is_pm_approved = True)
+        wages = wages.filter(is_pm_approved=True)
         complaints = complaints.filter(is_pm_approved=True)
-        deductions = deductions.filter(is_pm_approved = True)
-
+        deductions = deductions.filter(is_pm_approved=True)
 
     context = {
         "wages": wages,
@@ -169,7 +170,7 @@ def manage_submitted_sheet(request, wage_sheet_id, role):
 def approve_reject_wagesheet(request, wagesheet_id):
     if request.method == "POST":
         wage_sheet = get_wage_sheet(wagesheet_id)
-        
+
         wages = get_wages(wage_sheet)
         complaints = get_complaints(wagesheet_id)
         deductions = get_deductions(wagesheet_id)
@@ -182,29 +183,30 @@ def approve_reject_wagesheet(request, wagesheet_id):
 
             wage_sheet.save()
 
-            wages.filter(is_manager_approved=True).update(is_pm_approved = True)
-            complaints.filter(is_manager_approved=True).update(is_pm_approved = True)
-            deductions.filter(is_manager_approved=True).update(is_pm_approved = True)
-        
+            wages.filter(is_manager_approved=True).update(is_pm_approved=True)
+            complaints.filter(is_manager_approved=True).update(is_pm_approved=True)
+            deductions.filter(is_manager_approved=True).update(is_pm_approved=True)
+
         elif role == "2":
             wage_sheet.project_manager_status = request.POST.get("wage_action")
             wage_sheet.project_manager_comment = request.POST.get("wage_comment")
 
             wage_sheet.save()
 
-            wages.filter(is_pm_approved=True).update(is_gm_approved = True)
-            complaints.filter(is_manager_approved=True).update(is_gm_approved = True)
-            deductions.filter(is_manager_approved=True).update(is_gm_approved = True)
-        
+            wages.filter(is_pm_approved=True).update(is_gm_approved=True)
+            complaints.filter(is_manager_approved=True).update(is_gm_approved=True)
+            deductions.filter(is_manager_approved=True).update(is_gm_approved=True)
+
         elif role == "3":
             wage_sheet.gm_status = request.POST.get("wage_action")
             wage_sheet.gm_comment = request.POST.get("wage_comment")
 
             wage_sheet.save()
-        
+
         messages.success(request, "Action saved Successfully")
-        
+
         return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wagesheet_id, role]))
+
 
 def reject_wage(request, wage_id, role):
     wage = get_wage(wage_id)
@@ -224,6 +226,7 @@ def reject_wage(request, wage_id, role):
 
     return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wage.wage_sheet.id, role]))
 
+
 def reject_complaint(request, complaint_id, role):
     complaint = get_complaint(complaint_id)
 
@@ -239,12 +242,12 @@ def reject_complaint(request, complaint_id, role):
         messages.success(request, "Complaint rejected")
     except:
         messages.error(request, "Operation was no successfull")
-        
+
     return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[complaint.wage_sheet.id, role]))
+
 
 def reject_deduction(request, deduction_id, role):
     deduction = get_deduction(deduction_id)
-
     if role == 1:
         deduction.is_manager_approved = False
     elif role == 2:
@@ -257,7 +260,5 @@ def reject_deduction(request, deduction_id, role):
         messages.success(request, "deduction rejected")
     except:
         messages.error(request, "Operation was not successfull")
-        
-    return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[deduction.wage_sheet.id, role]))
 
-        
+    return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[deduction.wage_sheet.id, role]))

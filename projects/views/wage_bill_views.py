@@ -8,10 +8,12 @@ import datetime
 
 import projects.forms.wage_bill_forms as wage_bill_forms
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
+from projects.decorators.auth_decorators import finance_office_required
 from projects.selectors.workers import get_worker
 from projects.services.wage_bill_services import set_current_wage_bill_status_to_done
 
 
+@finance_office_required
 def manage_wage_bill(request):
     wage_bill_form = wage_bill_forms.WageBillForm()
     if request.method == "POST":
@@ -30,6 +32,7 @@ def manage_wage_bill(request):
     return render(request, "wage_bill/manage_wage_bill.html", context)
 
 
+@finance_office_required
 def edit_wage_bill(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
     wage_bill_form = wage_bill_forms.WageBillForm(instance=wage_bill)
@@ -54,6 +57,7 @@ def edit_wage_bill(request, wage_bill_id):
     return render(request, "wage_bill/edit_wage_bill.html", context)
 
 
+@finance_office_required
 def delete_wage_bill(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
 
@@ -84,6 +88,7 @@ def get_end_date(request):
             return JsonResponse({'success': False, 'message': "Start Date and/or Number of days Not Specified"})
 
 
+@finance_office_required
 def current_consolidated_wage_bill(request):
     wage_bill = wage_bill_selectors.get_current_wage_bill()
     aggregated_wages = wage_bill_selectors.get_aggregated_wage_bill(wage_bill)

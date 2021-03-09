@@ -4,10 +4,12 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.http import JsonResponse
 
+from projects.decorators.auth_decorators import project_manager_required
 from .selectors import *
 from .forms import *
 
 
+@project_manager_required
 def clients_page_view(request):
     form = ClientForm()
     if request.method == "POST":

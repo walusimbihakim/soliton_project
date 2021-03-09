@@ -3,10 +3,12 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
 
+from projects.decorators.auth_decorators import project_manager_required
 from projects.forms.field_manager_form import FieldManagerForm
 from projects.selectors.field_managers import get_all_field_managers, get_field_manager
 
 
+@project_manager_required
 def manage_field_managers(request):
     field_managers = get_all_field_managers()
     form = FieldManagerForm()
@@ -27,6 +29,7 @@ def manage_field_managers(request):
     return render(request, "field_manager/manage_field_managers.html", context)
 
 
+@project_manager_required
 def edit_field_manager(request, id):
     field_manager = get_field_manager(id)
     form = FieldManagerForm(instance=field_manager)
@@ -46,6 +49,7 @@ def edit_field_manager(request, id):
     return render(request, "field_manager/edit_field_manager.html", context)
 
 
+@project_manager_required
 def delete_field_manager(request, id):
     field_manager = get_field_manager(id)
     field_manager.delete()
