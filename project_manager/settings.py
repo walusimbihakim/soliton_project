@@ -59,7 +59,9 @@ TEMPLATES = [
         },
     },
 ]
+
 WSGI_APPLICATION = 'project_manager.wsgi.application'
+
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 if DEBUG:
@@ -113,7 +115,6 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'  # For Heroku
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 EMAIL_HOST = config('EMAIL_HOST')
@@ -136,5 +137,3 @@ LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [
 ]
 
 AUTH_USER_MODEL = "projects.User"
-
-
