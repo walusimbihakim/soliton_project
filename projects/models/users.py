@@ -50,5 +50,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = "User"
         verbose_name_plural = "Users"
 
+    def save(self, *args, **kwargs):
+        self.set_password("solitonug")
+        super(User, self).save(*args, **kwargs)
+
+    @property
+    def name(self):
+        return f'{self.first_name} {self.last_name}'
+
     def __str__(self):
-        return f'{self.username}'
+        return f'{self.first_name} {self.last_name}'

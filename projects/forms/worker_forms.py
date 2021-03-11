@@ -6,7 +6,7 @@ from projects.models import Worker
 class WorkerForm(forms.ModelForm):
     class Meta:
         model = Worker
-        fields = "__all__"
+        exclude = ('registered_by_user',)
 
         widgets = {
             "joining_date": forms.DateInput(attrs={"type": "date"})
