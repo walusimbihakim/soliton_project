@@ -1,5 +1,7 @@
 from django.db import models
 
+from projects.models.users import User
+
 
 class Worker(models.Model):
     GENDER_CHOICES = [
@@ -40,6 +42,7 @@ class Worker(models.Model):
     national_id_document = models.FileField(upload_to="documents", blank=True)
     profile = models.FileField(upload_to="documents", blank=True)
     mobile_money_name = models.CharField(max_length=50, null=True, blank=True)
+    registered_by_user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.name

@@ -28,7 +28,6 @@ Submitted Wage Sheets
                             <th>Date</th>
                             <th>Field Manager</th>
                             <th>Supervisor</th>
-                            <th>Description</th>
                             <th>#</th>
                         </tr>
                         </thead>
@@ -38,14 +37,13 @@ Submitted Wage Sheets
                             <td>{{wage_sheet.id}}</td>
                             <td>{{wage_sheet.date}}</td>
                             <td>
-                                {{wage_sheet.field_manager}}
+                                {{wage_sheet.field_manager_user}}
                             </td>
                             <td>
-                                {{wage_sheet.supervisor}}
+                                {{wage_sheet.supervisor_user}}
                             </td>
-                            <td>{{wage_sheet.description}}</td>
                             <td>
-                                <a href="{%url 'manage_submitted_sheet' wage_sheet.id 1%}">
+                                <a href="{%url 'manage_submitted_sheet' wage_sheet.id%}">
                                     <button class="btn-sm btn-outline-info btn-rounded waves-effect">
                                         View Details
                                     </button>
