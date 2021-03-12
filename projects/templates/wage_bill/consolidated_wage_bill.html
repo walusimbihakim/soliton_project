@@ -43,9 +43,9 @@ Consolidated Wage Bill
                             {% for wage in aggregated_wages%}
                             <tr >
                                 <td class="text-center">1</td>
-                                <td class="text-center">{{wage.worker|get_worker:1}}</td>
-                                <td class="text-center">{{wage.worker|get_worker:2}}</td>
-                                <td class="text-center">{{wage.payment|intcomma}}/-</td>
+                                <td class="text-center">{{wage.worker|get_worker_info:1}}</td>
+                                <td class="text-center">{{wage.worker|get_worker_info:2}}</td>
+                                <td class="text-center">{{wage.worker|total_payment:wage.payment|intcomma}}/-</td>
                                 <td class="text-center">{{wage.payment|get_withdraw_charge_filter|intcomma}}/-</td>
                                 <td class="text-center">{{wage.payment|wage_total_filter|intcomma}}/-</td>
 

@@ -10,7 +10,7 @@ urlpatterns = [
 # customJS routes
 def javascript_settings():
     js_conf = {
-        'delete_client': reverse('delete_client'),
+        # 'delete_client': reverse('delete_client'),
     }
 
     return js_conf
