@@ -1,3 +1,4 @@
+from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER
 from projects.decorators.auth_decorators import supervisor_required
 from projects.selectors.complaints import get_complaints, get_complaint
 from django.http import HttpResponseRedirect
@@ -18,11 +19,12 @@ def manage_wage_sheets_page(request):
     wage_bill = wage_bill_selectors.get_current_wage_bill()
     wage_sheets = get_all_wage_sheets()
     form = WageSheetForm(initial={"wage_bill": wage_bill})
-
     if request.method == "POST":
         form = WageSheetForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            wage_sheet = form.save(commit=False)
+            wage_sheet.supervisor_user = request.user
+            wage_sheet.save()
             messages.success(request, "Successfully added a wage sheet")
         else:
             messages.error(request, "Integrity problems while saving wage sheet")
@@ -132,26 +134,25 @@ def submit_wage_sheet(request, wage_sheet_id):
 
 def view_submitted_wagesheets(request):
     wage_sheets = get_submitted_wage_sheets()
-
     context = {
         "wage_sheets": wage_sheets,
     }
     return render(request, "wage_sheet/submitted_wage_sheets.html", context)
 
 
-def manage_submitted_sheet(request, wage_sheet_id, role):
+def manage_submitted_sheet(request, wage_sheet_id):
     wage_sheet = get_wage_sheet(wage_sheet_id)
     wages = get_wages(wage_sheet)
     complaints = get_complaints(wage_sheet_id)
     deductions = get_deductions(wage_sheet_id)
-
-    if role == 1:
+    user = request.user
+    if user.user_role == FIELD_MANAGER:  # manager
         wages = wages
-    elif role == 2:
+    elif user.user_role == PROJECT_MANAGER:  # project manager
         wages = wages.filter(is_manager_approved=True)
         complaints = complaints.filter(is_manager_approved=True)
         deductions = deductions.filter(is_manager_approved=True)
-    elif role == 3:
+    elif user.user_role == GENERAL_MANAGER:  # GM
         wages = wages.filter(is_pm_approved=True)
         complaints = complaints.filter(is_pm_approved=True)
         deductions = deductions.filter(is_pm_approved=True)
@@ -161,7 +162,6 @@ def manage_submitted_sheet(request, wage_sheet_id, role):
         "wage_sheet": wage_sheet,
         "complaints": complaints,
         "deductions": deductions,
-        "role": role,
     }
 
     return render(request, "wage_sheet/manage_submitted_sheet.html", context)
@@ -170,75 +170,60 @@ def manage_submitted_sheet(request, wage_sheet_id, role):
 def approve_reject_wagesheet(request, wagesheet_id):
     if request.method == "POST":
         wage_sheet = get_wage_sheet(wagesheet_id)
-
         wages = get_wages(wage_sheet)
         complaints = get_complaints(wagesheet_id)
         deductions = get_deductions(wagesheet_id)
-
-        role = request.POST.get("role")
-
-        if role == "1":
+        user = request.user
+        if user.user_role == FIELD_MANAGER:
             wage_sheet.manager_comment = request.POST.get("wage_comment")
             wage_sheet.manager_status = request.POST.get("wage_action")
-
             wage_sheet.save()
-
             wages.filter(is_manager_approved=True).update(is_pm_approved=True)
             complaints.filter(is_manager_approved=True).update(is_pm_approved=True)
             deductions.filter(is_manager_approved=True).update(is_pm_approved=True)
-
-        elif role == "2":
+        elif user.user_role == PROJECT_MANAGER:
             wage_sheet.project_manager_status = request.POST.get("wage_action")
             wage_sheet.project_manager_comment = request.POST.get("wage_comment")
-
             wage_sheet.save()
-
             wages.filter(is_pm_approved=True).update(is_gm_approved=True)
             complaints.filter(is_manager_approved=True).update(is_gm_approved=True)
             deductions.filter(is_manager_approved=True).update(is_gm_approved=True)
-
-        elif role == "3":
+        elif user.user_role == GENERAL_MANAGER:
             wage_sheet.gm_status = request.POST.get("wage_action")
             wage_sheet.gm_comment = request.POST.get("wage_comment")
-
             wage_sheet.save()
-
         messages.success(request, "Action saved Successfully")
-
-        return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wagesheet_id, role]))
+        return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wagesheet_id]))
 
 
 def reject_wage(request, wage_id, role):
     wage = get_wage(wage_id)
-
-    if role == 1:
+    user = request.user
+    if user.user_role == FIELD_MANAGER:
         wage.is_manager_approved = False
-    elif role == 2:
+    elif user.user_role == PROJECT_MANAGER:
         wage.is_pm_approved = False
-    elif role == 3:
+    elif user.user_role == GENERAL_MANAGER:
         wage.is_gm_approved = False
     try:
         wage.save()
-
         messages.success(request, "Wage rejected")
     except:
         messages.error(request, "Operation was no successfull")
-
     return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wage.wage_sheet.id, role]))
 
 
 def reject_complaint(request, complaint_id, role):
     complaint = get_complaint(complaint_id)
-
-    if role == 1:
+    user = request.user
+    if user.user_role == FIELD_MANAGER:
         complaint.is_manager_approved = False
-    elif role == 2:
+    elif user.user_role == PROJECT_MANAGER:
         complaint.is_pm_approved = False
-    elif role == 3:
+    elif user.user_role == FIELD_MANAGER:
         complaint.is_gm_approved = False
     try:
         complaint.save()
-
         messages.success(request, "Complaint rejected")
     except:
         messages.error(request, "Operation was no successfull")
@@ -248,11 +233,12 @@ def reject_complaint(request, complaint_id, role):
 
 def reject_deduction(request, deduction_id, role):
     deduction = get_deduction(deduction_id)
-    if role == 1:
+    user = request.user
+    if user.user_role == FIELD_MANAGER:
         deduction.is_manager_approved = False
-    elif role == 2:
+    elif user.user_role == PROJECT_MANAGER:
         deduction.is_pm_approved = False
-    elif role == 3:
+    elif user.user_role == GENERAL_MANAGER:
         deduction.is_gm_approved = False
     try:
         deduction.save()

@@ -158,7 +158,7 @@ wage_sheets_urls = [
          wage_sheet_views.submit_wage_sheet, name="submit_wage_sheet"),
     path('submitted_wage_sheets/', wage_sheet_views.view_submitted_wagesheets,
          name="submitted_wage_sheets"),
-    path('manage_submitted_sheet/<int:wage_sheet_id>/<int:role>/',
+    path('manage_submitted_sheet/<int:wage_sheet_id>/',
          wage_sheet_views.manage_submitted_sheet, name="manage_submitted_sheet"),
     path('approve_reject_wagesheet/<int:wagesheet_id>/',
          wage_sheet_views.approve_reject_wagesheet, name="approve_reject_wagesheet"),
@@ -241,15 +241,20 @@ user_urls = [
 ]
 
 auth_urls = [
-    path("super_admin_required_page/", super_admin_required_page, name="super_admin_required_page"),
-    path("project_manager_required_page/", project_manager_required_page, name="project_manager_required_page"),
-    path("supervisor_required_page/", supervisor_required_page, name="supervisor_required_page"),
-    path("finance_officer_required_page/", finance_officer_required_page, name="finance_officer_required_page"),
+    path("super_admin_required_page/", super_admin_required_page,
+         name="super_admin_required_page"),
+    path("project_manager_required_page/", project_manager_required_page,
+         name="project_manager_required_page"),
+    path("supervisor_required_page/", supervisor_required_page,
+         name="supervisor_required_page"),
+    path("finance_officer_required_page/", finance_officer_required_page,
+         name="finance_officer_required_page"),
 ]
 
 urlpatterns = activity_urls + project_urls + worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
-              pip_urls + field_managers_urls + teams_urls + pip_team_urls + wage_sheets_urls \
-              + wage_bill_urls + segments_urls + complaint_urls + deduction_urls + user_urls + auth_urls
+    pip_urls + field_managers_urls + teams_urls + pip_team_urls + wage_sheets_urls \
+    + wage_bill_urls + segments_urls + complaint_urls + \
+    deduction_urls + user_urls + auth_urls
 
 
 # customJS routes
