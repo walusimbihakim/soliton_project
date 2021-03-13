@@ -25,7 +25,7 @@ Manage Workers
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
-                    <table id="example1" class="table table-striped">
+                    <table id="workertable" class="table table-striped">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -107,16 +107,17 @@ Manage Workers
 </div>
 <!-- /.modal -->
 
-<!-- DataTables -->
-<script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
-<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
-<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
-<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
 
 <!-- page script -->
+{% block customJS %}
 <script>
   $(function () {
-    $("#example1").DataTable({
+    $("#workertable").DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
       "responsive": true,
       "autoWidth": false,
     });
@@ -131,4 +132,5 @@ Manage Workers
     });
   });
 </script>
+{% endblock customJS %}
 {% endblock content %}

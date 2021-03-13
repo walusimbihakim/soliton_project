@@ -103,7 +103,6 @@ $(document).ready(() => {
     // Delete Client 
     $("#delete_client_btn").click(() => {
         var client_id = $('input[type=hidden]').val();
-        alert("Hi: ", client_id);
         document.querySelector("#table").children[0].children[r].children[c].innerText
         $.ajax({
             type: 'get',
