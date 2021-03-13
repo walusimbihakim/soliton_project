@@ -12,6 +12,7 @@ class ActivityListForm(forms.ModelForm):
             "code",
             "name", 
             "unit_measure",
+            "unit_cost",
             "is_fd_underground",
             "is_fd_arial",
             "is_site_connection",

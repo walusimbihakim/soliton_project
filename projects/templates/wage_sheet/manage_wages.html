@@ -120,7 +120,8 @@ Manage Wages for sheet {{wage_sheet.id}}
 <!-- /.modal -->
 {% endblock content %}
 
-{%block customJS%}
-<script type="text/javascript">{% javascript_settings %}</script>
-<script src="{% static 'customJS/wage_form.js'%}"></script>
-{%endblock%}
+{% block customJS %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">{% javascript_settings %}</script>
+    <script src="{% static 'customJS/wage_form.js'%}"></script>
+{% endblock %}

@@ -1,110 +1,118 @@
-{% extends './base.html' %}
-{% load static %}
-{% load crispy_forms_tags %}
-{% load javascript_settings_tags %}
-
-{%block page_title%}
-Clients
-<style >
-    .asteriskField {
-        display: none;
-    }
+{% extends './base.html' %} {% load static %} {% load crispy_forms_tags %} {%
+load javascript_settings_tags %} {%block page_title%} Clients
+<style>
+  .asteriskField {
+    display: none;
+  }
 </style>
-{% endblock%}
-{% block right_button%}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-client">
-    New Client
+{% endblock%} {% block right_button%}
+<button
+  type="button"
+  class="btn btn-primary"
+  data-toggle="modal"
+  data-target="#modal-add-client"
+>
+  New Client
 </button>
-{% endblock %}
-{% block content %}
+{% endblock %} {% block content %}
 <div class="container-fluid">
-    <!-- ./row -->
-    <div class="row">
-        <!-- ./col -->
-        <div class="col-12">
-            <div class="card">
-                <!-- ./ card-header -->
-                <div class="card-header">
-                    <h3 class="card-title">Manage Clients</h3>
-                </div>
-                <!-- /.card-header -->
-                <!-- ./card-body -->
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="example1" class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>Client</th>
-                                <th>Address</th>
-                                <th>Email(s)</th>
-                                <th>Contact(s)</th>
-                                <th>Website</th>
-                                <th>#</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for client in clients%}
-                            <tr>
-                                <td>
-                                    <img class="img-size-50 mr-3 img-circle" src="{{client.profile_pic.url}}"/>
-                                </td>
-                                <td>{{client.company_name}}</td>
-                                <td>{{client.address}}
-                                </td>
-                                <td>{{client.email}}</td>
-                                <td>{{client.contact}}</td>
-                                <td>
-                                    <a href={{client.website}} target="_blank">
-                                    {{client.website}}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{% url 'delete_client' client.id %}" style="color: inherit">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                <td>
-                            </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+  <!-- ./row -->
+  <div class="row">
+    <!-- ./col -->
+    <div class="col-12">
+      <div class="card">
+        <!-- ./ card-header -->
+        <div class="card-header">
+          <h3 class="card-title">Manage Clients</h3>
         </div>
-        <!-- /.col -->
+        <!-- /.card-header -->
+        <!-- ./card-body -->
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="example1" class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Client</th>
+                  <th>Address</th>
+                  <th>Email(s)</th>
+                  <th>Contact(s)</th>
+                  <th>Website</th>
+                  <th>#</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for client in clients%}
+                <tr>
+                  <td>
+                    <img
+                      class="img-size-50 mr-3 img-circle"
+                      src="{{client.profile_pic.url}}"
+                    />
+                  </td>
+                  <td>{{client.company_name}}</td>
+                  <td>{{client.address}}</td>
+                  <td>{{client.email}}</td>
+                  <td>{{client.contact}}</td>
+                  <td>
+                    <a href="{{client.website}}" target="_blank">
+                      {{client.website}}
+                    </a>
+                  </td>
+                  <td>
+                    <a href="" style="color: inherit">
+                      <i class="fa fa-trash"></i>
+                    </a>
+                  </td>
+
+                  <td></td>
+                </tr>
+
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
     </div>
-    <!-- /.row -->
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
 </div>
 <!-- /.container-fluid -->
 
 <!-- Modal Add Client -->
 <div class="modal fade" id="modal-add-client">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Add New Client</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-        <!-- /.modal-content -->
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add New Client</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %} {{ form|crispy }}
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <!-- /.modal-dialog -->
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
 </div>
 <!-- DataTables -->
 <script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
@@ -116,17 +124,17 @@ Clients
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true,
-      "autoWidth": false,
+      responsive: true,
+      autoWidth: false,
     });
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
+    $("#example2").DataTable({
+      paging: true,
+      lengthChange: false,
+      searching: false,
+      ordering: true,
+      info: true,
+      autoWidth: false,
+      responsive: true,
     });
   });
 </script>
