@@ -273,3 +273,5 @@ static_files/
 conf.d/
 *.swp
 *.swo
+*.swn
+*.swm
