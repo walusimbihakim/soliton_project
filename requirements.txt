@@ -1,5 +1,6 @@
 amqp==5.0.5
 appdirs==1.4.3
+asgiref==3.3.1
 astroid==2.5.1
 autopep8==1.4.4
 billiard==3.6.3.0
@@ -16,7 +17,7 @@ contextlib2==0.6.0
 distlib==0.3.0
 distro==1.4.0
 dj-database-url==0.5.0
-Django==2.2.2
+Django==3.1.7
 django-crispy-forms==1.9.2
 django-crontab==0.7.1
 django-javascript-settings==1.1.2
@@ -41,6 +42,7 @@ pep517==0.8.2
 progress==1.5
 prometheus-client==0.8.0
 prompt-toolkit==3.0.16
+psycopg2-binary==2.8.6
 pycodestyle==2.6.0
 pylint==2.7.2
 pyparsing==2.4.6
@@ -65,5 +67,3 @@ webencodings==0.5.1
 whitenoise==5.2.0
 wrapt==1.12.1
 zipp==3.4.0
-sentry
-
