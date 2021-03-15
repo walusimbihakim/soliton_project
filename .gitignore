@@ -271,4 +271,4 @@ dhparam/
 static_files/
 .idea/
 
-# End of https://www.toptal.com/developers/gitignore/api/django,pycharm,venv,dotenv
+# End of https://www.toptal.com/developers/gitignore/api/django,pycharm,venv,dotenvdocker-compose.yml
