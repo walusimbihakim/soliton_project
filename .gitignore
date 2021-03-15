@@ -273,3 +273,5 @@ static_files/
 
 # End of https://www.toptal.com/developers/gitignore/api/django,pycharm,venv,dotenvdocker-compose.yml
 conf.d/
+*.swp
+*.swo
