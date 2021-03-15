@@ -10,6 +10,7 @@ RUN apk update \
     && pip install Pillow \
     && apk del build-deps
 
+RUN RUN pip install --upgrade sentry-sdk
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
