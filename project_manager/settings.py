@@ -2,6 +2,17 @@ import os
 import dj_database_url
 from django.contrib.messages import constants as messages
 from decouple import config, Csv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+ENVIRONMENT = config("ENVIRONMENT")
+if ENVIRONMENT == "heroku":
+    sentry_sdk.init(
+        dsn=config("SENTRY_DSN"),
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True
+    )
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
@@ -64,8 +75,7 @@ WSGI_APPLICATION = 'project_manager.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-ENVIRONMENT = config("ENVIRONMENT")
-print(ENVIRONMENT)
+
 if ENVIRONMENT == "digital_ocean":
     DATABASES = {
         'default': {
