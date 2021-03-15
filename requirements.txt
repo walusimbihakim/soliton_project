@@ -42,7 +42,6 @@ pep517==0.8.2
 progress==1.5
 prometheus-client==0.8.0
 prompt-toolkit==3.0.16
-psycopg2-binary==2.8.6
 pycodestyle==2.6.0
 pylint==2.7.2
 pyparsing==2.4.6
