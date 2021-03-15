@@ -70,8 +70,8 @@ if ENVIRONMENT == "digital_ocean":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'USER': config("POSTGRES_USER"),
             'NAME': config("POSTGRES_DB"),
+            'USER': config("POSTGRES_USER"),
             'PASSWORD': config("POSTGRES_PASSWORD"),
         },
     }
