@@ -4,9 +4,8 @@ from clients.models import Client
 
 
 class Project(TimeStampedModel):
-
-    project_code = models.CharField("Code", max_length=10)
-    name = models.CharField("Project Name", max_length=50)
+    project_code = models.CharField("Code", max_length=10, unique=True)
+    name = models.CharField("Project Name", max_length=50, unique=True)
     client = models.ForeignKey(Client, verbose_name="Client Company", on_delete=models.CASCADE)
     description = models.CharField("Description", max_length=255, null=True, blank=True)
     start_date = models.DateField("Start Date")
