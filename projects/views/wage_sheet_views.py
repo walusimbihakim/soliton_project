@@ -10,7 +10,8 @@ from django.contrib import messages
 from projects.forms.wage_sheet_forms import WageSheetForm, WageForm
 from projects.selectors.deductions import get_deductions, get_deduction
 from projects.selectors.wage_sheets import get_all_wage_sheets, get_wage_sheet, get_wages, get_wage, \
-    get_submitted_wage_sheets
+    get_submitted_wage_sheets, get_fm_wage_sheets_for_approval, get_pm_wage_sheets_for_approval, \
+    get_gm_wage_sheets_for_approval
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 
 
@@ -133,7 +134,14 @@ def submit_wage_sheet(request, wage_sheet_id):
 
 
 def approve_or_reject_wagesheets(request):
-    wage_sheets = get_submitted_wage_sheets()
+    wage_sheets = None
+    user = request.user
+    if user.user_role == FIELD_MANAGER:
+        wage_sheets = get_fm_wage_sheets_for_approval()
+    elif user.user_role == PROJECT_MANAGER:
+        wage_sheets = get_pm_wage_sheets_for_approval()
+    elif user.user_role == GENERAL_MANAGER:
+        wage_sheets = get_gm_wage_sheets_for_approval()
     context = {
         "wage_sheets": wage_sheets,
     }
@@ -170,6 +178,7 @@ def manage_submitted_sheet(request, wage_sheet_id):
 def approve_reject_wagesheet(request, wagesheet_id):
     if request.method == "POST":
         wage_sheet = get_wage_sheet(wagesheet_id)
+        wage_sheet.rejected = True
         wages = get_wages(wage_sheet)
         complaints = get_complaints(wagesheet_id)
         deductions = get_deductions(wagesheet_id)

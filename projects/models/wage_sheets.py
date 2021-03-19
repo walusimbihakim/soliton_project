@@ -21,6 +21,7 @@ class WageSheet(models.Model):
     gm_status = models.BooleanField(null=True)
     gm_comment = models.TextField(default="-", null=True, blank=True)
     approved = models.BooleanField(default=False)
+    rejected = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('supervisor_user', 'field_manager_user', 'date')
