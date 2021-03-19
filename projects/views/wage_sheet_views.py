@@ -191,6 +191,7 @@ def approve_reject_wagesheet(request, wagesheet_id):
         elif user.user_role == GENERAL_MANAGER:
             wage_sheet.gm_status = request.POST.get("wage_action")
             wage_sheet.gm_comment = request.POST.get("wage_comment")
+            wage_sheet.approved = True
             wage_sheet.save()
         messages.success(request, "Action saved Successfully")
         return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wagesheet_id]))

@@ -18,4 +18,19 @@ def get_wage(id):
 
 
 def get_submitted_wage_sheets():
-    return WageSheet.objects.filter(is_submitted=True,)
+    return WageSheet.objects.filter(is_submitted=True, )
+
+
+def get_gm_wage_sheets_for_approval():
+    # General manager wage sheets for approval
+    return WageSheet.objects.filter(is_submitted=True, project_manager_status=True, approved=False)
+
+
+def get_pm_wage_sheets_for_approval():
+    # Project manager wage sheets for approval
+    return WageSheet.objects.filter(is_submitted=True, manager_status=True, approved=False)
+
+
+def get_fm_wage_sheets_for_approval():
+    # Field manager wage sheets for approval
+    return WageSheet.objects.filter(is_submitted=True, approved=False)
