@@ -196,7 +196,7 @@ def approve_reject_wagesheet(request, wagesheet_id):
         return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wagesheet_id]))
 
 
-def reject_wage(request, wage_id, role):
+def reject_wage(request, wage_id):
     wage = get_wage(wage_id)
     user = request.user
     if user.user_role == FIELD_MANAGER:
@@ -210,7 +210,7 @@ def reject_wage(request, wage_id, role):
         messages.success(request, "Wage rejected")
     except:
         messages.error(request, "Operation was no successfull")
-    return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wage.wage_sheet.id, role]))
+    return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wage.wage_sheet.id]))
 
 
 def reject_complaint(request, complaint_id, role):

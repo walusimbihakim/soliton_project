@@ -162,7 +162,7 @@ wage_sheets_urls = [
          wage_sheet_views.manage_submitted_sheet, name="manage_submitted_sheet"),
     path('approve_reject_wagesheet/<int:wagesheet_id>/',
          wage_sheet_views.approve_reject_wagesheet, name="approve_reject_wagesheet"),
-    path('reject_wage/<int:wage_id>/<int:role>/',
+    path('reject_wage/<int:wage_id>/',
          wage_sheet_views.reject_wage, name="reject_wage"),
 
 ]
