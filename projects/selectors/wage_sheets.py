@@ -18,4 +18,4 @@ def get_wage(id):
 
 
 def get_submitted_wage_sheets():
-    return WageSheet.objects.filter(is_submitted=True)
+    return WageSheet.objects.filter(is_submitted=True,)

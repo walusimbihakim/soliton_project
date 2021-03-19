@@ -132,12 +132,12 @@ def submit_wage_sheet(request, wage_sheet_id):
     return HttpResponseRedirect(reverse(manage_wage_sheets_page))
 
 
-def view_submitted_wagesheets(request):
+def approve_or_reject_wagesheets(request):
     wage_sheets = get_submitted_wage_sheets()
     context = {
         "wage_sheets": wage_sheets,
     }
-    return render(request, "wage_sheet/submitted_wage_sheets.html", context)
+    return render(request, "wage_sheet/approve_or_reject_wage_sheets.html", context)
 
 
 def manage_submitted_sheet(request, wage_sheet_id):
