@@ -203,7 +203,7 @@ def approve_reject_wagesheet(request, wagesheet_id):
             wage_sheet.approved = True
             wage_sheet.save()
         messages.success(request, "Action saved Successfully")
-        return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wagesheet_id]))
+        return HttpResponseRedirect(reverse(approve_or_reject_wagesheets))
 
 
 def reject_wage(request, wage_id):
