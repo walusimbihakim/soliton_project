@@ -28,9 +28,9 @@ def get_gm_wage_sheets_for_approval():
 
 def get_pm_wage_sheets_for_approval():
     # Project manager wage sheets for approval
-    return WageSheet.objects.filter(is_submitted=True, manager_status=True, approved=False, rejected=False)
+    return WageSheet.objects.filter(is_submitted=True, project_manager_status=None, manager_status=True, approved=False, rejected=False)
 
 
 def get_fm_wage_sheets_for_approval():
     # Field manager wage sheets for approval
-    return WageSheet.objects.filter(is_submitted=True, approved=False, rejected=False)
+    return WageSheet.objects.filter(is_submitted=True, manager_status=None, approved=False, rejected=False)
