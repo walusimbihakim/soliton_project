@@ -8,7 +8,7 @@ class UserForm(ModelForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email",
-                  "username", "user_role",
+                  "username", "user_role", "is_active", "is_staff",
                   "is_superuser")
 
     def __init__(self, *args, **kwargs):

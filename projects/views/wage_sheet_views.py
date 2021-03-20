@@ -175,10 +175,9 @@ def manage_submitted_sheet(request, wage_sheet_id):
     return render(request, "wage_sheet/manage_submitted_sheet.html", context)
 
 
-def approve_reject_wagesheet(request, wagesheet_id):
+def approve_reject_wage_sheets_page(request, wagesheet_id):
     if request.method == "POST":
         wage_sheet = get_wage_sheet(wagesheet_id)
-        wage_sheet.rejected = True
         wages = get_wages(wage_sheet)
         complaints = get_complaints(wagesheet_id)
         deductions = get_deductions(wagesheet_id)
