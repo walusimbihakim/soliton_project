@@ -16,7 +16,7 @@ Approve/Reject Wage Sheets
                 {%if wage_sheets%}
                 <!-- ./ card-header -->
                 <div class="card-header">
-                    <h3 class="card-title">Wage Sheets</h3>
+                    <h3 class="card-title">Approve wage sheets as {{user.user_role}}</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- ./card-body -->
@@ -57,7 +57,7 @@ Approve/Reject Wage Sheets
                 <!-- /.card-body -->
                 {%else%}
                 <div class="card-body">
-                    <h4>No Submitted wage sheets available</h4>
+                    <h4>No pending wage sheets available</h4>
                 </div>
                 {%endif%}
             </div>
