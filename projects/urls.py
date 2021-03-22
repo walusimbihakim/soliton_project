@@ -164,6 +164,10 @@ wage_sheets_urls = [
          wage_sheet_views.approve_reject_wage_sheets_page, name="approve_reject_wagesheet"),
     path('reject_wage/<int:wage_id>/',
          wage_sheet_views.reject_wage, name="reject_wage"),
+    path('user_submitted_wage_sheets_page/', wage_sheet_views.user_submitted_wage_sheets_page,
+         name="user_submitted_wage_sheets_page"),
+    path('submitted_wage_sheets/<int:id>', wage_sheet_views.submitted_wage_sheet_page,
+         name="submitted_wage_sheet_page")
 
 ]
 
@@ -252,9 +256,9 @@ auth_urls = [
 ]
 
 urlpatterns = activity_urls + project_urls + worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
-    pip_urls + field_managers_urls + teams_urls + pip_team_urls + wage_sheets_urls \
-    + wage_bill_urls + segments_urls + complaint_urls + \
-    deduction_urls + user_urls + auth_urls
+              pip_urls + field_managers_urls + teams_urls + pip_team_urls + wage_sheets_urls \
+              + wage_bill_urls + segments_urls + complaint_urls + \
+              deduction_urls + user_urls + auth_urls
 
 
 # customJS routes

@@ -10,15 +10,16 @@ from django.contrib import messages
 from projects.forms.wage_sheet_forms import WageSheetForm, WageForm
 from projects.selectors.deductions import get_deductions, get_deduction
 from projects.selectors.wage_sheets import get_all_wage_sheets, get_wage_sheet, get_wages, get_wage, \
-    get_submitted_wage_sheets, get_fm_wage_sheets_for_approval, get_pm_wage_sheets_for_approval, \
-    get_gm_wage_sheets_for_approval
+    get_fm_wage_sheets_for_approval, get_pm_wage_sheets_for_approval, \
+    get_gm_wage_sheets_for_approval, get_submitted_wage_sheets, get_non_submitted_wage_sheets, \
+    get_user_submitted_wage_sheets
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 
 
 @supervisor_required
 def manage_wage_sheets_page(request):
     wage_bill = wage_bill_selectors.get_current_wage_bill()
-    wage_sheets = get_all_wage_sheets()
+    wage_sheets = get_non_submitted_wage_sheets(request.user)
     form = WageSheetForm(initial={"wage_bill": wage_bill})
     if request.method == "POST":
         form = WageSheetForm(request.POST, request.FILES)
@@ -58,6 +59,26 @@ def edit_wage_sheet_page(request, id):
         "form": form,
     }
     return render(request, "wage_sheet/edit_wage_sheet.html", context)
+
+
+@supervisor_required
+def user_submitted_wage_sheets_page(request):
+    wage_sheets = get_user_submitted_wage_sheets(request.user)
+    context = {
+        "wage_sheets_page": "active",
+        "wage_sheets": wage_sheets,
+    }
+    return render(request, "wage_sheet/user_submitted_wage_sheets.html", context)
+
+
+@supervisor_required
+def submitted_wage_sheet_page(request, id):
+    wage_sheet = get_wage_sheet(id)
+    context = {
+        "wage_sheets_page": "active",
+        "wage_sheet": wage_sheet,
+    }
+    return render(request, "wage_sheet/submitted_wage_sheet.html", context)
 
 
 @supervisor_required
