@@ -233,111 +233,52 @@ Submitted Wage Sheet
                 </div>
                 <!-- /.card body -->
             </div>
-            <!-- /.card content -->
-            <!-- card Approval -->
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-small">
-                            <form method="POST" id="approve_wage_form" action="{% url 'approve_reject_wagesheet' wage_sheet.id %}" >
-                                {% csrf_token %}
-                                <input type="hidden" id="wage_sheet_id" name="wage_sheet_id" value="{{wage_sheet.id}}">
-                                <input type="hidden" id="role" name="role" value="{{role}}">
-
-                                {% if user.user_role == "Field Manager" %}
-                                <tr>
-                                    <th scope="row">Manager Status:</th>
-                                    <td>
-                                        {% if wage_sheet.manager_status == 1 %}
-                                        Approved
-                                        {% elif wage_sheet.manager_status == 0%}
-                                        Rejected
-                                        {% else %}
-                                        Pending
-                                        {% endif %}
-                                    </td>
-                                    <th scope="row">Manager Comment:</th>
-                                    <td>{{wage_sheet.manager_comment}}</td>
-                                </tr>
-                                {% elif user.user_role == "Project Manager"%}
-                                <tr>
-                                    <th scope="row">Manager Status:</th>
-                                    <td>
-                                        {% if wage_sheet.manager_status == 1 %}
-                                        Approved
-                                        {% elif wage_sheet.manager_status == 0%}
-                                        Rejected
-                                        {% else %}
-                                        Pending
-                                        {% endif %}
-                                    </td>
-                                    <th scope="row">Manager Comment:</th>
-                                    <td>{{wage_sheet.manager_comment}}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">PM Status:</th>
-                                    <td>{{wage_sheet.project_manager_status}}</td>
-                                    <th scope="row">PM Comment:</th>
-                                    <td>{{wage_sheet.project_manager_comment}}</td>
-                                </tr>
-                                {% elif user.user_role == "General Manager"%}
-                                <tr>
-                                    <th scope="row">Manager Status:</th>
-                                    <td>
-                                        {% if wage_sheet.manager_status == 1 %}
-                                        Approved
-                                        {% elif wage_sheet.manager_status == 0%}
-                                        Rejected
-                                        {% else %}
-                                        Pending
-                                        {% endif %}
-                                    </td>
-                                    <th scope="row">Manager Comment:</th>
-                                    <td>{{wage_sheet.manager_comment}}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">PM Status:</th>
-                                    <td>{{wage_sheet.project_manager_status}}</td>
-                                    <th scope="row">PM Comment:</th>
-                                    <td>{{wage_sheet.project_manager_comment}}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">GM Status:</th>
-                                    <td>{{wage_sheet.gm_status}}</td>
-                                    <th scope="row">GM Comment:</th>
-                                    <td>{{wage_sheet.gm_comment}}</td>
-                                </tr>
-
-                                {% endif %}
-
-                                <!-- Approval -->
-                                <tr>
-                                    <th>Action:</th>
-                                    <td>
-                                        <div class="form-group ">
-                                            <select id="wage_action" class="form-control" name="wage_action">
-                                                <option>--- Choose Action ---</option>
-                                                <option value="1">Approve</option>
-                                                <option value="0">Reject</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <th>Comment:</th>
-                                    <td>
-                                        <div class="form-group green-border-focus">
-                                        <textarea class="form-control" name="wage_comment" id="wage_comment">
-                                        </textarea>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan=4>
-                                        <button class="btn btn-primary btn-lg btn-block" type="submit" id="submit_wage_approval">
-                                            Submit
-                                        </button>
-                                    </td>
-                                </tr>
-                            </form>
+                            <tr>
+                                <th scope="row">Field Manager Approval Status:</th>
+                                <td>
+                                    {% if wage_sheet.manager_status == 1 %}
+                                    <span style="color:green">Approved</span>
+                                    {% elif wage_sheet.manager_status == 0%}
+                                    <span style="color:red">Rejected</span>
+                                    {% else %}
+                                    Pending
+                                    {% endif %}
+                                </td>
+                                <th scope="row">Field Manager Comment:</th>
+                                <td>{{wage_sheet.manager_comment}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Project Manager Status:</th>
+                                <td>
+                                    {% if wage_sheet.project_manager_status == 1 %}
+                                    <span style="color:green">Approved</span>
+                                    {% elif wage_sheet.project_manager_status == 0%}
+                                    <span style="color:red">Rejected</span>
+                                    {% else %}
+                                    Pending
+                                    {% endif %}
+                                </td>
+                                <th scope="row">PM Comment:</th>
+                                <td>{{wage_sheet.project_manager_comment}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">General Manager Status:</th>
+                                <td>
+                                    {% if wage_sheet.gm_status == 1 %}
+                                    <span style="color:green">Approved</span>
+                                    {% elif wage_sheet.gm_status == 0%}
+                                    <span style="color:red">Rejected</span>
+                                    {% else %}
+                                    Pending
+                                    {% endif %}
+                                </td>
+                                <th scope="row">GM Comment:</th>
+                                <td>{{wage_sheet.gm_comment}}</td>
+                            </tr>
                         </table>
                     </div>
                 </div>
