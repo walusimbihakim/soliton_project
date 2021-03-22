@@ -25,6 +25,7 @@ def manage_wage_bill(request):
             messages.warning(request, "Something went wrong, check your Input and try again")
     wagebills = wage_bill_selectors.get_wage_bills()
     context = {
+        "wage_bill_page": "active",
         "wagebills": wagebills,
         "wage_bill_form": wage_bill_form
     }
@@ -48,9 +49,8 @@ def edit_wage_bill(request, wage_bill_id):
             messages.error(request, "Something went wrong, check your Input and try again")
         return HttpResponseRedirect(reverse(manage_wage_bill))
     context = {
-        "wagebill": "active",
+        "wage_bill_page": "active",
         "manage_wage_bill": "active",
-        # "wage_bill": wage_bill,
         "wage_bill_form": wage_bill_form,
     }
     return render(request, "wage_bill/edit_wage_bill.html", context)
@@ -92,6 +92,7 @@ def current_consolidated_wage_bill(request):
     wage_bill = wage_bill_selectors.get_current_wage_bill()
     aggregated_wages = wage_bill_selectors.get_aggregated_wage_bill(wage_bill)
     context = {
+        "wage_bill_page": "active",
         "wage_bill": wage_bill,
         "aggregated_wages": aggregated_wages,
     }
