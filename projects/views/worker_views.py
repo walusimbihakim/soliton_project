@@ -23,7 +23,7 @@ def manage_workers_page(request):
             messages.error(request, "Integrity problems while saving worker")
         return HttpResponseRedirect(reverse(manage_workers_page))
     context = {
-        "wagebill": "active",
+        "workers_page": "active",
         "manage_workers": "active",
         "workers": workers,
         'form': form,
@@ -44,7 +44,7 @@ def edit_worker_page(request, id):
             messages.error(request, "Integrity problems while saving worker")
         return HttpResponseRedirect(reverse(manage_workers_page))
     context = {
-        "wagebill": "active",
+        "workers_page": "active",
         "manage_workers": "active",
         "form": form,
     }

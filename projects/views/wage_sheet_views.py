@@ -31,7 +31,7 @@ def manage_wage_sheets_page(request):
             messages.error(request, "Integrity problems while saving wage sheet")
         return HttpResponseRedirect(reverse(manage_wage_sheets_page))
     context = {
-        "wagebill": "active",
+        "wage_sheets_page": "active",
         "manage_wage_sheets": "active",
         "wage_sheets": wage_sheets,
         "wage_bill": wage_bill,
@@ -53,7 +53,7 @@ def edit_wage_sheet_page(request, id):
             messages.error(request, "Integrity problems while saving wage sheet")
         return HttpResponseRedirect(reverse(manage_wage_sheets_page))
     context = {
-        "wagebill": "active",
+        "wage_sheets_page": "active",
         "manage_wage_sheets": "active",
         "form": form,
     }
@@ -84,7 +84,7 @@ def manage_wages_page(request, wage_sheet_id):
             messages.error(request, "Integrity problems while saving wage ")
         return HttpResponseRedirect(reverse(manage_wages_page, args=[wage_sheet_id]))
     context = {
-        "wagebill": "active",
+        "wage_sheets_page": "active",
         "manage_wage_sheets": "active",
         "wages": wages,
         "wage_sheet": wage_sheet,
@@ -109,7 +109,7 @@ def edit_wage_page(request, id):
             messages.error(request, "Integrity problems while saving wage")
         return HttpResponseRedirect(reverse(manage_wages_page, args=[wage_sheet.id]))
     context = {
-        "wagebill": "active",
+        "wage_sheets_page": "active",
         "manage_wage_sheets": "active",
         "form": form,
     }
@@ -143,6 +143,7 @@ def approve_or_reject_wagesheets(request):
     elif user.user_role == GENERAL_MANAGER:
         wage_sheets = get_gm_wage_sheets_for_approval()
     context = {
+        "wage_sheets_page": "active",
         "wage_sheets": wage_sheets,
     }
     return render(request, "wage_sheet/approve_or_reject_wage_sheets.html", context)
@@ -166,6 +167,7 @@ def manage_submitted_sheet(request, wage_sheet_id):
         deductions = deductions.filter(is_pm_approved=True)
 
     context = {
+        "wage_sheets_page": "active",
         "wages": wages,
         "wage_sheet": wage_sheet,
         "complaints": complaints,
