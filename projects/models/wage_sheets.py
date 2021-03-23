@@ -24,7 +24,7 @@ class WageSheet(models.Model):
     rejected = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = ('supervisor_user', 'field_manager_user', 'date')
+        unique_together = ('supervisor_user', 'field_manager_user', 'date', 'wage_bill')
 
     def __str__(self):
         return f"{self.supervisor_user} Wage Sheet {self.id}"
@@ -42,7 +42,7 @@ class Wage(models.Model):
     is_payed = models.BooleanField(null=True)
 
     class Meta:
-        unique_together = ('worker', 'activity')
+        unique_together = ('worker', 'activity', 'wage_sheet')
 
     def __str__(self):
         return f"{self.worker} - Wage ID {self.id}"

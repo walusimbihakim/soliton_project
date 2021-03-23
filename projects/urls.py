@@ -187,7 +187,7 @@ complaint_urls = [
          complaint_views.delete_complaint, name='delete_complaint'),
     path('edit_complaint/<int:id>/',
          complaint_views.edit_complaint_page, name="edit_complaint"),
-    path('reject_complaint/<int:complaint_id>/<int:role>/',
+    path('reject_complaint/<int:complaint_id>/',
          wage_sheet_views.reject_complaint, name="reject_complaint"),
 ]
 
