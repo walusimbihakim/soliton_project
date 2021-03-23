@@ -164,9 +164,11 @@ def submit_wage_sheet(request, wage_sheet_id):
 @supervisor_required
 def retract_wage_sheet(request, wage_sheet_id):
     wage_sheet = get_wage_sheet(wage_sheet_id)
-    retract(wage_sheet)
-    messages.success(request, "Wage Sheet retracted Successfully")
-    return HttpResponseRedirect(reverse(manage_wage_sheets_page))
+    if not wage_sheet.approved:
+        retract(wage_sheet)
+        messages.success(request, "Wage Sheet retracted Successfully")
+        return HttpResponseRedirect(reverse(manage_wage_sheets_page))
+    messages.error(request, "Wage Sheet is already approved")
 
 
 def approve_or_reject_wagesheets(request):
