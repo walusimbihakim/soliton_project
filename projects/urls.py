@@ -167,7 +167,9 @@ wage_sheets_urls = [
     path('user_submitted_wage_sheets_page/', wage_sheet_views.user_submitted_wage_sheets_page,
          name="user_submitted_wage_sheets_page"),
     path('submitted_wage_sheets/<int:id>', wage_sheet_views.submitted_wage_sheet_page,
-         name="submitted_wage_sheet_page")
+         name="submitted_wage_sheet_page"),
+    path('retract_wage_sheet/<int:wage_sheet_id>/',
+         wage_sheet_views.retract_wage_sheet, name="retract_wage_sheet"),
 
 ]
 

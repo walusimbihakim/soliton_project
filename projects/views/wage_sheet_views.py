@@ -14,6 +14,7 @@ from projects.selectors.wage_sheets import get_wage_sheet, get_wages, get_wage, 
     get_gm_wage_sheets_for_approval, get_non_submitted_wage_sheets, \
     get_user_submitted_wage_sheets
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
+from projects.services.wage_sheet_services import retract
 
 
 @supervisor_required
@@ -157,6 +158,14 @@ def submit_wage_sheet(request, wage_sheet_id):
     wage_sheet.save()
 
     messages.success(request, "Wage Sheet Submitted Successfully")
+    return HttpResponseRedirect(reverse(manage_wage_sheets_page))
+
+
+@supervisor_required
+def retract_wage_sheet(request, wage_sheet_id):
+    wage_sheet = get_wage_sheet(wage_sheet_id)
+    retract(wage_sheet)
+    messages.success(request, "Wage Sheet retracted Successfully")
     return HttpResponseRedirect(reverse(manage_wage_sheets_page))
 
 

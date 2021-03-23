@@ -74,8 +74,8 @@ Your submitted Wage Sheets
                                             View Details
                                         </button>
                                     </a>
-                                    {%if not wage_sheet.wage_bill.approved %}
-                                    | <a href="#">
+                                    {%if not wage_sheet.approved %}
+                                    | <a href="{%url 'retract_wage_sheet' wage_sheet.id%}">
                                     <button class="btn-sm btn-outline-info btn-rounded waves-effect">
                                         Retract
                                     </button>
