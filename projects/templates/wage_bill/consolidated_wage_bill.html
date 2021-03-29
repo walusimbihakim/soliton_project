@@ -22,7 +22,7 @@ Consolidated Wage Bill
                     <h3 class="card-title">Wage Bill - {{wage_bill}}</h3>
                 </div>
                 <div class="card-body">
-                    <a href="{%url 'current_consolidated_wage_bill_csv'%}">
+                    <a href="{%url 'consolidated_wage_bill_csv' wage_bill.id%}">
                         <button class="btn btn-outline-primary" style="margin:5px; float: right" >
                             Export CSV
                         </button>
@@ -42,7 +42,7 @@ Consolidated Wage Bill
                             <tbody>
                             {% for wage in aggregated_wages%}
                             <tr >
-                                <td class="text-center">1</td>
+                                <td class="text-center">{{forloop.counter}}</td>
                                 <td class="text-center">{{wage.worker|get_worker_info:1}}</td>
                                 <td class="text-center">{{wage.worker|get_worker_info:2}}</td>
                                 <td class="text-center">{{wage.worker|total_payment:wage.payment|intcomma}}/-</td>

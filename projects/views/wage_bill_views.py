@@ -111,8 +111,8 @@ def consolidated_wage_bill(request, wage_bill_id):
     return render(request, "wage_bill/consolidated_wage_bill.html", context)
 
 
-def current_consolidated_wage_bill_csv(request):
-    wage_bill = wage_bill_selectors.get_current_wage_bill()
+def consolidated_wage_bill_csv(request, wage_bill_id):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id=wage_bill_id)
     aggregated_wages = wage_bill_selectors.get_aggregated_wage_bill(wage_bill)
     response = HttpResponse(content_type='text/csv')
     # Name the csv file
@@ -124,12 +124,13 @@ def current_consolidated_wage_bill_csv(request):
         ['No', 'Worker', 'Telephone', 'Amount', 'Charge',
          'Total'])
     # Writing other rows
-    for wage in aggregated_wages:
+    for index, wage in enumerate(aggregated_wages):
         worker_id = wage['worker']
         payment = int(wage['payment'])
         worker = get_worker(id=worker_id)
         charge = wage_bill_selectors.get_airtel_money_withdraw_charge(payment)
         total = payment + charge
+        number = index + 1
         writer.writerow(
-            [worker.id, worker, worker.mobile_money_number, payment, charge, total])
+            [number, worker, worker.mobile_money_number, payment, charge, total])
     return response
