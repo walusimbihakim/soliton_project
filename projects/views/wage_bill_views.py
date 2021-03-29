@@ -99,6 +99,18 @@ def current_consolidated_wage_bill(request):
     return render(request, "wage_bill/consolidated_wage_bill.html", context)
 
 
+@finance_office_required
+def consolidated_wage_bill(request, wage_bill_id):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id=wage_bill_id)
+    aggregated_wages = wage_bill_selectors.get_aggregated_wage_bill(wage_bill)
+    context = {
+        "wage_bill_page": "active",
+        "wage_bill": wage_bill,
+        "aggregated_wages": aggregated_wages,
+    }
+    return render(request, "wage_bill/consolidated_wage_bill.html", context)
+
+
 def current_consolidated_wage_bill_csv(request):
     wage_bill = wage_bill_selectors.get_current_wage_bill()
     aggregated_wages = wage_bill_selectors.get_aggregated_wage_bill(wage_bill)
