@@ -22,14 +22,38 @@ services:
     depends_on:
       - django_gunicorn
 
-#
-#  certbot:
-#    image: certbot/certbot
-#    container_name: certbot
-#    volumes:
-#      - ./certbot/conf:/etc/letsencrypt
-#      - ./certbot/logs:/var/log/letsencrypt
-#      - ./certbot/data:/usr/share/nginx/html/letsencrypt
-#    depends_on:
-#      - nginx
-#    command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email brightkanyange@outlook.com --agree-tos -d 2jenge.com
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+      - "5672:5672"
+    restart: on-failure
+
+  celery_worker:
+    build:
+      context: .
+    command: celery -A project_manager worker -l info
+    depends_on:
+      - django_gunicorn
+      - rabbitmq
+    restart: on-failure
+
+  celery_beat:
+    build:
+      context: .
+    command: celery -A project_manager beat
+    depends_on:
+      - django_gunicorn
+      - rabbitmq
+      - celery_worker
+    restart: on-failure
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/logs:/var/log/letsencrypt
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email brightkanyange@outlook.com --agree-tos -d 2jenge.com
