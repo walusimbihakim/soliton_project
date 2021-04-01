@@ -1,10 +1,9 @@
 import os
 from celery import Celery
 from celery.schedules import crontab
-from decouple import config
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_manager.settings')
-app = Celery('project_manager', broker=config("REDIS_URL"))
+app = Celery('project_manager', broker="pyamqp://rabbitmq:5672")
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 app.conf.beat_schedule = {

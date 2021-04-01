@@ -21,22 +21,27 @@ services:
 
     depends_on:
       - django_gunicorn
+  rabbitmq:
+    image: rabbitmq:latest
+    restart: on-failure
 
   celery_worker:
     build:
       context: .
-    command: celery -A project_manager worker -l info
+    command: sh -c "wait-for rabbitmq:5672 && wait-for django_gunicorn:8000 -- celery -A project_manager worker -l info"
     depends_on:
       - django_gunicorn
+      - rabbitmq
     restart: on-failure
 
   celery_beat:
     build:
       context: .
-    command: celery -A project_manager beat
+    command: sh -c "wait-for rabbitmq:5672 && wait-for django_gunicorn:8000 -- celery -A project_manager beat"
     depends_on:
       - django_gunicorn
       - celery_worker
+      - rabbitmq
     restart: on-failure
 
   certbot:
