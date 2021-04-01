@@ -16,6 +16,7 @@ class Complaint(models.Model):
     is_pm_approved = models.BooleanField(null=True)
     is_gm_approved = models.BooleanField(null=True)
     is_payed = models.BooleanField(null=True)
+    remarks = models.TextField(null=True, blank=False)
 
     class Meta:
         unique_together = ('worker', 'wage_sheet','activity')
