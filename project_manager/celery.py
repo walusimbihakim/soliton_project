@@ -3,7 +3,7 @@ from celery import Celery
 from celery.schedules import crontab
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_manager.settings')
-app = Celery('project_manager')
+app = Celery('project_manager', BROKER_URL="amqp://guest:**@rabbitmq:5672//")
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 app.conf.beat_schedule = {
