@@ -40,6 +40,7 @@ class Wage(models.Model):
     is_pm_approved = models.BooleanField(null=True)
     is_gm_approved = models.BooleanField(null=True)
     is_payed = models.BooleanField(null=True)
+    remarks = models.TextField(null=True, blank=True)
 
     class Meta:
         unique_together = ('worker', 'activity', 'wage_sheet')

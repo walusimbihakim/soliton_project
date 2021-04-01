@@ -245,9 +245,12 @@ def approve_reject_wage_sheets_page(request, wagesheet_id):
         return HttpResponseRedirect(reverse(approve_or_reject_wagesheets))
 
 
-def reject_wage(request, wage_id):
+def reject_wage(request):
+    wage_id = request.POST['id_wage']
+
     wage = get_wage(wage_id)
     user = request.user
+
     if user.user_role == FIELD_MANAGER:
         wage.is_manager_approved = False
     elif user.user_role == PROJECT_MANAGER:
@@ -255,6 +258,7 @@ def reject_wage(request, wage_id):
     elif user.user_role == GENERAL_MANAGER:
         wage.is_gm_approved = False
     try:
+        wage.remarks = request.POST.get('reject_comment')
         wage.save()
         messages.success(request, "Wage rejected")
     except:
