@@ -28,7 +28,6 @@ services:
     command: celery -A project_manager worker -l info
     depends_on:
       - django_gunicorn
-      - rabbitmq
     restart: on-failure
 
   celery_beat:
@@ -37,7 +36,6 @@ services:
     command: celery -A project_manager beat
     depends_on:
       - django_gunicorn
-      - rabbitmq
       - celery_worker
     restart: on-failure
 
