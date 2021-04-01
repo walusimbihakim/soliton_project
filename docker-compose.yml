@@ -22,12 +22,6 @@ services:
     depends_on:
       - django_gunicorn
 
-  rabbitmq:
-    image: rabbitmq:latest
-    ports:
-      - "5672:5672"
-    restart: on-failure
-
   celery_worker:
     build:
       context: .
