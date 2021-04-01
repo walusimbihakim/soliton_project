@@ -12,7 +12,7 @@ from projects.selectors.deductions import get_deductions, get_deduction
 from projects.selectors.wage_sheets import get_wage_sheet, get_wages, get_wage, \
     get_fm_wage_sheets_for_approval, get_pm_wage_sheets_for_approval, \
     get_gm_wage_sheets_for_approval, get_non_submitted_wage_sheets, \
-    get_user_submitted_wage_sheets
+    get_user_submitted_wage_sheets, get_rejected_wages, get_approved_wages
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from projects.services.wage_sheet_services import retract
 
@@ -75,13 +75,15 @@ def user_submitted_wage_sheets_page(request):
 @supervisor_required
 def submitted_wage_sheet_page(request, id):
     wage_sheet = get_wage_sheet(id)
-    wages = get_wages(wage_sheet)
+    approved_wages = get_approved_wages(wage_sheet)
+    rejected_wages = get_rejected_wages(wage_sheet)
     complaints = get_complaints(id)
     deductions = get_deductions(id)
     context = {
         "wage_sheets_page": "active",
         "wage_sheet": wage_sheet,
-        "wages": wages,
+        "wages": approved_wages,
+        "rejected_wages": rejected_wages,
         "complaints": complaints,
         "deductions": deductions
     }
@@ -266,7 +268,8 @@ def reject_wage(request):
     return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[wage.wage_sheet.id]))
 
 
-def reject_complaint(request, complaint_id, role):
+def reject_complaint(request):
+    complaint_id = request.POST.get('id_complaint')
     complaint = get_complaint(complaint_id)
     user = request.user
     if user.user_role == FIELD_MANAGER:
@@ -276,12 +279,13 @@ def reject_complaint(request, complaint_id, role):
     elif user.user_role == FIELD_MANAGER:
         complaint.is_gm_approved = False
     try:
+        complaint.remarks = request.POST.get('reject_complaint_txt')
         complaint.save()
         messages.success(request, "Complaint rejected")
     except:
         messages.error(request, "Operation was no successfull")
 
-    return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[complaint.wage_sheet.id, role]))
+    return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[complaint.wage_sheet.id]))
 
 
 def reject_deduction(request, deduction_id, role):
