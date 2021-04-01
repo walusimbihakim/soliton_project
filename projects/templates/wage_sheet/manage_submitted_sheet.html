@@ -1,6 +1,7 @@
 {% extends '../base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load javascript_settings_tags %}
 {% load humanize %}
 
 {%block page_title%}
@@ -30,7 +31,7 @@ Approve/Reject
                                 <th>Segment</th>
                                 <td>{{wage_sheet.segment}}</td>
                             </tr>
-                        </table>
+                        </table>                        
                     </div>
                 </div>
             </div>
@@ -55,6 +56,7 @@ Approve/Reject
                                 <table id="wages_table" class="table table-striped">
                                     <thead>
                                     <tr>
+                                        <th class="text-center">No.</th>
                                         <th class="text-center">Worker</th>
                                         <th class="text-center">Activity</th>
                                         <th class="text-center">Payment</th>
@@ -67,6 +69,7 @@ Approve/Reject
                                     <tbody>
                                     {% for wage in wages%}
                                     <tr>
+                                        <td class="text-center">{{wage.id}}</td>
                                         <td class="text-center">{{wage.worker}}</td>
                                         <td class="text-center">
                                             {{wage.activity}}
@@ -97,10 +100,10 @@ Approve/Reject
                                             {% endif %}
                                         </td>
                                         <td class="text-center">
-                                            <a href = "{% url 'reject_wage' wage.id %}" class="btn btn-outline-danger btn-rounded waves-effect"
-                                               onclick="return confirm('Are you sure you want to Reject this Wage?')">
+                                            <button class="btn btn-outline-danger btn-rounded waves-effect"
+                                               onclick="list()" data-toggle="modal" data-target="#modal-reject-comment">
                                                 Reject
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -110,9 +113,10 @@ Approve/Reject
                         </div>
                         <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
                             <div class="table-responsive">
-                                <table id="example1" class="table table-striped">
+                                <table id="complaints_table" class="table table-striped">
                                     <thead>
                                     <tr>
+                                        <th class="text-center">No.</th>
                                         <th class="text-center">Worker</th>
                                         <th class="text-center">Activity</th>
                                         <th class="text-center">Payment</th>
@@ -126,6 +130,7 @@ Approve/Reject
                                     <tbody>
                                     {% for complaint in complaints%}
                                     <tr>
+                                        <td class="text-center">{{complaint.id}}</td>
                                         <td class="text-center">{{complaint.worker}}</td>
                                         <td class="text-center">
                                             {{complaint.activity}}
@@ -158,10 +163,10 @@ Approve/Reject
                                             {% endif %}
                                         </td>
                                         <td class="text-center">
-                                            <a href = "{% url 'reject_complaint' complaint.id role %}" class="btn btn-outline-danger btn-rounded waves-effect"
-                                               onclick="return confirm('Are you sure you want to Reject this Complaint?')">
+                                            <button class="btn btn-outline-danger btn-rounded waves-effect"
+                                               onclick="list_complaint()" data-toggle="modal" data-target="#modal-reject-complaint">
                                                 Reject
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -350,11 +355,114 @@ Approve/Reject
 </div>
 <!-- /.container-fluid -->
 
+<!-- Reject wage comment -->
+<div class="modal fade" id="modal-reject-comment">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Reject Wage</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'reject_wage' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group green-border-focus">
+                        <input type="hidden" class="form-control" name="id_wage" id="id_wage">                        
+                        <textarea class="form-control" name="reject_comment" id="reject_comment">                                                
+                        </textarea>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+                <button id="reject-btn" type="submit" class="btn btn-primary">Confirm</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal reject wage comment -->
+
+<!-- Reject complaint comment -->
+<div class="modal fade" id="modal-reject-complaint">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Reject Complaint</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'reject_complaint' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group green-border-focus">
+                        <input type="text" class="form-control" name="id_complaint" id="id_complaint">                        
+                        <textarea class="form-control" name="reject_complaint_txt" id="reject_complaint-txt">                                                
+                        </textarea>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+                <button id="reject-complaint-btn" type="submit" class="btn btn-primary">Confirm</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <!-- DataTables -->
 <script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
 <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
 <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
 <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+
+{% block customJS %}
+    <script>
+        function list() {  
+            var tbl = document.querySelector("#wages_table");
+            if (tbl != null) {
+                for (var i = 0; i<tbl.rows.length; i++) {
+                    for (var j = 0; j<tbl.rows[i].cells.length; j++)
+                        tbl.rows[i].onclick =function () {
+                            get_wage_id(this);
+                    };
+                }
+            } 
+        }
+            
+        function get_wage_id(row) {
+            document.querySelector("#id_wage").value = row.cells[0].innerHTML;
+        }
+
+        function list_complaint() {  
+            var tbl = document.querySelector("#complaints_table");
+            if (tbl != null) {
+                for (var i = 0; i<tbl.rows.length; i++) {
+                    for (var j = 0; j<tbl.rows[i].cells.length; j++)
+                        tbl.rows[i].onclick =function () {
+                            get_complaint_id(this);
+                    };
+                }
+            } 
+        }
+            
+        function get_complaint_id(row) {
+            document.querySelector("#id_complaint").value = row.cells[0].innerHTML;
+        }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">{% javascript_settings %}</script>
+    {% comment %} <script src="{% static 'customJS/submitted_wagesheet.js'%}"></script> {% endcomment %}
+
+{% endblock %}
 
 <!-- page script -->
 <script>
@@ -374,4 +482,5 @@ Approve/Reject
     });
   });
 </script>
+
 {% endblock content %}

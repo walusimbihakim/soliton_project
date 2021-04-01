@@ -162,8 +162,7 @@ wage_sheets_urls = [
          wage_sheet_views.manage_submitted_sheet, name="manage_submitted_sheet"),
     path('approve_reject_wagesheet/<int:wagesheet_id>/',
          wage_sheet_views.approve_reject_wage_sheets_page, name="approve_reject_wagesheet"),
-    path('reject_wage/<int:wage_id>/',
-         wage_sheet_views.reject_wage, name="reject_wage"),
+    path('reject_wage/', wage_sheet_views.reject_wage, name="reject_wage"),
     path('user_submitted_wage_sheets_page/', wage_sheet_views.user_submitted_wage_sheets_page,
          name="user_submitted_wage_sheets_page"),
     path('submitted_wage_sheets/<int:id>', wage_sheet_views.submitted_wage_sheet_page,
@@ -189,7 +188,7 @@ complaint_urls = [
          complaint_views.delete_complaint, name='delete_complaint'),
     path('edit_complaint/<int:id>/',
          complaint_views.edit_complaint_page, name="edit_complaint"),
-    path('reject_complaint/<int:complaint_id>/',
+    path('reject_complaint/',
          wage_sheet_views.reject_complaint, name="reject_complaint"),
 ]
 
@@ -272,5 +271,6 @@ def javascript_settings():
         'get_expense_rate': reverse('get_expense_rate'),
         'get_activity_rate': reverse('get_activity_rate'),
         'get_end_date': reverse('get_end_date'),
+        'reject_wage': reverse('reject_wage'),
     }
     return js_conf

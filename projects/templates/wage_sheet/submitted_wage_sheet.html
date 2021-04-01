@@ -30,6 +30,8 @@ Submitted Wage Sheet
                                 <td>{{wage_sheet.segment}}</td>
                             </tr>
                         </table>
+
+                        
                     </div>
                 </div>
             </div>
@@ -61,10 +63,51 @@ Submitted Wage Sheet
                                         <th class="text-center">Manager</th>
                                         <th class="text-center">PM</th>
                                         <th class="text-center">GM</th>
-                                        <th class="text-center">#</th>
+                                        <th class="text-center">Remarks</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    {% if rejected_wages %}
+                                    <tr><td colspan=2 class="text-danger"><strong>Rejected Wages</strong></td></tr>
+                                    {% for wage in rejected_wages%}
+                                    <tr>
+                                        <td class="text-center">{{wage.worker}}</td>
+                                        <td class="text-center">
+                                            {{wage.activity}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{wage.quantity}} Meters - </br>
+                                            UGX {{wage.payment | intcomma}}/-
+                                        </td>
+                                        <td class="text-center">
+                                            {% if wage.is_manager_approved %}
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            {% else %}
+                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {% if wage.is_pm_approved %}
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            {% else %}
+                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {% if wage.is_gm_approved %}
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            {% else %}
+                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {{wage.remarks}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                    {% if wages %}
+                                    <tr><td colspan=2 class="text-success"><strong>Approved Wages</strong></td></tr>
                                     {% for wage in wages%}
                                     <tr>
                                         <td class="text-center">{{wage.worker}}</td>
@@ -97,13 +140,11 @@ Submitted Wage Sheet
                                             {% endif %}
                                         </td>
                                         <td class="text-center">
-                                            <a href = "{% url 'reject_wage' wage.id %}" class="btn btn-outline-danger btn-rounded waves-effect"
-                                               onclick="return confirm('Are you sure you want to Reject this Wage?')">
-                                                Reject
-                                            </a>
+                                            -
                                         </td>
                                     </tr>
                                     {% endfor %}
+                                    {% endif %}
                                     </tbody>
                                 </table>
                             </div>
@@ -162,10 +203,10 @@ Submitted Wage Sheet
                                             {% endif %}
                                         </td>
                                         <td class="text-center">
-                                            <a href = "{% url 'reject_complaint' complaint.id%}" class="btn btn-outline-danger btn-rounded waves-effect"
+                                            {% comment %} <a href = "{% url 'reject_complaint' complaint.id%}" class="btn btn-outline-danger btn-rounded waves-effect"
                                                onclick="return confirm('Are you sure you want to Reject this Complaint?')">
                                                 Reject
-                                            </a>
+                                            </a> {% endcomment %}
                                         </td>
                                     </tr>
                                     {% endfor %}
