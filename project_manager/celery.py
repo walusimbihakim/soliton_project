@@ -1,24 +1,17 @@
 import os
-
 from celery import Celery
-
-# set the default Django settings module for the 'celery' program.
-from decouple import config
+from celery.schedules import crontab
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_manager.settings')
-
-app = Celery('project_manager', broker=config('REDIS_URL'))
-
-# Using a string here means the worker doesn't have to serialize
-# the configuration object to child processes.
-# - namespace='CELERY' means all celery-related configuration keys
-#   should have a `CELERY_` prefix.
+app = Celery('project_manager', broker="pyamqp://rabbitmq:5672")
 app.config_from_object('django.conf:settings', namespace='CELERY')
-
-# Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
+app.conf.beat_schedule = {
+    'add-every-wednesday-at-9-30': {
+        'task': 'projects.tasks.create_wage_bill',
+        'schedule':  crontab(hour=9, minute=30, day_of_week=3),
+    },
+}
 
 
-@app.task(bind=True)
-def debug_task(self):
-    print(f'Request: {self.request!r}')
+
