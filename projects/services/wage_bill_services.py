@@ -1,8 +1,5 @@
-import datetime
-
 from projects.selectors import wage_bill_selectors
 from projects.selectors.user_selectors import get_users
-from projects.selectors.wage_bill_selectors import get_current_wage_bill
 from projects.tasks import send_wage_created_email_task
 
 
@@ -21,7 +18,4 @@ def send_wage_created_email_service():
     users = get_users()
     for user in users:
         receivers.append(user.email)
-    send_wage_created_email_task.delay(subject="Wage Bill Created",
-                                       template_uri="email/wage_bill_created_email.html",
-                                       receivers=receivers,
-                                       )
+    send_wage_created_email_task(receivers=receivers)
