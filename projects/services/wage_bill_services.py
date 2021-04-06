@@ -1,11 +1,13 @@
 import datetime
 
 from projects.selectors import wage_bill_selectors
+from projects.selectors.user_selectors import get_users
+from projects.selectors.wage_bill_selectors import get_current_wage_bill
+from projects.tasks import send_wage_created_email_task
 
 
 def set_current_wage_bill_status_to_done() -> bool:
     current_wage_bill = wage_bill_selectors.get_current_wage_bill()
-
     if current_wage_bill:
         current_wage_bill.status = "Done"
         current_wage_bill.save()
@@ -14,9 +16,12 @@ def set_current_wage_bill_status_to_done() -> bool:
         return False
 
 
-def create_wage_bill_service() -> bool:
-    # current_date = date.today()
-    # end_date = current_date + datetime.timedelta(days=6)
-    # WageBill.objects.create(start_date=current_date, end_date=end_date)
-    # return True
-    pass
+def send_wage_created_email_service():
+    receivers = []
+    users = get_users()
+    for user in users:
+        receivers.append(user.email)
+    send_wage_created_email_task.delay(subject="Wage Bill Created",
+                                       template_uri="email/wage_bill_created_email.html",
+                                       receivers=receivers,
+                                       )

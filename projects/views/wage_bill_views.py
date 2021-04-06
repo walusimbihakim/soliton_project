@@ -10,7 +10,7 @@ import projects.forms.wage_bill_forms as wage_bill_forms
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from projects.decorators.auth_decorators import finance_office_required
 from projects.selectors.workers import get_worker
-from projects.services.wage_bill_services import set_current_wage_bill_status_to_done
+from projects.services.wage_bill_services import set_current_wage_bill_status_to_done, send_wage_created_email_service
 
 
 def manage_wage_bill(request):
@@ -20,6 +20,7 @@ def manage_wage_bill(request):
         if wage_bill_form.is_valid():
             set_current_wage_bill_status_to_done()
             wage_bill_form.save()
+            send_wage_created_email_service()
             messages.success(request, "Wage Bill Record Saved Successfully")
         else:
             messages.warning(request, "Something went wrong, check your Input and try again")

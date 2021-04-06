@@ -1,9 +1,9 @@
 import os
-from celery import Celery
 from celery.schedules import crontab
+from project_manager.celery_function import get_celery_app
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_manager.settings')
-app = Celery('project_manager', broker="pyamqp://rabbitmq:5672")
+app = get_celery_app()
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 app.conf.beat_schedule = {
