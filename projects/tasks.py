@@ -31,8 +31,4 @@ def create_wage_bill():
 def send_wage_created_email_task(receivers: list):
     wage_bill = get_current_wage_bill()
     mail = WageBillCreatedMail(wage_bill=wage_bill, receivers=receivers)
-    mail.create_mail()
     mail.send_email()
-    print("receivers", mail.get_receivers())
-    print("context", mail.context)
-    print("template_uri", mail.get_template_uri())

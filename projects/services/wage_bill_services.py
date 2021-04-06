@@ -18,4 +18,4 @@ def send_wage_created_email_service():
     users = get_users()
     for user in users:
         receivers.append(user.email)
-    send_wage_created_email_task(receivers=receivers)
+    send_wage_created_email_task.delay(receivers=receivers)

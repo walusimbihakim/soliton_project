@@ -11,6 +11,7 @@ class Mail(metaclass=ABCMeta):
         self.__subject: str = ""
         self.__template_uri: str = ""
         self.__from_email = None
+        self.create_mail()
 
     @abstractmethod
     def create_mail(self):
@@ -33,7 +34,7 @@ class Mail(metaclass=ABCMeta):
 
     def send_email(self):
         html_content = get_template(self.__template_uri).render(self.context)
-        msg = EmailMultiAlternatives(self.__subject, html_content, None, self.receivers)
+        msg = EmailMultiAlternatives(self.__subject, None, None, self.receivers)
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
@@ -47,5 +48,5 @@ class WageBillCreatedMail(Mail):
         }
 
     def create_mail(self):
-        self.set_subject("Wage Bill Created")
+        self.set_subject("New Wage Bill Added")
         self.set_template_uri("email/wage_bill_created_email.html")
