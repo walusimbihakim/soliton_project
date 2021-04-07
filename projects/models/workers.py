@@ -12,6 +12,7 @@ class Worker(models.Model):
     TYPE_CHOICES = [
         ('ISP', 'ISP'),
         ('OFC', 'OFC'),
+        ('OSP', 'OSP'),
         ('Financial', 'Financial'),
         ('Warehouse', 'Warehouse'),
         ('Power', 'Power'),
@@ -35,7 +36,7 @@ class Worker(models.Model):
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     mobile_money_number = models.CharField(max_length=10, unique=True)
     address = models.CharField(max_length=15)
-    next_of_kin = models.CharField(max_length=15, blank=True)
+    next_of_kin = models.CharField(max_length=60, blank=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     business_unit = models.CharField(
         max_length=2, choices=BUSINESS_UNIT_CHOICES)

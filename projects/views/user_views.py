@@ -14,20 +14,20 @@ def manage_user_view(request):
     if request.method == "POST":
         user_form = UserForm(request.POST, request.FILES)
         if user_form.is_valid():
-            user_form.save()
+            user = user_form.save(commit=False)
+            user.set_password("solitonug")
+            user.save()
             messages.success(request, 'User registered Successfully')
         else:
             messages.error(
-                request, "Registration Failed, CHeck your input and try again")
+                request, "Registration Failed, Check your input and try again")
         return HttpResponseRedirect(reverse(manage_user_view))
     users = get_users()
-
     context = {
         "users": users,
         "user_form": user_form,
         "manage_users": "active"
     }
-
     return render(request, "users/manage_user.html", context)
 
 
