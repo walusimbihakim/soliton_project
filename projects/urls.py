@@ -244,7 +244,8 @@ project_urls = [
 user_urls = [
     path('manage_users/', user_views.manage_user_view,
          name='manage_users'),
-    path("edit_user/<int:id>/", user_views.edit_user_view, name="edit_user")
+    path("edit_user/<int:id>/", user_views.edit_user_view, name="edit_user"),
+    path("delete_user/<int:id>/", user_views.delete_user_view, name="delete_user")
 ]
 
 auth_urls = [
