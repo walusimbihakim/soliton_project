@@ -2,7 +2,6 @@ from django.db import models
 from django.urls import reverse
 
 
-
 class WageBill(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()

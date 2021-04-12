@@ -53,8 +53,6 @@ def edit_user_view(request, id):
 
 def delete_user_view(request, id):
     user = get_user_by_id(id)
-
     user.delete()
     messages.success(request, 'User Deleted Successfully')
-
     return HttpResponseRedirect(reverse(manage_user_view))
