@@ -1,10 +1,9 @@
 import datetime
 from datetime import date
-
 from celery import shared_task
 from django.db import IntegrityError
 from project_manager.celery import app
-from projects.classes.mails import Mail
+from projects.classes.mails import WageBillCreatedMail
 from projects.models import WageBill
 from projects.selectors import wage_bill_selectors
 from projects.selectors.user_selectors import get_users
@@ -22,25 +21,14 @@ def create_wage_bill():
     try:
         wage_bill = WageBill.objects.create(start_date=current_date, end_date=end_date)
         receivers = get_users()
-        context = {
-            wage_bill: wage_bill,
-        }
-        send_wage_created_email_task.delay(subject="Wage Bill Created",
-                                           template_uri="email/wage_bill_created_email.html",
-                                           receivers=receivers,
-                                           context=context)
+        send_wage_created_email_task.delay(wage_bill=wage_bill, receivers=receivers)
     except IntegrityError as e:
         return "Wage Bill already Created"
-
     return "Wage Bill Created"
 
 
 @shared_task
-def send_wage_created_email_task(subject: str, template_uri: str, receivers: list):
+def send_wage_created_email_task(receivers: list):
     wage_bill = get_current_wage_bill()
-    context = {
-        "wage_bill": wage_bill
-    }
-    new_mail = Mail(subject, template_uri, receivers, context)
-    new_mail.send_email()
-    return "Emails sent"
+    mail = WageBillCreatedMail(wage_bill=wage_bill, receivers=receivers)
+    mail.send_email()

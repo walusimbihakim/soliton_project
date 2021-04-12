@@ -25,46 +25,48 @@ Manage Workers
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
-                    <table id="workertable" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>National ID</th>
-                            <th>Joined Date</th>
-                            <th>Gender</th>
-                            <th>Mobile Money Number</th>
-                            <th>Address</th>
-                            <th>Next of Kin contact</th>
-                            <th>#</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for worker in workers%}
-                        <tr>
-                            <td>
-                                {{worker.name}}
-                            </td>
-                            <td>
-                                {{worker.id}}
-                            </td>
-                            <td>{{worker.joining_date}}</td>
-                            <td>{{worker.gender}}</td>
-                            <td>{{worker.mobile_money_number}}</td>
-                            <td>{{worker.address}}</td>
-                            <td>{{worker.next_of_kin}}</td>
-                            <td>
-                                <a href="{%url 'edit_worker' worker.id%}" style="color:inherit">
-                                    <i class="fa fa-edit"></i>
-                                </a> |
-                                <a href="{%url 'delete_worker' worker.id%}" style="color: inherit">
-                                    <i class="fa fa-trash"
-                                       onclick="return confirm('Do you want to delete {{worker.name}}?')"></i>
-                                </a>
-                            <td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table id="workertable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>National ID</th>
+                                <th>Joined Date</th>
+                                <th>Gender</th>
+                                <th>Mobile Money Number</th>
+                                <th>Address</th>
+                                <th>Next of Kin contact</th>
+                                <th>#</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for worker in workers%}
+                            <tr>
+                                <td>
+                                    {{worker.name}}
+                                </td>
+                                <td>
+                                    {{worker.national_id}}
+                                </td>
+                                <td>{{worker.joining_date}}</td>
+                                <td>{{worker.gender}}</td>
+                                <td>{{worker.mobile_money_number}}</td>
+                                <td>{{worker.address}}</td>
+                                <td>{{worker.next_of_kin}}</td>
+                                <td>
+                                    <a href="{%url 'edit_worker' worker.id%}" style="color:inherit">
+                                        <i class="fa fa-edit"></i>
+                                    </a> |
+                                    <a href="{%url 'delete_worker' worker.id%}" style="color: inherit">
+                                        <i class="fa fa-trash"
+                                           onclick="return confirm('Do you want to delete {{worker.name}}?')"></i>
+                                    </a>
+                                <td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
                 {%else%}
