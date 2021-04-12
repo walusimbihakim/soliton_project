@@ -30,11 +30,6 @@ class WageSheetForm(forms.ModelForm):
         self.Helper = FormHelper()
         self.fields["wage_bill"].widget = HiddenInput()
 
-        # field_manager_users = get_user_model().objects.filter(user_role=FIELD_MANAGER)
-        # field_manager_users = [(int(field_manager_user.id), field_manager_user.name)
-        #                        for field_manager_user in field_manager_users]
-        # self.fields['field_manager_user'] = forms.ChoiceField(choices=field_manager_users)
-
 
 class WageForm(forms.ModelForm):
     class Meta:
