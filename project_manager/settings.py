@@ -14,7 +14,6 @@ if ENVIRONMENT == "heroku":
         send_default_pii=True
     )
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', False, cast=bool)
@@ -23,7 +22,15 @@ PROJECT_APPS = [
     'clients',
     'projects',
     'authentication',
-    'custom_errors'
+    'custom_errors',
+    'oauth_app'
+]
+
+ALL_AUTH_APPS = [
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -33,10 +40,11 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.sites',
     'crispy_forms',
     'javascript_settings',
 ]
-INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS
+INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS + ALL_AUTH_APPS
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -67,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -115,6 +124,27 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+SOCIALACCOUNT_ADAPTER = 'authentication.google_auth_adapter.GoogleAuthAdapter'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+SITE_ID = 3
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 LANGUAGE_CODE = 'en-us'
@@ -137,7 +167,6 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = 'apikey'
@@ -156,6 +185,11 @@ LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [
     'password_reset_done',
     'password_reset_confirm',
     'password_reset_complete',
+    'social_auth'
+]
+
+LOGIN_REQUIRED_IGNORE_PATHS = [
+    r'/auth/accounts/',
 ]
 
 AUTH_USER_MODEL = "projects.User"
