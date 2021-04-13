@@ -14,4 +14,4 @@ class GoogleAuthAdapter(DefaultSocialAccountAdapter):
             sociallogin.state['process'] = 'connect'
             perform_login(request, existing_user, 'none')
         except User.DoesNotExist:
-            pass
+            raise ValueError
