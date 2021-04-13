@@ -1,8 +1,6 @@
 $(document).ready(() => {
 
     $("#reject-btn").on("click", () => {
-        alert("Hey");
-
         wage_id = document.querySelector('#id_wage').value;
         $.ajax({
             type: 'post',
