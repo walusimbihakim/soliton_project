@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.widgets import HiddenInput
 from crispy_forms.helper import FormHelper
-from projects.models import WageSheet, Wage
+from projects.models import WageSheet, Wage, Worker
 from projects.selectors.wage_bill_selectors import get_current_wage_bill
 
 start_date_str, end_date_str = "", ""
@@ -36,8 +36,9 @@ class WageForm(forms.ModelForm):
         model = Wage
         exclude = ("wage_sheet", "is_manager_approved", "is_pm_approved", "is_gm_approved", "is_payed")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user=None, *args, **kwargs):
         super(WageForm, self).__init__(*args, **kwargs)
+        self.fields['worker'].queryset = Worker.objects.filter(registered_by_user=user)
         self.fields['payment'].widget.attrs['readonly'] = True
 
         self.helper = FormHelper()

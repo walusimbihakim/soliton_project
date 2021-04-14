@@ -102,9 +102,9 @@ def delete_wage_sheet(request, id):
 def manage_wages_page(request, wage_sheet_id):
     wage_sheet = get_wage_sheet(wage_sheet_id)
     wages = get_wages(wage_sheet)
-    form = WageForm()
+    form = WageForm(user=request.user)
     if request.method == "POST":
-        form = WageForm(request.POST, request.FILES)
+        form = WageForm(user=request.user, data=request.POST, files=request.FILES)
         if form.is_valid():
             wage = form.save(commit=False)
             wage.wage_sheet = wage_sheet
@@ -127,9 +127,9 @@ def manage_wages_page(request, wage_sheet_id):
 def edit_wage_page(request, id):
     wage = get_wage(id)
     wage_sheet = wage.wage_sheet
-    form = WageForm(instance=wage)
+    form = WageForm(user=request.user, instance=wage)
     if request.method == "POST":
-        form = WageForm(request.POST, request.FILES, instance=wage)
+        form = WageForm(user=request.user, data=request.POST, files=request.FILES, instance=wage)
         if form.is_valid():
             wage = form.save(commit=False)
             wage.wage_sheet = wage_sheet
