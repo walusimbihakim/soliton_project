@@ -10,142 +10,144 @@ Activity Pool List
     New Activity
 </button>
 {% endblock %}
-{% block content %}    
-    <div class="container-fluid">
-        <!-- ./row -->
-        <div class="row">
-            <!-- ./col -->
-            <div class="col-12">
-                <div class="card">
-                    <!-- ./ card-header -->
-                    <div class="card-header">
-                        <h3 class="card-title">Manage Activities</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <!-- ./card-body -->
-                    <div class="card-body">
+{% block content %}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+            <div class="card">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Manage Activities</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- ./card-body -->
+                <div class="card-body">
+                    <div class="table-responsive">
                         <table id="example1" class="table table-striped">
                             <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Activity</th>
-                                    <th>FD Under</th>
-                                    <th>FD Aerial</th>
-                                    <th>Site</th>                                    
-                                    <th>Tower</th>
-                                    <th>LAN</th>
-                                    <th>Equipment</th>
-                                    <th>Manhole</th>
-                                    <th>#</th>
-                                </tr>
+                            <tr>
+                                <th>Code</th>
+                                <th>Activity</th>
+                                <th>FD Under</th>
+                                <th>FD Aerial</th>
+                                <th>Site</th>
+                                <th>Tower</th>
+                                <th>LAN</th>
+                                <th>Equipment</th>
+                                <th>Manhole</th>
+                                <th>#</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {% for activity in activities%}
-                                <tr>
-                                    <td>
-                                      <a href="">
+                            {% for activity in activities%}
+                            <tr>
+                                <td>
+                                    <a href="">
                                         {{activity.code}}
-                                      </a>
-                                    </td>
-                                    <td>{{activity.name}}</td>
-                                    <td>
-                                        {% if activity.is_fd_underground %}
-                                            <center><i class="fa fa-check"></i></center>
-                                        {% else %}
-                                            <center><i class="fa fa-times" aria-hidden="true"></i></center>                                              
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if  activity.is_fd_arial%}
-                                            <center><i class="fa fa-check"></i></center>
-                                        {% else %}
-                                            <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                        {% endif %}                                        
-                                    </td>
-                                    <td>
-                                        {% if activity.is_site_connection %}
-                                            <center><i class="fa fa-check"></i></center>
-                                        {% else %}
-                                            <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if activity.is_tower_construction %}
-                                            <center><i class="fa fa-check"></i></center>
-                                        {% else %}
-                                            <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if activity.is_lan_installation %}
-                                            <center><i class="fa fa-check"></i></center>
-                                        {% else %}
-                                            <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if activity.is_equipment_installation %}
-                                            <center><i class="fa fa-check"></i></center>
-                                        {% else %}
-                                            <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if activity.is_manhole_installation %}
-                                            <center><i class="fa fa-check"></i></center>
-                                        {% else %}
-                                            <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'edit_activity' activity.id %}" style="color:inherit">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a href="{% url 'delete_activity' activity.id %}" style="color: inherit" ...
-                                            onclick="">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    <td>
-                                </tr>
-                                {% endfor %}
+                                    </a>
+                                </td>
+                                <td>{{activity.name}}</td>
+                                <td>
+                                    {% if activity.is_fd_underground %}
+                                    <center><i class="fa fa-check"></i></center>
+                                    {% else %}
+                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if  activity.is_fd_arial%}
+                                    <center><i class="fa fa-check"></i></center>
+                                    {% else %}
+                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if activity.is_site_connection %}
+                                    <center><i class="fa fa-check"></i></center>
+                                    {% else %}
+                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if activity.is_tower_construction %}
+                                    <center><i class="fa fa-check"></i></center>
+                                    {% else %}
+                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if activity.is_lan_installation %}
+                                    <center><i class="fa fa-check"></i></center>
+                                    {% else %}
+                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if activity.is_equipment_installation %}
+                                    <center><i class="fa fa-check"></i></center>
+                                    {% else %}
+                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if activity.is_manhole_installation %}
+                                    <center><i class="fa fa-check"></i></center>
+                                    {% else %}
+                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'edit_activity' activity.id %}" style="color:inherit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'delete_activity' activity.id %}" style="color: inherit" ...
+                                       onclick="">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                <td>
+                            </tr>
+                            {% endfor %}
                             </tbody>
-                        </table>                        
+                        </table>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
+                <!-- /.card-body -->
             </div>
-            <!-- /.col -->
+            <!-- /.card -->
         </div>
-        <!-- /.row -->
+        <!-- /.col -->
     </div>
-    <!-- /.container-fluid --> 
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
 
-    <div class="modal fade" id="modal-add-project">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
+<div class="modal fade" id="modal-add-project">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Add New Activity</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                <h4 class="modal-title">Add New Activity</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-              <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ activity_form|crispy }}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ activity_form|crispy }}
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save changes</button>
-            </form>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
             </div>
-          </div>
-          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
-      </div>
-      <!-- /.modal -->
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <!-- DataTables -->
 <script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>

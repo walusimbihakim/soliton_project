@@ -5,7 +5,7 @@ from .projects import Project
 
 
 class Activity(TimeStampedModel):
-    code = models.CharField(max_length=10)
+    code = models.CharField(max_length=20)
     name = models.CharField(max_length=150)
     unit_measure = models.CharField(max_length=10, blank=True, null=True)
     is_fd_underground = models.BooleanField(default=False, blank=True, null=True)

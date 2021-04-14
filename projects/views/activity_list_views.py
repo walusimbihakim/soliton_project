@@ -10,17 +10,14 @@ from projects.selectors.activity_selectors import *
 
 @project_manager_required
 def activity_page_view(request):
-    activity_form = ActivityListForm(request.POST, request.FILES)
-
+    activity_form = ActivityListForm()
     if request.method == "POST":
+        activity_form = ActivityListForm(request.POST, request.FILES)
         if activity_form.is_valid():
             activity_form.save()
-
             messages.success(request, "Successfully added activity")
             return HttpResponseRedirect(reverse(activity_page_view))
-
     activities = get_activities()
-
     context = {
         "activities": activities,
         "activity_form": activity_form,
