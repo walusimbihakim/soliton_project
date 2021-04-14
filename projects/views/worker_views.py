@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
 
-from projects.decorators.auth_decorators import supervisor_required
+from projects.decorators.auth_decorators import supervisor_required, project_manager_required
 from projects.forms.worker_forms import WorkerForm
 from projects.selectors.workers import get_all_workers, get_worker, get_all_workers_registered_by
 
@@ -29,6 +29,17 @@ def manage_workers_page(request):
         'form': form,
     }
     return render(request, "worker/manage_workers.html", context)
+
+
+@project_manager_required
+def view_all_workers_page(request):
+    workers = get_all_workers()
+    context = {
+        "workers_page": "active",
+        "view_all_workers": "active",
+        "workers": workers,
+    }
+    return render(request, "worker/view_all_workers.html", context)
 
 
 @supervisor_required

@@ -55,4 +55,4 @@ class User(AbstractBaseUser, PermissionsMixin):
         return f'{self.first_name} {self.last_name}'
 
     def __str__(self):
-        return f'{self.email}'
+        return f'{self.name}'
