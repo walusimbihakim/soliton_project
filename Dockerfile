@@ -8,6 +8,8 @@ RUN apk update \
     && pip install psycopg2 \
     && apk add jpeg-dev zlib-dev libjpeg \
     && pip install Pillow \
+    && apk add libffi-dev libressl-dev cargo\
+    && pip install cryptography \
     && apk del build-deps
 
 RUN pip install --upgrade sentry-sdk
