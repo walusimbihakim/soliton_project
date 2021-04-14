@@ -19,9 +19,9 @@ def create_wage_bill():
     current_date = date.today()
     end_date = current_date + datetime.timedelta(days=6)
     try:
-        wage_bill = WageBill.objects.create(start_date=current_date, end_date=end_date)
+        WageBill.objects.create(start_date=current_date, end_date=end_date)
         receivers = get_users()
-        send_wage_created_email_task.delay(wage_bill=wage_bill, receivers=receivers)
+        send_wage_created_email_task.delay(receivers=receivers)
     except IntegrityError as e:
         return "Wage Bill already Created"
     return "Wage Bill Created"
