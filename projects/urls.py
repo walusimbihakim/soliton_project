@@ -21,6 +21,8 @@ import projects.views.user_views as user_views
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page,
          name='manage_workers_page'),
+    path('view_all_workers/', worker_views.view_all_workers_page,
+         name='view_all_workers_page'),
     path('delete_worker/<int:id>/',
          worker_views.delete_worker, name='delete_worker'),
     path('edit_worker/<int:id>/', worker_views.edit_worker_page, name="edit_worker"),
