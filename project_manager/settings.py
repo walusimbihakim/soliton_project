@@ -43,6 +43,7 @@ DJANGO_APPS = [
     'django.contrib.sites',
     'crispy_forms',
     'javascript_settings',
+    'storages',
 ]
 INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS + ALL_AUTH_APPS
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
@@ -163,9 +164,25 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_files')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-# media
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+if DEBUG:
+    # media
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    # Production
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/1.11/howto/static-files/
+    AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL")
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+    AWS_LOCATION = config("AWS_LOCATION")
+    # Media Storage
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 EMAIL_HOST = config('EMAIL_HOST')
