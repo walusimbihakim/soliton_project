@@ -131,8 +131,8 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
+# SOCIAL LOGIN
 SOCIALACCOUNT_ADAPTER = 'authentication.google_auth_adapter.GoogleAuthAdapter'
-
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -146,6 +146,8 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 SITE_ID = config("SITE_ID")
+if not DEBUG:
+    ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 LANGUAGE_CODE = 'en-us'
