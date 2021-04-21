@@ -15,7 +15,6 @@ class Survey(TimeStampedModel):
         ('Equipment', 'Equipment'),
     )
     survey_date = models.DateField(auto_now=False, auto_now_add=False)
-    segmate = models.CharField(max_length=50, null=True, blank=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     survey_type = models.CharField(max_length=50, choices=survey_type_choices)
     scope = models.IntegerField()
@@ -30,7 +29,7 @@ class Survey(TimeStampedModel):
     client_approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return "{} ({})".format(self.segmate, self.survey_type)
+        return "Id {} Survey".format(self.id)
 
 
 class SurveyResult(TimeStampedModel):
