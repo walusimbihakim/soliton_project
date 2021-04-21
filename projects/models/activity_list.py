@@ -2,12 +2,13 @@ from django.db import models
 from model_utils.models import TimeStampedModel
 from clients.models import Client
 from .projects import Project
+from projects.models.project_settings import UnitOfMeasure
 
 
 class Activity(TimeStampedModel):
     code = models.CharField(max_length=20)
     name = models.CharField(max_length=150)
-    unit_measure = models.CharField(max_length=10, blank=True, null=True)
+    unit_measure = models.ForeignKey(UnitOfMeasure, on_delete=models.CASCADE, default=1)
     is_fd_underground = models.BooleanField(default=False, blank=True, null=True)
     is_fd_arial = models.BooleanField(default=False, blank=True, null=True)
     is_site_connection = models.BooleanField(default=False, blank=True, null=True)
