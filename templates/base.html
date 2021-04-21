@@ -82,6 +82,7 @@
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                id="searchInput"
         />
         <div class="input-group-append">
           <button class="btn btn-navbar" type="submit">
@@ -639,7 +640,18 @@
               $('.toast').toast('show');
           });
       {% endfor %}
-    </script>
+ </script>
 {% endif %}
+<!--Search tables-->
+<script>
+$(document).ready(function(){
+  $("#searchInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#pageTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 </body>
 </html>
