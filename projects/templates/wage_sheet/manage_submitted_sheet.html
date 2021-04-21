@@ -63,6 +63,7 @@ Approve/Reject
                                         <th class="text-center">Manager</th>
                                         <th class="text-center">PM</th>
                                         <th class="text-center">GM</th>
+                                        <th class="text-center">Remarks</th>
                                         <th class="text-center">#</th>
                                     </tr>
                                     </thead>
@@ -98,6 +99,9 @@ Approve/Reject
                                             {% else %}
                                             <i class="fa fa-minus" aria-hidden="true"></i>
                                             {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {{wage.remarks}}
                                         </td>
                                         <td class="text-center">
                                             <button class="btn btn-outline-danger btn-rounded waves-effect"
