@@ -177,7 +177,7 @@ def approve_or_reject_wagesheets(request):
     wage_sheets = None
     user = request.user
     if user.user_role == FIELD_MANAGER:
-        wage_sheets = get_fm_wage_sheets_for_approval()
+        wage_sheets = get_fm_wage_sheets_for_approval(user)
     elif user.user_role == PROJECT_MANAGER:
         wage_sheets = get_pm_wage_sheets_for_approval()
     elif user.user_role == GENERAL_MANAGER:

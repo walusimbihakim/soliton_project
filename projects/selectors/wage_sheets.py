@@ -46,6 +46,6 @@ def get_pm_wage_sheets_for_approval():
                                     rejected=False)
 
 
-def get_fm_wage_sheets_for_approval():
+def get_fm_wage_sheets_for_approval(field_manager_user):
     # Field manager wage sheets for approval
-    return WageSheet.objects.filter(is_submitted=True, manager_status=None, approved=False, rejected=False)
+    return WageSheet.objects.filter(field_manager_user=field_manager_user, is_submitted=True, manager_status=None, approved=False, rejected=False)
