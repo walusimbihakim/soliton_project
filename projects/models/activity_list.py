@@ -1,14 +1,14 @@
 from django.db import models
+from django.urls import reverse
 from model_utils.models import TimeStampedModel
-from clients.models import Client
-from .projects import Project
 from projects.models.project_settings import UnitOfMeasure
 
 
 class Activity(TimeStampedModel):
     code = models.CharField(max_length=20)
     name = models.CharField(max_length=150)
-    unit_measure = models.ForeignKey(UnitOfMeasure, on_delete=models.CASCADE, default=1)
+    unit_cost = models.IntegerField(default=0)
+    unit_of_measure = models.ForeignKey(UnitOfMeasure, on_delete=models.CASCADE, blank=True, null=True)
     is_fd_underground = models.BooleanField(default=False, blank=True, null=True)
     is_fd_arial = models.BooleanField(default=False, blank=True, null=True)
     is_site_connection = models.BooleanField(default=False, blank=True, null=True)
@@ -16,11 +16,11 @@ class Activity(TimeStampedModel):
     is_lan_installation = models.BooleanField(default=False, blank=True, null=True)
     is_equipment_installation = models.BooleanField(default=False, blank=True, null=True)
     is_manhole_installation = models.BooleanField(default=False, blank=True, null=True)
-    unit_cost = models.IntegerField(default=0)
+
 
     class Meta:
         verbose_name = "Activity"
-        verbose_name_plural = ("Activities")
+        verbose_name_plural = "Activities"
 
     def __str__(self):
         return self.name

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from model_utils.models import TimeStampedModel
 from clients.models import Client
 
@@ -30,8 +31,8 @@ class Project(TimeStampedModel):
     def get_absolute_url(self):
         return reverse("Project_detail", kwargs={"pk": self.pk})
 
-class ProjectType(models.Model):
 
+class ProjectType(models.Model):
     code = models.CharField(max_length=5)
     project_type = models.CharField(max_length=50)
     description = models.CharField(max_length=255, null=True, blank=True)
@@ -46,8 +47,8 @@ class ProjectType(models.Model):
     def get_absolute_url(self):
         return reverse("ProjectType_detail", kwargs={"pk": self.pk})
 
-class DuctSystem(models.Model):
 
+class DuctSystem(models.Model):
     duct_code = models.CharField(max_length=15, default="DC")
     duct_type = models.CharField(max_length=50)
     description = models.CharField(max_length=50, null=True, blank=True)
@@ -62,8 +63,8 @@ class DuctSystem(models.Model):
     def get_absolute_url(self):
         return reverse("DuctSystem_detail", kwargs={"pk": self.pk})
 
-class ProjectWorks(models.Model):
 
+class ProjectWorks(models.Model):
     region_choices = (
         ('central', 'Central'),
         ('northern', 'Northern'),
@@ -80,7 +81,6 @@ class ProjectWorks(models.Model):
     unit_measure = models.CharField(max_length=50)
     client_segmate = models.CharField(max_length=50, null=True, blank=True)
 
-
     class Meta:
         verbose_name = ("ProjectWorks")
         verbose_name_plural = ("ProjectWorks")
@@ -90,4 +90,3 @@ class ProjectWorks(models.Model):
 
     def get_absolute_url(self):
         return reverse("ProjectWorks_detail", kwargs={"pk": self.pk})
-
