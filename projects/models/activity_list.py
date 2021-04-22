@@ -17,7 +17,6 @@ class Activity(TimeStampedModel):
     is_equipment_installation = models.BooleanField(default=False, blank=True, null=True)
     is_manhole_installation = models.BooleanField(default=False, blank=True, null=True)
 
-
     class Meta:
         verbose_name = "Activity"
         verbose_name_plural = "Activities"
@@ -27,6 +26,3 @@ class Activity(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse("Activity_detail", kwargs={"pk": self.pk})
-
-
-

@@ -1,7 +1,5 @@
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout
-from crispy_forms.bootstrap import TabHolder, Tab, Field
 from projects.models.activity_list import Activity
 
 
@@ -24,5 +22,4 @@ class ActivityListForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         self.helper = FormHelper()
