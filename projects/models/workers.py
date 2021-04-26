@@ -1,5 +1,7 @@
 from django.db import models
 
+from projects.constants import OFC, ISP, OSP, FINANCIAL, WAREHOUSE, POWER, MAINTENANCE, WORKSHOP, ADMINISTRATOR, \
+    SECURITY, MISCELLANEOUS
 from projects.models.users import User
 
 
@@ -10,15 +12,17 @@ class Worker(models.Model):
     ]
 
     TYPE_CHOICES = [
-        ('ISP', 'ISP'),
-        ('OFC', 'OFC'),
-        ('OSP', 'OSP'),
-        ('Financial', 'Financial'),
-        ('Warehouse', 'Warehouse'),
-        ('Power', 'Power'),
-        ('Maintenance', 'Maintenance'),
-        ('Workshop', 'Workshop'),
-        ('Administrator', 'Administrator'),
+        (ISP, ISP),
+        (OFC, OFC),
+        (OSP, OSP),
+        (FINANCIAL, FINANCIAL),
+        (WAREHOUSE, WAREHOUSE),
+        (POWER, POWER),
+        (MAINTENANCE, MAINTENANCE),
+        (WORKSHOP, WORKSHOP),
+        (ADMINISTRATOR, ADMINISTRATOR),
+        (SECURITY, SECURITY),
+        (MISCELLANEOUS, MISCELLANEOUS)
     ]
 
     BUSINESS_UNIT_CHOICES = [

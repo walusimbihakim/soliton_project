@@ -30,7 +30,7 @@
                 {% comment %}
                 <th></th>
                 {% endcomment %}
-                <th>Username</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
                 <th>Is Superuser</th>
@@ -40,7 +40,7 @@
               <tbody>
               {% for user in users%}
               <tr>
-                <td>{{user.username}}</td>
+                <td>{{user.name}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.user_role}}</td>
                 <td>{{user.is_superuser}}</td>

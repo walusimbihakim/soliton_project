@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from model_utils.models import TimeStampedModel
+
+from projects.constants import TYPE_CHOICES
 from projects.models.project_settings import UnitOfMeasure
 
 
@@ -9,6 +11,7 @@ class Activity(TimeStampedModel):
     name = models.CharField(max_length=150)
     unit_cost = models.IntegerField(default=0)
     unit_of_measure = models.ForeignKey(UnitOfMeasure, on_delete=models.CASCADE, blank=True, null=True)
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, blank=True, null=True)
     is_fd_underground = models.BooleanField(default=False, blank=True, null=True)
     is_fd_arial = models.BooleanField(default=False, blank=True, null=True)
     is_site_connection = models.BooleanField(default=False, blank=True, null=True)
