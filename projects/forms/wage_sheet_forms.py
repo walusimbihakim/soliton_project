@@ -1,7 +1,9 @@
 from django import forms
 from django.forms.widgets import HiddenInput
 from crispy_forms.helper import FormHelper
-from projects.models import WageSheet, Wage, Worker
+
+from projects.constants import FIELD_MANAGER
+from projects.models import WageSheet, Wage, Worker, User
 from projects.selectors.wage_bill_selectors import get_current_wage_bill
 
 start_date_str, end_date_str = "", ""
@@ -27,6 +29,7 @@ class WageSheetForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['field_manager_user'].queryset = User.objects.filter(user_role=FIELD_MANAGER)
         self.Helper = FormHelper()
         self.fields["wage_bill"].widget = HiddenInput()
 

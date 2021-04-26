@@ -26,53 +26,43 @@ Manage Deductions for sheet {{wage_sheet.id}}
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
-                    Wage Sheet Info
-                    <table border="1" cellpadding="5" id="pageTable">
-                        <tr>
-                             <th>Date</th>
-                            <td>{{wage_sheet.date}}</td>
-                            <th>Field Manager</th>
-                            <td>{{wage_sheet.field_manager}}</td>
-                            <th>Supervisor</th>
-                            <td>{{wage_sheet.supervisor}}</td>
-                            <th>Segment</th>
-                            <td>{{wage_sheet.segment}}</td>
-                        </tr>
-                    </table>
-                    <table id="example1" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Deduction ID</th>
-                            <th>Worker</th>
-                            <th>Cause</th>
-                            <th>Amount</th>
-                            <th>Description</th>
-                            <th>#</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for deduction in deductions%}
-                        <tr>
-                            <td>{{deduction.id}}</td>
-                            <td>{{deduction.worker}}</td>
-                            <td>
-                                {{deduction.cause}}
-                            </td>
-                            <td>{{deduction.amount}}</td>
-                            <td>{{deduction.description}}</td>
-                            <td>
-                                <a href="{%url 'edit_deduction' deduction.id%}" style="color:inherit">
-                                    <i class="fa fa-edit"></i>
-                                </a> |
-                                <a href="{%url 'delete_deduction' deduction.id%}" style="color: inherit">
-                                    <i class="fa fa-trash" onclick="return 'Do you want to delete
+                    {% include "./components/wage_sheet_info.html" %}
+                    <div class="table-responsive">s
+                        <table id="pageTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Deduction ID</th>
+                                <th>Worker</th>
+                                <th>Cause</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>#</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for deduction in deductions%}
+                            <tr>
+                                <td>{{deduction.id}}</td>
+                                <td>{{deduction.worker}}</td>
+                                <td>
+                                    {{deduction.cause}}
+                                </td>
+                                <td>{{deduction.amount}}</td>
+                                <td>{{deduction.description}}</td>
+                                <td>
+                                    <a href="{%url 'edit_deduction' deduction.id%}" style="color:inherit">
+                                        <i class="fa fa-edit"></i>
+                                    </a> |
+                                    <a href="{%url 'delete_deduction' deduction.id%}" style="color: inherit">
+                                        <i class="fa fa-trash" onclick="return 'Do you want to delete
                                     {{deduction.worker}} deduction?'"></i>
-                                </a>
-                            <td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                                    </a>
+                                <td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
                 {%else%}

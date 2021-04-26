@@ -3,7 +3,6 @@
 {% load crispy_forms_tags %}
 {% load humanize %}
 {%load javascript_settings_tags %}
-
 {%block page_title%}
 Manage Wages for sheet {{wage_sheet.id}}
 {% endblock%}
@@ -27,25 +26,7 @@ Manage Wages for sheet {{wage_sheet.id}}
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
-                    Wage Sheet Info
-                    <div class="table-responsive">
-                        <table border="1" cellpadding="5" class="table">
-                            <tr>
-                                <th>Date</th>
-                                <td>{{wage_sheet.date}}</td>
-                                <th>Field Manager</th>
-                                <td>{{wage_sheet.field_manager_user}}</td>
-                                <th>Supervisor</th>
-                                <td>{{wage_sheet.supervisor_user}}</td>
-                                {%if wage_sheet.segment%}
-                                <th>Project</th>
-                                <td>{{wage_sheet.segment.project}}</td>
-                                <th>Segment</th>
-                                <td>{{wage_sheet.segment}}</td>
-                                {%endif%}
-                            </tr>
-                        </table>
-                    </div>
+                    {% include "./components/wage_sheet_info.html" %}
                     <div class="table-responsive">
                         <table id="pageTable" class="table table-striped">
                             <thead>
