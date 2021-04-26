@@ -4,7 +4,7 @@ import projects.models.wage_sheets as wage_sheets
 
 
 def get_wage_bills():
-    return wage_bills.WageBill.objects.all()
+    return wage_bills.WageBill.objects.all().order_by('-id')
 
 
 def get_wage_bill(wage_bill_id):
