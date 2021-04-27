@@ -31,9 +31,10 @@
                 <th></th>
                 {% endcomment %}
                 <th>Name</th>
-                <th>Email</th>
                 <th>Role</th>
+                <th>Type</th>
                 <th>Is Superuser</th>
+                <th>Email</th>
                 <th>#</th>
               </tr>
               </thead>
@@ -41,9 +42,10 @@
               {% for user in users%}
               <tr>
                 <td>{{user.name}}</td>
-                <td>{{user.email}}</td>
                 <td>{{user.user_role}}</td>
+                <td>{{user.type}}</td>
                 <td>{{user.is_superuser}}</td>
+                <td>{{user.email}}</td>
                 <td>
                   <a
                           href="{% url 'edit_user' user.id %}"
