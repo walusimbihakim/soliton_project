@@ -17,7 +17,6 @@ import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from projects.services.wage_sheet_services import retract
 
 
-@supervisor_required
 def manage_wage_sheets_page(request):
     wage_bill = wage_bill_selectors.get_current_wage_bill()
     wage_sheets = get_non_submitted_wage_sheets(request.user)
@@ -42,7 +41,6 @@ def manage_wage_sheets_page(request):
     return render(request, "wage_sheet/manage_wage_sheets.html", context)
 
 
-@supervisor_required
 def edit_wage_sheet_page(request, id):
     wage_sheet = get_wage_sheet(id)
     form = WageSheetForm(instance=wage_sheet)
@@ -62,7 +60,6 @@ def edit_wage_sheet_page(request, id):
     return render(request, "wage_sheet/edit_wage_sheet.html", context)
 
 
-@supervisor_required
 def user_submitted_wage_sheets_page(request):
     wage_sheets = get_user_submitted_wage_sheets(request.user)
     context = {
@@ -72,7 +69,6 @@ def user_submitted_wage_sheets_page(request):
     return render(request, "wage_sheet/user_submitted_wage_sheets.html", context)
 
 
-@supervisor_required
 def submitted_wage_sheet_page(request, id):
     wage_sheet = get_wage_sheet(id)
     approved_wages = get_approved_wages(wage_sheet)
