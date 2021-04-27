@@ -6,7 +6,7 @@ from projects.models import User
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "email",
+        fields = ("first_name", "last_name", "phone_number","email",
                   "username", "user_role", "type", "is_active", "is_staff",
                   "is_superuser")
 

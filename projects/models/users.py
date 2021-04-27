@@ -1,8 +1,8 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
-from projects.constants import SUPERVISOR, PROJECT_MANAGER, GENERAL_MANAGER, FIELD_MANAGER, FINANCE_OFFICER, ISP, OFC, \
-    OSP, FINANCIAL, WAREHOUSE, POWER, MAINTENANCE, WORKSHOP, ADMINISTRATOR, SECURITY, MISCELLANEOUS, TYPE_CHOICES
+from projects.constants import SUPERVISOR, PROJECT_MANAGER, GENERAL_MANAGER, FIELD_MANAGER, FINANCE_OFFICER, \
+    TYPE_CHOICES
 
 
 class UserManager(BaseUserManager):
@@ -36,7 +36,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     ]
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    email = models.EmailField(blank=True)
+    email = models.EmailField(unique=True)
+    phone_number = models.IntegerField(blank=True, null=True)
     username = models.CharField(unique=True, max_length=50)
     user_role = models.CharField(max_length=50, choices=role_options, blank=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, blank=True)
@@ -49,6 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     class Meta:
+        unique_together = ('first_name', 'last_name')
         verbose_name = "User"
         verbose_name_plural = "Users"
 
@@ -58,3 +60,19 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f'{self.name}'
+
+    @property
+    def is_finance(self) -> bool:
+        return self.user_role == FINANCE_OFFICER
+
+    @property
+    def is_project_manager(self) -> bool:
+        return self.user_role == PROJECT_MANAGER
+
+    @property
+    def is_approver(self) -> bool:
+        return self.user_role in (FIELD_MANAGER, PROJECT_MANAGER, GENERAL_MANAGER)
+
+    @property
+    def is_supervisor(self) -> bool:
+        return self.user_role == SUPERVISOR

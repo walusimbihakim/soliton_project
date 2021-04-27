@@ -37,7 +37,7 @@ def supervisor_required(function):
 def finance_office_required(function):
     def wrapper(request, *args, **kw):
         user = request.user
-        if user.user_role == FINANCE_OFFICER or user.is_superuser:
+        if user.is_finance or user.is_superuser:
             return function(request, *args, **kw)
         else:
             return HttpResponseRedirect(reverse('finance_officer_required_page'))

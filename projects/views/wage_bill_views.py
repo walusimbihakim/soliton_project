@@ -13,6 +13,7 @@ from projects.selectors.workers import get_worker
 from projects.services.wage_bill_services import set_current_wage_bill_status_to_done, send_wage_created_email_service
 
 
+@finance_office_required
 def manage_wage_bill(request):
     wage_bill_form = wage_bill_forms.WageBillForm()
     if request.method == "POST":

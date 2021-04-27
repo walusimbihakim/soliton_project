@@ -262,6 +262,7 @@
                 role="menu"
                 data-accordion="false"
         >
+          {%if user.is_superuser%}
           <li class="nav-item has-treeview">
             <a href="" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
@@ -297,12 +298,14 @@
               </li>
             </ul>
           </li>
+          {%endif%}
           <li class="nav-item has-treeview">
             <a href="{% url 'dashboard_page' %}" class="nav-link {{dashboard}}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Dashboard</p>
             </a>
           </li>
+          {%if user.is_project_manager or user.is_superuser%}
           <li class="nav-item has-treeview">
             <a href="{% url 'manage_clients' %}" class="nav-link{{client}}">
               <i class="nav-icon fas fa-user"></i>
@@ -362,98 +365,6 @@
               </li>
             </ul>
           </li>
-          <!--          Workers-->
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link {{workers_page}}">
-              <i class="fas fa-hard-hat nav-icon"></i>
-              <p>Workers</p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a
-                        href="{% url 'manage_workers_page' %}"
-                        class="nav-link {{manage_workers}}"
-                >
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Manage Workers Details</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                        href="{% url 'view_all_workers_page' %}"
-                        class="nav-link {{view_all_workers}}"
-                >
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>View all workers</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <!--          Wage Sheets-->
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link {{wage_sheets_page}}">
-              <i class="fas fa-money-bill-wave nav-icon"></i>
-              <p>Wage Sheets</p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a
-                        href="{%url 'manage_wage_sheets'%}"
-                        class="nav-link {{manage_wage_sheets}}"
-                >
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Manage Wage sheets</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                        href="{%url 'user_submitted_wage_sheets_page'%}"
-                        class="nav-link {{manage_submitted_wage_sheets}}"
-                >
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>View Submitted Wage Sheets</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                        href="{%url 'approve_or_reject_wagesheets'%}"
-                        class="nav-link {{manage_submitted_wage_sheets}}"
-                >
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Approve/Reject Wage sheets</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <!--          Wage Bill-->
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link {{wage_bill_page}}">
-              <i class="fas fa-file-invoice nav-icon"></i>
-              <p>Wage Bill</p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a
-                        href="{% url 'manage_wage_bill' %}"
-                        class="nav-link {{manage_wage_bill}}"
-                >
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Manage Wage Bill</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                        href="{%url 'current_consolidated_wage_bill'%}"
-                        class="nav-link {{consolidated_wage_bill}}"
-                >
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>View Current Wage Bill</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cog"></i>
@@ -498,12 +409,108 @@
               </li>
             </ul>
           </li>
+
+          {%endif%}
+          <!--          Workers-->
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-file" aria-hidden="true"></i>
-              <p>Reports</p>
+            <a href="#" class="nav-link {{workers_page}}">
+              <i class="fas fa-hard-hat nav-icon"></i>
+              <p>Workers</p>
             </a>
+            <ul class="nav nav-treeview">
+              {%if user.is_supervisor or user.is_superuser%}
+              <li class="nav-item">
+                <a
+                        href="{% url 'manage_workers_page' %}"
+                        class="nav-link {{manage_workers}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Manage Workers Details</p>
+                </a>
+              </li>
+              {%endif%}
+              {%if user.is_finance or user.is_approver or user.is_superuser%}
+              <li class="nav-item">
+                <a
+                        href="{% url 'view_all_workers_page' %}"
+                        class="nav-link {{view_all_workers}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>View all workers</p>
+                </a>
+              </li>
+              {%endif%}
+            </ul>
           </li>
+          <!--          Wage Sheets-->
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link {{wage_sheets_page}}">
+              <i class="fas fa-money-bill-wave nav-icon"></i>
+              <p>Wage Sheets</p>
+            </a>
+            <ul class="nav nav-treeview">
+              {%if user.is_supervisor or user.is_superuser%}
+              <li class="nav-item">
+                <a
+                        href="{%url 'manage_wage_sheets'%}"
+                        class="nav-link {{manage_wage_sheets}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Manage Wage sheets</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                        href="{%url 'user_submitted_wage_sheets_page'%}"
+                        class="nav-link {{manage_submitted_wage_sheets}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Submitted Wage Sheets</p>
+                </a>
+              </li>
+              {%endif%}
+              {%if user.is_approver or user.is_superuser %}
+              <li class="nav-item">
+                <a
+                        href="{%url 'approve_or_reject_wagesheets'%}"
+                        class="nav-link {{manage_submitted_wage_sheets}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Approve/Reject</p>
+                </a>
+              </li>
+              {%endif%}
+            </ul>
+          </li>
+          <!--          Wage Bill-->
+          {%if user.is_finance or user.is_superuser%}
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link {{wage_bill_page}}">
+              <i class="fas fa-file-invoice nav-icon"></i>
+              <p>Wage Bill</p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a
+                        href="{% url 'manage_wage_bill' %}"
+                        class="nav-link {{manage_wage_bill}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Manage Wage Bill</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                        href="{%url 'current_consolidated_wage_bill'%}"
+                        class="nav-link {{consolidated_wage_bill}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>View Current Wage Bill</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          {%endif%}
           <li class="nav-item">
             <a href="{% url 'logout' %}" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
