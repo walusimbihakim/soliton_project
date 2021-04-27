@@ -76,7 +76,7 @@ Submitted Wage Sheet
                                             {{wage.activity}}
                                         </td>
                                         <td class="text-center">
-                                            {{wage.quantity}} {{wage.activity.unit_of_measure}} (s) - </br>
+                                            {{wage.quantity}} {{wage.activity.unit_measure}} (s) - </br>
                                             UGX {{wage.payment | intcomma}}/-
                                         </td>
                                         <td class="text-center">
@@ -115,7 +115,7 @@ Submitted Wage Sheet
                                             {{wage.activity}}
                                         </td>
                                         <td class="text-center">
-                                            {{wage.quantity}} Meters - </br>
+                                            {{wage.quantity}} {{wage.activity.unit_measure}}(s) - </br>
                                             UGX {{wage.payment | intcomma}}/-
                                         </td>
                                         <td class="text-center">
@@ -176,7 +176,7 @@ Submitted Wage Sheet
                                             {{complaint.activity}}
                                         </td>
                                         <td class="text-center">
-                                            {{complaint.quantity}} Meters - </br>
+                                            {{complaint.quantity}} {{complaint.activity.unit_measure}}(s)- </br>
                                             UGX {{complaint.payment | intcomma}}/-
                                         </td>
                                         <td class="text-center">

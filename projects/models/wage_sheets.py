@@ -29,6 +29,18 @@ class WageSheet(models.Model):
     def __str__(self):
         return f"{self.supervisor_user} Wage Sheet {self.id}"
 
+    @property
+    def is_field_manager_pending(self):
+        return self.manager_status is None
+
+    @property
+    def is_project_manager_pending(self):
+        return self.project_manager_status is None
+
+    @property
+    def is_general_manager_pending(self):
+        return self.gm_status is None
+
 
 class Wage(models.Model):
     wage_sheet = models.ForeignKey(WageSheet, on_delete=models.CASCADE)

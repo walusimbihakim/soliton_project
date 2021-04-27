@@ -480,6 +480,18 @@
                 </a>
               </li>
               {%endif%}
+              {%if user.is_finance or user.is_superuser %}
+              <li class="nav-item">
+                <a
+                        href="{%url 'current_wage_bill_sheets'%}"
+                        class="nav-link {{current_wage_bill_sheets}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Current Wage bill sheets </p>
+                </a>
+              </li>
+              {%endif%}
+
             </ul>
           </li>
           <!--          Wage Bill-->

@@ -1,4 +1,5 @@
 from projects.models import WageSheet, Wage
+from projects.selectors.wage_bill_selectors import get_current_wage_bill
 
 
 def get_all_wage_sheets():
@@ -25,11 +26,14 @@ def get_wages(wage_sheet):
 def get_wage(id):
     return Wage.objects.get(pk=id)
 
+
 def get_rejected_wages(wage_sheet):
     return Wage.objects.filter(wage_sheet=wage_sheet, is_manager_approved=False)
 
+
 def get_approved_wages(wage_sheet):
     return Wage.objects.filter(wage_sheet=wage_sheet, is_manager_approved=True)
+
 
 def get_submitted_wage_sheets():
     return WageSheet.objects.filter(is_submitted=True, )
@@ -48,4 +52,10 @@ def get_pm_wage_sheets_for_approval():
 
 def get_fm_wage_sheets_for_approval(field_manager_user):
     # Field manager wage sheets for approval
-    return WageSheet.objects.filter(field_manager_user=field_manager_user, is_submitted=True, manager_status=None, approved=False, rejected=False)
+    return WageSheet.objects.filter(field_manager_user=field_manager_user, is_submitted=True, manager_status=None,
+                                    approved=False, rejected=False)
+
+
+def get_current_wage_bill_wage_sheets():
+    current_wage_bill = get_current_wage_bill()
+    return WageSheet.objects.filter(wage_bill=current_wage_bill, is_submitted=True)

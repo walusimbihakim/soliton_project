@@ -3,7 +3,6 @@ from django.urls import path
 from projects.views import scope_views, team_views, wage_sheet_views, boq_views
 from projects.views.auth_views import super_admin_required_page, project_manager_required_page, \
     supervisor_required_page, finance_officer_required_page
-from projects.views.celery_test_view import django_celery_test
 from projects.views.sites_views import *
 import projects.views.worker_views as worker_views
 from projects.views.survey_views import *
@@ -171,6 +170,7 @@ wage_sheets_urls = [
          name="submitted_wage_sheet_page"),
     path('retract_wage_sheet/<int:wage_sheet_id>/',
          wage_sheet_views.retract_wage_sheet, name="retract_wage_sheet"),
+    path('current_wage_bill_sheets', wage_sheet_views.current_wage_bill_sheets_page, name="current_wage_bill_sheets")
 
 ]
 
