@@ -37,6 +37,7 @@ Consolidated Wage Bill
                                 <th class="text-center">Amount</th>
                                 <th class="text-center">Charge</th>
                                 <th class="text-center">Total</th>
+                                <th class="text-center">#</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -48,7 +49,12 @@ Consolidated Wage Bill
                                 <td class="text-center">{{wage.worker|total_payment:wage.payment|intcomma}}/-</td>
                                 <td class="text-center">{{wage.payment|get_withdraw_charge_filter|intcomma}}/-</td>
                                 <td class="text-center">{{wage.payment|wage_total_filter|intcomma}}/-</td>
-
+                                <td class="text-center">
+                                    <a href="{%url 'worker_wage_bill_breakdown' wage_bill.id wage.worker %}" class="btn btn-info">
+                                        View
+                                    </a>
+                                </td>
+                                
                             </tr>
                             {% endfor %}
                             </tbody>
