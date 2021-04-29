@@ -1,6 +1,8 @@
 from django.db.models import Sum
 import projects.models.wage_bills as wage_bills
 import projects.models.wage_sheets as wage_sheets
+import projects.models.complaints as complaints
+import projects.models.deductions as deductions
 
 
 def get_wage_bills():
@@ -34,6 +36,23 @@ def get_aggregated_wage_bill(wage_bill):
     aggregated_wages = wage_bill_wages.values("worker").annotate(payment=Sum("payment"))
     return aggregated_wages
 
+def get_worker_wage_bill_breakdown(wage_bill, worker):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+    worker_wage_bill_wages = wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker)
+    
+    return worker_wage_bill_wages
+
+def get_worker_complaint_breakdown(wage_bill, worker):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+    worker_wage_bill_wages = complaints.Complaint.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker)
+    
+    return worker_wage_bill_wages
+
+def get_worker_deduction_breakdown(wage_bill, worker):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+    worker_wage_bill_wages = deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker)
+    
+    return worker_wage_bill_wages
 
 def get_airtel_money_withdraw_charge(amount: int) -> int:
     if amount <= 2500:

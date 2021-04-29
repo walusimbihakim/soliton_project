@@ -1,5 +1,4 @@
 import csv
-
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -136,3 +135,20 @@ def consolidated_wage_bill_csv(request, wage_bill_id):
         writer.writerow(
             [number, worker, worker.mobile_money_number, payment, charge, total])
     return response
+
+def worker_wage_bill_breakdown(request, wage_bill_id, worker_id):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
+    worker = get_worker(worker_id)
+
+    wage_break_down = wage_bill_selectors.get_worker_wage_bill_breakdown(wage_bill, worker)
+    complaint_break_down = wage_bill_selectors.get_worker_complaint_breakdown(wage_bill, worker)
+    deduction_break_down = wage_bill_selectors.get_worker_deduction_breakdown(wage_bill, worker)
+
+    context = {
+        "wage_break_down": wage_break_down,
+        "complaint_break_down": complaint_break_down,
+        "deduction_break_down": deduction_break_down,
+        "worker": worker,
+    }
+
+    return render(request, "wage_bill/worker_break_down.html", context)
