@@ -1,0 +1,63 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load javascript_settings_tags %}
+{%block page_title%}
+View All Wage Bills
+{% endblock%}
+{% block content %}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+            <div class="card">
+                {%if wagebills%}
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Wage Bills</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- ./card-body -->
+                <div class="card-body">
+                    <table id="pageTable" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Wage Bill Week</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for wage_bill in wagebills%}
+                        <tr data-id={{wage_bill.id}}>
+                            <td class="text-center">{{wage_bill.id}}</td>
+                            <td class="text-center">
+                                {{wage_bill}}
+                            </td>
+                            <td class="text-center">{{wage_bill.status}}</td>
+                            <td class="text-center">
+                                <a href="{%url 'consolidated_wage_bill' wage_bill.id %}"><button>Consolidated Wage Bill Payments</button></a> |
+                                <a href="{%url 'wage_bill_sheets' wage_bill.id %}"><button>Submitted Wage Sheets</button></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+                {%else%}
+                <div class="card-body">
+                    <h4>No Wage Bills available</h4>
+                </div>
+                {%endif%}
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+{% endblock content %}

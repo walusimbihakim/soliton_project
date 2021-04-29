@@ -12,7 +12,8 @@ from projects.selectors.deductions import get_deductions, get_deduction
 from projects.selectors.wage_sheets import get_wage_sheet, get_wages, get_wage, \
     get_fm_wage_sheets_for_approval, get_pm_wage_sheets_for_approval, \
     get_gm_wage_sheets_for_approval, get_non_submitted_wage_sheets, \
-    get_user_submitted_wage_sheets, get_rejected_wages, get_approved_wages, get_current_wage_bill_wage_sheets
+    get_user_submitted_wage_sheets, get_rejected_wages, get_approved_wages, get_current_wage_bill_wage_sheets, \
+    get_submitted_wage_bill_wage_sheets
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from projects.services.wage_sheet_services import retract
 
@@ -94,7 +95,18 @@ def current_wage_bill_sheets_page(request):
         "wage_sheets": wage_sheets,
         "wage_bill": wage_bill
     }
-    return render(request, "wage_sheet/current_wage_bill_sheets.html", context)
+    return render(request, "wage_sheet/wage_bill_sheets.html", context)
+
+
+def wage_bill_sheets_page(request, wage_bill_id):
+    wage_sheets = get_submitted_wage_bill_wage_sheets(wage_bill_id)
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
+    context = {
+        "view_all_wage_sheets": "active",
+        "wage_sheets": wage_sheets,
+        "wage_bill": wage_bill
+    }
+    return render(request, "wage_sheet/wage_bill_sheets.html", context)
 
 
 @supervisor_required

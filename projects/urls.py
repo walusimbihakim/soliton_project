@@ -170,7 +170,8 @@ wage_sheets_urls = [
          name="submitted_wage_sheet_page"),
     path('retract_wage_sheet/<int:wage_sheet_id>/',
          wage_sheet_views.retract_wage_sheet, name="retract_wage_sheet"),
-    path('current_wage_bill_sheets', wage_sheet_views.current_wage_bill_sheets_page, name="current_wage_bill_sheets")
+    path('current_wage_bill_sheets', wage_sheet_views.current_wage_bill_sheets_page, name="current_wage_bill_sheets"),
+    path("wage_bill_sheets/<int:wage_bill_id>/", wage_sheet_views.wage_bill_sheets_page, name="wage_bill_sheets")
 
 ]
 
@@ -215,8 +216,8 @@ activity_urls = [
 ]
 
 wage_bill_urls = [
-    path('manage_wage_bill/', wage_bill_views.manage_wage_bill,
-         name='manage_wage_bill'),
+    path('view_all_wage_bills/', wage_bill_views.view_all_wage_bills,
+         name='view_all_wage_bills'),
     path('edit_wage_bill/<int:wage_bill_id>/',
          wage_bill_views.edit_wage_bill, name='edit_wage_bill'),
     path('delete_wage_bill/<int:wage_bill_id>/',

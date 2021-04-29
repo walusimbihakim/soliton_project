@@ -9,28 +9,16 @@ import projects.forms.wage_bill_forms as wage_bill_forms
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from projects.decorators.auth_decorators import finance_office_required
 from projects.selectors.workers import get_worker
-from projects.services.wage_bill_services import set_current_wage_bill_status_to_done, send_wage_created_email_service
 
 
 @finance_office_required
-def manage_wage_bill(request):
-    wage_bill_form = wage_bill_forms.WageBillForm()
-    if request.method == "POST":
-        wage_bill_form = wage_bill_forms.WageBillForm(request.POST, request.FILES)
-        if wage_bill_form.is_valid():
-            set_current_wage_bill_status_to_done()
-            wage_bill_form.save()
-            send_wage_created_email_service()
-            messages.success(request, "Wage Bill Record Saved Successfully")
-        else:
-            messages.warning(request, "Something went wrong, check your Input and try again")
+def view_all_wage_bills(request):
     wagebills = wage_bill_selectors.get_wage_bills()
     context = {
         "wage_bill_page": "active",
         "wagebills": wagebills,
-        "wage_bill_form": wage_bill_form
     }
-    return render(request, "wage_bill/manage_wage_bill.html", context)
+    return render(request, "wage_bill/view_all_wage_bills.html", context)
 
 
 @finance_office_required
@@ -48,7 +36,7 @@ def edit_wage_bill(request, wage_bill_id):
 
         else:
             messages.error(request, "Something went wrong, check your Input and try again")
-        return HttpResponseRedirect(reverse(manage_wage_bill))
+        return HttpResponseRedirect(reverse(view_all_wage_bills))
     context = {
         "wage_bill_page": "active",
         "manage_wage_bill": "active",
@@ -64,7 +52,7 @@ def delete_wage_bill(request, wage_bill_id):
     wage_bill.delete()
 
     messages.success(request, "Wage bill Deleted Successfully")
-    return HttpResponseRedirect(reverse(manage_wage_bill))
+    return HttpResponseRedirect(reverse(view_all_wage_bills))
 
 
 def get_end_date(request):
@@ -135,6 +123,7 @@ def consolidated_wage_bill_csv(request, wage_bill_id):
         writer.writerow(
             [number, worker, worker.mobile_money_number, payment, charge, total])
     return response
+
 
 def worker_wage_bill_breakdown(request, wage_bill_id, worker_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
