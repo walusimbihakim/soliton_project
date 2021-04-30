@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
 
+from project_manager.settings import BASE_DIR
 from projects.decorators.auth_decorators import supervisor_required, project_manager_required
 from projects.forms.worker_forms import WorkerForm
 from projects.procedures import render_to_pdf
@@ -68,7 +69,7 @@ def all_workers_csv(request):
 def all_workers_pdf(request):
     workers = get_all_workers()
     context = {
-        "workers_page": "active",
+        "base_dir": BASE_DIR,
         "view_all_workers": "active",
         "workers": workers,
     }
