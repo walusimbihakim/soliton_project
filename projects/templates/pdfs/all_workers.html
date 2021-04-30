@@ -1,0 +1,50 @@
+{%extends './base.html'%}
+{% load humanize %}
+{% load wage_bill_extras %}
+{%block title%}All workers{%endblock%}
+{%block content%}
+<h1>All Workers</h1>
+<div class='details' >
+    <br>
+    <table width="100%" border="1" >
+        <th>ID</th>
+        <th colspan="2">Worker's Name</th>
+        <th>Type</th>
+        <th>Business Unit</th>
+        <th colspan="2">National ID</th>
+        <th>Joined Date</th>
+        <th>Gender</th>
+        <th>Mobile Money Number</th>
+        <th>Address</th>
+        <th>Registered by</th>
+        {% for worker in workers%}
+        <tr >
+            <td class="text-center">{{worker.id}}</td>
+            <td colspan="2" class="text-center">{{worker.name}}</td>
+            <td class="text-center">{{worker.type}}</td>
+            <td class="text-center">{{worker.business_unit}}</td>
+            <td class="text-center" colspan="2">{{worker.national_id}}</td>
+            <td class="text-center">{{worker.joining_date}}</td>
+            <td class="text-center">{{worker.gender}}</td>
+            <td class="text-center">{{worker.mobile_money_number}}</td>
+            <td class="text-center">{{worker.address}}</td>
+            <td class="text-center">{{worker.registered_by_user}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <small>Generated with Soliton Tujenge on {% now "jS F Y" %}</small>
+    <br/>
+    <table>
+        <tr>
+            <td>
+                <h2>Approved by: Chief Financial Officer</h2>
+                <p>................................................................</p>
+            </td>
+            <td>
+                <h2>Approved by: Chief Executive Officer</h2>
+                <p>................................................................</p>
+            </td>
+        </tr>
+    </table>
+</div>
+{%endblock%}
