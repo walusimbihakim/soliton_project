@@ -1,0 +1,120 @@
+{%load static %}
+{% load humanize %}
+{% load wage_bill_extras %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Payroll PDF</title>
+    <style type="text/css">
+           @page {
+               size: letter landscape;
+               margin: 1cm;
+            }
+            body {
+				font-family: Arial, Helvetica, sans-serif;
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                text-align: left;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;
+            }
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                padding: 10px;
+                text-align: center !important;
+                font-size:0.9 em;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+			.logo {
+				width:200px;
+			}
+			.bank-row,.financial-row,.personnel-row,.income-row, .total-row,.total-values-row,.income-values{
+				border: 1px solid #000;
+			}
+        </style>
+</head>
+<body>
+
+<div class='wrapper'>
+    <div class='header'>
+        <table>
+            <tr>
+                <td><img src="{{base_dir}}/static/dist/img/logo.png"
+                         class="logo" alt="" /></td>
+                <td>
+                    <div>
+                        <ul style="list-style-type:None">
+                            <li>Bugolobi Plot 10, Mizindalo Road, Off Farady Road.</li>
+                            <li>Kampala Uganda</li>
+                            <li>P. O. Box 75725 Kampala,Uganda</li>
+                            <li>website: www.soliton.co.ke</li>
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    <ul style="list-style-type:None">
+                        <li>Mobile: +256200501624</li>
+                        <li>Office: +256200501600</li>
+                        <li>Office: +256700777003</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+<h1>Consolidated Wage Bill Payments</h1>
+<h2>Wage Bill Week: {{wage_bill}}</h2>
+<div class='details' >
+    <br>
+    <table width="100%" border="1" >
+        <th>No.</th>
+        <th colspan="2">Worker's Name</th>
+        <th>Telephone</th>
+        <th>Amount</th>
+        <th>Charge</th>
+        <th>Total</th>
+        {% for wage in aggregated_wages%}
+        <tr >
+            <td class="text-center">{{forloop.counter}}</td>
+            <td colspan="2" class="text-center">{{wage.worker|get_worker_info:1}}</td>
+            <td class="text-center">{{wage.worker|get_worker_info:2}}</td>
+            <td class="text-center">{{wage.worker|total_payment:wage.payment|intcomma}}/-</td>
+            <td class="text-center">{{wage.payment|get_withdraw_charge_filter|intcomma}}/-</td>
+            <td class="text-center">{{wage.payment|wage_total_filter|intcomma}}/-</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <small>Generated with Soliton Tujenge on {% now "jS F Y" %}</small>
+    <br/>
+    <table>
+        <tr>
+            <td>
+                <h2>Approved by: Chief Financial Officer</h2>
+                <p>................................................................</p>
+            </td>
+            <td>
+                <h2>Approved by: Chief Executive Officer</h2>
+                <p>................................................................</p>
+            </td>
+        </tr>
+    </table>
+</div>
+</div>
+</body>
+</html>

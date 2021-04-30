@@ -27,6 +27,11 @@ Consolidated Wage Bill
                             Export CSV
                         </button>
                     </a>
+                    <a href="{%url 'consolidated_wage_bill_pdf' wage_bill.id%}">
+                        <button class="btn btn-outline-primary" style="margin:5px; float: right" >
+                            Export PDF
+                        </button>
+                    </a>
                     <div class="table-responsive">
                         <table id="consolidated_list" class="table table-striped">
                             <thead>

@@ -7,7 +7,9 @@ import datetime
 
 import projects.forms.wage_bill_forms as wage_bill_forms
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
+from project_manager.settings import BASE_DIR
 from projects.decorators.auth_decorators import finance_office_required
+from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker
 
 
@@ -125,10 +127,21 @@ def consolidated_wage_bill_csv(request, wage_bill_id):
     return response
 
 
+def consolidated_wage_bill_pdf(request, wage_bill_id):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id=wage_bill_id)
+    aggregated_wages = wage_bill_selectors.get_aggregated_wage_bill(wage_bill)
+    context = {
+        "aggregated_wages": aggregated_wages,
+        "base_dir": BASE_DIR,
+        "wage_bill": wage_bill
+    }
+    pdf = render_to_pdf('pdfs/consolidated_wage_bill.html', context)
+    return HttpResponse(pdf, content_type='application/pdf')
+
+
 def worker_wage_bill_breakdown(request, wage_bill_id, worker_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
     worker = get_worker(worker_id)
-
     wage_break_down = wage_bill_selectors.get_worker_wage_bill_breakdown(wage_bill, worker)
     complaint_break_down = wage_bill_selectors.get_worker_complaint_breakdown(wage_bill, worker)
     deduction_break_down = wage_bill_selectors.get_worker_deduction_breakdown(wage_bill, worker)

@@ -229,8 +229,10 @@ wage_bill_urls = [
          name="consolidated_wage_bill_csv"),
     path('consolidated_wage_bill/<int:wage_bill_id>/', wage_bill_views.consolidated_wage_bill,
          name="consolidated_wage_bill"),
-     path('worker_wage_bill_breakdown/<int:wage_bill_id>/<int:worker_id>/', wage_bill_views.worker_wage_bill_breakdown,
-         name="worker_wage_bill_breakdown")
+    path('worker_wage_bill_breakdown/<int:wage_bill_id>/<int:worker_id>/', wage_bill_views.worker_wage_bill_breakdown,
+         name="worker_wage_bill_breakdown"),
+    path('consolidated_wage_bill_pdf/<int:wage_bill_id>/', wage_bill_views.consolidated_wage_bill_pdf,
+         name="consolidated_wage_bill_pdf"),
 
 ]
 
