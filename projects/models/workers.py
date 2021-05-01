@@ -44,8 +44,8 @@ class Worker(models.Model):
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     business_unit = models.CharField(
         max_length=2, choices=BUSINESS_UNIT_CHOICES)
-    national_id_document = models.FileField(upload_to="documents", blank=True)
-    profile = models.FileField(upload_to="documents", blank=True)
+    national_id_document = models.FileField(upload_to="documents")
+    profile = models.FileField(upload_to="documents")
     mobile_money_name = models.CharField(max_length=30, null=True, blank=True)
     registered_by_user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
