@@ -60,7 +60,7 @@ def all_workers_csv(request):
     # Writing other rows
     for worker in workers:
         writer.writerow(
-            [worker.id, worker.name, worker.type, worker.business_unit, worker.national_id,
+            [worker.id, worker.name, worker.type, worker.business_unit, worker.national_ID_NIN,
              worker.joining_date, worker.gender, worker.mobile_money_number, worker.address,
              worker.next_of_kin, worker.registered_by_user, worker.registered_by_user])
     return response
