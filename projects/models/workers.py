@@ -35,7 +35,7 @@ class Worker(models.Model):
     ]
 
     name = models.CharField(max_length=50)
-    national_id = models.CharField(max_length=20, blank=True)
+    national_id_NIN = models.CharField(max_length=20)
     joining_date = models.DateField()
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     mobile_money_number = models.CharField(max_length=10, unique=True)
@@ -46,7 +46,7 @@ class Worker(models.Model):
         max_length=2, choices=BUSINESS_UNIT_CHOICES)
     national_id_document = models.FileField(upload_to="documents")
     profile = models.FileField(upload_to="documents")
-    mobile_money_name = models.CharField(max_length=30, null=True, blank=True)
+    mobile_money_name = models.CharField(max_length=30)
     registered_by_user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
