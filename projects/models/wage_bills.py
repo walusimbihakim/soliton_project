@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from projects.models.workers import Worker
 
 
 class WageBill(models.Model):
@@ -21,3 +22,29 @@ class WageBill(models.Model):
 
     def get_absolute_url(self):
         return reverse("WageBill_detail", kwargs={"pk": self.pk})
+
+class ConsolidatedWageBill(models.Model):
+
+    wage_bill = models.ForeignKey(WageBill, on_delete=models.DO_NOTHING)
+    worker = models.ForeignKey(Worker, on_delete=models.DO_NOTHING)
+    mobile_money_number = models.IntegerField()
+    amount = models.IntegerField()
+    charge = models.IntegerField()
+    
+    @property
+    def total(self):
+        total = self.amount + self.charge
+
+        return total
+
+
+    class Meta:
+        verbose_name = ("ConsolidatedWageBill")
+        verbose_name_plural = ("ConsolidatedWageBills")
+
+    def __str__(self):
+        return self.wage_bill
+
+    def get_absolute_url(self):
+        return reverse("ConsolidatedWageBill_detail", kwargs={"pk": self.pk})
+
