@@ -1,0 +1,112 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{%load javascript_settings_tags %}
+{%block page_title%}
+Manage Group Wages for sheet {{wage_sheet.id}}
+{% endblock%}
+{% block right_button%}
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-team">
+    New Group Wage
+</button>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+            <div class="card">
+                {%if group_wages%}
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Group Wages</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- ./card-body -->
+                <div class="card-body">
+                    {% include "./components/wage_sheet_info.html" %}
+                    <div class="table-responsive">
+                        <table id="pageTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Group Wage ID</th>
+                                <th>Group of Workers</th>
+                                <th>Activity</th>
+                                <th>Quantity</th>
+                                <th>Payment</th>
+                                <th>#</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for group_wage in group_wages%}
+                            <tr>
+                                <td>{{group_wage.id}}</td>
+                                <td>{{group_wage.group_worker}}</td>
+                                <td>
+                                    {{group_wage.activity}}
+                                </td>
+                                <td>{{group_wage.quantity}} {{group_wage.activity.unit_of_measure}}(s)</td>
+                                <td>UGX {{group_wage.payment | intcomma}}</td>
+                                <td>
+                                    <a href="#" style="color:inherit">
+                                        <i class="fa fa-edit"></i>
+                                    </a> |
+                                    <a href="#" style="color: inherit">
+                                        <i class="fa fa-trash" onclick="return 'Do you want to delete {{group_wage.id}} Group?'"></i>
+                                    </a>
+                                <td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                {%else%}
+                <div class="card-body">
+                    <h4>No wages available</h4>
+                </div>
+                {%endif%}
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+<div class="modal fade" id="modal-add-team">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Wage</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+{% endblock content %}
+
+{% block customJS %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">{% javascript_settings %}</script>
+<script src="{% static 'customJS/wage_form.js'%}"></script>
+{% endblock %}

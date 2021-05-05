@@ -12,6 +12,7 @@ class Activity(TimeStampedModel):
     unit_cost = models.IntegerField(default=0)
     unit_of_measure = models.ForeignKey(UnitOfMeasure, on_delete=models.CASCADE, blank=True, null=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, blank=True, null=True)
+    is_group = models.BooleanField(default=False)
     is_fd_underground = models.BooleanField(default=False, blank=True, null=True)
     is_fd_arial = models.BooleanField(default=False, blank=True, null=True)
     is_site_connection = models.BooleanField(default=False, blank=True, null=True)

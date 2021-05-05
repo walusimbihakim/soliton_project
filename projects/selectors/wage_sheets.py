@@ -1,4 +1,5 @@
 from projects.models import WageSheet, Wage
+from projects.models.wage_sheets import GroupWage
 from projects.selectors.wage_bill_selectors import get_current_wage_bill, get_wage_bill
 
 
@@ -25,6 +26,14 @@ def get_wages(wage_sheet):
 
 def get_wage(id):
     return Wage.objects.get(pk=id)
+
+
+def get_group_wages(wage_sheet):
+    return GroupWage.objects.filter(wage_sheet=wage_sheet)
+
+
+def get_group_wage(id):
+    return GroupWage.objects.get(pk=id)
 
 
 def get_rejected_wages(wage_sheet):
