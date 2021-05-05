@@ -1,6 +1,6 @@
 from django.db import models
 
-from projects.models import Worker, Activity
+from projects.models import Worker, Activity, GroupWorker
 from projects.models.segments import Segment
 from projects.models.wage_bills import WageBill
 from projects.models.users import User
@@ -24,6 +24,7 @@ class WageSheet(models.Model):
     rejected = models.BooleanField(default=False)
 
     class Meta:
+        ordering = ("date",)
         unique_together = ('supervisor_user', 'field_manager_user', 'date', 'wage_bill')
 
     def __str__(self):
@@ -55,7 +56,19 @@ class Wage(models.Model):
     remarks = models.TextField(null=True, blank=True)
 
     class Meta:
+        ordering = ("worker__name",)
         unique_together = ('worker', 'activity', 'wage_sheet')
 
     def __str__(self):
         return f"{self.worker} - Wage ID {self.id}"
+
+
+class GroupWage(models.Model):
+    wage_sheet = models.ForeignKey(WageSheet, on_delete=models.CASCADE)
+    group_worker = models.ForeignKey(GroupWorker, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    payment = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.group_worker} - Group Wage ID {self.id}"

@@ -6,7 +6,7 @@ from .lans import *
 from .road_crossings import *
 from .towers import *
 from .activity_list import *
-from projects.models.workers import Worker
+from projects.models.workers import Worker, GroupWorker
 from projects.models.survey import Survey
 from projects.models.scopes import ExecutionScope
 from projects.models.pip import PIP
@@ -21,3 +21,4 @@ from projects.models.complaints import Complaint
 from projects.models.deductions import Deduction
 from projects.models.wage_bills import WageBill
 from projects.models.users import User
+
