@@ -59,3 +59,5 @@ class GroupWageForm(forms.ModelForm):
         self.fields['activity'].queryset = Activity.objects.filter(type=user.type, is_group=True)
         self.fields['payment'].widget.attrs['readonly'] = True
         self.helper = FormHelper()
+
+
