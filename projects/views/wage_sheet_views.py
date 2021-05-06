@@ -225,6 +225,13 @@ def edit_group_wage_page(request, id):
     return render(request, "wage_sheet/edit_group_wage.html", context)
 
 
+def delete_wage_group(request, id):
+    group_wage = get_group_wage(id)
+    group_wage.delete()
+    messages.success(request, "Successfully deleted a group wage")
+    return HttpResponseRedirect(reverse(manage_group_wages_page, args=[group_wage.wage_sheet.id]))
+
+
 def submit_wage_sheet(request, wage_sheet_id):
     wage_sheet = get_wage_sheet(wage_sheet_id)
 

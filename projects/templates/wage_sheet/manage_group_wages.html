@@ -50,11 +50,8 @@ Manage Group Wages for sheet {{wage_sheet.id}}
                                 <td>{{group_wage.quantity}} {{group_wage.activity.unit_of_measure}}(s)</td>
                                 <td>UGX {{group_wage.payment | intcomma}}</td>
                                 <td>
-                                    <a href="#" style="color:inherit">
+                                    <a href="{%url 'edit_wage_group' group_wage.id%}" style="color:inherit">
                                         <i class="fa fa-edit"></i>
-                                    </a> |
-                                    <a href="#" style="color: inherit">
-                                        <i class="fa fa-trash" onclick="return 'Do you want to delete {{group_wage.id}} Group?'"></i>
                                     </a>
                                 <td>
                             </tr>

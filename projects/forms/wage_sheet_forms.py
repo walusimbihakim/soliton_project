@@ -38,12 +38,12 @@ class WageSheetForm(forms.ModelForm):
 class WageForm(forms.ModelForm):
     class Meta:
         model = Wage
-        exclude = ("wage_sheet", "is_manager_approved", "is_pm_approved", "is_gm_approved", "is_payed")
+        exclude = ("group_wage", "wage_sheet", "is_manager_approved", "is_pm_approved", "is_gm_approved", "is_payed")
 
     def __init__(self, user=None, *args, **kwargs):
         super(WageForm, self).__init__(*args, **kwargs)
         self.fields['worker'].queryset = Worker.objects.filter(registered_by_user=user)
-        self.fields['activity'].queryset = Activity.objects.filter(type=user.type)
+        self.fields['activity'].queryset = Activity.objects.filter(type=user.type, is_group=False)
         self.fields['payment'].widget.attrs['readonly'] = True
         self.helper = FormHelper()
 
@@ -59,5 +59,3 @@ class GroupWageForm(forms.ModelForm):
         self.fields['activity'].queryset = Activity.objects.filter(type=user.type, is_group=True)
         self.fields['payment'].widget.attrs['readonly'] = True
         self.helper = FormHelper()
-
-

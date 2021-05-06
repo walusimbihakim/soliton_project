@@ -72,8 +72,10 @@ class GroupWage(models.Model):
             except IntegrityError:
                 Wage.objects.filter(
                     wage_sheet=self.wage_sheet,
-                    worker=worker, activity=self.activity).update(quantity=self.quantity, payment=worker_payment)
-
+                    activity=self.activity,).update(
+                    quantity=self.quantity,
+                    payment=worker_payment,
+                )
         super(GroupWage, self).save(*args, **kwargs)
 
 
