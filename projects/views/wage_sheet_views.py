@@ -1,3 +1,5 @@
+from django.db import IntegrityError
+
 from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER
 from projects.decorators.auth_decorators import supervisor_required
 from projects.selectors.complaints import get_complaints, get_complaint
@@ -182,10 +184,13 @@ def manage_group_wages_page(request, wage_sheet_id):
         if form.is_valid():
             group_wage = form.save(commit=False)
             group_wage.wage_sheet = wage_sheet
-            group_wage.save()
-            messages.success(request, "Successfully added a group wage")
+            try:
+                group_wage.save()
+                messages.success(request, "Successfully added a group wage")
+            except IntegrityError:
+                messages.error(request, "You tried to enter a duplicate record")
         else:
-            messages.error(request, "Integrity problems while saving group wage ")
+            messages.error(request, "Incomplete or Invalid form")
         return HttpResponseRedirect(reverse(manage_group_wages_page, args=[wage_sheet_id]))
     context = {
         "wage_sheets_page": "active",
@@ -218,6 +223,13 @@ def edit_group_wage_page(request, id):
         "form": form,
     }
     return render(request, "wage_sheet/edit_group_wage.html", context)
+
+
+def delete_wage_group(request, id):
+    group_wage = get_group_wage(id)
+    group_wage.delete()
+    messages.success(request, "Successfully deleted a group wage")
+    return HttpResponseRedirect(reverse(manage_group_wages_page, args=[group_wage.wage_sheet.id]))
 
 
 def submit_wage_sheet(request, wage_sheet_id):
