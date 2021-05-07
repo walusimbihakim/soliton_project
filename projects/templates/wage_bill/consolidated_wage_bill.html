@@ -59,14 +59,16 @@ Consolidated Wage Bill
                                         Payment Breakdown
                                     </a>
                                 </td>
-                                
+
                             </tr>
                             {% endfor %}
                             </tbody>
                         </table>
+                        {%include "../components/pagination.html"%}
                     </div>
                 </div>
                 <!-- /.card-body -->
+
                 {%else%}
                 <div class="card-body">
                     <h4>No Wage Bills available</h4>

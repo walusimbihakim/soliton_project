@@ -1,4 +1,6 @@
 import csv
+
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -82,10 +84,14 @@ def get_end_date(request):
 def current_consolidated_wage_bill(request):
     wage_bill = wage_bill_selectors.get_current_wage_bill()
     aggregated_wages = wage_bill_selectors.get_aggregated_wage_bill(wage_bill)
+    paginator = Paginator(aggregated_wages, 15)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
         "wage_bill_page": "active",
         "wage_bill": wage_bill,
         "aggregated_wages": aggregated_wages,
+        "page_obj": page_obj,
     }
     return render(request, "wage_bill/consolidated_wage_bill.html", context)
 
@@ -94,10 +100,14 @@ def current_consolidated_wage_bill(request):
 def consolidated_wage_bill(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id=wage_bill_id)
     aggregated_wages = wage_bill_selectors.get_aggregated_wage_bill(wage_bill)
+    paginator = Paginator(aggregated_wages, 15)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
         "wage_bill_page": "active",
         "wage_bill": wage_bill,
         "aggregated_wages": aggregated_wages,
+        'page_obj': page_obj,
     }
     return render(request, "wage_bill/consolidated_wage_bill.html", context)
 
