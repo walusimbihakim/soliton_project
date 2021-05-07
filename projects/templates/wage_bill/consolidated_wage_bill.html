@@ -48,7 +48,7 @@ Consolidated Wage Bill
                             <tbody>
                             {% for wage in aggregated_wages%}
                             <tr >
-                                <td class="text-center">{{forloop.counter}}</td>
+                                <td class="text-center">{{wage.worker}}</td>
                                 <td class="text-center">{{wage.worker|get_worker_info:1}}</td>
                                 <td class="text-center">{{wage.worker|get_worker_info:2}}</td>
                                 <td class="text-center">{{wage.worker|total_payment:wage.payment|intcomma}}/-</td>
