@@ -46,7 +46,10 @@ DJANGO_APPS = [
     'storages',
 ]
 INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS + ALL_AUTH_APPS
+
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # For heroku

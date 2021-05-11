@@ -3,6 +3,9 @@
 {% load crispy_forms_tags %}
 {% load humanize %}
 {%load javascript_settings_tags %}
+
+<link rel="stylesheet" href="{{ STATIC_URL }}simple_autocomplete/jquery-ui.css" />
+
 {%block page_title%}
 Manage Wages for sheet {{wage_sheet.id}}
 {% endblock%}
@@ -89,6 +92,10 @@ Manage Wages for sheet {{wage_sheet.id}}
             </div>
             <div class="modal-body">
                 <form method="POST" enctype="multipart/form-data">
+                    <select id="list-choice" class="form-control" aria-label="Default select example">
+                        <option value="1" selected>My Workers Only</option>
+                        <option value="2">All Workers</option>
+                    </select>
                     {% csrf_token %}
                     {{ form|crispy }}
             </div>
@@ -108,5 +115,5 @@ Manage Wages for sheet {{wage_sheet.id}}
 {% block customJS %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">{% javascript_settings %}</script>
-<script src="{% static 'customJS/wage_form.js'%}"></script>
+<script src="{% static 'customJS/wage_form.js'%}"></script> 
 {% endblock %}

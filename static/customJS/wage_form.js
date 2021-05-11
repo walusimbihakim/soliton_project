@@ -23,4 +23,27 @@ $(document).ready(() => {
 
     })
 
+    $("#list-choice").on("change", () => {
+        // Set payment according to quantity and activity rate
+        option = document.querySelector('#list-choice').value;
+        $.ajax({
+            type: 'get',
+            url: configuration['projects']['get_worker_list'],
+            data: { 'option': option },
+            dataType: 'json',
+            success: (data) => {
+                if (data.success) {
+                    quantity = document.querySelector("#id_quantity").value
+                    if ((quantity > 0) && (activity_id != null)) {
+                        payment = data.activity_rate * quantity;
+                        document.querySelector('#id_payment').value = payment;
+                    } else {
+                        document.querySelector('#id_payment').value = 0;
+                    }
+                }
+            },
+        });
+
+    })
+
 });
