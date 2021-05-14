@@ -1,6 +1,6 @@
-from django.db import models
+from django.db import models, IntegrityError
 
-from projects.models import Worker, Activity
+from projects.models import Worker, Activity, GroupWorker
 from projects.models.segments import Segment
 from projects.models.wage_bills import WageBill
 from projects.models.users import User
@@ -24,6 +24,7 @@ class WageSheet(models.Model):
     rejected = models.BooleanField(default=False)
 
     class Meta:
+        ordering = ("date",)
         unique_together = ('supervisor_user', 'field_manager_user', 'date', 'wage_bill')
 
     def __str__(self):
@@ -42,8 +43,45 @@ class WageSheet(models.Model):
         return self.gm_status is None
 
 
+class GroupWage(models.Model):
+    wage_sheet = models.ForeignKey(WageSheet, on_delete=models.CASCADE)
+    group_worker = models.ForeignKey(GroupWorker, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    payment = models.IntegerField()
+
+    class Meta:
+        unique_together = ("wage_sheet", "group_worker", "activity",)
+
+    def __str__(self):
+        return f"{self.group_worker} - Group Wage ID {self.id}"
+
+    def save(self, *args, **kwargs):
+        workers = self.group_worker.workers.all()
+        number_of_workers = workers.count()
+        for worker in workers:
+            worker_payment = int(self.payment) / int(number_of_workers)
+            try:
+                Wage.objects.create(
+                    wage_sheet=self.wage_sheet,
+                    worker=worker,
+                    activity=self.activity,
+                    quantity=self.quantity,
+                    payment=worker_payment,
+                )
+            except IntegrityError:
+                Wage.objects.filter(
+                    wage_sheet=self.wage_sheet,
+                    activity=self.activity,).update(
+                    quantity=self.quantity,
+                    payment=worker_payment,
+                )
+        super(GroupWage, self).save(*args, **kwargs)
+
+
 class Wage(models.Model):
     wage_sheet = models.ForeignKey(WageSheet, on_delete=models.CASCADE)
+    group_wage = models.ForeignKey(GroupWage, on_delete=models.CASCADE, null=True, blank=True)
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE)
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     quantity = models.IntegerField()
@@ -55,6 +93,7 @@ class Wage(models.Model):
     remarks = models.TextField(null=True, blank=True)
 
     class Meta:
+        ordering = ("worker__name",)
         unique_together = ('worker', 'activity', 'wage_sheet')
 
     def __str__(self):

@@ -33,7 +33,7 @@ def get_wage_bill_wages(wage_bill):
 
 def get_aggregated_wage_bill(wage_bill):
     wage_bill_wages = get_wage_bill_wages(wage_bill)
-    aggregated_wages = wage_bill_wages.values("worker").annotate(payment=Sum("payment"))
+    aggregated_wages = wage_bill_wages.values("worker").annotate(payment=Sum("payment")).order_by("worker")
     return aggregated_wages
 
 def get_worker_wage_bill_breakdown(wage_bill, worker):

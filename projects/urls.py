@@ -20,6 +20,8 @@ import projects.views.user_views as user_views
 worker_urls = [
     path('manage_workers/', worker_views.manage_workers_page,
          name='manage_workers_page'),
+    path('manage_group_workers/', worker_views.manage_group_workers_page,
+         name='manage_group_workers_page'),
     path('view_all_workers/', worker_views.view_all_workers_page,
          name='view_all_workers_page'),
     path('all_workers_csv/', worker_views.all_workers_csv,
@@ -29,6 +31,10 @@ worker_urls = [
     path('delete_worker/<int:id>/',
          worker_views.delete_worker, name='delete_worker'),
     path('edit_worker/<int:id>/', worker_views.edit_worker_page, name="edit_worker"),
+    path('edit_group_worker/<int:id>/', worker_views.edit_group_worker_page,
+         name="edit_group_worker"),
+    path('delete_group_worker/<int:id>/',
+         worker_views.delete_group_worker, name='delete_group_worker'),
 ]
 
 survey_urls = [
@@ -159,6 +165,10 @@ wage_sheets_urls = [
          wage_sheet_views.manage_wages_page, name='manage_wages'),
     path('delete_wage/<int:id>/', wage_sheet_views.delete_wage, name='delete_wage'),
     path('edit_wage/<int:id>/', wage_sheet_views.edit_wage_page, name="edit_wage"),
+    path('manage_group_wages/<int:wage_sheet_id>',
+         wage_sheet_views.manage_group_wages_page, name='manage_group_wages'),
+    path('edit_wage_group/<int:id>/', wage_sheet_views.edit_group_wage_page, name="edit_wage_group"),
+    path('delete_wage_group/<int:id>/', wage_sheet_views.delete_wage_group, name='delete_wage_group'),
     path('submit_wage_sheet/<int:wage_sheet_id>/',
          wage_sheet_views.submit_wage_sheet, name="submit_wage_sheet"),
     path('approve_or_reject_wage_sheets/', wage_sheet_views.approve_or_reject_wagesheets,

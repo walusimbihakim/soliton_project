@@ -9,9 +9,10 @@ from django.contrib import messages
 from project_manager.settings import BASE_DIR
 from projects.constants import INTEGRITY_ERROR_MESSAGE, INVALID_FORM_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required, project_manager_required
-from projects.forms.worker_forms import WorkerForm
+from projects.forms.worker_forms import WorkerForm, GroupWorkerForm
 from projects.procedures import render_to_pdf
-from projects.selectors.workers import get_all_workers, get_worker, get_all_workers_registered_by
+from projects.selectors.workers import get_all_workers, get_worker, get_all_workers_registered_by, \
+    get_all_worker_groups_supervised_by, get_group_worker
 
 
 @supervisor_required
@@ -38,6 +39,58 @@ def manage_workers_page(request):
         'form': form,
     }
     return render(request, "worker/manage_workers.html", context)
+
+
+@supervisor_required
+def manage_group_workers_page(request):
+    group_workers = get_all_worker_groups_supervised_by(request.user)
+    form = GroupWorkerForm(user=request.user)
+    if request.method == "POST":
+        form = GroupWorkerForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            group_worker = form.save(commit=False)
+            group_worker.supervisor = request.user
+            group_worker.save()
+            messages.success(request, "Successfully added a group of workers")
+        else:
+            messages.error(request, "Integrity problems while saving the group of workers")
+        return HttpResponseRedirect(reverse(manage_group_workers_page))
+    context = {
+        "workers_page": "active",
+        "manage_group_workers": "active",
+        "group_workers": group_workers,
+        'form': form,
+    }
+    return render(request, "worker/manage_group_workers.html", context)
+
+
+@supervisor_required
+def edit_group_worker_page(request, id):
+    group_worker = get_group_worker(id)
+    form = GroupWorkerForm(instance=group_worker, user=request.user)
+    if request.method == "POST":
+        form = GroupWorkerForm(data=request.POST, instance=group_worker, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Successfully edited a group of workers")
+        else:
+            messages.error(request, "Integrity problems while saving group of workers")
+        return HttpResponseRedirect(reverse(manage_group_workers_page))
+    context = {
+        "workers_page": "active",
+        "manage_group_workers": "active",
+        "group_worker": group_worker,
+        "form": form,
+    }
+    return render(request, "worker/edit_group_worker.html", context)
+
+
+@supervisor_required
+def delete_group_worker(request, id):
+    group_worker = get_group_worker(id)
+    group_worker.delete()
+    messages.success(request, "Successfully deleted a group worker")
+    return HttpResponseRedirect(reverse(manage_group_workers_page))
 
 
 @project_manager_required

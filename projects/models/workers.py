@@ -51,3 +51,16 @@ class Worker(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class GroupWorker(models.Model):
+    name = models.CharField(max_length=20, unique=True)
+    supervisor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    workers = models.ManyToManyField(Worker)
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def get_all_workers(self):
+        return self.workers.all()

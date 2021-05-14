@@ -10,13 +10,13 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
 
-from projects.forms.wage_sheet_forms import WageSheetForm, WageForm
+from projects.forms.wage_sheet_forms import WageSheetForm, WageForm, GroupWageForm
 from projects.selectors.deductions import get_deductions, get_deduction
 from projects.selectors.wage_sheets import get_wage_sheet, get_wages, get_wage, \
     get_fm_wage_sheets_for_approval, get_pm_wage_sheets_for_approval, \
     get_gm_wage_sheets_for_approval, get_non_submitted_wage_sheets, \
     get_user_submitted_wage_sheets, get_rejected_wages, get_approved_wages, get_current_wage_bill_wage_sheets, \
-    get_submitted_wage_bill_wage_sheets
+    get_submitted_wage_bill_wage_sheets, get_group_wages, get_group_wage
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from projects.services.wage_sheet_services import retract
 
@@ -185,6 +185,64 @@ def delete_wage(request, id):
     wage.delete()
     messages.success(request, "Successfully deleted a wage")
     return HttpResponseRedirect(reverse(manage_wages_page, args=[wage.wage_sheet.id]))
+
+
+@supervisor_required
+def manage_group_wages_page(request, wage_sheet_id):
+    wage_sheet = get_wage_sheet(wage_sheet_id)
+    group_wages = get_group_wages(wage_sheet)
+    form = GroupWageForm(user=request.user)
+    if request.method == "POST":
+        form = GroupWageForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            group_wage = form.save(commit=False)
+            group_wage.wage_sheet = wage_sheet
+            try:
+                group_wage.save()
+                messages.success(request, "Successfully added a group wage")
+            except IntegrityError:
+                messages.error(request, "You tried to enter a duplicate record")
+        else:
+            messages.error(request, "Incomplete or Invalid form")
+        return HttpResponseRedirect(reverse(manage_group_wages_page, args=[wage_sheet_id]))
+    context = {
+        "wage_sheets_page": "active",
+        "manage_wage_sheets": "active",
+        "group_wages": group_wages,
+        "wage_sheet": wage_sheet,
+        'form': form,
+    }
+    return render(request, "wage_sheet/manage_group_wages.html", context)
+
+
+@supervisor_required
+def edit_group_wage_page(request, id):
+    group_wage = get_group_wage(id)
+    wage_sheet = group_wage.wage_sheet
+    form = GroupWageForm(user=request.user, instance=group_wage)
+    if request.method == "POST":
+        form = GroupWageForm(user=request.user, data=request.POST, instance=group_wage)
+        if form.is_valid():
+            group_wage = form.save(commit=False)
+            group_wage.wage_sheet = wage_sheet
+            group_wage.save()
+            messages.success(request, "Successfully edited a group wage")
+        else:
+            messages.error(request, "Integrity problems while saving group wage")
+        return HttpResponseRedirect(reverse(manage_group_wages_page, args=[wage_sheet.id]))
+    context = {
+        "wage_sheets_page": "active",
+        "manage_wage_sheets": "active",
+        "form": form,
+    }
+    return render(request, "wage_sheet/edit_group_wage.html", context)
+
+
+def delete_wage_group(request, id):
+    group_wage = get_group_wage(id)
+    group_wage.delete()
+    messages.success(request, "Successfully deleted a group wage")
+    return HttpResponseRedirect(reverse(manage_group_wages_page, args=[group_wage.wage_sheet.id]))
 
 
 def submit_wage_sheet(request, wage_sheet_id):
