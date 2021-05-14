@@ -48,12 +48,15 @@ def manage_group_workers_page(request):
     if request.method == "POST":
         form = GroupWorkerForm(data=request.POST, user=request.user)
         if form.is_valid():
-            group_worker = form.save(commit=False)
-            group_worker.supervisor = request.user
-            group_worker.save()
-            messages.success(request, "Successfully added a group of workers")
+            try:
+                group_worker = form.save(commit=False)
+                group_worker.supervisor = request.user
+                group_worker.save()
+                messages.success(request, "Successfully added a group of workers")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving the group of workers")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_group_workers_page))
     context = {
         "workers_page": "active",
@@ -71,10 +74,13 @@ def edit_group_worker_page(request, id):
     if request.method == "POST":
         form = GroupWorkerForm(data=request.POST, instance=group_worker, user=request.user)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Successfully edited a group of workers")
+            try:
+                form.save()
+                messages.success(request, "Successfully edited a group of workers")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving group of workers")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_group_workers_page))
     context = {
         "workers_page": "active",
