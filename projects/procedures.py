@@ -3,6 +3,7 @@ from io import BytesIO
 from django.http import HttpResponse
 from xhtml2pdf import pisa
 from django.template.loader import get_template
+from datetime import datetime
 
 
 def render_to_pdf(template_src, context_dict={}):
@@ -13,3 +14,7 @@ def render_to_pdf(template_src, context_dict={}):
     if not pdf.err:
         return HttpResponse(result.getvalue(), content_type='application/pdf')
     return None
+
+
+def is_date_between(date, start_date, end_date):
+    return start_date <= date <= end_date

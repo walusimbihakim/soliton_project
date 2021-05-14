@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER, INVALID_FORM_MESSAGE, \
     INTEGRITY_ERROR_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required
+from projects.procedures import is_date_between
 from projects.selectors.complaints import get_complaints, get_complaint
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -28,13 +29,17 @@ def manage_wage_sheets_page(request):
     if request.method == "POST":
         form = WageSheetForm(request.POST, request.FILES)
         if form.is_valid():
-            try:
-                wage_sheet = form.save(commit=False)
-                wage_sheet.supervisor_user = request.user
-                wage_sheet.save()
-                messages.success(request, "Successfully added a wage sheet")
-            except IntegrityError:
-                messages.error(request, INTEGRITY_ERROR_MESSAGE)
+            wage_sheet = form.save(commit=False)
+            wage_sheet.supervisor_user = request.user
+            if is_date_between(wage_sheet.date, wage_bill.start_date, wage_bill.end_date):
+                try:
+                    wage_sheet.save()
+                    messages.success(request, "Successfully added a wage sheet")
+                except IntegrityError:
+                    messages.error(request, INTEGRITY_ERROR_MESSAGE)
+            else:
+                messages.error(request, "Wage sheet date is later or earlier than the current wage bill period. "
+                                        f"Please put a wage sheet date between {wage_bill}")
         else:
             messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_wage_sheets_page))
