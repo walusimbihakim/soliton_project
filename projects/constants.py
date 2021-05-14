@@ -34,3 +34,8 @@ TYPE_CHOICES = [
         (TRANSPORT, TRANSPORT),
         (MISCELLANEOUS, MISCELLANEOUS)
     ]
+
+INTEGRITY_ERROR_MESSAGE = "The record you tried to add is a duplicate or contains duplicate values" \
+                          " for unique fields."
+
+INVALID_FORM_MESSAGE = "The form values are invalid or duplicate for unique fields."

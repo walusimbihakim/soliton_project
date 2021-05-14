@@ -1,4 +1,7 @@
-from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER
+from django.db import IntegrityError
+
+from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER, INVALID_FORM_MESSAGE, \
+    INTEGRITY_ERROR_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required
 from projects.selectors.complaints import get_complaints, get_complaint
 from django.http import HttpResponseRedirect
@@ -25,12 +28,15 @@ def manage_wage_sheets_page(request):
     if request.method == "POST":
         form = WageSheetForm(request.POST, request.FILES)
         if form.is_valid():
-            wage_sheet = form.save(commit=False)
-            wage_sheet.supervisor_user = request.user
-            wage_sheet.save()
-            messages.success(request, "Successfully added a wage sheet")
+            try:
+                wage_sheet = form.save(commit=False)
+                wage_sheet.supervisor_user = request.user
+                wage_sheet.save()
+                messages.success(request, "Successfully added a wage sheet")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving wage sheet")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_wage_sheets_page))
     context = {
         "wage_sheets_page": "active",
@@ -48,10 +54,13 @@ def edit_wage_sheet_page(request, id):
     if request.method == "POST":
         form = WageSheetForm(request.POST, request.FILES, instance=wage_sheet)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Successfully edited a wage sheet")
+            try:
+                form.save()
+                messages.success(request, "Successfully edited a wage sheet")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving wage sheet")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_wage_sheets_page))
     context = {
         "wage_sheets_page": "active",
@@ -125,12 +134,15 @@ def manage_wages_page(request, wage_sheet_id):
     if request.method == "POST":
         form = WageForm(user=request.user, data=request.POST, files=request.FILES)
         if form.is_valid():
-            wage = form.save(commit=False)
-            wage.wage_sheet = wage_sheet
-            wage.save()
-            messages.success(request, "Successfully added a wage")
+            try:
+                wage = form.save(commit=False)
+                wage.wage_sheet = wage_sheet
+                wage.save()
+                messages.success(request, "Successfully added a wage")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving wage ")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_wages_page, args=[wage_sheet_id]))
     context = {
         "wage_sheets_page": "active",
@@ -150,12 +162,15 @@ def edit_wage_page(request, id):
     if request.method == "POST":
         form = WageForm(user=request.user, data=request.POST, files=request.FILES, instance=wage)
         if form.is_valid():
-            wage = form.save(commit=False)
-            wage.wage_sheet = wage_sheet
-            wage.save()
-            messages.success(request, "Successfully edited a wage")
+            try:
+                wage = form.save(commit=False)
+                wage.wage_sheet = wage_sheet
+                wage.save()
+                messages.success(request, "Successfully edited a wage")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving wage")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_wages_page, args=[wage_sheet.id]))
     context = {
         "wage_sheets_page": "active",

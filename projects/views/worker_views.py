@@ -1,11 +1,13 @@
 import csv
 
+from django.db import IntegrityError
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
 
 from project_manager.settings import BASE_DIR
+from projects.constants import INTEGRITY_ERROR_MESSAGE, INVALID_FORM_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required, project_manager_required
 from projects.forms.worker_forms import WorkerForm
 from projects.procedures import render_to_pdf
@@ -19,12 +21,15 @@ def manage_workers_page(request):
     if request.method == "POST":
         form = WorkerForm(request.POST, request.FILES)
         if form.is_valid():
-            worker = form.save(commit=False)
-            worker.registered_by_user = request.user
-            worker.save()
-            messages.success(request, "Successfully added a worker")
+            try:
+                worker = form.save(commit=False)
+                worker.registered_by_user = request.user
+                worker.save()
+                messages.success(request, "Successfully added a worker")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving worker")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_workers_page))
     context = {
         "workers_page": "active",
@@ -84,10 +89,13 @@ def edit_worker_page(request, id):
     if request.method == "POST":
         form = WorkerForm(request.POST, request.FILES, instance=worker)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Successfully edited a worker")
+            try:
+                form.save()
+                messages.success(request, "Successfully edited a worker")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving worker")
+            messages.success(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_workers_page))
     context = {
         "workers_page": "active",
