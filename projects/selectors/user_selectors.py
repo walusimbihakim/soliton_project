@@ -1,4 +1,5 @@
 from projects.models.users import User
+from django.db.models import Q
 
 
 def get_users():
@@ -13,3 +14,6 @@ def get_user(username):
 
 def get_user_by_id(id):
     return User.objects.get(pk=id)
+
+def get_other_supervisors(id):
+    return User.objects.filter(~Q(pk=id), user_role='Supervisor')
