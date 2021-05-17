@@ -11,7 +11,6 @@ from projects.constants import INTEGRITY_ERROR_MESSAGE, INVALID_FORM_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required, project_manager_required
 from projects.forms.worker_forms import WorkerForm, GroupWorkerForm
 from projects.procedures import render_to_pdf
-from projects.selectors.workers import get_all_workers, get_worker, get_all_workers_registered_by
 import projects.selectors.user_selectors as user_selectors
 from projects.models.workers import WorkerAssignment
 from projects.selectors.workers import get_all_workers, get_worker, get_all_workers_registered_by, \

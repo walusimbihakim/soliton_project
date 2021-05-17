@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import AutoField
 
 from projects.constants import OFC, ISP, OSP, FINANCIAL, WAREHOUSE, POWER, MAINTENANCE, WORKSHOP, ADMINISTRATOR, \
     SECURITY, MISCELLANEOUS
@@ -33,7 +34,6 @@ class Worker(models.Model):
         ('ET', 'Emerging Technologies'),
         ('SU', 'Support')
     ]
-
     name = models.CharField(max_length=50)
     national_ID_NIN = models.CharField(max_length=20)
     joining_date = models.DateField()
@@ -49,26 +49,28 @@ class Worker(models.Model):
     profile = models.FileField(upload_to="documents")
     registered_by_user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     assigned_to = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
-        verbose_name="Currently Working Under", 
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Currently Working Under",
         blank=True, null=True,
-        related_name="Assignment"
-        )
+        related_name="Assignments"
+    )
 
     def __str__(self):
         return self.name
 
-class WorkerAssignment(models.Model):
 
+class WorkerAssignment(models.Model):
     date = models.DateField(auto_now_add=True)
     worker = models.ForeignKey(Worker, on_delete=models.DO_NOTHING)
     from_supervisor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    to_supervisor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="to_supervisor")
+    to_supervisor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,
+                                      related_name="to_supervisor")
 
     class Meta:
         verbose_name = ("WorkerAssignment")
         verbose_name_plural = ("WorkerAssignments")
+
 
 class GroupWorker(models.Model):
     name = models.CharField(max_length=20, unique=True)
@@ -77,7 +79,7 @@ class GroupWorker(models.Model):
 
     def __str__(self):
         return self.name
-        
+
     @property
     def get_all_workers(self):
         return self.workers.all()
