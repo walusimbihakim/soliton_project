@@ -6,7 +6,7 @@
 {% load humanize %}
 
 {%block page_title%}
-Consolidated Wage Bill
+Consolidated Payments
 {% endblock%}
 
 {% block content %}
@@ -16,7 +16,7 @@ Consolidated Wage Bill
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if wage_bill%}
+                {%if wage_bill_payments%}
                 <!-- ./ card-header -->
                 <div class="card-header">
                     <h3 class="card-title">Wage Bill - {{wage_bill}}</h3>
@@ -39,6 +39,9 @@ Consolidated Wage Bill
                                 <th class="text-center">No.</th>
                                 <th class="text-center">Worker</th>
                                 <th class="text-center">Telephone</th>
+                                <th class="text-center">Total Wages</th>
+                                <th class="text-center">Total Complaints</th>
+                                <th class="text-center">Total Deductions</th>
                                 <th class="text-center">Amount</th>
                                 <th class="text-center">Charge</th>
                                 <th class="text-center">Total</th>
@@ -46,20 +49,25 @@ Consolidated Wage Bill
                             </tr>
                             </thead>
                             <tbody>
-                            {% for wage in aggregated_wages%}
-                            <tr >
-                                <td class="text-center">{{forloop.counter}}</td>
-                                <td class="text-center">{{wage.worker|get_worker_info:1}}</td>
-                                <td class="text-center">{{wage.worker|get_worker_info:2}}</td>
-                                <td class="text-center">{{wage.worker|total_payment:wage.payment|intcomma}}/-</td>
-                                <td class="text-center">{{wage.payment|get_withdraw_charge_filter|intcomma}}/-</td>
-                                <td class="text-center">{{wage.payment|wage_total_filter|intcomma}}/-</td>
+                            {% for wage_bill_payment in wage_bill_payments%}
+                            <tr>
+                                <td class="text-center">{{wage_bill_payment.id}}</td>
+                                <td class="text-center">{{wage_bill_payment.worker_name}}</td>
+                                <td class="text-center">{{wage_bill_payment.worker_mobile_money_number}}</td>
+                                <td class="text-center">{{wage_bill_payment.total_wages}}/-</td>
+                                <td class="text-center">{{wage_bill_payment.total_complaints}}/-</td>
+                                <td class="text-center">{{wage_bill_payment.total_deductions}}/-</td>
+                                <td class="text-center">{{wage_bill_payment.total_amount}}/-</td>
+                                <td class="text-center">{{wage_bill_payment.charge}}/-</td>
+                                <td class="text-center">{{wage_bill_payment.total_payment}}/-</td>
                                 <td class="text-center">
-                                    <a href="{%url 'worker_wage_bill_breakdown' wage_bill.id wage.worker %}" class="btn btn-info">
+                                    <a
+                                            href="{%url 'worker_wage_bill_breakdown' wage_bill_payment.wage_bill.id wage_bill_payment.worker_id%}"
+                                            class="btn btn-info">
                                         Payment Breakdown
                                     </a>
                                 </td>
-                                
+
                             </tr>
                             {% endfor %}
                             </tbody>
@@ -67,9 +75,10 @@ Consolidated Wage Bill
                     </div>
                 </div>
                 <!-- /.card-body -->
+
                 {%else%}
                 <div class="card-body">
-                    <h4>No Wage Bills available</h4>
+                    <h4>No consolidated payments for the selected wage bill</h4>
                 </div>
                 {%endif%}
             </div>

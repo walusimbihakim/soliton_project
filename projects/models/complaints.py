@@ -1,8 +1,6 @@
 from django.db import models
 
-from projects.models import Worker, Activity, FieldManager, WageSheet
-
-
+from projects.models import Worker, Activity,  WageSheet
 
 
 class Complaint(models.Model):
@@ -19,7 +17,7 @@ class Complaint(models.Model):
     remarks = models.TextField(null=True, blank=False)
 
     class Meta:
-        unique_together = ('worker', 'wage_sheet','activity')
+        unique_together = ('worker', 'wage_sheet', 'activity')
 
     def __str__(self):
         return f"{self.worker} - Complaint ID {self.id}"

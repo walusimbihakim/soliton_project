@@ -10,18 +10,28 @@
     <table width="100%" border="1" >
         <th>No.</th>
         <th colspan="2">Worker's Name</th>
-        <th>Telephone</th>
+        <th>Mobile Money Number</th>
+        <th>Total Wages</th>
+        <th>Total Complaints</th>
+        <th>Total Deductions</th>
         <th>Amount</th>
         <th>Charge</th>
-        <th>Total</th>
-        {% for wage in aggregated_wages%}
+        <th>Total Payment</th>
+        <th>Supervisor Name</th>
+        <th>Supervisor Number</th>
+        {% for wage_bill_payment in wage_bill_payments%}
         <tr >
             <td class="text-center">{{forloop.counter}}</td>
-            <td colspan="2" class="text-center">{{wage.worker|get_worker_info:1}}</td>
-            <td class="text-center">{{wage.worker|get_worker_info:2}}</td>
-            <td class="text-center">{{wage.worker|total_payment:wage.payment|intcomma}}/-</td>
-            <td class="text-center">{{wage.payment|get_withdraw_charge_filter|intcomma}}/-</td>
-            <td class="text-center">{{wage.payment|wage_total_filter|intcomma}}/-</td>
+            <td colspan="2" class="text-center">{{wage_bill_payment.worker_name}}</td>
+            <td class="text-center">{{wage_bill_payment.worker_mobile_money_number}}</td>
+            <td class="text-center">{{wage_bill_payment.total_wages }}/-</td>
+            <td class="text-center">{{wage_bill_payment.total_complaints}}/-</td>
+            <td class="text-center">{{wage_bill_payment.total_deductions}}/-</td>
+            <td class="text-center">{{wage_bill_payment.total_amount}}/-</td>
+            <td class="text-center">{{wage_bill_payment.charge}}/-</td>
+            <td class="text-center">{{wage_bill_payment.total_payment}}/-</td>
+            <td class="text-center">{{wage_bill_payment.supervisor}}</td>
+            <td class="text-center">{{wage_bill_payment.supervisor_number}}</td>
         </tr>
         {% endfor %}
     </table>

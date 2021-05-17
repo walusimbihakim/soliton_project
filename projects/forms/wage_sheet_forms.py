@@ -4,7 +4,8 @@ from django.forms.widgets import HiddenInput
 from crispy_forms.helper import FormHelper, Layout
 
 from projects.constants import FIELD_MANAGER
-from projects.models import WageSheet, Wage, Worker, User, Activity
+from projects.models import WageSheet, Wage, Worker, User, Activity, GroupWorker
+from projects.models.wage_sheets import GroupWage
 from projects.selectors.wage_bill_selectors import get_current_wage_bill
 
 start_date_str, end_date_str = "", ""
@@ -38,12 +39,24 @@ class WageSheetForm(forms.ModelForm):
 class WageForm(forms.ModelForm):
     class Meta:
         model = Wage
-        exclude = ("wage_sheet", "is_manager_approved", "is_pm_approved", "is_gm_approved", "is_payed")
-        
+        exclude = ("group_wage", "wage_sheet", "is_manager_approved", "is_pm_approved", "is_gm_approved", "is_payed")
 
     def __init__(self, user=None, *args, **kwargs):
-        super(WageForm, self).__init__(*args, **kwargs)       
+        super(WageForm, self).__init__(*args, **kwargs)
         self.fields['worker'].queryset = Worker.objects.filter(assigned_to=user)
-        self.fields['activity'].queryset = Activity.objects.filter(type=user.type)
+        self.fields['activity'].queryset = Activity.objects.filter(type=user.type, is_group=False)
+        self.fields['payment'].widget.attrs['readonly'] = True
+        self.helper = FormHelper()
+
+
+class GroupWageForm(forms.ModelForm):
+    class Meta:
+        model = GroupWage
+        exclude = ("wage_sheet",)
+
+    def __init__(self, user=None, *args, **kwargs):
+        super(GroupWageForm, self).__init__(*args, **kwargs)
+        self.fields['group_worker'].queryset = GroupWorker.objects.filter(supervisor=user)
+        self.fields['activity'].queryset = Activity.objects.filter(type=user.type, is_group=True)
         self.fields['payment'].widget.attrs['readonly'] = True
         self.helper = FormHelper()

@@ -1,7 +1,9 @@
 from django.contrib import messages
+from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+from projects.constants import INTEGRITY_ERROR_MESSAGE, INVALID_FORM_MESSAGE
 from projects.decorators.auth_decorators import super_admin_required
 from projects.forms.user_forms import UserForm
 from projects.selectors.user_selectors import get_users, get_user_by_id
@@ -14,13 +16,15 @@ def manage_user_view(request):
     if request.method == "POST":
         user_form = UserForm(request.POST, request.FILES)
         if user_form.is_valid():
-            user = user_form.save(commit=False)
-            user.set_password("solitonug")
-            user.save()
-            messages.success(request, 'User registered Successfully')
+            try:
+                user = user_form.save(commit=False)
+                user.set_password("solitonug")
+                user.save()
+                messages.success(request, 'User registered Successfully')
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(
-                request, "Registration Failed, Check your input and try again")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_user_view))
     users = get_users()
     context = {
@@ -37,10 +41,13 @@ def edit_user_view(request, id):
     if request.method == "POST":
         user_form = UserForm(request.POST, request.FILES, instance=user)
         if user_form.is_valid():
-            user_form.save()
-            messages.success(request, 'User info changed Successfully')
+            try:
+                user_form.save()
+                messages.success(request, 'User info changed Successfully')
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, 'User update failed')
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_user_view))
 
     context = {

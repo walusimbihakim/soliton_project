@@ -70,8 +70,14 @@ class WorkerAssignment(models.Model):
         verbose_name = ("WorkerAssignment")
         verbose_name_plural = ("WorkerAssignments")
 
+class GroupWorker(models.Model):
+    name = models.CharField(max_length=20, unique=True)
+    supervisor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    workers = models.ManyToManyField(Worker)
+
     def __str__(self):
         return self.name
-
-    def get_absolute_url(self):
-        return reverse("WorkerAssignment_detail", kwargs={"pk": self.pk})
+        
+    @property
+    def get_all_workers(self):
+        return self.workers.all()

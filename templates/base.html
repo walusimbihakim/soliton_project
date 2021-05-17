@@ -22,7 +22,7 @@
           rel="stylesheet"
           href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
   />
-<!--   Tempusdominus Bootstrap 4-->
+  <!--   Tempusdominus Bootstrap 4-->
   <link
           rel="stylesheet"
           href="{% static 'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'%}"
@@ -229,7 +229,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="#" class="brand-link">
       <img
               src="{% static 'dist/img/logo.png'%}"
               alt="AdminLTE Logo"
@@ -402,7 +402,7 @@
               </li>
               <li class="nav-item">
                 <a
-                        href="../../index2.html"
+                        href="#"
                         class="nav-link {{client_settings}}"
                 >
                   <i class="far fa-dot-circle nav-icon"></i>
@@ -428,6 +428,15 @@
                 >
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>Manage Workers Details</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                        href="{% url 'manage_group_workers_page' %}"
+                        class="nav-link {{manage_group_workers}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Manage Group Workers</p>
                 </a>
               </li>
               {%endif%}

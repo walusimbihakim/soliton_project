@@ -1,5 +1,9 @@
-from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER
+from django.db import IntegrityError
+
+from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER, INVALID_FORM_MESSAGE, \
+    INTEGRITY_ERROR_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required
+from projects.procedures import is_date_between
 from projects.selectors.complaints import get_complaints, get_complaint
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
@@ -7,13 +11,13 @@ from django.urls import reverse
 from django.contrib import messages
 from django.forms.models import model_to_dict
 
-from projects.forms.wage_sheet_forms import WageSheetForm, WageForm
+from projects.forms.wage_sheet_forms import WageSheetForm, WageForm, GroupWageForm
 from projects.selectors.deductions import get_deductions, get_deduction
 from projects.selectors.wage_sheets import get_wage_sheet, get_wages, get_wage, \
     get_fm_wage_sheets_for_approval, get_pm_wage_sheets_for_approval, \
     get_gm_wage_sheets_for_approval, get_non_submitted_wage_sheets, \
     get_user_submitted_wage_sheets, get_rejected_wages, get_approved_wages, get_current_wage_bill_wage_sheets, \
-    get_submitted_wage_bill_wage_sheets
+    get_submitted_wage_bill_wage_sheets, get_group_wages, get_group_wage
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from projects.services.wage_sheet_services import retract
 import projects.selectors.workers as worker_selectors
@@ -28,10 +32,17 @@ def manage_wage_sheets_page(request):
         if form.is_valid():
             wage_sheet = form.save(commit=False)
             wage_sheet.supervisor_user = request.user
-            wage_sheet.save()
-            messages.success(request, "Successfully added a wage sheet")
+            if is_date_between(wage_sheet.date, wage_bill.start_date, wage_bill.end_date):
+                try:
+                    wage_sheet.save()
+                    messages.success(request, "Successfully added a wage sheet")
+                except IntegrityError:
+                    messages.error(request, INTEGRITY_ERROR_MESSAGE)
+            else:
+                messages.error(request, "Wage sheet date is later or earlier than the current wage bill period. "
+                                        f"Please put a wage sheet date between {wage_bill}")
         else:
-            messages.error(request, "Integrity problems while saving wage sheet")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_wage_sheets_page))
     context = {
         "wage_sheets_page": "active",
@@ -49,10 +60,13 @@ def edit_wage_sheet_page(request, id):
     if request.method == "POST":
         form = WageSheetForm(request.POST, request.FILES, instance=wage_sheet)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Successfully edited a wage sheet")
+            try:
+                form.save()
+                messages.success(request, "Successfully edited a wage sheet")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving wage sheet")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_wage_sheets_page))
     context = {
         "wage_sheets_page": "active",
@@ -126,12 +140,15 @@ def manage_wages_page(request, wage_sheet_id):
     if request.method == "POST":
         form = WageForm(user=request.user, data=request.POST, files=request.FILES)
         if form.is_valid():
-            wage = form.save(commit=False)
-            wage.wage_sheet = wage_sheet
-            wage.save()
-            messages.success(request, "Successfully added a wage")
+            try:
+                wage = form.save(commit=False)
+                wage.wage_sheet = wage_sheet
+                wage.save()
+                messages.success(request, "Successfully added a wage")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving wage ")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_wages_page, args=[wage_sheet_id]))
     context = {
         "wage_sheets_page": "active",
@@ -151,12 +168,15 @@ def edit_wage_page(request, id):
     if request.method == "POST":
         form = WageForm(user=request.user, data=request.POST, files=request.FILES, instance=wage)
         if form.is_valid():
-            wage = form.save(commit=False)
-            wage.wage_sheet = wage_sheet
-            wage.save()
-            messages.success(request, "Successfully edited a wage")
+            try:
+                wage = form.save(commit=False)
+                wage.wage_sheet = wage_sheet
+                wage.save()
+                messages.success(request, "Successfully edited a wage")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
         else:
-            messages.error(request, "Integrity problems while saving wage")
+            messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_wages_page, args=[wage_sheet.id]))
     context = {
         "wage_sheets_page": "active",
@@ -171,6 +191,64 @@ def delete_wage(request, id):
     wage.delete()
     messages.success(request, "Successfully deleted a wage")
     return HttpResponseRedirect(reverse(manage_wages_page, args=[wage.wage_sheet.id]))
+
+
+@supervisor_required
+def manage_group_wages_page(request, wage_sheet_id):
+    wage_sheet = get_wage_sheet(wage_sheet_id)
+    group_wages = get_group_wages(wage_sheet)
+    form = GroupWageForm(user=request.user)
+    if request.method == "POST":
+        form = GroupWageForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            group_wage = form.save(commit=False)
+            group_wage.wage_sheet = wage_sheet
+            try:
+                group_wage.save()
+                messages.success(request, "Successfully added a group wage")
+            except IntegrityError:
+                messages.error(request, "You tried to enter a duplicate record")
+        else:
+            messages.error(request, "Incomplete or Invalid form")
+        return HttpResponseRedirect(reverse(manage_group_wages_page, args=[wage_sheet_id]))
+    context = {
+        "wage_sheets_page": "active",
+        "manage_wage_sheets": "active",
+        "group_wages": group_wages,
+        "wage_sheet": wage_sheet,
+        'form': form,
+    }
+    return render(request, "wage_sheet/manage_group_wages.html", context)
+
+
+@supervisor_required
+def edit_group_wage_page(request, id):
+    group_wage = get_group_wage(id)
+    wage_sheet = group_wage.wage_sheet
+    form = GroupWageForm(user=request.user, instance=group_wage)
+    if request.method == "POST":
+        form = GroupWageForm(user=request.user, data=request.POST, instance=group_wage)
+        if form.is_valid():
+            group_wage = form.save(commit=False)
+            group_wage.wage_sheet = wage_sheet
+            group_wage.save()
+            messages.success(request, "Successfully edited a group wage")
+        else:
+            messages.error(request, "Integrity problems while saving group wage")
+        return HttpResponseRedirect(reverse(manage_group_wages_page, args=[wage_sheet.id]))
+    context = {
+        "wage_sheets_page": "active",
+        "manage_wage_sheets": "active",
+        "form": form,
+    }
+    return render(request, "wage_sheet/edit_group_wage.html", context)
+
+
+def delete_wage_group(request, id):
+    group_wage = get_group_wage(id)
+    group_wage.delete()
+    messages.success(request, "Successfully deleted a group wage")
+    return HttpResponseRedirect(reverse(manage_group_wages_page, args=[group_wage.wage_sheet.id]))
 
 
 def submit_wage_sheet(request, wage_sheet_id):

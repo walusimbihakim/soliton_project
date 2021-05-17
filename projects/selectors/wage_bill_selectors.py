@@ -31,28 +31,49 @@ def get_wage_bill_wages(wage_bill):
     return wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, is_gm_approved=True)
 
 
+def get_wage_bill_worker_wages(wage_bill, worker):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+
+    return wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_gm_approved=True)
+
+
+def get_wage_bill_worker_complaints(wage_bill, worker):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+
+    return complaints.Complaint.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_gm_approved=True)
+
+
+def get_wage_bill_worker_deductions(wage_bill, worker):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+
+    return deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_gm_approved=True)
+
+
 def get_aggregated_wage_bill(wage_bill):
     wage_bill_wages = get_wage_bill_wages(wage_bill)
-    aggregated_wages = wage_bill_wages.values("worker").annotate(payment=Sum("payment"))
+    aggregated_wages = wage_bill_wages.values("worker").annotate(payment=Sum("payment")).order_by("worker")
     return aggregated_wages
+
 
 def get_worker_wage_bill_breakdown(wage_bill, worker):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
     worker_wage_bill_wages = wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker)
-    
+
     return worker_wage_bill_wages
+
 
 def get_worker_complaint_breakdown(wage_bill, worker):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
     worker_wage_bill_wages = complaints.Complaint.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker)
-    
+
     return worker_wage_bill_wages
+
 
 def get_worker_deduction_breakdown(wage_bill, worker):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
     worker_wage_bill_wages = deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker)
-    
     return worker_wage_bill_wages
+
 
 def get_airtel_money_withdraw_charge(amount: int) -> int:
     if amount <= 2500:
@@ -77,3 +98,7 @@ def get_airtel_money_withdraw_charge(amount: int) -> int:
         charge = 12500
 
     return charge
+
+
+def get_all_consolidated_wage_bill_payments(wage_bill):
+    return wage_bills.ConsolidatedWageBill.objects.filter(wage_bill=wage_bill)
