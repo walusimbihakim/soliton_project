@@ -48,10 +48,27 @@ class Worker(models.Model):
     national_ID_document = models.FileField(upload_to="documents")
     profile = models.FileField(upload_to="documents")
     registered_by_user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    assigned_to = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        verbose_name="Currently Working Under", 
+        blank=True, null=True,
+        related_name="Assignment"
+        )
 
     def __str__(self):
         return self.name
 
+class WorkerAssignment(models.Model):
+
+    date = models.DateField(auto_now_add=True)
+    worker = models.ForeignKey(Worker, on_delete=models.DO_NOTHING)
+    from_supervisor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    to_supervisor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="to_supervisor")
+
+    class Meta:
+        verbose_name = ("WorkerAssignment")
+        verbose_name_plural = ("WorkerAssignments")
 
 class GroupWorker(models.Model):
     name = models.CharField(max_length=20, unique=True)
@@ -60,7 +77,7 @@ class GroupWorker(models.Model):
 
     def __str__(self):
         return self.name
-
+        
     @property
     def get_all_workers(self):
         return self.workers.all()

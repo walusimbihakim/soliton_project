@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from projects.models.workers import Worker
 
 from projects.procedures import calculate_airtel_charge
 

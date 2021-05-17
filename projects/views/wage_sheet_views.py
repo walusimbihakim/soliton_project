@@ -5,11 +5,11 @@ from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER, 
 from projects.decorators.auth_decorators import supervisor_required
 from projects.procedures import is_date_between
 from projects.selectors.complaints import get_complaints, get_complaint
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
-
 from django.urls import reverse
 from django.contrib import messages
+from django.forms.models import model_to_dict
 
 from projects.forms.wage_sheet_forms import WageSheetForm, WageForm, GroupWageForm
 from projects.selectors.deductions import get_deductions, get_deduction
@@ -20,6 +20,7 @@ from projects.selectors.wage_sheets import get_wage_sheet, get_wages, get_wage, 
     get_submitted_wage_bill_wage_sheets, get_group_wages, get_group_wage
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from projects.services.wage_sheet_services import retract
+import projects.selectors.workers as worker_selectors
 
 
 def manage_wage_sheets_page(request):
@@ -402,3 +403,16 @@ def reject_deduction(request, deduction_id, role):
         messages.error(request, "Operation was not successfull")
 
     return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[deduction.wage_sheet.id, role]))
+
+def toggle_worker_list_view(request):
+    option = request.GET.get('option')
+
+    user = request.user
+    worker_list = ""
+
+    if option == 1:
+        worker_list = worker_selectors.get_all_workers_registered_by(user)
+    else:
+        worker_list = worker_selectors.get_all_workers()
+
+    return JsonResponse({'success': True, 'worker_list': model_to_dict(worker_list)}) 
