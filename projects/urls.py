@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from projects.views import scope_views, team_views, wage_sheet_views, boq_views
 from projects.views.auth_views import super_admin_required_page, project_manager_required_page, \
@@ -31,6 +31,7 @@ worker_urls = [
     path('delete_worker/<int:id>/',
          worker_views.delete_worker, name='delete_worker'),
     path('edit_worker/<int:id>/', worker_views.edit_worker_page, name="edit_worker"),
+    path('transfer_worker/<int:worker_id>/', worker_views.transfer_worker_view, name="transfer_worker"),
     path('edit_group_worker/<int:id>/', worker_views.edit_group_worker_page,
          name="edit_group_worker"),
     path('delete_group_worker/<int:id>/',
@@ -186,8 +187,7 @@ wage_sheets_urls = [
          wage_sheet_views.retract_wage_sheet, name="retract_wage_sheet"),
     path('current_wage_bill_sheets', wage_sheet_views.current_wage_bill_sheets_page, name="current_wage_bill_sheets"),
     path("wage_bill_sheets/<int:wage_bill_id>/", wage_sheet_views.wage_bill_sheets_page, name="wage_bill_sheets"),
-
-
+   
 ]
 
 segments_urls = [
@@ -287,7 +287,7 @@ auth_urls = [
 urlpatterns = activity_urls + project_urls + worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
               pip_urls + field_managers_urls + teams_urls + pip_team_urls + wage_sheets_urls \
               + wage_bill_urls + segments_urls + complaint_urls + \
-              deduction_urls + user_urls + auth_urls
+              deduction_urls + user_urls + auth_urls 
 
 
 # customJS routes
@@ -297,6 +297,6 @@ def javascript_settings():
         'get_expense_rate': reverse('get_expense_rate'),
         'get_activity_rate': reverse('get_activity_rate'),
         'get_end_date': reverse('get_end_date'),
-        'reject_wage': reverse('reject_wage'),
+        'reject_wage': reverse('reject_wage'), 
     }
     return js_conf
