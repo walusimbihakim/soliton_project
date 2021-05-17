@@ -203,3 +203,18 @@ def worker_wage_bill_breakdown(request, wage_bill_id, worker_id):
 
     return render(request, "wage_bill/worker_break_down.html", context)
 
+def wage_bill_payment_breakdown(request, wage_bill_id):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
+    wage_break_down = wage_bill_selectors.get_wage_bill_payment_breakdown(wage_bill)
+    complaint_break_down = wage_bill_selectors.get_complaint_breakdown(wage_bill)
+    deduction_break_down = wage_bill_selectors.get_deduction_breakdown(wage_bill)
+
+    context = {
+        "wage_bill": wage_bill,
+        "wage_break_down": wage_break_down,
+        "complaint_break_down": complaint_break_down,
+        "deduction_break_down": deduction_break_down,
+    }
+
+    return render(request, "wage_bill/wage_bill_break_down.html", context)
+

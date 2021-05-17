@@ -246,6 +246,8 @@ wage_bill_urls = [
          name="consolidated_wage_bill"),
     path('worker_wage_bill_breakdown/<int:wage_bill_id>/<int:worker_id>/', wage_bill_views.worker_wage_bill_breakdown,
          name="worker_wage_bill_breakdown"),
+     path('wage_bill_breakdown/<int:wage_bill_id>/', wage_bill_views.wage_bill_payment_breakdown,
+         name="wage_bill_breakdown"),
     path('consolidated_wage_bill_pdf/<int:wage_bill_id>/', wage_bill_views.consolidated_wage_bill_pdf,
          name="consolidated_wage_bill_pdf"),
     path('generate_consolidated_bill/<int:wage_bill_id>/', wage_bill_views.generate_consolidated_wage_bill_payments,

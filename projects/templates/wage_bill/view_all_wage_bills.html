@@ -20,38 +20,40 @@ View All Wage Bills
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="pageTable" class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th class="text-center">ID</th>
-                                <th class="text-center">Wage Bill Week</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for wage_bill in wagebills%}
-                            <tr data-id={{wage_bill.id}}>
-                                <td class="text-center">{{wage_bill.id}}</td>
-                                <td class="text-center">
-                                    {{wage_bill}}
-                                </td>
-                                <td class="text-center">{{wage_bill.status}}</td>
-                                <td class="text-center">
-                                    {%if not wage_bill.is_payment_generated and wage_bill.is_wage_bill_week_done%}
-                                    <a href="{%url 'generate_consolidated_wage_bill' wage_bill.id %}"><button class="btn btn-primary" style="margin-top:1px">Generate consolidated Payments</button></a>
-                                    {%elif wage_bill.is_payment_generated and wage_bill.is_wage_bill_week_done %}
-                                    <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}"><button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button></a>
-                                    {%endif%}
-                                    <a href="{%url 'wage_bill_sheets' wage_bill.id %}"><button class="btn btn-primary" style="margin-top:1px">Submitted Wage Sheets</button></a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {%include "../components/pagination.html"%}
+                    <table id="pageTable" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Wage Bill Week</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for wage_bill in wagebills%}
+                        <tr data-id={{wage_bill.id}}>
+                            <td class="text-center">{{wage_bill.id}}</td>
+                            <td class="text-center">
+                                {{wage_bill}}
+                            </td>
+                            <td class="text-center">{{wage_bill.status}}</td>
+                            <td class="text-center">
+                                {%if not wage_bill.is_payment_generated and wage_bill.is_wage_bill_week_done%}
+                                <a href="{%url 'generate_consolidated_wage_bill' wage_bill.id %}"><button class="btn btn-primary" style="margin-top:1px">Generate consolidated Payments</button></a>
+                                {%elif wage_bill.is_payment_generated and wage_bill.is_wage_bill_week_done %}
+                                <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}">
+                                    <button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button>
+                                </a>
+                                <a href="{%url 'wage_bill_breakdown' wage_bill.id%}">
+                                    <button class="btn btn-primary" style="margin-top:1px">View Payment Breakdown</button>
+                                </a>                                
+                                {%endif%}
+                                <a href="{%url 'wage_bill_sheets' wage_bill.id %}"><button class="btn btn-primary" style="margin-top:1px">Submitted Wage Sheets</button></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- /.card-body -->

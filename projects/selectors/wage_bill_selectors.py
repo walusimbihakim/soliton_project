@@ -61,6 +61,12 @@ def get_worker_wage_bill_breakdown(wage_bill, worker):
 
     return worker_wage_bill_wages
 
+def get_wage_bill_payment_breakdown(wage_bill):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+    wage_bill_wages = wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets)
+
+    return wage_bill_wages
+
 
 def get_worker_complaint_breakdown(wage_bill, worker):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
@@ -68,12 +74,21 @@ def get_worker_complaint_breakdown(wage_bill, worker):
 
     return worker_wage_bill_wages
 
+def get_complaint_breakdown(wage_bill):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+    wage_bill_wages = complaints.Complaint.objects.filter(wage_sheet__in=wage_bill_sheets)
+
+    return wage_bill_wages
 
 def get_worker_deduction_breakdown(wage_bill, worker):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
     worker_wage_bill_wages = deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker)
     return worker_wage_bill_wages
 
+def get_deduction_breakdown(wage_bill):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+    worker_wage_bill_wages = deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets)
+    return worker_wage_bill_wages
 
 def get_airtel_money_withdraw_charge(amount: int) -> int:
     if amount <= 2500:
