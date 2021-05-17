@@ -185,7 +185,8 @@ wage_sheets_urls = [
     path('retract_wage_sheet/<int:wage_sheet_id>/',
          wage_sheet_views.retract_wage_sheet, name="retract_wage_sheet"),
     path('current_wage_bill_sheets', wage_sheet_views.current_wage_bill_sheets_page, name="current_wage_bill_sheets"),
-    path("wage_bill_sheets/<int:wage_bill_id>/", wage_sheet_views.wage_bill_sheets_page, name="wage_bill_sheets")
+    path("wage_bill_sheets/<int:wage_bill_id>/", wage_sheet_views.wage_bill_sheets_page, name="wage_bill_sheets"),
+
 
 ]
 
@@ -239,7 +240,7 @@ wage_bill_urls = [
     path('get_end_date/', wage_bill_views.get_end_date, name='get_end_date'),
     path('current_consolidated_wage_bill/', wage_bill_views.current_consolidated_wage_bill,
          name='current_consolidated_wage_bill'),
-    path('consolidated_wage_bill_csv/<int:wage_bill_id>/', wage_bill_views.consolidated_wage_bill_csv,
+    path('consolidated_wage_bill_csv/<int:wage_bill_id>/', wage_bill_views.consolidated_wage_bill_payments_csv,
          name="consolidated_wage_bill_csv"),
     path('consolidated_wage_bill/<int:wage_bill_id>/', wage_bill_views.consolidated_wage_bill,
          name="consolidated_wage_bill"),
@@ -247,7 +248,10 @@ wage_bill_urls = [
          name="worker_wage_bill_breakdown"),
     path('consolidated_wage_bill_pdf/<int:wage_bill_id>/', wage_bill_views.consolidated_wage_bill_pdf,
          name="consolidated_wage_bill_pdf"),
-
+    path('generate_consolidated_bill/<int:wage_bill_id>/', wage_bill_views.generate_consolidated_wage_bill_payments,
+         name="generate_consolidated_wage_bill"),
+    path('view_all_wage_bill_payments/<int:wage_bill_id>/', wage_bill_views.view_consolidated_wage_bill_payments,
+         name="view_consolidated_wage_bill_payments"),
 ]
 
 project_urls = [

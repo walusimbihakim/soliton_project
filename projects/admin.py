@@ -8,6 +8,7 @@ from projects.models.client_activity_rates import ClientActivityRate
 from projects.models.materials import Material
 from projects.models.segments import Segment
 from projects.models.users import User
+from projects.models.wage_bills import ConsolidatedWageBill
 from projects.models.wage_sheets import GroupWage
 
 admin.site.register(Project)
@@ -31,3 +32,4 @@ admin.site.register(WageBill)
 admin.site.register(GroupWorker)
 admin.site.register(Complaint)
 admin.site.register(GroupWage)
+admin.site.register(ConsolidatedWageBill)

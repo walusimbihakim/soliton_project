@@ -38,8 +38,12 @@ View All Wage Bills
                             </td>
                             <td class="text-center">{{wage_bill.status}}</td>
                             <td class="text-center">
-                                <a href="{%url 'consolidated_wage_bill' wage_bill.id %}"><button>Consolidated Wage Bill Payments</button></a> |
-                                <a href="{%url 'wage_bill_sheets' wage_bill.id %}"><button>Submitted Wage Sheets</button></a>
+                                {%if not wage_bill.is_payment_generated and wage_bill.is_wage_bill_week_done%}
+                                <a href="{%url 'generate_consolidated_wage_bill' wage_bill.id %}"><button class="btn btn-primary" style="margin-top:1px">Generate consolidated Payments</button></a>
+                                {%elif wage_bill.is_payment_generated and wage_bill.is_wage_bill_week_done %}
+                                <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}"><button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button></a>
+                                {%endif%}
+                                <a href="{%url 'wage_bill_sheets' wage_bill.id %}"><button class="btn btn-primary" style="margin-top:1px">Submitted Wage Sheets</button></a>
                             </td>
                         </tr>
                         {% endfor %}
