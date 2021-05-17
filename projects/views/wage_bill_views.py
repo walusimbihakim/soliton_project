@@ -154,3 +154,4 @@ def worker_wage_bill_breakdown(request, wage_bill_id, worker_id):
     }
 
     return render(request, "wage_bill/worker_break_down.html", context)
+

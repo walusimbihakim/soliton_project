@@ -43,7 +43,7 @@ class WageForm(forms.ModelForm):
 
     def __init__(self, user=None, *args, **kwargs):
         super(WageForm, self).__init__(*args, **kwargs)       
-        self.fields['worker'].widget.attrs.update({'class': 'form-control select2'}) 
+        self.fields['worker'].queryset = Worker.objects.filter(assigned_to=user)
         self.fields['activity'].queryset = Activity.objects.filter(type=user.type)
         self.fields['payment'].widget.attrs['readonly'] = True
         self.helper = FormHelper()

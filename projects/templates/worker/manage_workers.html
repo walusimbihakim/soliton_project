@@ -32,27 +32,34 @@ Manage Workers
                                 <th>Name</th>
                                 <th>National ID</th>
                                 <th>Joined Date</th>
-                                <th>Gender</th>
                                 <th>Mobile Money Number</th>
                                 <th>Address</th>
                                 <th>Next of Kin contact</th>
+                                <th>Working Under</th>
+                                <th>Action</th>
                                 <th>#</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for worker in workers%}
                             <tr>
-                                <td>
+                                <td class="text-center">
                                     {{worker.name}}
+                                    ({{worker.gender}})
                                 </td>
                                 <td>
                                     {{worker.national_id}}
                                 </td>
                                 <td>{{worker.joining_date}}</td>
-                                <td>{{worker.gender}}</td>
                                 <td>{{worker.mobile_money_number}}</td>
                                 <td>{{worker.address}}</td>
                                 <td>{{worker.next_of_kin}}</td>
+                                <td>{{worker.assigned_to}}</td>
+                                <td>
+                                    <a class="btn btn-primary" href="{% url 'transfer_worker' worker.id %}">
+                                        Transfer
+                                    </a>
+                                </td>
                                 <td>
                                     <a href="{%url 'edit_worker' worker.id%}" style="color:inherit">
                                         <i class="fa fa-edit"></i>
@@ -108,7 +115,6 @@ Manage Workers
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
 
 <!-- page script -->
 {% block customJS %}

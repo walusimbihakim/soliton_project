@@ -29,6 +29,7 @@ worker_urls = [
     path('delete_worker/<int:id>/',
          worker_views.delete_worker, name='delete_worker'),
     path('edit_worker/<int:id>/', worker_views.edit_worker_page, name="edit_worker"),
+    path('transfer_worker/<int:worker_id>/', worker_views.transfer_worker_view, name="transfer_worker"),
 ]
 
 survey_urls = [
@@ -175,7 +176,8 @@ wage_sheets_urls = [
     path('retract_wage_sheet/<int:wage_sheet_id>/',
          wage_sheet_views.retract_wage_sheet, name="retract_wage_sheet"),
     path('current_wage_bill_sheets', wage_sheet_views.current_wage_bill_sheets_page, name="current_wage_bill_sheets"),
-    path("wage_bill_sheets/<int:wage_bill_id>/", wage_sheet_views.wage_bill_sheets_page, name="wage_bill_sheets")
+    path("wage_bill_sheets/<int:wage_bill_id>/", wage_sheet_views.wage_bill_sheets_page, name="wage_bill_sheets"),
+    
 
 ]
 
@@ -283,6 +285,6 @@ def javascript_settings():
         'get_expense_rate': reverse('get_expense_rate'),
         'get_activity_rate': reverse('get_activity_rate'),
         'get_end_date': reverse('get_end_date'),
-        'reject_wage': reverse('reject_wage'),
+        'reject_wage': reverse('reject_wage'), 
     }
     return js_conf

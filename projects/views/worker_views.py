@@ -10,6 +10,8 @@ from projects.decorators.auth_decorators import supervisor_required, project_man
 from projects.forms.worker_forms import WorkerForm
 from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_all_workers, get_worker, get_all_workers_registered_by
+import projects.selectors.user_selectors as user_selectors
+from projects.models.workers import WorkerAssignment
 
 
 @supervisor_required
@@ -21,6 +23,7 @@ def manage_workers_page(request):
         if form.is_valid():
             worker = form.save(commit=False)
             worker.registered_by_user = request.user
+            worker.assigned_to = request.user
             worker.save()
             messages.success(request, "Successfully added a worker")
         else:
@@ -103,3 +106,36 @@ def delete_worker(request, id):
     worker.delete()
     messages.success(request, "Successfully deleted a worker")
     return HttpResponseRedirect(reverse(manage_workers_page))
+
+@supervisor_required
+def transfer_worker_view(request, worker_id):
+    worker = get_worker(worker_id)
+
+    supervisor_id = request.user.id
+    current_supervisor = user_selectors.get_user_by_id(supervisor_id)
+
+    if request.method == "POST":
+        to_supervisor = user_selectors.get_user_by_id(request.POST.get("transfered_to"))
+        worker.assigned_to = to_supervisor
+
+        worker.save()
+
+        worker_assignment = WorkerAssignment(
+            worker = worker,
+            from_supervisor=current_supervisor,
+            to_supervisor = to_supervisor
+        )
+        worker_assignment.save()
+
+        messages.success(request, 'Worker transfered')
+        
+        return HttpResponseRedirect(reverse(manage_workers_page)) 
+
+    supervisors = user_selectors.get_other_supervisors(supervisor_id)
+
+    context = {
+        "worker": worker,
+        "supervisors": supervisors
+    }
+
+    return render(request, "worker/transfer_worker.html", context)
