@@ -1,5 +1,6 @@
 import csv
 
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render
@@ -20,9 +21,13 @@ from projects.services.wage_bill_services import create_consolidated_wage_bill
 @finance_office_required
 def view_all_wage_bills(request):
     wagebills = wage_bill_selectors.get_wage_bills()
+    paginator = Paginator(wagebills, 2)  # Show 25 contacts per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
         "wage_bill_page": "active",
         "wagebills": wagebills,
+        "page_obj": page_obj
     }
     return render(request, "wage_bill/view_all_wage_bills.html", context)
 
@@ -91,7 +96,7 @@ def current_consolidated_wage_bill(request):
         "wage_bill": wage_bill,
         "aggregated_wages": aggregated_wages,
     }
-    return render(request, "wage_bill/consolidated_wage_bill.html", context)
+    return render(request, "wage_bill/consolidated_wage_bill_payments.html", context)
 
 
 @finance_office_required
@@ -103,19 +108,23 @@ def consolidated_wage_bill(request, wage_bill_id):
         "wage_bill": wage_bill,
         "aggregated_wages": aggregated_wages,
     }
-    return render(request, "wage_bill/consolidated_wage_bill.html", context)
+    return render(request, "wage_bill/consolidated_wage_bill_payments.html", context)
 
 
 @finance_office_required
 def view_consolidated_wage_bill_payments(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
     wage_bill_payments = wage_bill_selectors.get_all_consolidated_wage_bill_payments(wage_bill)
+    paginator = Paginator(wage_bill_payments, 10)  # Show 10 payments per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
         "wage_bill_page": "active",
         "wage_bill": wage_bill,
-        "wage_bill_payments": wage_bill_payments
+        "wage_bill_payments": wage_bill_payments,
+        "page_obj": page_obj
     }
-    return render(request, "wage_bill/consolidated_wage_bill.html", context)
+    return render(request, "wage_bill/consolidated_wage_bill_payments.html", context)
 
 
 @finance_office_required
@@ -174,7 +183,7 @@ def consolidated_wage_bill_pdf(request, wage_bill_id):
         "base_dir": BASE_DIR,
         "wage_bill": wage_bill
     }
-    pdf = render_to_pdf('pdfs/consolidated_wage_bill.html', context)
+    pdf = render_to_pdf('pdfs/consolidated_wage_bill_payments.html', context)
     return HttpResponse(pdf, content_type='application/pdf')
 
 

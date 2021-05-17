@@ -51,7 +51,7 @@ Consolidated Payments
                             <tbody>
                             {% for wage_bill_payment in wage_bill_payments%}
                             <tr>
-                                <td class="text-center">{{wage_bill_payment.id}}</td>
+                                <td class="text-center">{{forloop.counter }}</td>
                                 <td class="text-center">{{wage_bill_payment.worker_name}}</td>
                                 <td class="text-center">{{wage_bill_payment.worker_mobile_money_number}}</td>
                                 <td class="text-center">{{wage_bill_payment.total_wages}}/-</td>
@@ -73,6 +73,7 @@ Consolidated Payments
                             </tbody>
                         </table>
                     </div>
+                    {%include "../components/pagination.html"%}
                 </div>
                 <!-- /.card-body -->
 
