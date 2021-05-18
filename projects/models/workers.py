@@ -1,6 +1,4 @@
 from django.db import models
-from django.db.models import AutoField
-
 from projects.constants import OFC, ISP, OSP, FINANCIAL, WAREHOUSE, POWER, MAINTENANCE, WORKSHOP, ADMINISTRATOR, \
     SECURITY, MISCELLANEOUS
 from projects.models.users import User

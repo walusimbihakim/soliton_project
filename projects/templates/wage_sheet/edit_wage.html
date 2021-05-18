@@ -40,6 +40,7 @@ Edit Wage
 {% endblock%}
 
 {%block customJS%}
+{% load javascript_settings_tags %}
 <script type="text/javascript">{% javascript_settings %}</script>
 <script src="{% static 'customJS/wage_form.js'%}"></script>
 {%endblock%}

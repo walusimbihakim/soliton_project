@@ -87,6 +87,7 @@ Payment Breakdown - {{wage_bill}}
                                 <thead>
                                 <tr>
                                     <th class="text-center">No.</th>
+                                    <th class="text-center">Worker</th>
                                     <th class="text-center">Particulars</th>
                                     <th class="text-center">Payment</th>
                                     <th class="text-center">Supervisor</th>
@@ -97,6 +98,7 @@ Payment Breakdown - {{wage_bill}}
                                 {% for complaint in complaint_break_down%}
                                 <tr >
                                     <td class="text-center">{{forloop.counter}}</td>
+                                    <td class="text-center">{{complaint.worker}}</td>
                                     <td class="text-center">{{complaint.activity}}</td>
                                     <td class="text-center">
                                         {{complaint.quantity}} {{complaint.activity.unit_of_measure}}(s)<br>
@@ -142,6 +144,7 @@ Payment Breakdown - {{wage_bill}}
                                 <thead>
                                 <tr>
                                     <th class="text-center">No.</th>
+                                    <td class="text-center">Worker</td>
                                     <th class="text-center">Particulars</th>
                                     <th class="text-center">Amount</th>
                                     <th class="text-center">Supervisor</th>
@@ -152,6 +155,7 @@ Payment Breakdown - {{wage_bill}}
                                 {% for deduction in deduction_break_down%}
                                 <tr >
                                     <td class="text-center">{{forloop.counter}}</td>
+                                     <td class="text-center">{{deduction.worker}}</td>
                                     <td class="text-center">{{deduction.cause}} - {{deduction.description}}</td>
                                     <td class="text-center">
                                         UGX - {{deduction.amount|intcomma}}/-
