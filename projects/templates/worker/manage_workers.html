@@ -25,6 +25,9 @@ Manage Workers
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
+                    <a class="btn btn-primary" href="{% url 'assign_all' %}">
+                        Assign All
+                    </a>
                     <div class="table-responsive">
                         <table id="pageTable" class="table table-striped">
                             <thead>
@@ -32,10 +35,10 @@ Manage Workers
                                 <th>Name</th>
                                 <th>National ID</th>
                                 <th>Joined Date</th>
-                                <th>Mobile Money Number</th>
+                                <th>M.M Number</th>
                                 <th>Address</th>
-                                <th>Next of Kin contact</th>
-                                <th>Working Under</th>
+                                <th>Kin contact</th>
+                                <th>Working With</th>
                                 <th>Action</th>
                                 <th>#</th>
                             </tr>
@@ -44,7 +47,7 @@ Manage Workers
                             {% for worker in workers%}
                             <tr>
                                 <td class="text-center">
-                                    {{worker.name}}
+                                    {{worker.name}}<br/>
                                     ({{worker.gender}})
                                 </td>
                                 <td>

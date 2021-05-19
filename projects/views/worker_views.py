@@ -206,3 +206,16 @@ def transfer_worker_view(request, worker_id):
     }
 
     return render(request, "worker/transfer_worker.html", context)
+
+def assign_all(request):
+    workers = get_all_workers()
+
+    for worker in workers:
+        registered_by = worker.registered_by_user
+        worker.assigned_to = registered_by
+
+        worker.save()
+    
+    messages.success(request, 'All assigned')
+
+    return HttpResponseRedirect(reverse(manage_workers_page))

@@ -36,30 +36,31 @@ All Workers
                                 <th>Name</th>
                                 <th>National ID</th>
                                 <th>Joined Date</th>
-                                <th>Gender</th>
-                                <th>Mobile Money Number</th>
+                                <th>M.M Number</th>
                                 <th>Address</th>
-                                <th>Next of Kin contact</th>
+                                <th>Kin contact</th>
                                 <th>Registered by</th>
+                                <th>Assigned To</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for worker in workers%}
                             <tr>
                                 <td>
-                                    {{worker.name}}
+                                    {{worker.name}}<br/>
+                                    ({{worker.gender}})
                                 </td>
                                 <td>
                                     {{worker.national_ID_NIN}}
                                 </td>
                                 <td>{{worker.joining_date}}</td>
-                                <td>{{worker.gender}}</td>
                                 <td>{{worker.mobile_money_number}}</td>
                                 <td>{{worker.address}}</td>
                                 <td>{{worker.next_of_kin}}</td>
                                 <td>
                                     {{worker.registered_by_user}}
-                                <td>
+                                <td>                                
+                                <td>{{worker.assigned_to}}</td>
                             </tr>
                             {% endfor %}
                             </tbody>
