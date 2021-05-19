@@ -36,6 +36,7 @@ worker_urls = [
          name="edit_group_worker"),
     path('delete_group_worker/<int:id>/',
          worker_views.delete_group_worker, name='delete_group_worker'),
+    path('assign_all/', worker_views.assign_all, name='assign_all'),
 ]
 
 survey_urls = [
