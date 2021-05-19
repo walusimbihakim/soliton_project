@@ -174,6 +174,7 @@ def delete_worker(request, id):
     messages.success(request, "Successfully deleted a worker")
     return HttpResponseRedirect(reverse(manage_workers_page))
 
+
 @supervisor_required
 def transfer_worker_view(request, worker_id):
     worker = get_worker(worker_id)
@@ -188,15 +189,15 @@ def transfer_worker_view(request, worker_id):
         worker.save()
 
         worker_assignment = WorkerAssignment(
-            worker = worker,
+            worker=worker,
             from_supervisor=current_supervisor,
-            to_supervisor = to_supervisor
+            to_supervisor=to_supervisor
         )
         worker_assignment.save()
 
         messages.success(request, 'Worker transfered')
-        
-        return HttpResponseRedirect(reverse(manage_workers_page)) 
+
+        return HttpResponseRedirect(reverse(manage_workers_page))
 
     supervisors = user_selectors.get_other_supervisors(supervisor_id)
 
@@ -206,16 +207,3 @@ def transfer_worker_view(request, worker_id):
     }
 
     return render(request, "worker/transfer_worker.html", context)
-
-def assign_all(request):
-    workers = get_all_workers()
-
-    for worker in workers:
-        registered_by = worker.registered_by_user
-        worker.assigned_to = registered_by
-
-        worker.save()
-    
-    messages.success(request, 'All assigned')
-
-    return HttpResponseRedirect(reverse(manage_workers_page))
