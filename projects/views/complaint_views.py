@@ -15,9 +15,9 @@ from projects.forms.complaint_forms import ComplaintForm
 def manage_complaints_page(request, wage_sheet_id):
     wage_sheet = get_wage_sheet(wage_sheet_id)
     complaints = get_complaints(wage_sheet_id)
-    form = ComplaintForm()
+    form = ComplaintForm(user=request.user)
     if request.method == "POST":
-        form = ComplaintForm(request.POST, request.FILES)
+        form = ComplaintForm(user=request.user, data=request.POST)
         if form.is_valid():
             try:
                 complaint = form.save(commit=False)
@@ -42,9 +42,9 @@ def manage_complaints_page(request, wage_sheet_id):
 def edit_complaint_page(request, id):
     complaint = get_complaint(id)
     wage_sheet = complaint.wage_sheet
-    form = ComplaintForm(instance=complaint)
+    form = ComplaintForm(user=request.user, instance=complaint)
     if request.method == "POST":
-        form = ComplaintForm(request.POST, request.FILES, instance=complaint)
+        form = ComplaintForm(ser=request.user, data=request.POST, instance=complaint)
         if form.is_valid():
             try:
                 complaint = form.save(commit=False)
