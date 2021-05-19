@@ -16,7 +16,7 @@ Consolidated Payments
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if wage_bill_payments%}
+                {%if page_obj%}
                 <!-- ./ card-header -->
                 <div class="card-header">
                     <h3 class="card-title">Wage Bill - {{wage_bill}}</h3>
@@ -49,7 +49,7 @@ Consolidated Payments
                             </tr>
                             </thead>
                             <tbody>
-                            {% for wage_bill_payment in wage_bill_payments%}
+                            {% for wage_bill_payment in page_obj%}
                             <tr>
                                 <td class="text-center">{{forloop.counter }}</td>
                                 <td class="text-center">{{wage_bill_payment.worker_name}}</td>

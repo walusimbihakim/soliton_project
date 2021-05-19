@@ -121,7 +121,6 @@ def view_consolidated_wage_bill_payments(request, wage_bill_id):
     context = {
         "wage_bill_page": "active",
         "wage_bill": wage_bill,
-        "wage_bill_payments": wage_bill_payments,
         "page_obj": page_obj
     }
     return render(request, "wage_bill/consolidated_wage_bill_payments.html", context)
