@@ -47,7 +47,7 @@ class ConsolidatedWageBill(models.Model):
     total_deductions = models.IntegerField(default=0)
 
     class Meta:
-        ordering = "worker_name",
+        ordering = "supervisor",
         unique_together = ("wage_bill", "worker_id")
 
     @property
