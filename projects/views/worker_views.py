@@ -1,5 +1,6 @@
 import csv
 
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
@@ -105,10 +106,13 @@ def delete_group_worker(request, id):
 @project_manager_required
 def view_all_workers_page(request):
     workers = get_all_workers()
+    paginator = Paginator(workers, 15)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
         "workers_page": "active",
         "view_all_workers": "active",
-        "workers": workers,
+        "page_obj": page_obj,
     }
     return render(request, "worker/view_all_workers.html", context)
 
