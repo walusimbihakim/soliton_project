@@ -1,7 +1,6 @@
 from django import forms
-from django.forms import widgets
 from django.forms.widgets import HiddenInput
-from crispy_forms.helper import FormHelper, Layout
+from crispy_forms.helper import FormHelper
 
 from projects.constants import FIELD_MANAGER
 from projects.models import WageSheet, Wage, Worker, User, Activity, GroupWorker
@@ -43,7 +42,7 @@ class WageForm(forms.ModelForm):
 
     def __init__(self, user=None, *args, **kwargs):
         super(WageForm, self).__init__(*args, **kwargs)
-        self.fields['worker'].queryset = Worker.objects.filter(registered_by_user=user)
+        self.fields['worker'].queryset = Worker.objects.filter(assigned_to=user)
         self.fields['activity'].queryset = Activity.objects.filter(type=user.type, is_group=False)
         self.fields['payment'].widget.attrs['readonly'] = True
         self.helper = FormHelper()

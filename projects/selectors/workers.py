@@ -4,13 +4,12 @@ from projects.models import Worker
 from projects.models import Worker, GroupWorker
 
 
-
 def get_all_workers():
     return Worker.objects.all()
 
 
 def get_all_workers_registered_by(user):
-    return Worker.objects.filter(Q(registered_by_user=user)|Q(assigned_to=user))
+    return Worker.objects.filter(Q(registered_by_user=user) | Q(assigned_to=user))
 
 
 def get_all_worker_groups_supervised_by(user):
