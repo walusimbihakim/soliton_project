@@ -13,6 +13,6 @@ class ComplaintForm(forms.ModelForm):
 
     def __init__(self, user=None, *args, **kwargs):
         super(ComplaintForm, self).__init__(*args, **kwargs)
-        self.fields['worker'].queryset = Worker.objects.filter(registered_by_user=user)
+        self.fields['worker'].queryset = Worker.objects.filter(assigned_to=user)
         self.fields['activity'].queryset = Activity.objects.filter(type=user.type)
         self.helper = FormHelper()

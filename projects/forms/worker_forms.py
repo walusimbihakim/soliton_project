@@ -6,7 +6,7 @@ from projects.models import Worker, GroupWorker
 class WorkerForm(forms.ModelForm):
     class Meta:
         model = Worker
-        exclude = ('registered_by_user','assigned_to')
+        exclude = ('registered_by_user', 'assigned_to')
 
         widgets = {
             "joining_date": forms.DateInput(attrs={"type": "date"})
@@ -24,7 +24,5 @@ class GroupWorkerForm(forms.ModelForm):
 
     def __init__(self, user=None, *args, **kwargs):
         super(GroupWorkerForm, self).__init__(*args, **kwargs)
-        self.fields['workers'].queryset = Worker.objects.filter(registered_by_user=user)
+        self.fields['workers'].queryset = Worker.objects.filter(assigned_to=user)
         self.helper = FormHelper()
-
-
