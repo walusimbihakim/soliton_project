@@ -39,3 +39,8 @@ INTEGRITY_ERROR_MESSAGE = "The record you tried to add is a duplicate or contain
                           " for unique fields."
 
 INVALID_FORM_MESSAGE = "The form values are invalid or duplicate for unique fields."
+
+WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE \
+        = "This operation can only be done once. All payables on unapproved " \
+        "submitted wage sheets will not be included in the wage bill payments " \
+        "for Wage bill week"
