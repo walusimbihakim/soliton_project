@@ -1,4 +1,4 @@
-from projects.models.wage_bills import ConsolidatedWageBill
+from projects.models.wage_bills import ConsolidatedWageBillPayment
 from projects.selectors import wage_bill_selectors
 from projects.selectors.user_selectors import get_users
 from projects.tasks import send_wage_created_email_task
@@ -23,11 +23,18 @@ def send_wage_created_email_service():
 
 
 def create_consolidated_wage_bill(simple_wage_bill_payment):
-    consolidated_wage_bill = ConsolidatedWageBill.objects.create(
+    consolidated_wage_bill = ConsolidatedWageBillPayment.objects.create(
         wage_bill=simple_wage_bill_payment.wage_bill,
         worker_id=simple_wage_bill_payment.worker.id,
         worker_name=simple_wage_bill_payment.worker.name,
         worker_mobile_money_number=simple_wage_bill_payment.worker.mobile_money_number,
+        wednesday_total_amount=simple_wage_bill_payment.wednesday_total_amount,
+        thursday_total_amount=simple_wage_bill_payment.thursday_total_amount,
+        friday_total_amount=simple_wage_bill_payment.friday_total_amount,
+        saturday_total_amount=simple_wage_bill_payment.saturday_total_amount,
+        sunday_total_amount=simple_wage_bill_payment.sunday_total_amount,
+        monday_total_amount=simple_wage_bill_payment.monday_total_amount,
+        tuesday_total_amount=simple_wage_bill_payment.tuesday_total_amount,
         worker_mobile_money_name=simple_wage_bill_payment.worker.name,
         supervisor=simple_wage_bill_payment.worker.registered_by_user.name,
         supervisor_number=simple_wage_bill_payment.worker.registered_by_user.phone_number,

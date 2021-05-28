@@ -139,7 +139,7 @@ def generate_consolidated_wage_bill_payments(request, wage_bill_id):
             try:
                 create_consolidated_wage_bill(simple_wage_bill_payment)
             except IntegrityError:
-                messages.error("Operation duplication")
+                messages.error(request, "Operation duplication")
                 return HttpResponseRedirect(reverse(view_all_wage_bills))
 
     messages.success(request, "Generated consolidated wage bill payments from approved wages, "
@@ -157,7 +157,9 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
     writer = csv.writer(response, delimiter=',')
     # Writing the first row of the csv
     writer.writerow(
-        ['No', 'Name', 'Mobile Money Number', 'Total Wages', 'Total Complaints', 'Total Deductions', 'Amount', 'Charge',
+        ['No', 'Name', 'Mobile Money Number', 'Wednesday', 'Thursday', 'Friday',
+         'Saturday', 'Sunday', 'Monday', 'Tuesday',
+         'Total Wages', 'Total Complaints', 'Total Deductions', 'Amount', 'Charge',
          'Total Payment', 'Supervisor Name', 'Supervisor Number'])
     # Writing other rows
     for index, wage_bill_payment in enumerate(wage_bill_payments):
@@ -165,6 +167,15 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
         writer.writerow(
             [number, wage_bill_payment.worker_name,
              wage_bill_payment.worker_mobile_money_number,
+
+             wage_bill_payment.wednesday_total_amount,
+             wage_bill_payment.thursday_total_amount,
+             wage_bill_payment.friday_total_amount,
+             wage_bill_payment.saturday_total_amount,
+             wage_bill_payment.sunday_total_amount,
+             wage_bill_payment.monday_total_amount,
+             wage_bill_payment.tuesday_total_amount,
+
              wage_bill_payment.total_wages,
              wage_bill_payment.total_complaints,
              wage_bill_payment.total_deductions,
@@ -205,6 +216,7 @@ def worker_wage_bill_breakdown(request, wage_bill_id, worker_id):
 
     return render(request, "wage_bill/worker_break_down.html", context)
 
+
 def wage_bill_payment_breakdown(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
     wage_break_down = wage_bill_selectors.get_wage_bill_payment_breakdown(wage_bill)
@@ -219,4 +231,3 @@ def wage_bill_payment_breakdown(request, wage_bill_id):
     }
 
     return render(request, "wage_bill/wage_bill_break_down.html", context)
-

@@ -38,14 +38,13 @@ View All Wage Bills
                             </td>
                             <td class="text-center">{{wage_bill.status}}</td>
                             <td class="text-center">
-                                {%if not wage_bill.is_payment_generated and wage_bill.is_wage_bill_week_done%}
+                                {%if wage_bill.is_wage_bill_week_done %}
                                 <a href="{%url 'generate_consolidated_wage_bill' wage_bill.id %}">
                                     <button class="btn btn-primary" style="margin-top:1px"
                                             onclick="return confirm('{{confirm_message}} {{wage_bill}}. \n Are you sure you want to proceed? ')">
                                         Generate consolidated Payments
                                     </button>
                                 </a>
-                                {%elif wage_bill.is_payment_generated and wage_bill.is_wage_bill_week_done %}
                                 <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}">
                                     <button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button>
                                 </a>
