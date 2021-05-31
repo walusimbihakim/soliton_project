@@ -117,3 +117,40 @@ def get_airtel_money_withdraw_charge(amount: int) -> int:
 
 def get_all_consolidated_wage_bill_payments(wage_bill):
     return wage_bills.ConsolidatedWageBill.objects.filter(wage_bill=wage_bill)
+
+
+def get_manager_wage_bill_total(wage_bill):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+
+    manager_wage_total = wage_sheets.WageSheet.objects.filter(
+        id__in=wage_bill_sheets
+        ).values("field_manager_user").annotate(
+            total=Sum('wage__payment')
+        )
+
+    return manager_wage_total
+
+def get_supervisor_wage_bill_total(wage_bill, manager):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+
+    supervisor_wage_total = wage_sheets.WageSheet.objects.filter(
+        id__in=wage_bill_sheets, field_manager_user=manager
+        ).values("supervisor_user").annotate(
+            total=Sum('wage__payment')
+        )
+
+    return supervisor_wage_total
+
+def get_supervisor_wage_bill_wage_sheets(wage_bill, supervisor):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+
+    return wage_bill_sheets.filter(supervisor_user=supervisor)
+
+def get_supervisor_wage_bill_wages(wage_bill, supervisor):
+    supervisor_wage_bill_wage_sheet = get_supervisor_wage_bill_wage_sheets(wage_bill, supervisor)
+
+    supervisor_wages = wage_sheets.Wage.objects.filter(
+        wage_sheet__in=supervisor_wage_bill_wage_sheet
+        )
+
+    return supervisor_wages

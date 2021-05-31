@@ -1,0 +1,69 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load javascript_settings_tags %}
+{%block page_title%}
+Supervisors Summary
+{% endblock%}
+{% block content %}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+            <div class="card">
+                {%if supervisor_wage_totals%}
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Supervisors</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- ./card-body -->
+                <div class="card-body">
+                    <table id="pageTable" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="text-center">No.</th>
+                            <th class="text-center">Supervisor</th>
+                            <th class="text-center">Wage Total</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for supervisor in supervisor_wage_totals%}
+                        <tr >
+                            <td class="text-center">{{forloop.counter}}</td>
+                            <td class="text-center">
+                                {{supervisor.supervisor_user}}
+                            </td>
+                            <td class="text-center">
+                                {{supervisor.total}}
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'supervisor_payment_breakdown' wage_bill.id supervisor.supervisor_user %}">
+                                    <button class="btn btn-primary" style="margin-top:1px">
+                                        Wage Sheets
+                                    </button>
+                                </a>      
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- /.card-body -->
+                {%else%}
+                <div class="card-body">
+                    <h4>No records available</h4>
+                </div>
+                {%endif%}
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+{% endblock content %}

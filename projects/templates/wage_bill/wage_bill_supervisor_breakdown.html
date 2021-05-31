@@ -1,0 +1,72 @@
+{%extends '../base.html'%}
+{% load humanize %}
+{% load wage_bill_extras %}
+{%block title%}Wage Bill Payment Breakdown{%endblock%}
+{%block page_title%}
+Detailed Wage Bill Payment
+{% endblock%}
+{%block content%}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+
+            <h4>Wage Bill Week: {{wage_bill}}</h4>
+            <hr/>
+            {% for sheet in supervisor_wage_sheets %}
+                <table>
+                    <tr>
+                        <th>Date:&nbsp;&nbsp;</th>
+                        <td>{{sheet.date}}</td>
+                    </tr>
+                    <tr>
+                        <th>Manager:&nbsp;&nbsp;</th>
+                        <td>{{sheet.field_manager_user}}<td>
+                    </tr>
+                    <tr>
+                        <th>Supervisor:&nbsp;&nbsp;</th>
+                        <td>{{sheet.supervisor_user}}</td>
+                    </tr>
+                    <tr>
+                        <th>Description:</th>
+                        <td>{{sheet.description}}</td>
+                    </tr>                    
+                </table>
+                <div class='card' >
+                    
+                    <div class="card-body">
+                        <table width="100%" border="1" >
+                            <th class="text-center">No.</th>
+                            <th class="text-center">Worker</th>
+                            <th class="text-center">Activity</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center">Payment</th>
+                            {% for wage in sheet.wage_set.all%}
+                            <tr >
+                                <td class="text-center">{{forloop.counter}}</td>
+                                <td class="text-center">{{wage.worker}}</td>
+                                <td class="text-center">{{wage.activity}}</td>
+                                <td class="text-center">{{wage.quantity}} {{wage.activity.unit_of_measure}}(s)</td>
+                                <td class="text-center">UGX {{wage.payment | intcomma}}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+
+                        <br/>
+                        <table>                        
+                            <tr>
+                                <th>Wage Sheet Total:&nbsp;</th>
+                                <td>{{sheet.wage.payment__sum.all}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    
+                </div>
+                <hr/>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{%endblock%}

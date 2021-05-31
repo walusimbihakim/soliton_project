@@ -16,7 +16,7 @@ from projects.decorators.auth_decorators import finance_office_required
 from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker, get_all_workers
 from projects.services.wage_bill_services import create_consolidated_wage_bill
-
+from projects.selectors.user_selectors import get_user
 
 @finance_office_required
 def view_all_wage_bills(request):
@@ -216,4 +216,44 @@ def wage_bill_payment_breakdown(request, wage_bill_id):
     }
 
     return render(request, "wage_bill/wage_bill_break_down.html", context)
+
+def wage_bill_manager_total(request, wage_bill_id):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
+
+    manager_wage_totals = wage_bill_selectors.get_manager_wage_bill_total(wage_bill)
+
+    context = {
+        'wage_bill': wage_bill,
+        'manager_wage_totals':manager_wage_totals,
+    }
+
+    return render(request, "wage_bill/wage_bill_managers_total.html", context)
+
+def wage_bill_supervisor_total(request, wage_bill_id, manager):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
+
+    supervisor_wage_totals = wage_bill_selectors.get_supervisor_wage_bill_total(wage_bill, manager)
+
+    context = {
+        'wage_bill': wage_bill,
+        'supervisor_wage_totals':supervisor_wage_totals,
+    }
+
+    return render(request, "wage_bill/wage_bill_supervisors_total.html", context)
+
+def wage_bill_supervisor_payment_breakdown(request, wage_bill_id, supervisor):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
+
+    supervisor_wage_sheets = wage_bill_selectors.get_supervisor_wage_bill_wage_sheets(wage_bill, supervisor)
+
+    supervisor_wages = wage_bill_selectors.get_supervisor_wage_bill_wages(wage_bill, supervisor)
+
+    print(supervisor_wage_sheets)
+    context = {
+        'wage_bill': wage_bill,
+        'supervisor_wage_sheets':supervisor_wage_sheets,
+        'supervisor_wages': supervisor_wages,
+    }
+
+    return render(request, "wage_bill/wage_bill_supervisor_breakdown.html", context)
 
