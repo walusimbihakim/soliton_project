@@ -11,7 +11,7 @@ All Workers
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if workers%}
+                {%if page_obj%}
                 <!-- ./ card-header -->
                 <div class="card-header">
                     <h3 class="card-title">Workers</h3>
@@ -44,7 +44,7 @@ All Workers
                             </tr>
                             </thead>
                             <tbody>
-                            {% for worker in workers%}
+                            {% for worker in page_obj%}
                             <tr>
                                 <td>
                                     {{worker.name}}<br/>
@@ -59,13 +59,14 @@ All Workers
                                 <td>{{worker.next_of_kin}}</td>
                                 <td>
                                     {{worker.registered_by_user}}
-                                <td>                                
+                                </td>
                                 <td>{{worker.assigned_to}}</td>
                             </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
+                    {%include "../components/pagination.html"%}
                 </div>
                 <!-- /.card-body -->
                 {%else%}

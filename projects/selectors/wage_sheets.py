@@ -1,6 +1,8 @@
 from projects.models import WageSheet, Wage
 from projects.models.wage_sheets import GroupWage
-from projects.selectors.wage_bill_selectors import get_current_wage_bill, get_wage_bill
+from projects.procedures import calculate_total_wages
+from projects.selectors.wage_bill_selectors import get_current_wage_bill, get_wage_bill, \
+    get_wage_bill_worker_wages_per_day, get_wage_bill_worker_complaints_per_day, get_wage_bill_worker_deductions_per_day
 
 
 def get_all_wage_sheets():
@@ -73,3 +75,13 @@ def get_current_wage_bill_wage_sheets():
 def get_submitted_wage_bill_wage_sheets(id):
     wage_bill = get_wage_bill(id)
     return WageSheet.objects.filter(wage_bill=wage_bill, is_submitted=True)
+
+
+def get_worker_payment_per_day(wage_bill, worker, date):
+    wages = get_wage_bill_worker_wages_per_day(wage_bill, worker, date)  # Returns 0
+    complaints = get_wage_bill_worker_complaints_per_day(wage_bill, worker, date)  # Returns 0
+    deductions = get_wage_bill_worker_deductions_per_day(wage_bill, worker, date)  # Returns 0
+    total_wages = calculate_total_wages(wages)
+    total_complaints = calculate_total_wages(complaints)
+    total_deductions = calculate_total_wages(deductions)
+    return (total_wages + total_complaints) - total_deductions

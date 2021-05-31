@@ -16,4 +16,4 @@ RUN pip install --upgrade sentry-sdk
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
-CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "project_manager.wsgi:application"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "project_manager.wsgi:application", "--timeout","90"]
