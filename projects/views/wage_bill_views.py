@@ -17,7 +17,7 @@ from projects.decorators.auth_decorators import finance_office_required
 from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker, get_all_workers
 from projects.services.wage_bill_services import create_consolidated_wage_bill
-from projects.selectors.user_selectors import get_user
+from projects.selectors.user_selectors import get_user, get_user_by_id
 
 @finance_office_required
 def view_all_wage_bills(request):
@@ -256,19 +256,19 @@ def wage_bill_supervisor_total(request, wage_bill_id, manager):
 
     return render(request, "wage_bill/wage_bill_supervisors_total.html", context)
 
-def wage_bill_supervisor_payment_breakdown(request, wage_bill_id, supervisor):
+def wage_bill_manager_payment_breakdown(request, wage_bill_id, manager):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
 
-    supervisor_wage_sheets = wage_bill_selectors.get_supervisor_wage_bill_wage_sheets(wage_bill, supervisor)
+    manager_wage_sheets = wage_bill_selectors.get_manager_wage_bill_wage_sheets(wage_bill, manager)
 
-    supervisor_wages = wage_bill_selectors.get_supervisor_wage_bill_wages(wage_bill, supervisor)
+    manager_wages = wage_bill_selectors.get_manager_wage_bill_wages(wage_bill, manager)
 
-    print(supervisor_wage_sheets)
     context = {
         'wage_bill': wage_bill,
-        'supervisor_wage_sheets':supervisor_wage_sheets,
-        'supervisor_wages': supervisor_wages,
+        'manager_wage_sheets':manager_wage_sheets,
+        'manager_wages': manager_wages,
+        'manager': get_user_by_id(manager),
     }
 
-    return render(request, "wage_bill/wage_bill_supervisor_breakdown.html", context)
+    return render(request, "wage_bill/wage_bill_manager_wagesheets.html", context)
 

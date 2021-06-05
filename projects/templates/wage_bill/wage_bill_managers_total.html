@@ -40,6 +40,11 @@ Managers Summary
                                 {{manager.total}}
                             </td>
                             <td class="text-center">
+                                <a href="{% url 'manager_payment_breakdown' wage_bill.id manager.field_manager_user %}">
+                                    <button class="btn btn-primary" style="margin-top:1px">
+                                        Wage Sheets
+                                    </button>
+                                </a>
                                 <a href="{% url 'manager_supervisors' wage_bill.id manager.field_manager_user %}">
                                     <button class="btn btn-primary" style="margin-top:1px">
                                         Supervisors

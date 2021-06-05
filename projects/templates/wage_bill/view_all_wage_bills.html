@@ -11,68 +11,50 @@ View All Wage Bills
     <div class="row">
         <!-- ./col -->
         <div class="col-12">
-            <div class="card">
-                {%if wagebills%}
-                <!-- ./ card-header -->
-                <div class="card-header">
-                    <h3 class="card-title">Wage Bills</h3>
-                </div>
-                <!-- /.card-header -->
-                <!-- ./card-body -->
-                <div class="card-body">
-                    <table id="pageTable" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th class="text-center">ID</th>
-                            <th class="text-center">Wage Bill Week</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for wage_bill in wagebills%}
-                        <tr data-id={{wage_bill.id}}>
-                            <td class="text-center">{{wage_bill.id}}</td>
-                            <td class="text-center">
-                                {{wage_bill}}
-                            </td>
-                            <td class="text-center">{{wage_bill.status}}</td>
-                            <td class="text-center">
-                                {%if wage_bill.is_wage_bill_week_done %}
-                                <a href="{%url 'generate_consolidated_wage_bill' wage_bill.id %}">
-                                    <button class="btn btn-primary" style="margin-top:1px"
-                                            onclick="return confirm('{{confirm_message}} {{wage_bill}}. \n Are you sure you want to proceed? ')">
-                                        Generate consolidated Payments
-                                    </button>
-                                </a>
-                                <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}">
-                                    <button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button>
-                                </a>
-                                <a href="{%url 'wage_bill_managers' wage_bill.id%}">
-                                    <button class="btn btn-primary" style="margin-top:1px">Payment Breakdown</button>
-                                </a>                                
-                                <a href="{%url 'wage_bill_breakdown' wage_bill.id%}">
-                                    <button class="btn btn-primary" style="margin-top:1px">View Payment Breakdown</button>
-                                </a>
-                                {%endif%}
-                                <a href="{%url 'wage_bill_sheets' wage_bill.id %}"><button class="btn btn-primary" style="margin-top:1px">Submitted Wage Sheets</button></a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+            
+            {%if wagebills%}                
+                <table id="pageTable" class="table table-striped">                    
+                    <tbody>
+                    <tr><td>
+                    {% for wage_bill in wagebills%}
+                        <div class="card">
+                            <h5 class="card-header">{{wage_bill.id}}</h5>
+                            <div class="card-body">
+                                <h4 class="card-title float-left">{{wage_bill}}</h4>
+                                <p class="card-text float-right">{{wage_bill.status}}</p><br/><br/>
+                                <div class="float-left">
+                                    {%if wage_bill.is_wage_bill_week_done %}
+                                        <a href="{%url 'generate_consolidated_wage_bill' wage_bill.id %}">
+                                            <button class="btn btn-primary" style="margin-top:1px"
+                                                    onclick="return confirm('{{confirm_message}} {{wage_bill}}. \n Are you sure you want to proceed? ')">
+                                                Generate consolidated Payments
+                                            </button>
+                                        </a>
+                                        <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}">
+                                            <button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button>
+                                        </a>
+                                        <a href="{%url 'wage_bill_managers' wage_bill.id%}">
+                                            <button class="btn btn-primary" style="margin-top:1px">Wage Bill Sheets</button>
+                                        </a>   
+                                    {%endif%}
+                                    <a href="{%url 'wage_bill_sheets' wage_bill.id %}"><button class="btn btn-primary" style="margin-top:1px">Submitted Wage Sheets</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    {% endfor %}
+                    </td></tr>
+                    </tbody>
+                </table>
 
-                <!-- /.card-body -->
-                {%else%}
-                <div class="card-body">
-                    <h4>No Wage Bills available</h4>
+            {%else%}
+                <div class="card">
+                    <div class="card-body">
+                        <h4>No Wage Bills available</h4>
+                    </div>
                 </div>
-                {%endif%}
-            </div>
-            <!-- /.card -->
+            {%endif%}
         </div>
-        <!-- /.col -->
     </div>
     <!-- /.row -->
 </div>

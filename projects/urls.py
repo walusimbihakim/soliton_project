@@ -259,8 +259,8 @@ wage_bill_urls = [
          name="wage_bill_managers"),
     path('manager_supervisors/<int:wage_bill_id>/<int:manager>/', wage_bill_views.wage_bill_supervisor_total,
          name="manager_supervisors"),
-    path('supervisor_payment_breakdown/<int:wage_bill_id>/<int:supervisor>/', wage_bill_views.wage_bill_supervisor_payment_breakdown,
-         name="supervisor_payment_breakdown"),
+    path('manager_payment_breakdown/<int:wage_bill_id>/<int:manager>/', wage_bill_views.wage_bill_manager_payment_breakdown,
+         name="manager_payment_breakdown"),
 ]
 
 project_urls = [
