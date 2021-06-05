@@ -17,6 +17,7 @@ from projects.decorators.auth_decorators import finance_office_required
 from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker, get_all_workers
 from projects.services.wage_bill_services import create_consolidated_wage_bill
+from projects.wage_bill_payments_tasks import generate_wage_bill_task_process
 
 
 @finance_office_required
@@ -131,19 +132,14 @@ def view_consolidated_wage_bill_payments(request, wage_bill_id):
 
 @finance_office_required
 def generate_consolidated_wage_bill_payments(request, wage_bill_id):
-    workers = get_all_workers()
-    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
-    for worker in workers:
-        simple_wage_bill_payment = SimpleWageBillPayment(wage_bill, worker)
-        if simple_wage_bill_payment.has_amount_payable:
-            try:
-                create_consolidated_wage_bill(simple_wage_bill_payment)
-            except IntegrityError:
-                messages.error(request, "Operation duplication")
-                return HttpResponseRedirect(reverse(view_all_wage_bills))
+    try:
+        generate_wage_bill_task_process.delay(wage_bill_id)
+    except IntegrityError:
+        messages.error(request, "Operation duplication")
+        return HttpResponseRedirect(reverse(view_all_wage_bills))
 
     messages.success(request, "Generated consolidated wage bill payments from approved wages, "
-                              f"complaints and deductions for wage bill week {wage_bill}")
+                              f"complaints and deductions for wage bill week")
     return HttpResponseRedirect(reverse(view_all_wage_bills))
 
 
