@@ -153,7 +153,7 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
     writer = csv.writer(response, delimiter=',')
     # Writing the first row of the csv
     writer.writerow(
-        ['No', 'Name', 'Mobile Money Number', 'Wednesday', 'Thursday', 'Friday',
+        ['No', 'Name', 'Mobile Money Number', 'Mobile Money Name', 'Wednesday', 'Thursday', 'Friday',
          'Saturday', 'Sunday', 'Monday', 'Tuesday',
          'Total Wages', 'Total Complaints', 'Total Deductions', 'Amount', 'Charge',
          'Total Payment', 'Supervisor Name', 'Supervisor Number'])
@@ -163,7 +163,7 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
         writer.writerow(
             [number, wage_bill_payment.worker_name,
              wage_bill_payment.worker_mobile_money_number,
-
+             wage_bill_payment.worker_mobile_money_name,
              wage_bill_payment.wednesday_total_amount,
              wage_bill_payment.thursday_total_amount,
              wage_bill_payment.friday_total_amount,
