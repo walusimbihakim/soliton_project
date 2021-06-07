@@ -1,0 +1,79 @@
+{%extends '../base.html'%}
+{% load humanize %}
+{% load wage_bill_extras %}
+
+{%block title%}Wage Bill Payment Breakdown{%endblock%}
+
+{%block page_title%}
+Wage Bill Payment
+{% endblock%}
+
+{% block right_button%}
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="">
+    Print
+</button>
+{% endblock %}
+
+{%block content%}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+            <div class='card' >                    
+                <div class="card-body">
+                    <h5><strong>Wage Bill Week: </strong>{{wage_bill}}</h5>
+                    <h5><strong>Manager: </strong>{{manager}}</h5>
+                </div>
+            </div>
+            {% for sheet in manager_wage_sheets %}
+                <div class='card' >                    
+                    <div class="card-body">
+                        <table>
+                            <tr>
+                                <th>Supervisor:&nbsp;&nbsp;</th>
+                                <td>{{sheet.supervisor_user}}</td>
+                            </tr>
+                            <tr>
+                                <th>Date:&nbsp;&nbsp;</th>
+                                <td>{{sheet.date}}</td>
+                            </tr>
+                            <tr>
+                                <th>Description:</th>
+                                <td>{{sheet.description}}</td>
+                            </tr>                    
+                        </table>
+                        <hr/>
+                        <table width="100%" border="1" >
+                            <th class="text-center">No.</th>
+                            <th class="text-center">Worker</th>
+                            <th class="text-center">Activity</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center">Payment</th>
+                            
+                            {% for wage in sheet.wage_set.all%}
+                            <tr >
+                                <td class="text-center">{{forloop.counter}}</td>
+                                <td class="text-center">{{wage.worker}}</td>
+                                <td class="text-center">{{wage.activity}}</td>
+                                <td class="text-center">{{wage.quantity}} {{wage.activity.unit_of_measure}}(s)</td>
+                                <td class="text-center">UGX {{wage.payment | intcomma}}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                        <br/>
+                        <table class="float-right">                        
+                            <tr>
+                                <th>Wage Sheet Total:&nbsp;</th>
+                                <td>UGX: {{sheet|get_sheet_total|intcomma}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{%endblock%}

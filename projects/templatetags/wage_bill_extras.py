@@ -1,8 +1,15 @@
 from django import template
+from django.db.models import Sum, manager
 
-from projects.selectors.wage_bill_selectors import get_airtel_money_withdraw_charge, get_current_wage_bill
+from projects.selectors.wage_bill_selectors import (
+    get_airtel_money_withdraw_charge, 
+    get_current_wage_bill,
+    get_wage_bill_sheets,
+)
 from projects.selectors.workers import get_worker
 from projects.selectors.complaints import get_worker_complaints_payment
+from projects.models.wage_sheets import Wage
+from projects.selectors.user_selectors import get_user_by_id
 
 register = template.Library()
 
@@ -37,3 +44,24 @@ def total_payment(worker_id, payment):
     wage_bill = get_current_wage_bill()
     complaints_payment = get_worker_complaints_payment(worker, wage_bill)
     return payment + complaints_payment
+
+@register.filter
+def get_manager_name(manager_id):
+    manager = get_user_by_id(manager_id)
+
+    return manager.name
+
+
+@register.filter
+def get_sheet_total(wage_sheet):
+    sheet_total = Wage.objects.filter(
+        wage_sheet=wage_sheet).aggregate(total = Sum('payment'))
+    return sheet_total['total']
+
+@register.filter
+def get_wage_bill_total(wage_bill):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+    
+    sheet_total = Wage.objects.filter(
+        wage_sheet__in=wage_bill_sheets).aggregate(total = Sum('payment'))
+    return sheet_total['total']
