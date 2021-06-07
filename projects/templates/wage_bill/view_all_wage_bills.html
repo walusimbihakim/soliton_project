@@ -1,7 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load humanize %}
 {% load crispy_forms_tags %}
 {% load javascript_settings_tags %}
+{% load wage_bill_extras %}
+
 {%block page_title%}
 View All Wage Bills
 {% endblock%}
@@ -11,65 +14,59 @@ View All Wage Bills
     <div class="row">
         <!-- ./col -->
         <div class="col-12">
-            <div class="card">
-                {%if wagebills%}
-                <!-- ./ card-header -->
-                <div class="card-header">
-                    <h3 class="card-title">Wage Bills</h3>
-                </div>
-                <!-- /.card-header -->
-                <!-- ./card-body -->
-                <div class="card-body">
-                    <table id="pageTable" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th class="text-center">ID</th>
-                            <th class="text-center">Wage Bill Week</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for wage_bill in wagebills%}
-                        <tr data-id={{wage_bill.id}}>
-                            <td class="text-center">{{wage_bill.id}}</td>
-                            <td class="text-center">
-                                {{wage_bill}}
-                            </td>
-                            <td class="text-center">{{wage_bill.status}}</td>
-                            <td class="text-center">
+            
+            {%if wagebills%}                
+                <table id="pageTable" class="table table-striped">                    
+                    <tbody>
+                    <tr><td>
+                    {% for wage_bill in wagebills%}
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="float-left">{{wage_bill.id}} </h5>
+                                <h5 class="float-right">{{wage_bill.status}}</h5>
+                            </div>
+                            
+                            <div class="card-body">
+                                <table class="table">
+                                    <div class="float-left">
+                                        <p class="card-title"><strong>Week:</strong></p>&nbsp; &nbsp;&nbsp;
+                                        <p class="card-title" style="margin:2px">{{wage_bill}}</p>
+                                    </div>
+                                    <div class="float-right text-center">
+                                        <p class="card-title"><strong>Total Amount:</strong></p></br>
+                                        <p class="card-title" style="margin:2px">{{wage_bill|get_wage_bill_total|intcomma}} UGX</p>
+                                    </div>
+                                </table>
                                 {%if wage_bill.is_wage_bill_week_done %}
-                                <a href="{%url 'generate_consolidated_wage_bill' wage_bill.id %}">
-                                    <button class="btn btn-primary" style="margin-top:1px"
-                                            onclick="return confirm('{{confirm_message}} {{wage_bill}}. \n Are you sure you want to proceed? ')">
-                                        Generate consolidated Payments
-                                    </button>
-                                </a>
-                                <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}">
-                                    <button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button>
-                                </a>
-                                <a href="{%url 'wage_bill_breakdown' wage_bill.id%}">
-                                    <button class="btn btn-primary" style="margin-top:1px">View Payment Breakdown</button>
-                                </a>
+                                    <a href="{%url 'generate_consolidated_wage_bill' wage_bill.id %}">
+                                        <button class="btn btn-primary" style="margin-top:1px"
+                                                onclick="return confirm('{{confirm_message}} {{wage_bill}}. \n Are you sure you want to proceed? ')">
+                                            Generate consolidated Payments
+                                        </button>
+                                    </a>
+                                    <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}">
+                                        <button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button>
+                                    </a>  
                                 {%endif%}
-                                <a href="{%url 'wage_bill_sheets' wage_bill.id %}"><button class="btn btn-primary" style="margin-top:1px">Submitted Wage Sheets</button></a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                                <a href="{%url 'wage_bill_managers' wage_bill.id%}">
+                                    <button class="btn btn-primary" style="margin-top:1px">Wage Bill Sheets</button>
+                                </a> 
+                            </div>
+                        </div>
+                    
+                    {% endfor %}
+                    </td></tr>
+                    </tbody>
+                </table>
 
-                <!-- /.card-body -->
-                {%else%}
-                <div class="card-body">
-                    <h4>No Wage Bills available</h4>
+            {%else%}
+                <div class="card">
+                    <div class="card-body">
+                        <h4>No Wage Bills available</h4>
+                    </div>
                 </div>
-                {%endif%}
-            </div>
-            <!-- /.card -->
+            {%endif%}
         </div>
-        <!-- /.col -->
     </div>
     <!-- /.row -->
 </div>
