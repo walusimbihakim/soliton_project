@@ -1,10 +1,14 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load humanize %}
 {% load crispy_forms_tags %}
 {% load javascript_settings_tags %}
+{% load wage_bill_extras %}
+
 {%block page_title%}
 Managers Summary
 {% endblock%}
+
 {% block content %}
 <div class="container-fluid">
     <!-- ./row -->
@@ -34,22 +38,17 @@ Managers Summary
                         <tr >
                             <td class="text-center">{{forloop.counter}}</td>
                             <td class="text-center">
-                                {{manager.field_manager_user}}
+                                {{manager.field_manager_user|get_manager_name}}
                             </td>
                             <td class="text-center">
-                                {{manager.total}}
+                                UGX {{manager.total|intcomma}}
                             </td>
                             <td class="text-center">
                                 <a href="{% url 'manager_payment_breakdown' wage_bill.id manager.field_manager_user %}">
                                     <button class="btn btn-primary" style="margin-top:1px">
                                         Wage Sheets
                                     </button>
-                                </a>
-                                <a href="{% url 'manager_supervisors' wage_bill.id manager.field_manager_user %}">
-                                    <button class="btn btn-primary" style="margin-top:1px">
-                                        Supervisors
-                                    </button>
-                                </a>      
+                                </a>     
                             </td>
                         </tr>
                         {% endfor %}

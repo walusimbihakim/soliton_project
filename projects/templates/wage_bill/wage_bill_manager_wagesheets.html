@@ -1,15 +1,19 @@
 {%extends '../base.html'%}
 {% load humanize %}
 {% load wage_bill_extras %}
+
 {%block title%}Wage Bill Payment Breakdown{%endblock%}
+
 {%block page_title%}
 Wage Bill Payment
 {% endblock%}
+
 {% block right_button%}
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="">
     Print
 </button>
 {% endblock %}
+
 {%block content%}
 <div class="container-fluid">
     <!-- ./row -->
@@ -27,12 +31,12 @@ Wage Bill Payment
                     <div class="card-body">
                         <table>
                             <tr>
-                                <th>Date:&nbsp;&nbsp;</th>
-                                <td>{{sheet.date}}</td>
-                            </tr>
-                            <tr>
                                 <th>Supervisor:&nbsp;&nbsp;</th>
                                 <td>{{sheet.supervisor_user}}</td>
+                            </tr>
+                            <tr>
+                                <th>Date:&nbsp;&nbsp;</th>
+                                <td>{{sheet.date}}</td>
                             </tr>
                             <tr>
                                 <th>Description:</th>
@@ -58,10 +62,10 @@ Wage Bill Payment
                             {% endfor %}
                         </table>
                         <br/>
-                        <table>                        
+                        <table class="float-right">                        
                             <tr>
                                 <th>Wage Sheet Total:&nbsp;</th>
-                                <td>{{sheet.wage.payment__sum.all}}</td>
+                                <td>UGX: {{sheet|get_sheet_total|intcomma}}</td>
                             </tr>
                         </table>
                     </div>

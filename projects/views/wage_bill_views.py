@@ -18,6 +18,8 @@ from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker, get_all_workers
 from projects.services.wage_bill_services import create_consolidated_wage_bill
 from projects.selectors.user_selectors import get_user, get_user_by_id
+from projects.wage_bill_payments_tasks import generate_wage_bill_task_process
+
 
 @finance_office_required
 def view_all_wage_bills(request):
@@ -131,19 +133,14 @@ def view_consolidated_wage_bill_payments(request, wage_bill_id):
 
 @finance_office_required
 def generate_consolidated_wage_bill_payments(request, wage_bill_id):
-    workers = get_all_workers()
-    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
-    for worker in workers:
-        simple_wage_bill_payment = SimpleWageBillPayment(wage_bill, worker)
-        if simple_wage_bill_payment.has_amount_payable:
-            try:
-                create_consolidated_wage_bill(simple_wage_bill_payment)
-            except IntegrityError:
-                messages.error(request, "Operation duplication")
-                return HttpResponseRedirect(reverse(view_all_wage_bills))
+    try:
+        generate_wage_bill_task_process.delay(wage_bill_id)
+    except IntegrityError:
+        messages.error(request, "Operation duplication")
+        return HttpResponseRedirect(reverse(view_all_wage_bills))
 
     messages.success(request, "Generated consolidated wage bill payments from approved wages, "
-                              f"complaints and deductions for wage bill week {wage_bill}")
+                              f"complaints and deductions for wage bill week")
     return HttpResponseRedirect(reverse(view_all_wage_bills))
 
 
@@ -157,7 +154,7 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
     writer = csv.writer(response, delimiter=',')
     # Writing the first row of the csv
     writer.writerow(
-        ['No', 'Name', 'Mobile Money Number', 'Wednesday', 'Thursday', 'Friday',
+        ['No', 'Name', 'Mobile Money Number', 'Mobile Money Name', 'Wednesday', 'Thursday', 'Friday',
          'Saturday', 'Sunday', 'Monday', 'Tuesday',
          'Total Wages', 'Total Complaints', 'Total Deductions', 'Amount', 'Charge',
          'Total Payment', 'Supervisor Name', 'Supervisor Number'])
@@ -167,7 +164,7 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
         writer.writerow(
             [number, wage_bill_payment.worker_name,
              wage_bill_payment.worker_mobile_money_number,
-
+             wage_bill_payment.worker_mobile_money_name,
              wage_bill_payment.wednesday_total_amount,
              wage_bill_payment.thursday_total_amount,
              wage_bill_payment.friday_total_amount,

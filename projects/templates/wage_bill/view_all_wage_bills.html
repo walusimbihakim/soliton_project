@@ -1,7 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load humanize %}
 {% load crispy_forms_tags %}
 {% load javascript_settings_tags %}
+{% load wage_bill_extras %}
+
 {%block page_title%}
 View All Wage Bills
 {% endblock%}
@@ -18,27 +21,36 @@ View All Wage Bills
                     <tr><td>
                     {% for wage_bill in wagebills%}
                         <div class="card">
-                            <h5 class="card-header">{{wage_bill.id}}</h5>
+                            <div class="card-header">
+                                <h5 class="float-left">{{wage_bill.id}} </h5>
+                                <h5 class="float-right">{{wage_bill.status}}</h5>
+                            </div>
+                            
                             <div class="card-body">
-                                <h4 class="card-title float-left">{{wage_bill}}</h4>
-                                <p class="card-text float-right">{{wage_bill.status}}</p><br/><br/>
-                                <div class="float-left">
-                                    {%if wage_bill.is_wage_bill_week_done %}
-                                        <a href="{%url 'generate_consolidated_wage_bill' wage_bill.id %}">
-                                            <button class="btn btn-primary" style="margin-top:1px"
-                                                    onclick="return confirm('{{confirm_message}} {{wage_bill}}. \n Are you sure you want to proceed? ')">
-                                                Generate consolidated Payments
-                                            </button>
-                                        </a>
-                                        <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}">
-                                            <button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button>
-                                        </a>
-                                        <a href="{%url 'wage_bill_managers' wage_bill.id%}">
-                                            <button class="btn btn-primary" style="margin-top:1px">Wage Bill Sheets</button>
-                                        </a>   
-                                    {%endif%}
-                                    <a href="{%url 'wage_bill_sheets' wage_bill.id %}"><button class="btn btn-primary" style="margin-top:1px">Submitted Wage Sheets</button></a>
-                                </div>
+                                <table class="table">
+                                    <div class="float-left">
+                                        <p class="card-title"><strong>Week:</strong></p>&nbsp; &nbsp;&nbsp;
+                                        <p class="card-title" style="margin:2px">{{wage_bill}}</p>
+                                    </div>
+                                    <div class="float-right text-center">
+                                        <p class="card-title"><strong>Total Amount:</strong></p></br>
+                                        <p class="card-title" style="margin:2px">{{wage_bill|get_wage_bill_total|intcomma}} UGX</p>
+                                    </div>
+                                </table>
+                                {%if wage_bill.is_wage_bill_week_done %}
+                                    <a href="{%url 'generate_consolidated_wage_bill' wage_bill.id %}">
+                                        <button class="btn btn-primary" style="margin-top:1px"
+                                                onclick="return confirm('{{confirm_message}} {{wage_bill}}. \n Are you sure you want to proceed? ')">
+                                            Generate consolidated Payments
+                                        </button>
+                                    </a>
+                                    <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}">
+                                        <button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button>
+                                    </a>  
+                                {%endif%}
+                                <a href="{%url 'wage_bill_managers' wage_bill.id%}">
+                                    <button class="btn btn-primary" style="margin-top:1px">Wage Bill Sheets</button>
+                                </a> 
                             </div>
                         </div>
                     
