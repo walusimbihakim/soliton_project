@@ -11,7 +11,7 @@ All Workers
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if page_obj%}
+                {%if workers%}
                 <!-- ./ card-header -->
                 <div class="card-header">
                     <h3 class="card-title">Workers</h3>
@@ -33,30 +33,24 @@ All Workers
                         <table id="pageTable" class="table table-striped">
                             <thead>
                             <tr>
+                                <th>No.</th>
                                 <th>Name</th>
-                                <th>National ID</th>
-                                <th>Joined Date</th>
                                 <th>M.M Number</th>
-                                <th>Address</th>
-                                <th>Kin contact</th>
+                                <th>M.M Name</th>
                                 <th>Registered by</th>
                                 <th>Assigned To</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for worker in page_obj%}
+                            {% for worker in workers%}
                             <tr>
+                                <td>{{forloop.counter}}</td>
                                 <td>
                                     {{worker.name}}<br/>
                                     ({{worker.gender}})
                                 </td>
-                                <td>
-                                    {{worker.national_ID_NIN}}
-                                </td>
-                                <td>{{worker.joining_date}}</td>
                                 <td>{{worker.mobile_money_number}}</td>
-                                <td>{{worker.address}}</td>
-                                <td>{{worker.next_of_kin}}</td>
+                                <td>{{worker.mobile_money_name}}</td>
                                 <td>
                                     {{worker.registered_by_user}}
                                 </td>
@@ -66,7 +60,6 @@ All Workers
                             </tbody>
                         </table>
                     </div>
-                    {%include "../components/pagination.html"%}
                 </div>
                 <!-- /.card-body -->
                 {%else%}
