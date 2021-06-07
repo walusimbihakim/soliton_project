@@ -93,11 +93,13 @@ WSGI_APPLICATION = 'project_manager.wsgi.application'
 if ENVIRONMENT == "digital_ocean":
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': config("POSTGRES_DB"),
             'USER': config("POSTGRES_USER"),
             'PASSWORD': config("POSTGRES_PASSWORD"),
-        },
+            'HOST': config("HOST"),
+            'PORT': '',
+        }
     }
 elif ENVIRONMENT == "heroku":
     # postgres database
