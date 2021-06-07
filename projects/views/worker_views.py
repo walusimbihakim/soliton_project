@@ -106,13 +106,10 @@ def delete_group_worker(request, id):
 @project_manager_required
 def view_all_workers_page(request):
     workers = get_all_workers()
-    paginator = Paginator(workers, 15)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         "workers_page": "active",
         "view_all_workers": "active",
-        "page_obj": page_obj,
+        "workers": workers,
     }
     return render(request, "worker/view_all_workers.html", context)
 
@@ -127,12 +124,15 @@ def all_workers_csv(request):
     # Writing the first row of the csv
     writer.writerow(
         ['No', 'Name', 'Type', 'Business Unit', 'National ID', 'Joined Date', 'Gender',
-         'Mobile Money Number', 'Address', 'Next of kin', 'Supervisor', 'Registered By'])
+         'Mobile Money Number', 'Mobile Money Name', 'Address', 'Next of kin',
+         'Supervisor', 'Registered By'])
     # Writing other rows
     for worker in workers:
         writer.writerow(
             [worker.id, worker.name, worker.type, worker.business_unit, worker.national_ID_NIN,
-             worker.joining_date, worker.gender, worker.mobile_money_number, worker.address,
+             worker.joining_date, worker.gender, worker.mobile_money_number,
+             worker.mobile_money_name,
+             worker.address,
              worker.next_of_kin, worker.registered_by_user, worker.registered_by_user])
     return response
 
