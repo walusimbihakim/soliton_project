@@ -7,11 +7,6 @@ from projects.models import WageSheet, Wage, Worker, User, Activity, GroupWorker
 from projects.models.wage_sheets import GroupWage
 from projects.selectors.wage_bill_selectors import get_current_wage_bill
 
-start_date_str, end_date_str = "", ""
-if get_current_wage_bill():
-    start_date_str = get_current_wage_bill().start_date.strftime('%Y-%m-%d')
-    end_date_str = get_current_wage_bill().end_date.strftime('%Y-%m-%d')
-
 
 class WageSheetForm(forms.ModelForm):
     class Meta:
@@ -21,8 +16,6 @@ class WageSheetForm(forms.ModelForm):
             "date": forms.DateInput(
                 attrs={
                     "type": "date",
-                    "min": start_date_str,
-                    "max": end_date_str,
                 }
             ),
             "description": forms.TextInput()
