@@ -26,7 +26,6 @@ Approve/Reject Wage Sheets
                         <tr>
                             <th>Wage Bill Week</th>
                             <th>Day of the week</th>
-                            <th>Field Manager</th>
                             <th>Supervisor</th>
                             <th>#</th>
                         </tr>
@@ -37,15 +36,12 @@ Approve/Reject Wage Sheets
                             <td>{{wage_sheet.wage_bill}}</td>
                             <td>{{wage_sheet.date|date:'l'}}</td>
                             <td>
-                                {{wage_sheet.field_manager_user}}
-                            </td>
-                            <td>
                                 {{wage_sheet.supervisor_user}}
                             </td>
                             <td>
                                 <a href="{%url 'manage_submitted_sheet' wage_sheet.id%}">
                                     <button class="btn-sm btn-outline-info btn-rounded waves-effect">
-                                        View Details
+                                        View to approve/reject
                                     </button>
                                 </a>   
                             </td>

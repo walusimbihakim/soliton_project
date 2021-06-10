@@ -6,18 +6,13 @@
 <link rel="stylesheet" href="{{ STATIC_URL }}simple_autocomplete/jquery-ui.css" />
 
 {%block page_title%}
-Manage Wages for sheet {{wage_sheet.id}}
+Add wages from Phone Number {{wage_sheet.id}}
 {% endblock%}
 {% block right_button%}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-wage">
-    New Wage
+<button type="button" class="btn btn-primary" data-toggle="modal"
+        data-target="#modal-add-wage-from-phone-number">
+    New Wage From Phone Number
 </button>
-|
-<a href="{%url 'add_wage_from_phone_number_page' wage_sheet.id%}">
-<button type="button" class="btn btn-secondary">
-    Add Wage From Phone Number
-</button>
-</a>
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
@@ -85,31 +80,6 @@ Manage Wages for sheet {{wage_sheet.id}}
     <!-- /.row -->
 </div>
 <!-- /.container-fluid -->
-
-<div class="modal fade" id="modal-add-wage">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Add New Wage</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save</button>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
 <!-- /.modal -->
 <div class="modal fade" id="modal-add-wage-from-phone-number">
     <div class="modal-dialog modal-lg">
@@ -123,7 +93,7 @@ Manage Wages for sheet {{wage_sheet.id}}
             <div class="modal-body">
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ wage_from_phone_number_form |crispy }}
+                    {{ form |crispy }}
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

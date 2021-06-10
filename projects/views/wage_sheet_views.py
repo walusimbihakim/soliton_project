@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER, INVALID_FORM_MESSAGE, \
     INTEGRITY_ERROR_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required
+from projects.models import Worker
 from projects.procedures import is_date_between
 from projects.selectors.complaints import get_complaints, get_complaint
 from django.http import HttpResponseRedirect, JsonResponse
@@ -11,7 +12,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.forms.models import model_to_dict
 
-from projects.forms.wage_sheet_forms import WageSheetForm, WageForm, GroupWageForm
+from projects.forms.wage_sheet_forms import WageSheetForm, WageForm, GroupWageForm, WageFromPhoneNumberForm
 from projects.selectors.deductions import get_deductions, get_deduction
 from projects.selectors.wage_sheets import get_wage_sheet, get_wages, get_wage, \
     get_fm_wage_sheets_for_approval, get_pm_wage_sheets_for_approval, \
@@ -137,8 +138,9 @@ def manage_wages_page(request, wage_sheet_id):
     wage_sheet = get_wage_sheet(wage_sheet_id)
     wages = get_wages(wage_sheet)
     form = WageForm(user=request.user)
+    wage_from_phone_number_form = WageFromPhoneNumberForm(user=request.user)
     if request.method == "POST":
-        form = WageForm(user=request.user, data=request.POST, files=request.FILES)
+        form = WageForm(user=request.user, data=request.POST)
         if form.is_valid():
             try:
                 wage = form.save(commit=False)
@@ -156,6 +158,7 @@ def manage_wages_page(request, wage_sheet_id):
         "wages": wages,
         "wage_sheet": wage_sheet,
         'form': form,
+        "wage_from_phone_number_form": wage_from_phone_number_form
     }
     return render(request, "wage_sheet/manage_wages.html", context)
 
@@ -166,7 +169,7 @@ def edit_wage_page(request, id):
     wage_sheet = wage.wage_sheet
     form = WageForm(user=request.user, instance=wage)
     if request.method == "POST":
-        form = WageForm(user=request.user, data=request.POST, files=request.FILES, instance=wage)
+        form = WageForm(user=request.user, data=request.POST,  instance=wage)
         if form.is_valid():
             try:
                 wage = form.save(commit=False)
@@ -184,6 +187,37 @@ def edit_wage_page(request, id):
         "form": form,
     }
     return render(request, "wage_sheet/edit_wage.html", context)
+
+
+def add_wage_from_phone_number_page(request, wage_sheet_id):
+    wage_sheet = get_wage_sheet(wage_sheet_id)
+    wages = get_wages(wage_sheet)
+    form = WageFromPhoneNumberForm(user=request.user)
+    if request.method == "POST":
+        form = WageFromPhoneNumberForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            phone_number = form.cleaned_data['phone_number']
+            print(phone_number)
+            worker = Worker.objects.get(mobile_money_number=phone_number)
+            try:
+                wage = form.save(commit=False)
+                wage.wage_sheet = wage_sheet
+                wage.worker = worker
+                wage.save()
+                messages.success(request, "Successfully added a wage")
+            except IntegrityError:
+                messages.error(request, INTEGRITY_ERROR_MESSAGE)
+        else:
+            messages.error(request, INVALID_FORM_MESSAGE)
+        return HttpResponseRedirect(reverse(manage_wages_page, args=[wage_sheet_id]))
+    context = {
+        "wage_sheets_page": "active",
+        "manage_wage_sheets": "active",
+        "wages": wages,
+        "wage_sheet": wage_sheet,
+        "form": form
+    }
+    return render(request, "wage_sheet/add_wages_from_phone_number.html", context)
 
 
 def delete_wage(request, id):
@@ -404,6 +438,7 @@ def reject_deduction(request, deduction_id, role):
 
     return HttpResponseRedirect(reverse(manage_submitted_sheet, args=[deduction.wage_sheet.id, role]))
 
+
 def toggle_worker_list_view(request):
     option = request.GET.get('option')
 
@@ -415,4 +450,4 @@ def toggle_worker_list_view(request):
     else:
         worker_list = worker_selectors.get_all_workers()
 
-    return JsonResponse({'success': True, 'worker_list': model_to_dict(worker_list)}) 
+    return JsonResponse({'success': True, 'worker_list': model_to_dict(worker_list)})
