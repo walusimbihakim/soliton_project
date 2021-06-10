@@ -197,8 +197,11 @@ def add_wage_from_phone_number_page(request, wage_sheet_id):
         form = WageFromPhoneNumberForm(user=request.user, data=request.POST)
         if form.is_valid():
             phone_number = form.cleaned_data['phone_number']
-            print(phone_number)
-            worker = Worker.objects.get(mobile_money_number=phone_number)
+            try:
+                worker = Worker.objects.get(mobile_money_number=phone_number)
+            except Worker.DoesNotExist:
+                messages.error(request, f"Worker with phone number {phone_number} does not exist")
+                return HttpResponseRedirect(reverse(manage_wages_page, args=[wage_sheet_id]))
             try:
                 wage = form.save(commit=False)
                 wage.wage_sheet = wage_sheet
