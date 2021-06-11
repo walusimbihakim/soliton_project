@@ -54,6 +54,9 @@ class Worker(models.Model):
         related_name="Assignments"
     )
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 
