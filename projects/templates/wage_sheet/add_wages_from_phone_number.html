@@ -34,7 +34,6 @@ Add wages from Phone Number {{wage_sheet.id}}
                         <table id="pageTable" class="table table-striped">
                             <thead>
                             <tr>
-                                <th>Wage ID</th>
                                 <th>Worker</th>
                                 <th>Activity</th>
                                 <th>Quantity</th>
@@ -45,7 +44,6 @@ Add wages from Phone Number {{wage_sheet.id}}
                             <tbody>
                             {% for wage in wages%}
                             <tr>
-                                <td>{{wage.id}}</td>
                                 <td>{{wage.worker}}</td>
                                 <td>
                                     {{wage.activity}}
