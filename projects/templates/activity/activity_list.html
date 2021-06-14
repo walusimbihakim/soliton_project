@@ -31,13 +31,8 @@ Activity Pool List
                                 <th>Code</th>
                                 <th>Activity</th>
                                 <th>Type</th>
-                                <th>FD Under</th>
-                                <th>FD Aerial</th>
-                                <th>Site</th>
-                                <th>Tower</th>
-                                <th>LAN</th>
-                                <th>Equipment</th>
-                                <th>Manhole</th>
+                                <th>Unit of measure</th>
+                                <th>Cost</th>
                                 <th>#</th>
                             </tr>
                             </thead>
@@ -51,62 +46,11 @@ Activity Pool List
                                 </td>
                                 <td>{{activity.name}}</td>
                                 <td>{{activity.type}}</td>
-                                <td>
-                                    {% if activity.is_fd_underground %}
-                                    <center><i class="fa fa-check"></i></center>
-                                    {% else %}
-                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if  activity.is_fd_arial%}
-                                    <center><i class="fa fa-check"></i></center>
-                                    {% else %}
-                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if activity.is_site_connection %}
-                                    <center><i class="fa fa-check"></i></center>
-                                    {% else %}
-                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if activity.is_tower_construction %}
-                                    <center><i class="fa fa-check"></i></center>
-                                    {% else %}
-                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if activity.is_lan_installation %}
-                                    <center><i class="fa fa-check"></i></center>
-                                    {% else %}
-                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if activity.is_equipment_installation %}
-                                    <center><i class="fa fa-check"></i></center>
-                                    {% else %}
-                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if activity.is_manhole_installation %}
-                                    <center><i class="fa fa-check"></i></center>
-                                    {% else %}
-                                    <center><i class="fa fa-times" aria-hidden="true"></i></center>
-                                    {% endif %}
-                                </td>
+                                <td>{{activity.unit_of_measure}}</td>
+                                <td>{{activity.unit_cost}}</td>
                                 <td>
                                     <a href="{% url 'edit_activity' activity.id %}" style="color:inherit">
                                         <i class="fa fa-edit"></i>
-                                    </a>
-                                    <a href="{% url 'delete_activity' activity.id %}" style="color: inherit" ...
-                                       onclick="">
-                                        <i class="fa fa-trash"></i>
                                     </a>
                                 <td>
                             </tr>

@@ -26,7 +26,12 @@ class Activity(TimeStampedModel):
         verbose_name_plural = "Activities"
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.unit_cost} UGX per {self.unit_of_measure}"
 
     def get_absolute_url(self):
         return reverse("Activity_detail", kwargs={"pk": self.pk})
+
+    def save(self, *args, **kwargs):
+        code = self.type[0:3] + "-" + self.name[0:3]+"-"+str(self.id)
+        self.code = code.upper()
+        super().save(*args, **kwargs)
