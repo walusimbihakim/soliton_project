@@ -15,24 +15,7 @@ Submitted Wage Sheet
             <div class="card">
                 <div class="card-body">
                     <h4>Wage Sheet Info</h4>
-                    <div class="table-responsive">
-                        <table border="1" cellpadding="5" id="pageTable">
-                            <tr>
-                                <th>Date</th>
-                                <td>{{wage_sheet.date}}</td>
-                                <th>Field Manager</th>
-                                <td>{{wage_sheet.field_manager_user}}</td>
-                                <th>Supervisor</th>
-                                <td>{{wage_sheet.supervisor_user}}</td>
-                                <th>Project</th>
-                                <td>{{wage_sheet.segment.execution_scope.survey.project}}</td>
-                                <th>Segment</th>
-                                <td>{{wage_sheet.segment}}</td>
-                            </tr>
-                        </table>
-
-                        
-                    </div>
+                    {% include "./components/wage_sheet_info.html" %}
                 </div>
             </div>
             <div class="card card-primary card-outline card-outline-tabs">
@@ -204,9 +187,9 @@ Submitted Wage Sheet
                                         </td>
                                         <td class="text-center">
                                             {% comment %} <a href = "{% url 'reject_complaint' complaint.id%}" class="btn btn-outline-danger btn-rounded waves-effect"
-                                               onclick="return confirm('Are you sure you want to Reject this Complaint?')">
-                                                Reject
-                                            </a> {% endcomment %}
+                                                             onclick="return confirm('Are you sure you want to Reject this Complaint?')">
+                                            Reject
+                                        </a> {% endcomment %}
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -290,7 +273,7 @@ Submitted Wage Sheet
                     <div class="table-responsive">
                         <table class="table table-small">
                             <tr>
-                                <th scope="row">Field Manager Approval Status:</th>
+                                <th scope="row">Field Manager Approval Status ({{wage_sheet.field_manager_user}}):</th>
                                 <td>
                                     {% if wage_sheet.manager_status == 1 %}
                                     <span style="color:green">Approved</span>
@@ -304,7 +287,7 @@ Submitted Wage Sheet
                                 <td>{{wage_sheet.manager_comment}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Project Manager Status:</th>
+                                <th scope="row">Project Manager Status ({{wage_sheet.project_manager_user}}):</th>
                                 <td>
                                     {% if wage_sheet.project_manager_status == 1 %}
                                     <span style="color:green">Approved</span>
@@ -333,6 +316,9 @@ Submitted Wage Sheet
                             </tr>
                         </table>
                     </div>
+                    <a href="{%url 'wage_sheet_pdf' wage_sheet.id%}">
+                      <button class="btn btn-primary">Print Wage Sheet PDF</button>
+                    </a>
                 </div>
             </div>
             <!-- /.card approval -->
@@ -342,29 +328,4 @@ Submitted Wage Sheet
     <!-- /.row -->
 </div>
 <!-- /.container-fluid -->
-
-<!-- DataTables -->
-<script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
-<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
-<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
-<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
-
-<!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true,
-      "autoWidth": false,
-    });
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
 {% endblock content %}

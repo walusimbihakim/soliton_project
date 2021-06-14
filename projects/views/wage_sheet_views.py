@@ -1,12 +1,13 @@
 from django.db import IntegrityError
 
+from project_manager.settings import BASE_DIR
 from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER, INVALID_FORM_MESSAGE, \
     INTEGRITY_ERROR_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required
 from projects.models import Worker
-from projects.procedures import is_date_between
+from projects.procedures import is_date_between, render_to_pdf
 from projects.selectors.complaints import get_complaints, get_complaint
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
@@ -169,7 +170,7 @@ def edit_wage_page(request, id):
     wage_sheet = wage.wage_sheet
     form = WageForm(user=request.user, instance=wage)
     if request.method == "POST":
-        form = WageForm(user=request.user, data=request.POST,  instance=wage)
+        form = WageForm(user=request.user, data=request.POST, instance=wage)
         if form.is_valid():
             try:
                 wage = form.save(commit=False)
@@ -375,11 +376,27 @@ def approve_reject_wage_sheets_page(request, wagesheet_id):
             deductions.filter(is_manager_approved=True).update(is_gm_approved=True)
         elif user.user_role == GENERAL_MANAGER:
             wage_sheet.gm_status = request.POST.get("wage_action")
-            wage_sheet.gm_comment = request.POST.get("wage_comment")
+            wage_sheet.gm_comment = request.POST.get("wage_wage_sheetcomment")
             wage_sheet.approved = True
             wage_sheet.save()
         messages.success(request, "Action saved Successfully")
         return HttpResponseRedirect(reverse(approve_or_reject_wagesheets))
+
+
+def wage_sheet_pdf(self, wage_sheet_id):
+    wage_sheet = get_wage_sheet(wage_sheet_id)
+    wages = wage_sheet.wage_set.all()
+    complaints = wage_sheet.complaint_set.all()
+    deductions = wage_sheet.deduction_set.all()
+    context = {
+        "wage_sheet": wage_sheet,
+        "base_dir": BASE_DIR,
+        "wages": wages,
+        "complaints": complaints,
+        "deductions": deductions
+    }
+    pdf = render_to_pdf('pdfs/wage_sheet.html', context)
+    return HttpResponse(pdf, content_type='application/pdf')
 
 
 def reject_wage(request):

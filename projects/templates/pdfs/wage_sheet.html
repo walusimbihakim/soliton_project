@@ -1,0 +1,122 @@
+{%extends './base.html'%}
+{% load humanize %}
+{%block title%}Wage Sheet{%endblock%}
+{%block content%}
+<br/>
+<h1>Wage Sheet</h1>
+<table>
+    <tr>
+        <td>Date:</td>
+        <td>{{wage_sheet.date}}</td>
+        <td>Wage Bill Week:</td>
+        <td>{{wage_sheet.wage_bill}}</td>
+    </tr>
+    <tr>
+        <td>Day:</td>
+        <td>{{wage_sheet.date|date:"l"}}</td>
+        <td>Field Manager:</td>
+        <td>{{wage_sheet.field_manager_user}}</td>
+    </tr>
+    <tr>
+        <td>Project Manager:</td>
+        <td>{{wage_sheet.project_manager_user}}</td>
+    </tr>
+</table>
+
+
+<div class='details' >
+    {%if wages%}
+    <h2>Wages</h2>
+    <table width="100%" border="1" >
+        <th>No.</th>
+        <th>Worker's Name</th>
+        <th>M.M Number</th>
+        <th>M.M Name</th>
+        <th>Activity</th>
+        <th>Quantity</th>
+        <th>Payment</th>
+        {% for wage in wages%}
+        <tr>
+            <td class="text-center">{{forloop.counter}}</td>
+            <td>{{wage.worker}}</td>
+            <td>{{wage.worker.mobile_money_number}}</td>
+            <td>{{wage.worker.mobile_money_name}}</td>
+            <td>{{wage.activity}}</td>
+            <td>{{wage.quantity}} {{wage.activity.unit_of_measure}}(s)</td>
+            <th>{{wage.payment|intcomma}}/=</th>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th colspan="6">Total</th>
+            <th>{{wage_sheet.total_wages|intcomma}}/=</th>
+        </tr>
+
+    </table>
+    {%endif%}
+    {%if complaints%}
+    <h2>Complaints</h2>
+    <table width="100%" border="1" >
+        <th>No.</th>
+        <th>Worker's Name</th>
+        <th>M.M Number</th>
+        <th>M.M Name</th>
+        <th>Activity</th>
+        <th>Quantity</th>
+        <th>Payment</th>
+        {% for complaint in complaints%}
+        <tr>
+            <td class="text-center">{{forloop.counter}}</td>
+            <td>{{complaint.worker}}</td>
+            <td>{{complaint.worker.mobile_money_number}}</td>
+            <td>{{complaint.worker.mobile_money_name}}</td>
+            <td>{{complaint.activity}}</td>
+            <td>{{complaint.quantity}} {{complaint.activity.unit_of_measure}}(s)</td>
+            <th>{{complaint.payment|intcomma}}/=</th>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th colspan="6">Total</th>
+            <th>{{wage_sheet.total_complaints|intcomma}}/=</th>
+        </tr>
+    </table>
+    {%endif%}
+    {%if deductions%}
+    <h2>Deductions</h2>
+    <table width="100%" border="1" >
+        <th>No.</th>
+        <th>Worker's Name</th>
+        <th>Activity</th>
+        <th>Quantity</th>
+        <th>Payment</th>
+        {% for deduction in deductions %}
+        <tr>
+            <td class="text-center">{{forloop.counter}}</td>
+            <td>{{deduction.worker}}</td>
+            <td>{{deduction.activity}}</td>
+            <td>{{deduction.quantity}} {{deduction.activity.unit_of_measure}}(s)</td>
+            <th>{{deduction.payment}}/=</th>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th colspan="6">Total</th>
+            <th>{{wage_sheet.total_deductions}}/=</th>
+        </tr>
+    </table>
+    {%endif%}
+
+    <small>Generated with Soliton Tujenge on {% now "jS F Y" %}</small>
+    <br/>
+    <table>
+        <tr>
+            <td>
+                <h3>Approved by: Field Manager ({{wage_sheet.field_manager_user}})</h3>
+                <p>................................................................</p>
+            </td>
+            <td>
+                <h3>Approved by: Project Manager ({{wage_sheet.project_manager_user}})</h3>
+                <p>................................................................</p>
+            </td>
+        </tr>
+    </table>
+</div>
+{%endblock%}
