@@ -10,6 +10,7 @@ from projects.procedures import calculate_total_wages
 class WageSheet(models.Model):
     wage_bill = models.ForeignKey(WageBill, on_delete=models.CASCADE, default=None, null=True)
     field_manager_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    project_manager_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="wage_sheet_project_manager")
     supervisor_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wage_sheet_supervisor")
     segment = models.ForeignKey(Segment, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateField()
