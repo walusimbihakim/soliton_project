@@ -36,7 +36,7 @@ Approve/Reject Wage Sheets
                         <tr data-id={{wage_sheet.id}}>
                             <td>{{wage_sheet.wage_bill}}</td>
                             <td>{{wage_sheet.date|date:'l'}}</td>
-                             <td>{{wage_sheet.total_amount|intcomma}}/=</td>
+                            <td>{{wage_sheet.total_amount|intcomma}}/=</td>
                             <td>
                                 {{wage_sheet.supervisor_user}}
                             </td>
@@ -45,7 +45,7 @@ Approve/Reject Wage Sheets
                                     <button class="btn-sm btn-outline-info btn-rounded waves-effect">
                                         View to approve/reject
                                     </button>
-                                </a>   
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -66,29 +66,4 @@ Approve/Reject Wage Sheets
     <!-- /.row -->
 </div>
 <!-- /.container-fluid -->
-
-<!-- DataTables -->
-<script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
-<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
-<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
-<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
-
-<!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true,
-      "autoWidth": false,
-    });
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
-{% endblock content %}
+{%endblock%}
