@@ -4,6 +4,7 @@ from projects.models import Worker, Activity, GroupWorker
 from projects.models.segments import Segment
 from projects.models.wage_bills import WageBill
 from projects.models.users import User
+from projects.procedures import calculate_total_wages
 
 
 class WageSheet(models.Model):
@@ -22,6 +23,28 @@ class WageSheet(models.Model):
     gm_comment = models.TextField(default="-", null=True, blank=True)
     approved = models.BooleanField(default=False)
     rejected = models.BooleanField(default=False)
+
+    @property
+    def total_wages(self) -> int:
+        wage_queryset = self.wage_set.all()
+        wages = calculate_total_wages(wage_queryset)
+        return wages
+
+    @property
+    def total_complaints(self) -> int:
+        complaint_queryset = self.complaint_set.all()
+        complaints = calculate_total_wages(complaint_queryset)
+        return complaints
+
+    @property
+    def total_deductions(self) -> int:
+        deduction_queryset = self.deduction_set.all()
+        deductions = calculate_total_wages(deduction_queryset)
+        return deductions
+
+    @property
+    def total_amount(self) -> int:
+        return (self.total_wages + self.total_complaints) - self.total_deductions
 
     class Meta:
         ordering = ("date",)
@@ -72,7 +95,7 @@ class GroupWage(models.Model):
             except IntegrityError:
                 Wage.objects.filter(
                     wage_sheet=self.wage_sheet,
-                    activity=self.activity,).update(
+                    activity=self.activity, ).update(
                     quantity=self.quantity,
                     payment=worker_payment,
                 )

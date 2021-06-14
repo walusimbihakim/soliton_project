@@ -490,6 +490,24 @@
                   <p>Approve/Reject</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a
+                        href="{%url 'approve_or_reject_wagesheets'%}"
+                        class="nav-link {{manage_submitted_wage_sheets}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Approved Wage Sheets</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                        href="{%url 'approve_or_reject_wagesheets'%}"
+                        class="nav-link {{manage_submitted_wage_sheets}}"
+                >
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>Expired Wage Sheets</p>
+                </a>
+              </li>
               {%endif%}
               {%if user.is_finance or user.is_superuser %}
               <li class="nav-item">

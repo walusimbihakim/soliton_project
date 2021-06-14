@@ -44,7 +44,7 @@ def calculate_airtel_charge(amount):
     return charge
 
 
-def calculate_total_wages(wages)->int:
+def calculate_total_wages(wages) -> int:
     if not wages:
         return 0
     sum = wages.aggregate(Sum('payment'))
