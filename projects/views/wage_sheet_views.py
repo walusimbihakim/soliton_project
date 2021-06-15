@@ -1,4 +1,5 @@
 from django.db import IntegrityError
+from django.utils import timezone
 
 from project_manager.settings import BASE_DIR
 from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER, INVALID_FORM_MESSAGE, \
@@ -23,6 +24,7 @@ from projects.selectors.wage_sheets import get_wage_sheet, get_wages, get_wage, 
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from projects.services.wage_sheet_services import retract
 import projects.selectors.workers as worker_selectors
+from projects.services.worker_services import create_worker_transfer
 
 
 def manage_wage_sheets_page(request):
@@ -208,6 +210,7 @@ def add_wage_from_phone_number_page(request, wage_sheet_id):
                 wage.wage_sheet = wage_sheet
                 wage.worker = worker
                 wage.save()
+                create_worker_transfer(worker, request.user)
                 messages.success(request, "Successfully added a wage")
             except IntegrityError:
                 messages.error(request, INTEGRITY_ERROR_MESSAGE)
@@ -291,8 +294,8 @@ def delete_wage_group(request, id):
 
 def submit_wage_sheet(request, wage_sheet_id):
     wage_sheet = get_wage_sheet(wage_sheet_id)
-
     wage_sheet.is_submitted = True
+    wage_sheet.supervisor_submission_time = timezone.now()
     wage_sheet.save()
 
     messages.success(request, "Wage Sheet Submitted Successfully")
@@ -363,6 +366,7 @@ def approve_reject_wage_sheets_page(request, wagesheet_id):
         if user.user_role == FIELD_MANAGER:
             wage_sheet.manager_comment = request.POST.get("wage_comment")
             wage_sheet.manager_status = request.POST.get("wage_action")
+            wage_sheet.field_manager_approval_time = timezone.now()
             wage_sheet.save()
             wages.filter(is_manager_approved=True).update(is_pm_approved=True)
             complaints.filter(is_manager_approved=True).update(is_pm_approved=True)
@@ -370,6 +374,7 @@ def approve_reject_wage_sheets_page(request, wagesheet_id):
         elif user.user_role == PROJECT_MANAGER:
             wage_sheet.project_manager_status = request.POST.get("wage_action")
             wage_sheet.project_manager_comment = request.POST.get("wage_comment")
+            wage_sheet.project_manager_approval_time = timezone.now()
             wage_sheet.save()
             wages.filter(is_pm_approved=True).update(is_gm_approved=True)
             complaints.filter(is_manager_approved=True).update(is_gm_approved=True)

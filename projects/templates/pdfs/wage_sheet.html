@@ -3,23 +3,19 @@
 {%block title%}Wage Sheet{%endblock%}
 {%block content%}
 <br/>
-<h1>Wage Sheet</h1>
-<table>
+<h1>Wage Sheet - ID {{wage_sheet.id}}</h1>
+<table style="padding-top:5px" border=1>
     <tr>
-        <td>Date:</td>
-        <td>{{wage_sheet.date}}</td>
-        <td>Wage Bill Week:</td>
-        <td>{{wage_sheet.wage_bill}}</td>
+        <th>Date: {{wage_sheet.date}}</th>
+        <th>Project Manager: {{wage_sheet.project_manager_user}}</th>
     </tr>
     <tr>
-        <td>Day:</td>
-        <td>{{wage_sheet.date|date:"l"}}</td>
-        <td>Field Manager:</td>
-        <td>{{wage_sheet.field_manager_user}}</td>
+        <th>Day: {{wage_sheet.date|date:"l"}}</th>
+        <th>Field Manager: {{wage_sheet.field_manager_user}}</th>
     </tr>
     <tr>
-        <td>Project Manager:</td>
-        <td>{{wage_sheet.project_manager_user}}</td>
+        <th>Wage Bill Week: {{wage_sheet.wage_bill}}</th>
+        <th>Supervisor: {{wage_sheet.supervisor_user}}</th>
     </tr>
 </table>
 

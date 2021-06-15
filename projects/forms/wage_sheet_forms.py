@@ -5,7 +5,6 @@ from crispy_forms.helper import FormHelper
 from projects.constants import FIELD_MANAGER, PROJECT_MANAGER
 from projects.models import WageSheet, Wage, Worker, User, Activity, GroupWorker
 from projects.models.wage_sheets import GroupWage
-from projects.selectors.wage_bill_selectors import get_current_wage_bill
 
 
 class WageSheetForm(forms.ModelForm):
