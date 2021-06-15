@@ -32,7 +32,7 @@
         <th>Worker's Name</th>
         <th>M.M Number</th>
         <th>M.M Name</th>
-        <th>Activity</th>
+        <th colspan="2">Activity</th>
         <th>Quantity</th>
         <th>Payment</th>
         {% for wage in wages%}
@@ -41,13 +41,13 @@
             <td>{{wage.worker}}</td>
             <td>{{wage.worker.mobile_money_number}}</td>
             <td>{{wage.worker.mobile_money_name}}</td>
-            <td>{{wage.activity}}</td>
+            <td colspan="2">{{wage.activity}}</td>
             <td>{{wage.quantity}} {{wage.activity.unit_of_measure}}(s)</td>
             <th>{{wage.payment|intcomma}}/=</th>
         </tr>
         {% endfor %}
         <tr>
-            <th colspan="6">Total</th>
+            <th colspan="7">Total</th>
             <th>{{wage_sheet.total_wages|intcomma}}/=</th>
         </tr>
 
@@ -60,7 +60,7 @@
         <th>Worker's Name</th>
         <th>M.M Number</th>
         <th>M.M Name</th>
-        <th>Activity</th>
+        <th colspan="2">Activity</th>
         <th>Quantity</th>
         <th>Payment</th>
         {% for complaint in complaints%}
@@ -69,13 +69,13 @@
             <td>{{complaint.worker}}</td>
             <td>{{complaint.worker.mobile_money_number}}</td>
             <td>{{complaint.worker.mobile_money_name}}</td>
-            <td>{{complaint.activity}}</td>
+            <td colspan="2">{{complaint.activity}}</td>
             <td>{{complaint.quantity}} {{complaint.activity.unit_of_measure}}(s)</td>
             <th>{{complaint.payment|intcomma}}/=</th>
         </tr>
         {% endfor %}
         <tr>
-            <th colspan="6">Total</th>
+            <th colspan="7">Total</th>
             <th>{{wage_sheet.total_complaints|intcomma}}/=</th>
         </tr>
     </table>
@@ -85,20 +85,20 @@
     <table width="100%" border="1" >
         <th>No.</th>
         <th>Worker's Name</th>
-        <th>Activity</th>
+        <th colspan="2">Activity</th>
         <th>Quantity</th>
         <th>Payment</th>
         {% for deduction in deductions %}
         <tr>
             <td class="text-center">{{forloop.counter}}</td>
             <td>{{deduction.worker}}</td>
-            <td>{{deduction.activity}}</td>
+            <td colspan="2">{{deduction.activity}}</td>
             <td>{{deduction.quantity}} {{deduction.activity.unit_of_measure}}(s)</td>
             <th>{{deduction.payment}}/=</th>
         </tr>
         {% endfor %}
         <tr>
-            <th colspan="6">Total</th>
+            <th colspan="7">Total</th>
             <th>{{wage_sheet.total_deductions}}/=</th>
         </tr>
     </table>
