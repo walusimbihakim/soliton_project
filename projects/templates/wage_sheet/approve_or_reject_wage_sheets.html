@@ -26,6 +26,9 @@ Approve/Reject Wage Sheets
                         <tr>
                             <th>Wage Bill Week</th>
                             <th>Day of the week</th>
+                            <th>Total Wages</th>
+                            <th>Total Complaints</th>
+                            <th>Total Deductions</th>
                             <th>Total Amount</th>
                             <th>Supervisor</th>
                             <th>#</th>
@@ -36,6 +39,9 @@ Approve/Reject Wage Sheets
                         <tr data-id={{wage_sheet.id}}>
                             <td>{{wage_sheet.wage_bill}}</td>
                             <td>{{wage_sheet.date|date:'l'}}</td>
+                            <td>{{wage_sheet.total_wages|intcomma}}/=</td>
+                            <td>{{wage_sheet.total_complaints|intcomma}}/=</td>
+                            <td>{{wage_sheet.total_deductions|intcomma}}/=</td>
                             <td>{{wage_sheet.total_amount|intcomma}}/=</td>
                             <td>
                                 {{wage_sheet.supervisor_user}}

@@ -7,6 +7,8 @@ from projects.models.users import User
 from projects.procedures import calculate_total_wages
 
 diana = User.objects.get(email="diana.aryenyo@soliton.co.ug")
+
+
 class WageSheet(models.Model):
     wage_bill = models.ForeignKey(WageBill, on_delete=models.CASCADE, default=None, null=True)
     field_manager_user = models.ForeignKey(User, on_delete=models.CASCADE)
