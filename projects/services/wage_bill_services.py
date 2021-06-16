@@ -35,9 +35,9 @@ def create_consolidated_wage_bill(simple_wage_bill_payment):
         sunday_total_amount=simple_wage_bill_payment.sunday_total_amount,
         monday_total_amount=simple_wage_bill_payment.monday_total_amount,
         tuesday_total_amount=simple_wage_bill_payment.tuesday_total_amount,
-        worker_mobile_money_name=simple_wage_bill_payment.worker.name,
-        supervisor=simple_wage_bill_payment.worker.registered_by_user.name,
-        supervisor_number=simple_wage_bill_payment.worker.registered_by_user.phone_number,
+        worker_mobile_money_name=simple_wage_bill_payment.worker.mobile_money_name,
+        supervisor=simple_wage_bill_payment.worker.assigned_to.name,
+        supervisor_number=simple_wage_bill_payment.worker.assigned_to.phone_number,
         total_wages=simple_wage_bill_payment.total_wages,
         total_complaints=simple_wage_bill_payment.total_complaints,
         total_deductions=simple_wage_bill_payment.total_deductions

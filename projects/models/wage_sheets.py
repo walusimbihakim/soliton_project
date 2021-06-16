@@ -4,11 +4,16 @@ from projects.models import Worker, Activity, GroupWorker
 from projects.models.segments import Segment
 from projects.models.wage_bills import WageBill
 from projects.models.users import User
+from projects.procedures import calculate_total_wages
+
+diana = User.objects.get(email="diana.aryenyo@soliton.co.ug")
 
 
 class WageSheet(models.Model):
     wage_bill = models.ForeignKey(WageBill, on_delete=models.CASCADE, default=None, null=True)
     field_manager_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    project_manager_user = models.ForeignKey(User, on_delete=models.CASCADE, default=diana.id,
+                                             related_name="wage_sheet_project_manager")
     supervisor_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wage_sheet_supervisor")
     segment = models.ForeignKey(Segment, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateField()
@@ -22,9 +27,35 @@ class WageSheet(models.Model):
     gm_comment = models.TextField(default="-", null=True, blank=True)
     approved = models.BooleanField(default=False)
     rejected = models.BooleanField(default=False)
+    supervisor_submission_time = models.DateTimeField(null=True, blank=True)
+    field_manager_approval_time = models.DateTimeField(null=True, blank=True)
+    project_manager_approval_time = models.DateTimeField(null=True, blank=True)
+    is_expired = models.BooleanField(default=False)
+
+    @property
+    def total_wages(self) -> int:
+        wage_queryset = self.wage_set.all()
+        wages = calculate_total_wages(wage_queryset)
+        return wages
+
+    @property
+    def total_complaints(self) -> int:
+        complaint_queryset = self.complaint_set.all()
+        complaints = calculate_total_wages(complaint_queryset)
+        return complaints
+
+    @property
+    def total_deductions(self) -> int:
+        deduction_queryset = self.deduction_set.all()
+        deductions = calculate_total_wages(deduction_queryset)
+        return deductions
+
+    @property
+    def total_amount(self) -> int:
+        return (self.total_wages + self.total_complaints) - self.total_deductions
 
     class Meta:
-        ordering = ("date",)
+        ordering = ("supervisor_user__first_name",)
         unique_together = ('supervisor_user', 'field_manager_user', 'date', 'wage_bill')
 
     def __str__(self):
@@ -72,7 +103,7 @@ class GroupWage(models.Model):
             except IntegrityError:
                 Wage.objects.filter(
                     wage_sheet=self.wage_sheet,
-                    activity=self.activity,).update(
+                    activity=self.activity, ).update(
                     quantity=self.quantity,
                     payment=worker_payment,
                 )

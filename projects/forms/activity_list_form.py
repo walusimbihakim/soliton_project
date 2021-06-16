@@ -7,7 +7,6 @@ class ActivityListForm(forms.ModelForm):
     class Meta:
         model = Activity
         fields = (
-            "code",
             "name",
             "unit_cost",
             "unit_of_measure",

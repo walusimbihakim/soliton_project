@@ -14,7 +14,6 @@ View All Wage Bills
     <div class="row">
         <!-- ./col -->
         <div class="col-12">
-            
             {%if wagebills%}                
                 <table id="pageTable" class="table table-striped">                    
                     <tbody>
@@ -49,8 +48,12 @@ View All Wage Bills
                                     </a>  
                                 {%endif%}
                                 <a href="{%url 'wage_bill_managers' wage_bill.id%}">
-                                    <button class="btn btn-primary" style="margin-top:1px">Wage Bill Sheets</button>
-                                </a> 
+                                    <button class="btn btn-primary" style="margin-top:1px">Wage Bill Managers</button>
+                                </a>
+                                <a href="{%url 'wage_bill_sheets' wage_bill.id%}">
+                                     <button class="btn btn-primary" style="margin-top:1px">All Wage Sheets</button>
+                                </a>
+
                             </div>
                         </div>
                     

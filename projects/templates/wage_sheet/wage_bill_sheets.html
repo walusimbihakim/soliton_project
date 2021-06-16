@@ -1,7 +1,7 @@
 {% extends '../base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-
+{% load humanize %}
 {%block page_title%}
 All Submitted Wage Sheets For Wage Bill {{wage_bill}}
 {% endblock%}
@@ -25,9 +25,14 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                             <tr>
                                 <th>ID</th>
                                 <th>Date</th>
+                                <th>Day</th>
                                 <th>Supervisor</th>
                                 <th>Field Manager</th>
+                                <th>Project Manager</th>
                                 <th>Type</th>
+                                <th>Total Wages</th>
+                                <th>Total Complaints</th>
+                                <th>Total Deductions</th>
                                 <th>FM Approval</th>
                                 <th>PM Approval</th>
                                 <th>GM Approval</th>
@@ -39,38 +44,45 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                             <tr data-id={{wage_sheet.id}}>
                                 <td>{{wage_sheet.id}}</td>
                                 <td>{{wage_sheet.date}}</td>
+                                <td>{{wage_sheet.date|date:"l"}}</td>
                                 <td>
                                     {{wage_sheet.supervisor_user}}
                                 </td>
                                 <td>
                                     {{wage_sheet.field_manager_user}}
                                 </td>
+                                <td>
+                                    {{wage_sheet.project_manager_user}}
+                                </td>
                                 <td>{{wage_sheet.supervisor_user.type}}</td>
+                                <td>{{wage_sheet.total_wages|intcomma}}</td>
+                                <td>{{wage_sheet.total_complaints|intcomma}}</td>
+                                <td>{{wage_sheet.total_deductions|intcomma}}</td>
                                 <td>
                                     {%if wage_sheet.manager_status%}
                                     <span style="color:green">Approved</span>
                                     {%elif wage_sheet.is_field_manager_pending%}
-                                     <span>Pending</span>
+                                    <span>Pending</span>
                                     {%else%}
-                                     <span style="color:red">Rejected</span>
+                                    <span style="color:red">Rejected</span>
                                     {%endif%}
                                 </td>
                                 <td>
                                     {%if wage_sheet.project_manager_status%}
                                     <span style="color:green">Approved</span>
                                     {%elif wage_sheet.is_project_manager_pending%}
-                                     <span>Pending</span>
+                                    <span>Pending</span>
                                     {%else%}
-                                     <span style="color:red">Rejected</span>
+                                    <span style="color:red">Rejected</span>
                                     {%endif%}
                                 </td>
                                 <td>
                                     {%if wage_sheet.gm_status%}
                                     <span style="color:green">Approved</span>
                                     {%elif wage_sheet.is_general_manager_pending%}
-                                     <span>Pending</span>
+                                    <span>Pending</span>
                                     {%else%}
-                                     <span style="color:red">Rejected</span>
+                                    <span style="color:red">Rejected</span>
                                     {%endif%}
                                 </td>
                                 <td>

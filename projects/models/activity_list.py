@@ -13,6 +13,7 @@ class Activity(TimeStampedModel):
     unit_of_measure = models.ForeignKey(UnitOfMeasure, on_delete=models.CASCADE, blank=True, null=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, blank=True, null=True)
     is_group = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
     is_fd_underground = models.BooleanField(default=False, blank=True, null=True)
     is_fd_arial = models.BooleanField(default=False, blank=True, null=True)
     is_site_connection = models.BooleanField(default=False, blank=True, null=True)
@@ -26,7 +27,12 @@ class Activity(TimeStampedModel):
         verbose_name_plural = "Activities"
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.unit_cost} UGX per {self.unit_of_measure}"
 
     def get_absolute_url(self):
         return reverse("Activity_detail", kwargs={"pk": self.pk})
+
+    def save(self, *args, **kwargs):
+        code = self.type[0:3] + "-" + self.name[0:3]+"-"+str(self.id)
+        self.code = code.upper()
+        super().save(*args, **kwargs)

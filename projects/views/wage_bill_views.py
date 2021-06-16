@@ -11,13 +11,11 @@ import datetime
 import projects.forms.wage_bill_forms as wage_bill_forms
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from project_manager.settings import BASE_DIR
-from projects.classes.simple_wage_bill_payment import SimpleWageBillPayment
 from projects.constants import WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE
 from projects.decorators.auth_decorators import finance_office_required
 from projects.procedures import render_to_pdf
-from projects.selectors.workers import get_worker, get_all_workers
-from projects.services.wage_bill_services import create_consolidated_wage_bill
-from projects.selectors.user_selectors import get_user, get_user_by_id
+from projects.selectors.workers import get_worker
+from projects.selectors.user_selectors import get_user_by_id
 from projects.wage_bill_payments_tasks import generate_wage_bill_task_process
 
 
