@@ -22,27 +22,27 @@ def get_current_wage_bill():
 
 
 def get_wage_bill_sheets(wage_bill):
-    return wage_sheets.WageSheet.objects.filter(wage_bill=wage_bill)
+    return wage_sheets.WageSheet.objects.filter(wage_bill=wage_bill, manager_status=True)
 
 
 def get_wage_bill_sheets_per_day(wage_bill, date):
-    return wage_sheets.WageSheet.objects.filter(wage_bill=wage_bill, date=date)
+    return wage_sheets.WageSheet.objects.filter(wage_bill=wage_bill, date=date, manager_status=True)
 
 
 def get_wage_bill_wages(wage_bill):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
 
-    return wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, is_gm_approved=True)
+    return wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, is_manager_approved=True)
 
 
 def get_wage_bill_worker_wages(wage_bill, worker):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
-    return wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_gm_approved=True)
+    return wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_manager_approved=True)
 
 
 def get_wage_bill_worker_wages_per_day(wage_bill, worker, date):
     wage_bill_sheets = get_wage_bill_sheets_per_day(wage_bill, date)
-    return wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_gm_approved=True)
+    return wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_manage_approved=True)
 
 
 def get_wage_bill_worker_complaints_per_day(wage_bill, worker, date):
@@ -50,18 +50,18 @@ def get_wage_bill_worker_complaints_per_day(wage_bill, worker, date):
     return complaints.Complaint.objects.filter(
         wage_sheet__in=wage_bill_sheets,
         worker=worker,
-        is_gm_approved=True,
+        is_manager_approved=True,
     )
 
 
 def get_wage_bill_worker_deductions(wage_bill, worker):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
-    return deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_gm_approved=True)
+    return deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_manager_approved=True)
 
 
 def get_wage_bill_worker_deductions_per_day(wage_bill, worker, date):
     wage_bill_sheets = get_wage_bill_sheets_per_day(wage_bill, date)
-    return deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_gm_approved=True)
+    return deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_manager_approved=True)
 
 
 def get_aggregated_wage_bill(wage_bill):
@@ -72,41 +72,41 @@ def get_aggregated_wage_bill(wage_bill):
 
 def get_worker_wage_bill_breakdown(wage_bill, worker):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
-    worker_wage_bill_wages = wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker)
+    worker_wage_bill_wages = wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_manager_approved=True)
 
     return worker_wage_bill_wages
 
 
 def get_wage_bill_payment_breakdown(wage_bill):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
-    wage_bill_wages = wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets)
+    wage_bill_wages = wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, is_manager_approved=True)
 
     return wage_bill_wages
 
 
 def get_worker_complaint_breakdown(wage_bill, worker):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
-    worker_wage_bill_wages = complaints.Complaint.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker)
+    worker_wage_bill_wages = complaints.Complaint.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_manager_approved=True)
 
     return worker_wage_bill_wages
 
 
 def get_complaint_breakdown(wage_bill):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
-    wage_bill_wages = complaints.Complaint.objects.filter(wage_sheet__in=wage_bill_sheets)
+    wage_bill_wages = complaints.Complaint.objects.filter(wage_sheet__in=wage_bill_sheets, is_manager_approved=True)
 
     return wage_bill_wages
 
 
 def get_worker_deduction_breakdown(wage_bill, worker):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
-    worker_wage_bill_wages = deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker)
+    worker_wage_bill_wages = deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_manager_approved=True)
     return worker_wage_bill_wages
 
 
 def get_deduction_breakdown(wage_bill):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
-    worker_wage_bill_wages = deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets)
+    worker_wage_bill_wages = deductions.Deduction.objects.filter(wage_sheet__in=wage_bill_sheets, is_manager_approved=True)
     return worker_wage_bill_wages
 
 
@@ -142,11 +142,19 @@ def get_all_consolidated_wage_bill_payments(wage_bill):
 def get_manager_wage_bill_total(wage_bill):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
 
+
     manager_wage_total = wage_sheets.WageSheet.objects.filter(
         id__in=wage_bill_sheets
-        ).values("field_manager_user").annotate(
-            total=Sum('wage__payment')
-        )
+        ).values("field_manager_user").distinct()
+    
+    # .annotate(
+    #         total=Sum('wage__payment')
+    #     )
+    # sheet_total = wage_sheets.Wage.objects.filter(
+    #     wage_sheet__in=wage_bill_sheets, is_manager_approved=True
+    #     ).aggregate(total = Sum('payment'))
+        
+    print(manager_wage_total)
 
     return manager_wage_total
 
@@ -170,7 +178,13 @@ def get_manager_wage_bill_wages(wage_bill, manager):
     manager_wage_bill_wage_sheets = get_manager_wage_bill_wage_sheets(wage_bill, manager)
 
     manager_wages = wage_sheets.Wage.objects.filter(
-        wage_sheet__in=manager_wage_bill_wage_sheets
+        wage_sheet__in=manager_wage_bill_wage_sheets, is_manager_approved=True
         )
 
     return manager_wages
+
+def get_wage_bill_total_payment(wage_bill):
+    wage_bill_total = wage_bills.ConsolidatedWageBillPayment.objects.filter(
+        wage_bill=wage_bill
+    ).aggregate(total = Sum('total_payment'))
+    return wage_bill_total['total']
