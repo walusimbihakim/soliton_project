@@ -36,9 +36,6 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                                 <th>FM Approval</th>
                                 <th>PM Approval</th>
                                 <th>GM Approval</th>
-                                <th>Supervisor Submission Time</th>
-                                <th>Field Manager Approval Time</th>
-                                <th>Project Manager Approval Time</th>
                                 <th>#</th>
                             </tr>
                             </thead>
@@ -88,9 +85,6 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                                     <span style="color:red">Rejected</span>
                                     {%endif%}
                                 </td>
-                                <td>{{wage_sheet.supervisor_submission_time}}</td>
-                                <td>{{wage_sheet.field_manager_approval_time}}</td>
-                                <td>{{wage_sheet.project_manager_approval_time}}</td>
                                 <td>
                                     <a href="{%url 'submitted_wage_sheet_page' wage_sheet.id%}">
                                         <button class="btn-sm btn-outline-info btn-rounded waves-effect">
