@@ -102,6 +102,18 @@ def approved_wage_sheets_page(request):
     return render(request, "wage_sheet/approved_wage_sheets.html", context)
 
 
+def expired_wage_sheets_page(request):
+    wage_sheets = WageSheet.objects.filter(
+        Q(field_manager_user=request.user, is_expired=True) |
+        Q(project_manager_user=request.user, is_expired=True)
+    ).order_by("-id")
+    context = {
+        "wage_sheets": wage_sheets,
+        "wage_sheets_page": "active",
+    }
+    return render(request, "wage_sheet/expired_wage_sheets.html", context)
+
+
 def submitted_wage_sheet_page(request, id):
     wage_sheet = get_wage_sheet(id)
     approved_wages = get_approved_wages(wage_sheet)
