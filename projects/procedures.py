@@ -50,3 +50,11 @@ def calculate_total_wages(wages) -> int:
     sum = wages.aggregate(Sum('payment'))
     payment = sum['payment__sum']
     return payment
+
+
+def calculate_total_consolidated_payments(consolidated_payments) -> int:
+    if not consolidated_payments:
+        return 0
+    sum = consolidated_payments.aggregate(Sum('total_payment'))
+    payment = sum['total_payment__sum']
+    return payment
