@@ -38,7 +38,10 @@ class WageSheetForm(forms.ModelForm):
 class WageForm(forms.ModelForm):
     class Meta:
         model = Wage
-        fields = ["worker", "activity", "quantity", "payment"]
+        fields = ["worker", "activity", "quantity", "payment", "remarks"]
+        widgets = {
+            "remarks": forms.TextInput()
+        }
 
     def __init__(self, user=None, *args, **kwargs):
         super(WageForm, self).__init__(*args, **kwargs)
@@ -66,7 +69,10 @@ class WageFromPhoneNumberForm(forms.ModelForm):
 
     class Meta:
         model = Wage
-        fields = ["phone_number", "activity", "quantity", "payment"]
+        fields = ["phone_number", "activity", "quantity", "payment", "remarks"]
+        widgets = {
+            "remarks": forms.TextInput()
+        }
 
     def __init__(self, user=None, *args, **kwargs):
         super(WageFromPhoneNumberForm, self).__init__(*args, **kwargs)
