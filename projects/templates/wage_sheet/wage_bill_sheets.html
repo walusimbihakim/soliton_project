@@ -35,7 +35,6 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                                 <th>Total Deductions</th>
                                 <th>FM Approval</th>
                                 <th>PM Approval</th>
-                                <th>GM Approval</th>
                                 <th>Supervisor Submission Time</th>
                                 <th>Field Manager Approval Time</th>
                                 <th>Project Manager Approval Time</th>
@@ -74,15 +73,6 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                                     {%if wage_sheet.project_manager_status%}
                                     <span style="color:green">Approved</span>
                                     {%elif wage_sheet.is_project_manager_pending%}
-                                    <span>Pending</span>
-                                    {%else%}
-                                    <span style="color:red">Rejected</span>
-                                    {%endif%}
-                                </td>
-                                <td>
-                                    {%if wage_sheet.gm_status%}
-                                    <span style="color:green">Approved</span>
-                                    {%elif wage_sheet.is_general_manager_pending%}
                                     <span>Pending</span>
                                     {%else%}
                                     <span style="color:red">Rejected</span>
