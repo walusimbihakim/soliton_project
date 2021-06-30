@@ -20,15 +20,18 @@ def create_wage_bill():
     end_date = current_date + datetime.timedelta(days=6)
     try:
         WageBill.objects.create(start_date=current_date, end_date=end_date)
-        receivers = get_users()
-        send_wage_created_email_task.delay(receivers=receivers)
     except IntegrityError as e:
         return "Wage Bill already Created"
     return "Wage Bill Created"
 
 
 @shared_task
-def send_wage_created_email_task(receivers: list):
+def send_wage_created_email_task():
     wage_bill = get_current_wage_bill()
-    mail = WageBillCreatedMail(wage_bill=wage_bill, receivers=receivers)
+    users = get_users()
+    receiver_emails = []
+    for user in users:
+        receiver_emails.append(user.email)
+
+    mail = WageBillCreatedMail(wage_bill=wage_bill, receivers=receiver_emails)
     mail.send_email()
