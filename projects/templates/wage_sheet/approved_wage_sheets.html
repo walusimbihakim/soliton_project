@@ -1,10 +1,11 @@
 {% extends '../base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% load humanize %}
+{%load humanize%}
 {%block page_title%}
-All Submitted Wage Sheets For Wage Bill {{wage_bill}}
+Approved Wage Sheets
 {% endblock%}
+
 {% block content %}
 <div class="container-fluid">
     <!-- ./row -->
@@ -15,26 +16,26 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                 {%if wage_sheets%}
                 <!-- ./ card-header -->
                 <div class="card-header">
-                    <h3 class="card-title">Wage Sheets for wage bill week {{wage_bill}}</h3>
+                    <h3 class="card-title">Approved as {{user.user_role}}</h3>
                 </div>
+                <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="pageTable" class="table table-striped">
+                        <table id="example1" class="table table-striped">
                             <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Date</th>
                                 <th>Day</th>
                                 <th>Supervisor</th>
-                                <th>Field Manager</th>
-                                <th>Project Manager</th>
                                 <th>Type</th>
                                 <th>Total Wages</th>
                                 <th>Total Complaints</th>
                                 <th>Total Deductions</th>
                                 <th>FM Approval</th>
                                 <th>PM Approval</th>
+                                <th>GM Approval</th>
                                 <th>Supervisor Submission Time</th>
                                 <th>Field Manager Approval Time</th>
                                 <th>Project Manager Approval Time</th>
@@ -49,12 +50,6 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                                 <td>{{wage_sheet.date|date:"l"}}</td>
                                 <td>
                                     {{wage_sheet.supervisor_user}}
-                                </td>
-                                <td>
-                                    {{wage_sheet.field_manager_user}}
-                                </td>
-                                <td>
-                                    {{wage_sheet.project_manager_user}}
                                 </td>
                                 <td>{{wage_sheet.supervisor_user.type}}</td>
                                 <td>{{wage_sheet.total_wages|intcomma}}</td>
@@ -78,6 +73,15 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                                     <span style="color:red">Rejected</span>
                                     {%endif%}
                                 </td>
+                                <td>
+                                    {%if wage_sheet.gm_status%}
+                                    <span style="color:green">Approved</span>
+                                    {%elif wage_sheet.is_general_manager_pending%}
+                                    <span>Pending</span>
+                                    {%else%}
+                                    <span style="color:red">Rejected</span>
+                                    {%endif%}
+                                </td>
                                 <td>{{wage_sheet.supervisor_submission_time}}</td>
                                 <td>{{wage_sheet.field_manager_approval_time}}</td>
                                 <td>{{wage_sheet.project_manager_approval_time}}</td>
@@ -87,6 +91,11 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                                             View Details
                                         </button>
                                     </a>
+                                    <a href="{%url 'wage_sheet_pdf' wage_sheet.id%}">
+                                        <button class="btn-sm btn-outline-info btn-rounded waves-effect">
+                                            Print PDF
+                                        </button>
+                                    </a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -94,14 +103,18 @@ All Submitted Wage Sheets For Wage Bill {{wage_bill}}
                         </table>
                     </div>
                 </div>
+                <!-- /.card-body -->
+                {%else%}
+                <div class="card-body">
+                    <h4>No pending wage sheets available</h4>
+                </div>
+                {%endif%}
             </div>
-            <!-- /.card-body -->
-            {%else%}
-            <div class="card-body">
-                <h4>No wage sheets submitted for the current wage bill</h4>
-            </div>
-            {%endif%}
+            <!-- /.card -->
         </div>
+        <!-- /.col -->
     </div>
+    <!-- /.row -->
 </div>
-{% endblock %}
+<!-- /.container-fluid -->
+{%endblock%}

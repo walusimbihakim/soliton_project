@@ -2,17 +2,8 @@ import os
 import dj_database_url
 from django.contrib.messages import constants as messages
 from decouple import config, Csv
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 ENVIRONMENT = config("ENVIRONMENT")
-if ENVIRONMENT == "heroku":
-    sentry_sdk.init(
-        dsn=config("SENTRY_DSN"),
-        integrations=[DjangoIntegration()],
-        traces_sample_rate=1.0,
-        send_default_pii=True
-    )
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
@@ -195,6 +186,7 @@ SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 # CELERY STUFF

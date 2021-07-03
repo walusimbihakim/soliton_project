@@ -191,7 +191,9 @@ wage_sheets_urls = [
          wage_sheet_views.retract_wage_sheet, name="retract_wage_sheet"),
     path('current_wage_bill_sheets', wage_sheet_views.current_wage_bill_sheets_page, name="current_wage_bill_sheets"),
     path("wage_bill_sheets/<int:wage_bill_id>/", wage_sheet_views.wage_bill_sheets_page, name="wage_bill_sheets"),
-    path("wage_sheet_pdf/<int:wage_sheet_id>/", wage_sheet_views.wage_sheet_pdf, name="wage_sheet_pdf")
+    path("wage_sheet_pdf/<int:wage_sheet_id>/", wage_sheet_views.wage_sheet_pdf, name="wage_sheet_pdf"),
+    path("approved_wage_sheets/", wage_sheet_views.approved_wage_sheets_page, name="approved_wage_sheets"),
+    path("expired_wage_sheets/", wage_sheet_views.expired_wage_sheets_page, name="expired_wage_sheets_page")
 
 ]
 

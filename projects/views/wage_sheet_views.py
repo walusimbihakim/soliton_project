@@ -1,11 +1,12 @@
 from django.db import IntegrityError
+from django.db.models import Q
 from django.utils import timezone
 
 from project_manager.settings import BASE_DIR
 from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER, INVALID_FORM_MESSAGE, \
     INTEGRITY_ERROR_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required
-from projects.models import Worker
+from projects.models import Worker, WageSheet
 from projects.procedures import is_date_between, render_to_pdf
 from projects.selectors.complaints import get_complaints, get_complaint
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
@@ -87,6 +88,30 @@ def user_submitted_wage_sheets_page(request):
         "wage_sheets": wage_sheets,
     }
     return render(request, "wage_sheet/user_submitted_wage_sheets.html", context)
+
+
+def approved_wage_sheets_page(request):
+    wage_sheets = WageSheet.objects.filter(
+        Q(field_manager_user=request.user, manager_status=True) |
+        Q(project_manager_user=request.user, project_manager_status=True)
+    ).order_by("-id")
+    context = {
+        "wage_sheets": wage_sheets,
+        "wage_sheets_page": "active",
+    }
+    return render(request, "wage_sheet/approved_wage_sheets.html", context)
+
+
+def expired_wage_sheets_page(request):
+    wage_sheets = WageSheet.objects.filter(
+        Q(field_manager_user=request.user, is_expired=True) |
+        Q(project_manager_user=request.user, is_expired=True)
+    ).order_by("-id")
+    context = {
+        "wage_sheets": wage_sheets,
+        "wage_sheets_page": "active",
+    }
+    return render(request, "wage_sheet/expired_wage_sheets.html", context)
 
 
 def submitted_wage_sheet_page(request, id):

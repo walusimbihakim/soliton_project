@@ -1,8 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-
-from projects.procedures import calculate_airtel_charge
+from projects.procedures import calculate_airtel_charge, calculate_total_consolidated_payments
 
 
 class WageBill(models.Model):
@@ -13,7 +12,6 @@ class WageBill(models.Model):
     class Meta:
         verbose_name = ("WageBill")
         verbose_name_plural = ("WageBills")
-
         unique_together = ('start_date', 'end_date')
         ordering = ["status"]
 
@@ -27,11 +25,31 @@ class WageBill(models.Model):
 
     @property
     def is_payment_generated(self):
-        return bool(self.consolidatedwagebill_set.all())
+        return bool(self.consolidatedwagebillpayment_set.all())
 
     @property
     def is_wage_bill_week_done(self):
         return self.status == "Done"
+
+    @property
+    def total_consolidated_payments(self):
+        consolidated_payments = self.consolidatedwagebillpayment_set.all()
+        payment = 0
+        if not consolidated_payments:
+            return payment
+        for consolidated_payment in consolidated_payments:
+            payment = payment + consolidated_payment.total_payment
+        return payment
+
+    @property
+    def total_charges(self):
+        consolidated_payments = self.consolidatedwagebillpayment_set.all()
+        charges = 0
+        if not consolidated_payments:
+            return charges
+        for consolidated_payment in consolidated_payments:
+            charges = charges + consolidated_payment.charge
+        return charges
 
 
 class ConsolidatedWageBillPayment(models.Model):
@@ -70,6 +88,3 @@ class ConsolidatedWageBillPayment(models.Model):
     @property
     def total_payment(self):
         return self.charge + self.total_amount
-
-
-

@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from projects.models import WageBill

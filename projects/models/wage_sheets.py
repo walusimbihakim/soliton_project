@@ -6,13 +6,11 @@ from projects.models.wage_bills import WageBill
 from projects.models.users import User
 from projects.procedures import calculate_total_wages
 
-diana = User.objects.get(email="diana.aryenyo@soliton.co.ug")
-
 
 class WageSheet(models.Model):
     wage_bill = models.ForeignKey(WageBill, on_delete=models.CASCADE, default=None, null=True)
     field_manager_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    project_manager_user = models.ForeignKey(User, on_delete=models.CASCADE, default=diana.id,
+    project_manager_user = models.ForeignKey(User, on_delete=models.CASCADE,
                                              related_name="wage_sheet_project_manager")
     supervisor_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wage_sheet_supervisor")
     segment = models.ForeignKey(Segment, on_delete=models.CASCADE, null=True, blank=True)
