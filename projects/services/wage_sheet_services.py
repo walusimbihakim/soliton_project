@@ -22,16 +22,19 @@ def reset_payment_approvals(wage_sheet):
     complaints = wage_sheet.complaint_set.all()
     deductions = wage_sheet.deduction_set.all()
     wages.update(
+        is_manager_approved=True,
         is_pm_approved=None,
         is_gm_approved=None,
         is_payed=None
     )
     complaints.update(
+        is_manager_approved=True,
         is_pm_approved=None,
         is_gm_approved=None,
         is_payed=None
     )
     deductions.update(
+        is_manager_approved=True,
         is_pm_approved=None,
         is_gm_approved=None,
         is_payed=None
