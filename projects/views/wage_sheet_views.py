@@ -23,9 +23,12 @@ from projects.selectors.wage_sheets import get_wage_sheet, get_wages, get_wage, 
     get_user_submitted_wage_sheets, get_rejected_wages, get_approved_wages, get_current_wage_bill_wage_sheets, \
     get_submitted_wage_bill_wage_sheets, get_group_wages, get_group_wage
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
-from projects.services.wage_sheet_services import retract
+from projects.services.wage_sheet_services import retract, approve_or_reject_payments_by_fieldmanager, \
+    approve_or_reject_payments_by_project_manager, approve_or_reject_wage_sheet_by_field_manager, \
+    approve_or_reject_wage_sheet_by_project_manager, submit_wage_sheet_service
 import projects.selectors.workers as worker_selectors
 from projects.services.worker_services import create_worker_transfer
+from projects.tasks import wage_sheet_approver_notify
 
 
 def manage_wage_sheets_page(request):
@@ -318,11 +321,10 @@ def delete_wage_group(request, id):
 
 
 def submit_wage_sheet(request, wage_sheet_id):
-    wage_sheet = get_wage_sheet(wage_sheet_id)
-    wage_sheet.is_submitted = True
-    wage_sheet.supervisor_submission_time = timezone.now()
-    wage_sheet.save()
-
+    wage_sheet: WageSheet = get_wage_sheet(wage_sheet_id)
+    submit_wage_sheet_service(wage_sheet)
+    field_manager_user = wage_sheet.field_manager_user
+    wage_sheet_approver_notify.delay(field_manager_user.id, wage_sheet_id)
     messages.success(request, "Wage Sheet Submitted Successfully")
     return HttpResponseRedirect(reverse(manage_wage_sheets_page))
 
@@ -337,7 +339,7 @@ def retract_wage_sheet(request, wage_sheet_id):
     messages.error(request, "Wage Sheet is already approved")
 
 
-def approve_or_reject_wagesheets(request):
+def approve_or_reject_wagesheets_page(request):
     wage_sheets = None
     user = request.user
     if user.user_role == FIELD_MANAGER:
@@ -381,36 +383,24 @@ def manage_submitted_sheet(request, wage_sheet_id):
     return render(request, "wage_sheet/manage_submitted_sheet.html", context)
 
 
-def approve_reject_wage_sheets_page(request, wagesheet_id):
+def approve_or_reject_wage_sheets_process(request, wagesheet_id):
     if request.method == "POST":
-        wage_sheet = get_wage_sheet(wagesheet_id)
+        wage_sheet: WageSheet = get_wage_sheet(wagesheet_id)
         wages = get_wages(wage_sheet)
         complaints = get_complaints(wagesheet_id)
         deductions = get_deductions(wagesheet_id)
         user = request.user
+        is_approved = request.POST.get("wage_action")
+        comment = request.POST.get("wage_comment")
         if user.user_role == FIELD_MANAGER:
-            wage_sheet.manager_comment = request.POST.get("wage_comment")
-            wage_sheet.manager_status = request.POST.get("wage_action")
-            wage_sheet.field_manager_approval_time = timezone.now()
-            wage_sheet.save()
-            wages.filter(is_manager_approved=True).update(is_pm_approved=True)
-            complaints.filter(is_manager_approved=True).update(is_pm_approved=True)
-            deductions.filter(is_manager_approved=True).update(is_pm_approved=True)
+            approve_or_reject_wage_sheet_by_field_manager(is_approved, wage_sheet, comment)
+            approve_or_reject_payments_by_fieldmanager(is_approved, wages, complaints, deductions)
+            wage_sheet_approver_notify.delay(wage_sheet.project_manager_user.id, wagesheet_id)
         elif user.user_role == PROJECT_MANAGER:
-            wage_sheet.project_manager_status = request.POST.get("wage_action")
-            wage_sheet.project_manager_comment = request.POST.get("wage_comment")
-            wage_sheet.project_manager_approval_time = timezone.now()
-            wage_sheet.save()
-            wages.filter(is_pm_approved=True).update(is_gm_approved=True)
-            complaints.filter(is_manager_approved=True).update(is_gm_approved=True)
-            deductions.filter(is_manager_approved=True).update(is_gm_approved=True)
-        elif user.user_role == GENERAL_MANAGER:
-            wage_sheet.gm_status = request.POST.get("wage_action")
-            wage_sheet.gm_comment = request.POST.get("wage_wage_sheetcomment")
-            wage_sheet.approved = True
-            wage_sheet.save()
+            approve_or_reject_wage_sheet_by_project_manager(is_approved, wage_sheet, comment)
+            approve_or_reject_payments_by_project_manager(is_approved, wages, complaints, deductions)
         messages.success(request, "Action saved Successfully")
-        return HttpResponseRedirect(reverse(approve_or_reject_wagesheets))
+        return HttpResponseRedirect(reverse(approve_or_reject_wagesheets_page))
 
 
 def wage_sheet_pdf(self, wage_sheet_id):

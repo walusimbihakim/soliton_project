@@ -9,3 +9,9 @@ def create_notification(user: User, title: str, message: str) -> Notification:
         message=message
     )
     return notification
+
+
+def read_all_notifications(notifications):
+    for notification in notifications:
+        notification.is_read = True
+        notification.save()

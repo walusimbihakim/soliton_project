@@ -2,7 +2,6 @@ from abc import ABCMeta, abstractmethod
 
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-from projects.models import WageBill
 
 
 class Mail(metaclass=ABCMeta):
@@ -51,3 +50,29 @@ class WageBillCreatedMail(Mail):
     def create_mail(self):
         self.set_subject("New Wage Bill Added")
         self.set_template_uri("email/wage_bill_created_email.html")
+
+
+class WageSheetsSubmissionReminder(Mail):
+    def __init__(self, wage_bill, receivers):
+        super().__init__()
+        self.receivers: list = receivers
+        self.context = {
+            "wage_bill": wage_bill
+        }
+
+    def create_mail(self):
+        self.set_subject("Wage Sheets Submission Reminder")
+        self.set_template_uri("email/wage_sheet_submission_reminder.html")
+
+
+class WageSheetApprovalNotification(Mail):
+    def __init__(self, wage_sheet, receivers):
+        super().__init__()
+        self.receivers: list = receivers
+        self.context = {
+            "wage_sheet": wage_sheet
+        }
+
+    def create_mail(self):
+        self.set_subject("Wage Sheet Pending Approval")
+        self.set_template_uri("email/wage_sheet_approval_notification.html")
