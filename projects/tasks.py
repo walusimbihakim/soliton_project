@@ -3,11 +3,13 @@ from datetime import date
 from celery import shared_task
 from django.db import IntegrityError
 from project_manager.celery import app
-from projects.classes.mails import WageBillCreatedMail
-from projects.models import WageBill
+from projects.classes.mails import WageBillCreatedMail, WageSheetsSubmissionReminder, WageSheetApprovalNotification
+from projects.models import WageBill, Notification, WageSheet
+
 from projects.selectors import wage_bill_selectors
-from projects.selectors.user_selectors import get_users
+from projects.selectors.user_selectors import get_users, get_supervisors, get_user, get_user_by_id
 from projects.selectors.wage_bill_selectors import get_current_wage_bill
+from projects.selectors.wage_sheets import get_wage_sheet
 
 
 @app.task
@@ -34,4 +36,49 @@ def send_wage_created_email_task():
         receiver_emails.append(user.email)
 
     mail = WageBillCreatedMail(wage_bill=wage_bill, receivers=receiver_emails)
+    mail.send_email()
+
+
+@shared_task
+def wage_sheets_submission_reminder():
+    wage_bill = get_current_wage_bill()
+    receiver_emails = []
+    supervisors = get_supervisors()
+    for user in supervisors:
+        receiver_emails.append(user.email)
+        Notification.objects.create(
+            user=user,
+            title="Wage Sheets Submission Reminder",
+            message=f"Please note that today is the last day for submitting wage sheets"
+                    f" for wage bill week {wage_bill}."
+                    f"If you have not submitted wage sheets, kindly do so."
+        )
+    mail = WageSheetsSubmissionReminder(wage_bill=wage_bill, receivers=receiver_emails)
+    mail.send_email()
+
+
+@shared_task
+def wage_bill_created_notification():
+    wage_bill = get_current_wage_bill()
+    users = get_users()
+    for user in users:
+        Notification.objects.create(
+            user=user,
+            title="New Wage Bill Created",
+            message=f"A new wage bill week {wage_bill} has been created. "
+                    f"The deadline for the wage bill is {wage_bill.end_date}"
+        )
+
+
+@shared_task
+def wage_sheet_approver_notify(approver_user_id, wage_sheet_id):
+    user = get_user_by_id(id=approver_user_id)
+    wage_sheet: WageSheet = get_wage_sheet(id=wage_sheet_id)
+    Notification.objects.create(
+        user=user,
+        title="New Wage Sheet Pending Approval",
+        message=f"A new wage sheet from supervisor {wage_sheet.supervisor_user.name} and "
+                f"field manager {wage_sheet.field_manager_user.name} is pending your approval"
+    )
+    mail = WageSheetApprovalNotification(wage_sheet=wage_sheet, receivers=[user.email])
     mail.send_email()

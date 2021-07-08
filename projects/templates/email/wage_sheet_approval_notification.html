@@ -1,0 +1,12 @@
+{% extends './base.html' %}
+{% load static %}
+{%block subject%}Wage Sheet Pending Approval{%endblock%}
+{%block content%}
+<p> A wage sheet from {{wage_sheet.supervisor_user}} is pending your approval.
+</p>
+<p>Kindly reject/approve the wage sheet as soon as possible to avoid delays in payments.</p>
+<a href="https://2jenge.com/approve_or_reject_wage_sheets/">Click here to approve/reject</a>
+    <br>
+    <em>You will need logging on the system.</em>
+</p>
+{%endblock%}

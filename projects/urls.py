@@ -3,6 +3,7 @@ from django.urls import path, include
 from projects.views import scope_views, team_views, wage_sheet_views, boq_views
 from projects.views.auth_views import super_admin_required_page, project_manager_required_page, \
     supervisor_required_page, finance_officer_required_page
+from projects.views.notification_views import unread_notifications_page, notifications_page
 from projects.views.sites_views import *
 import projects.views.worker_views as worker_views
 from projects.views.survey_views import *
@@ -176,12 +177,12 @@ wage_sheets_urls = [
     path('delete_wage_group/<int:id>/', wage_sheet_views.delete_wage_group, name='delete_wage_group'),
     path('submit_wage_sheet/<int:wage_sheet_id>/',
          wage_sheet_views.submit_wage_sheet, name="submit_wage_sheet"),
-    path('approve_or_reject_wage_sheets/', wage_sheet_views.approve_or_reject_wagesheets,
+    path('approve_or_reject_wage_sheets/', wage_sheet_views.approve_or_reject_wagesheets_page,
          name="approve_or_reject_wagesheets"),
     path('manage_submitted_sheet/<int:wage_sheet_id>/',
          wage_sheet_views.manage_submitted_sheet, name="manage_submitted_sheet"),
     path('approve_reject_wagesheet/<int:wagesheet_id>/',
-         wage_sheet_views.approve_reject_wage_sheets_page, name="approve_reject_wagesheet"),
+         wage_sheet_views.approve_or_reject_wage_sheets_process, name="approve_reject_wagesheet"),
     path('reject_wage/', wage_sheet_views.reject_wage, name="reject_wage"),
     path('user_submitted_wage_sheets_page/', wage_sheet_views.user_submitted_wage_sheets_page,
          name="user_submitted_wage_sheets_page"),
@@ -300,10 +301,17 @@ auth_urls = [
          name="finance_officer_required_page"),
 ]
 
+notification_urls = [
+    path("unread_notifications/", unread_notifications_page,
+         name="unread_notifications_page"),
+    path("notifications/", notifications_page,
+         name="notifications_page"),
+]
+
 urlpatterns = activity_urls + project_urls + worker_urls + survey_urls + boq_urls + scope_urls + budget_urls + settings_urls + \
               pip_urls + field_managers_urls + teams_urls + pip_team_urls + wage_sheets_urls \
               + wage_bill_urls + segments_urls + complaint_urls + \
-              deduction_urls + user_urls + auth_urls
+              deduction_urls + user_urls + auth_urls + notification_urls
 
 
 # customJS routes
