@@ -1,7 +1,5 @@
 from django.utils import timezone
-
 from projects.models import WageSheet
-from projects.tasks import wage_sheet_approver_notify
 
 
 def unsubmit_wage_sheet(wage_sheet):
