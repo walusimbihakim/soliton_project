@@ -24,6 +24,7 @@ Wage Bill Payment
                 <div class="card-body">
                     <h5><strong>Wage Bill Week: </strong>{{wage_bill}}</h5>
                     <h5><strong>Manager: </strong>{{manager}}</h5>
+                    <h5><strong>Manager Total: </strong>UGX {{manager_total|intcomma}}</h5>
                 </div>
             </div>
             {% for sheet in manager_wage_sheets %}

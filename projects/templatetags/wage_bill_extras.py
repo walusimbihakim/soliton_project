@@ -60,8 +60,10 @@ def get_sheet_total(wage_sheet):
 
 @register.filter
 def get_wage_bill_total(wage_bill):
+    
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
     
     sheet_total = Wage.objects.filter(
-        wage_sheet__in=wage_bill_sheets).aggregate(total = Sum('payment'))
+        wage_sheet__in=wage_bill_sheets, is_manager_approved=True
+        ).aggregate(total = Sum('payment'))
     return sheet_total['total']
