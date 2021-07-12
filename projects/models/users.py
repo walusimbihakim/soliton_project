@@ -76,3 +76,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_supervisor(self) -> bool:
         return self.user_role == SUPERVISOR
+
+    @property
+    def notifications(self):
+        return self.notification_set.all()
+
+    @property
+    def unread_notifications(self):
+        return self.notification_set.filter(is_read=False)
