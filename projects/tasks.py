@@ -5,9 +5,8 @@ from django.db import IntegrityError
 from project_manager.celery import app
 from projects.classes.mails import WageBillCreatedMail, WageSheetsSubmissionReminder, WageSheetApprovalNotification
 from projects.models import WageBill, Notification, WageSheet
-
 from projects.selectors import wage_bill_selectors
-from projects.selectors.user_selectors import get_users, get_supervisors, get_user, get_user_by_id
+from projects.selectors.user_selectors import get_users, get_supervisors, get_user_by_id
 from projects.selectors.wage_bill_selectors import get_current_wage_bill
 from projects.selectors.wage_sheets import get_wage_sheet
 
