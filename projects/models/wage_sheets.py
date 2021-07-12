@@ -41,7 +41,7 @@ class WageSheet(models.Model):
         complaint_queryset = self.complaint_set.all()
         complaints = calculate_total_wages(complaint_queryset)
         return complaints
-
+ 
     @property
     def total_deductions(self) -> int:
         deduction_queryset = self.deduction_set.all()

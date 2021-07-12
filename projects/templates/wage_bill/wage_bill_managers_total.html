@@ -16,7 +16,7 @@ Managers Summary
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if manager_wage_totals%}
+                {%if wage_bill_managers%}
                 <!-- ./ card-header -->
                 <div class="card-header">
                     <h3 class="card-title">Managers</h3>
@@ -29,19 +29,15 @@ Managers Summary
                         <tr>
                             <th class="text-center">No.</th>
                             <th class="text-center">Manager</th>
-                            <th class="text-center">Wage Total</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center">#</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for manager in manager_wage_totals%}
+                        {% for manager in wage_bill_managers%}
                         <tr >
                             <td class="text-center">{{forloop.counter}}</td>
                             <td class="text-center">
                                 {{manager.field_manager_user|get_manager_name}}
-                            </td>
-                            <td class="text-center">
-                                UGX {{manager.total|intcomma}}
                             </td>
                             <td class="text-center">
                                 <a href="{% url 'manager_payment_breakdown' wage_bill.id manager.field_manager_user %}">

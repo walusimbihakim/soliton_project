@@ -1,3 +1,4 @@
+from projects.procedures import calculate_total_wages
 from django.db.models import Sum
 import projects.models.wage_bills as wage_bills
 import projects.models.wage_sheets as wage_sheets
@@ -139,24 +140,13 @@ def get_all_consolidated_wage_bill_payments(wage_bill):
     return wage_bills.ConsolidatedWageBillPayment.objects.filter(wage_bill=wage_bill)
 
 
-def get_manager_wage_bill_total(wage_bill):
-    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+def get_wage_bill_managers(wage_bill):
 
-
-    manager_wage_total = wage_sheets.WageSheet.objects.filter(
-        id__in=wage_bill_sheets
-        ).values("field_manager_user").distinct()
-    
-    # .annotate(
-    #         total=Sum('wage__payment')
-    #     )
-    # sheet_total = wage_sheets.Wage.objects.filter(
-    #     wage_sheet__in=wage_bill_sheets, is_manager_approved=True
-    #     ).aggregate(total = Sum('payment'))
-        
-    print(manager_wage_total)
-
-    return manager_wage_total
+    wage_bill_managers = wage_sheets.WageSheet.objects.filter(
+        wage_bill=wage_bill
+        ).order_by().values("field_manager_user").distinct()
+   
+    return wage_bill_managers
 
 def get_supervisor_wage_bill_total(wage_bill, manager):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
@@ -174,17 +164,20 @@ def get_manager_wage_bill_wage_sheets(wage_bill, manager):
 
     return wage_bill_sheets.filter(field_manager_user=manager).order_by('supervisor_user')
 
-def get_manager_wage_bill_wages(wage_bill, manager):
+def get_manager_wage_bill_total(wage_bill, manager):
     manager_wage_bill_wage_sheets = get_manager_wage_bill_wage_sheets(wage_bill, manager)
+    
+    total_ammount = 0
 
-    manager_wages = wage_sheets.Wage.objects.filter(
-        wage_sheet__in=manager_wage_bill_wage_sheets, is_manager_approved=True
-        )
+    for wage_sheet in manager_wage_bill_wage_sheets:
+        
+        total_ammount += wage_sheet.total_amount    
 
-    return manager_wages
+    return total_ammount
 
 def get_wage_bill_total_payment(wage_bill):
     wage_bill_total = wage_bills.ConsolidatedWageBillPayment.objects.filter(
         wage_bill=wage_bill
     ).aggregate(total = Sum('total_payment'))
+
     return wage_bill_total['total']

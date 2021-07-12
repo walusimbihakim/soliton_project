@@ -230,11 +230,11 @@ def wage_bill_payment_breakdown(request, wage_bill_id):
 def wage_bill_manager_total(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
 
-    manager_wage_totals = wage_bill_selectors.get_manager_wage_bill_total(wage_bill)
+    wage_bill_managers = wage_bill_selectors.get_wage_bill_managers(wage_bill)
 
     context = {
         'wage_bill': wage_bill,
-        'manager_wage_totals':manager_wage_totals,
+        'wage_bill_managers':wage_bill_managers,
     }
 
     return render(request, "wage_bill/wage_bill_managers_total.html", context)
@@ -256,12 +256,12 @@ def wage_bill_manager_payment_breakdown(request, wage_bill_id, manager):
 
     manager_wage_sheets = wage_bill_selectors.get_manager_wage_bill_wage_sheets(wage_bill, manager)
 
-    manager_wages = wage_bill_selectors.get_manager_wage_bill_wages(wage_bill, manager)
-
+    manager_total = wage_bill_selectors.get_manager_wage_bill_total(wage_bill, manager)
+    
     context = {
         'wage_bill': wage_bill,
         'manager_wage_sheets':manager_wage_sheets,
-        'manager_wages': manager_wages,
+        'manager_total': manager_total,
         'manager': get_user_by_id(manager),
     }
 
