@@ -1,4 +1,6 @@
 # Roles
+
+
 SUPERVISOR = "Supervisor"
 FIELD_MANAGER = "Field Manager"
 FINANCE_OFFICER = "Finance Office"
@@ -21,19 +23,19 @@ TRANSPORT = 'Transport'
 MISCELLANEOUS = 'Miscellaneous'
 
 TYPE_CHOICES = [
-        (ISP, ISP),
-        (OFC, OFC),
-        (OSP, OSP),
-        (FINANCIAL, FINANCIAL),
-        (WAREHOUSE, WAREHOUSE),
-        (POWER, POWER),
-        (MAINTENANCE, MAINTENANCE),
-        (WORKSHOP, WORKSHOP),
-        (ADMINISTRATOR, ADMINISTRATOR),
-        (SECURITY, SECURITY),
-        (TRANSPORT, TRANSPORT),
-        (MISCELLANEOUS, MISCELLANEOUS)
-    ]
+    (ISP, ISP),
+    (OFC, OFC),
+    (OSP, OSP),
+    (FINANCIAL, FINANCIAL),
+    (WAREHOUSE, WAREHOUSE),
+    (POWER, POWER),
+    (MAINTENANCE, MAINTENANCE),
+    (WORKSHOP, WORKSHOP),
+    (ADMINISTRATOR, ADMINISTRATOR),
+    (SECURITY, SECURITY),
+    (TRANSPORT, TRANSPORT),
+    (MISCELLANEOUS, MISCELLANEOUS)
+]
 
 INTEGRITY_ERROR_MESSAGE = "The record you tried to add is a duplicate or contains duplicate values" \
                           " for unique fields."
@@ -41,6 +43,8 @@ INTEGRITY_ERROR_MESSAGE = "The record you tried to add is a duplicate or contain
 INVALID_FORM_MESSAGE = "The form values are invalid or duplicate for unique fields."
 
 WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE \
-        = "This operation can only be done once. All payables on unapproved " \
-        "submitted wage sheets will not be included in the wage bill payments " \
-        "for Wage bill week"
+    = "This operation can only be done once. All payables on unapproved " \
+      "submitted wage sheets will not be included in the wage bill payments " \
+      "for Wage bill week"
+
+

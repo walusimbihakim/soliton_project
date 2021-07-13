@@ -14,7 +14,7 @@ def get_wage_bill(wage_bill_id):
     return wage_bills.WageBill.objects.get(pk=wage_bill_id)
 
 
-def get_current_wage_bill():
+def get_current_wage_bill() -> wage_bills.WageBill:
     try:
         wage_bill = wage_bills.WageBill.objects.get(status="Current")
     except wage_bills.WageBill.DoesNotExist:
@@ -152,43 +152,45 @@ def get_all_consolidated_wage_bill_payments(wage_bill):
 
 
 def get_wage_bill_managers(wage_bill):
-
     wage_bill_managers = wage_sheets.WageSheet.objects.filter(
         wage_bill=wage_bill
-        ).order_by().values("field_manager_user").distinct()
-   
+    ).order_by().values("field_manager_user").distinct()
+
     return wage_bill_managers
+
 
 def get_supervisor_wage_bill_total(wage_bill, manager):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
 
     supervisor_wage_total = wage_sheets.WageSheet.objects.filter(
         id__in=wage_bill_sheets, field_manager_user=manager
-        ).values("supervisor_user").annotate(
-            total=Sum('wage__payment')
-        )
+    ).values("supervisor_user").annotate(
+        total=Sum('wage__payment')
+    )
 
     return supervisor_wage_total
+
 
 def get_manager_wage_bill_wage_sheets(wage_bill, manager):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
 
     return wage_bill_sheets.filter(field_manager_user=manager).order_by('supervisor_user')
 
+
 def get_manager_wage_bill_total(wage_bill, manager):
     manager_wage_bill_wage_sheets = get_manager_wage_bill_wage_sheets(wage_bill, manager)
-    
+
     total_ammount = 0
 
     for wage_sheet in manager_wage_bill_wage_sheets:
-        
-        total_ammount += wage_sheet.total_amount    
+        total_ammount += wage_sheet.total_amount
 
     return total_ammount
+
 
 def get_wage_bill_total_payment(wage_bill):
     wage_bill_total = wage_bills.ConsolidatedWageBillPayment.objects.filter(
         wage_bill=wage_bill
-    ).aggregate(total = Sum('total_payment'))
+    ).aggregate(total=Sum('total_payment'))
 
     return wage_bill_total['total']

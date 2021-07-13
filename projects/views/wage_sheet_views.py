@@ -28,7 +28,7 @@ from projects.services.wage_sheet_services import retract, approve_or_reject_pay
     approve_or_reject_wage_sheet_by_project_manager, submit_wage_sheet_service
 import projects.selectors.workers as worker_selectors
 from projects.services.worker_services import create_worker_transfer
-from projects.tasks import wage_sheet_approver_notify
+from projects.tasks.random import wage_sheet_approver_notify
 
 
 def manage_wage_sheets_page(request):
