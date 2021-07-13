@@ -10,7 +10,6 @@ from projects.selectors.wage_sheets import get_worker_payment_per_day
 
 
 class SimpleWageBillPayment:
-
     def __init__(self, wage_bill: WageBill, worker: Worker):
         self.wage_bill = wage_bill
         self.worker_name = worker.name
