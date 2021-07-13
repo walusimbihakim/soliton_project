@@ -18,6 +18,7 @@ class WageBill(models.Model):
     def __str__(self):
         start_date_str = self.start_date.strftime("%d %b %Y")
         end_date_str = self.end_date.strftime("%d %b %Y")
+
         return f"{start_date_str} - {end_date_str}"
 
     def get_absolute_url(self):
