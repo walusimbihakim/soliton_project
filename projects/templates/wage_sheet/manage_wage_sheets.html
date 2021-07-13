@@ -18,81 +18,81 @@ Manage Wage Sheets
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if wage_sheets%}
-                <!-- ./ card-header -->
-                <div class="card-header">
-                    <h3 class="card-title">Wage Sheets Pending Submission</h3>
-                </div>
-                <!-- /.card-header -->
-                <!-- ./card-body -->
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="pageTable" class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Wage Bill Week</th>
-                                <th>Day of the week</th>
-                                <th>Field Manager</th>
-                                <th>Action</th>
-                                <th>#</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for wage_sheet in wage_sheets%}
-                            <tr data-id={{wage_sheet.id}}>
-                                <td>{{wage_sheet.wage_bill}}</td>
-                                <td>{{wage_sheet.date | date:'l'}}</td>
-                                <td>
-                                    {{wage_sheet.field_manager_user}}
-                                </td>
-                                <td>
-                                    {% if wage_sheet.is_submitted %}
-                                    <a href="{%url 'manage_submitted_sheet' wage_sheet.id%}"
-                                       class="btn btn-outline-info btn-rounded waves-effect">
-                                        Submitted|View Wages
-                                    </a>
-                                    {% else %}
-                                    <a href="{%url 'submit_wage_sheet' wage_sheet.id%}" class="btn btn-outline-info btn-rounded waves-effect"
-                                       onclick="return confirm('Are you sure you have added all wages, complaints and deductions?')">
-                                        Submit Sheet
-                                    </a>
-                                    {% endif %}
-                                <td>
-                                    <a href="{%url 'manage_wages' wage_sheet.id%}">
-                                        <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
-                                            Manage Wages
-                                        </button>
-                                    </a>
-
-                                    <a href="{%url 'manage_group_wages' wage_sheet.id%}">
-                                        <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
-                                            Manage Group Wages
-                                        </button>
-                                    </a>
-
-                                    <a href="{%url 'manage_complaints' wage_sheet.id%}">
-                                        <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
-                                            Manage Complaints
-                                        </button>
-                                    </a>
-                                    <a href="{%url 'manage_deductions' wage_sheet.id%}">
-                                        <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
-                                            Manage Deductions
-                                        </button>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{%url 'edit_wage_sheet' wage_sheet.id%}" style="color:inherit">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                <td>
-                            </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                {%if wage_sheets%}                    
+                    <!-- ./ card-header -->
+                    <div class="card-header">
+                        <h3 class="card-title">Wage Sheets Pending Submission</h3>
                     </div>
-                </div>
-                <!-- /.card-body -->
+                    <!-- /.card-header -->
+                    <!-- ./card-body -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="pageTable" class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Wage Bill Week</th>
+                                    <th>Day of the week</th>
+                                    <th>Field Manager</th>
+                                    <th>Action</th>
+                                    <th>#</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for wage_sheet in wage_sheets%}
+                                <tr data-id={{wage_sheet.id}}>
+                                    <td>{{wage_sheet.wage_bill}}</td>
+                                    <td>{{wage_sheet.date | date:'l'}}</td>
+                                    <td>
+                                        {{wage_sheet.field_manager_user}}
+                                    </td>
+                                    <td>
+                                        {% if wage_sheet.is_submitted %}
+                                        <a href="{%url 'manage_submitted_sheet' wage_sheet.id%}"
+                                        class="btn btn-outline-info btn-rounded waves-effect">
+                                            Submitted|View Wages
+                                        </a>
+                                        {% else %}
+                                        <a href="{%url 'submit_wage_sheet' wage_sheet.id%}" class="btn btn-outline-info btn-rounded waves-effect"
+                                        onclick="return confirm('Are you sure you have added all wages, complaints and deductions?')">
+                                            Submit Sheet
+                                        </a>
+                                        {% endif %}
+                                    <td>
+                                        <a href="{%url 'manage_wages' wage_sheet.id%}">
+                                            <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
+                                                Manage Wages
+                                            </button>
+                                        </a>
+
+                                        <a href="{%url 'manage_group_wages' wage_sheet.id%}">
+                                            <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
+                                                Manage Group Wages
+                                            </button>
+                                        </a>
+
+                                        <a href="{%url 'manage_complaints' wage_sheet.id%}">
+                                            <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
+                                                Manage Complaints
+                                            </button>
+                                        </a>
+                                        <a href="{%url 'manage_deductions' wage_sheet.id%}">
+                                            <button class="bright-btn btn-sm btn-outline-info btn-rounded waves-effect">
+                                                Manage Deductions
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{%url 'edit_wage_sheet' wage_sheet.id%}" style="color:inherit">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    <td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
                 {%else%}
                 <div class="card-body">
                     <h4>No wage sheets pending submission available</h4>
