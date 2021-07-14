@@ -45,23 +45,104 @@ Wage Bill Payment
                             </tr>                    
                         </table>
                         <hr/>
-                        <table width="100%" border="1" >
-                            <th class="text-center">No.</th>
-                            <th class="text-center">Worker</th>
-                            <th class="text-center">Activity</th>
-                            <th class="text-center">Quantity</th>
-                            <th class="text-center">Payment</th>
-                            
-                            {% for wage in sheet.wage_set.all%}
-                            <tr >
-                                <td class="text-center">{{forloop.counter}}</td>
-                                <td class="text-center">{{wage.worker}}</td>
-                                <td class="text-center">{{wage.activity}}</td>
-                                <td class="text-center">{{wage.quantity}} {{wage.activity.unit_of_measure}}(s)</td>
-                                <td class="text-center">UGX {{wage.payment | intcomma}}</td>
-                            </tr>
-                            {% endfor %}
-                        </table>
+
+                        {% if sheet.wage_set.all %}
+                            <h5>Wages</h5>
+                            <table width="100%" border="1" >
+                                <th class="text-center">No.</th>
+                                <th class="text-center">Worker</th>
+                                <th class="text-center">Activity</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">Payment</th>
+                                
+                                {% for wage in sheet.wage_set.all%}
+                                <tr >
+                                    <td class="text-center">{{forloop.counter}}</td>
+                                    <td class="text-center">{{wage.worker}}</td>
+                                    <td class="text-center">{{wage.activity}}</td>
+                                    <td class="text-center">{{wage.quantity}} {{wage.activity.unit_of_measure}}(s)</td>
+                                    <td class="text-center">UGX {{wage.payment | intcomma}}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+
+                            <br/>
+                            <table class="float-right">                        
+                                <tr>
+                                    <th>Wages Total:&nbsp;</th>
+                                    <td>UGX: {{sheet|get_sheet_total|intcomma}}</td>
+                                </tr>
+                            </table>
+                        {% else %}
+                            <h5>No wages Recorded</h5>
+                        {% endif %}
+                        <br/>
+
+                        {% if sheet.complaint_set.all %}
+                            <h5>Complaints</h5>
+                            <table width="100%" border="1" >
+                                <th class="text-center">No.</th>
+                                <th class="text-center">Worker</th>
+                                <th class="text-center">Activity</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">Payment</th>
+                                
+                                {% for wage in sheet.complaint_set.all%}
+                                <tr >
+                                    <td class="text-center">{{forloop.counter}}</td>
+                                    <td class="text-center">{{wage.worker}}</td>
+                                    <td class="text-center">{{wage.activity}}</td>
+                                    <td class="text-center">{{wage.quantity}} {{wage.activity.unit_of_measure}}(s)</td>
+                                    <td class="text-center">UGX {{wage.payment | intcomma}}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+
+                            <br/>
+                            <table class="float-right">                        
+                                <tr>
+                                    <th>Complaints Total:&nbsp;</th>
+                                    <td>UGX: {{sheet|get_sheet_total|intcomma}}</td>
+                                </tr>
+                            </table>
+
+                        {% else %}
+                            <h5>No Complaints Recorded</h5>
+                        {% endif %} 
+                        
+                        <br/> 
+
+                        {% if sheet.deduction_set.all %}
+                            <h5>Deductions</h5>
+                            <table width="100%" border="1" >
+                                <th class="text-center">No.</th>
+                                <th class="text-center">Worker</th>
+                                <th class="text-center">Activity</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">Payment</th>
+                                
+                                {% for wage in sheet.deduction_set.all%}
+                                <tr >
+                                    <td class="text-center">{{forloop.counter}}</td>
+                                    <td class="text-center">{{wage.worker}}</td>
+                                    <td class="text-center">{{wage.activity}}</td>
+                                    <td class="text-center">{{wage.quantity}} {{wage.activity.unit_of_measure}}(s)</td>
+                                    <td class="text-center">UGX {{wage.payment | intcomma}}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+
+                            <br/>
+                            <table class="float-right">                        
+                                <tr>
+                                    <th>Deductions Total:&nbsp;</th>
+                                    <td>UGX: {{sheet|get_sheet_total|intcomma}}</td>
+                                </tr>
+                            </table>
+                        {% else %}
+                            <h5>No Deductions Recorded</h5><br/>
+                        {% endif %}
+
                         <br/>
                         <table class="float-right">                        
                             <tr>
