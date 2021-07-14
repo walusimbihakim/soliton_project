@@ -51,13 +51,6 @@ def get_manager_name(manager_id):
 
     return manager.name
 
-
-@register.filter
-def get_sheet_total(wage_sheet):
-    sheet_total = Wage.objects.filter(
-        wage_sheet=wage_sheet).aggregate(total = Sum('payment'))
-    return sheet_total['total']
-
 @register.filter
 def get_wage_bill_total(wage_bill):
     

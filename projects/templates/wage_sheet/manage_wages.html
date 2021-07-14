@@ -13,11 +13,12 @@ Manage Wages for sheet {{wage_sheet.id}}
     New Wage
 </button>
 |
-<a href="{%url 'add_wage_from_phone_number_page' wage_sheet.id%}">
-<button type="button" class="btn btn-secondary">
+{% comment %} <a href="{%url 'add_wage_from_phone_number_page' wage_sheet.id%}"> {% endcomment %}
+<button type="button" class="btn btn-secondary" data-toggle="modal"
+        data-target="#modal-add-wage-from-phone-number">
     Add Wage From Phone Number
 </button>
-</a>
+{% comment %} </a> {% endcomment %}
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
@@ -109,6 +110,8 @@ Manage Wages for sheet {{wage_sheet.id}}
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<!-- modal add wage from phone -->
 <div class="modal fade" id="modal-add-wage-from-phone-number">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -119,9 +122,9 @@ Manage Wages for sheet {{wage_sheet.id}}
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" action="{% url 'add_wage_from_phone_number_page' wage_sheet.id %}" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ wage_from_phone_number_form |crispy }}
+                    {{ wage_from_phone_number_form|crispy }}
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -133,7 +136,8 @@ Manage Wages for sheet {{wage_sheet.id}}
     </div>
     <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
+<!-- /.modal add wage from phone -->
+
 {% endblock content %}
 {% block customJS %}
 {% load javascript_settings_tags %}

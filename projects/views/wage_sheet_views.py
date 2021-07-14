@@ -222,8 +222,7 @@ def edit_wage_page(request, id):
 
 def add_wage_from_phone_number_page(request, wage_sheet_id):
     wage_sheet = get_wage_sheet(wage_sheet_id)
-    wages = get_wages(wage_sheet)
-    form = WageFromPhoneNumberForm(user=request.user)
+    
     if request.method == "POST":
         form = WageFromPhoneNumberForm(user=request.user, data=request.POST)
         if form.is_valid():
@@ -245,15 +244,7 @@ def add_wage_from_phone_number_page(request, wage_sheet_id):
         else:
             messages.error(request, INVALID_FORM_MESSAGE)
         return HttpResponseRedirect(reverse(manage_wages_page, args=[wage_sheet_id]))
-    context = {
-        "wage_sheets_page": "active",
-        "manage_wage_sheets": "active",
-        "wages": wages,
-        "wage_sheet": wage_sheet,
-        "form": form
-    }
-    return render(request, "wage_sheet/add_wages_from_phone_number.html", context)
-
+    
 
 def delete_wage(request, id):
     wage = get_wage(id)
