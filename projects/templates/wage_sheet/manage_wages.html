@@ -122,7 +122,7 @@ Manage Wages for sheet {{wage_sheet.id}}
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" action="{% url 'add_wage_from_phone_number_page' wage_sheet.id %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ wage_from_phone_number_form|crispy }}
             </div>

@@ -71,11 +71,14 @@ class WageFromPhoneNumberForm(forms.ModelForm):
         model = Wage
         fields = ["phone_number", "activity", "quantity", "payment", "remarks"]
         widgets = {
-            "remarks": forms.TextInput()
+            "remarks": forms.TextInput(),
         }
 
     def __init__(self, user=None, *args, **kwargs):
         super(WageFromPhoneNumberForm, self).__init__(*args, **kwargs)
         self.fields['activity'].queryset = Activity.objects.filter(type=user.type, is_group=False)
         self.fields['payment'].widget.attrs['readonly'] = True
+        self.fields['payment'].widget.attrs['id'] = "payment_id"
+        self.fields['activity'].widget.attrs['id'] = "activity_id"
+        self.fields['quantity'].widget.attrs['id'] = "quantity_id"
         self.helper = FormHelper()

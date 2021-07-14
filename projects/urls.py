@@ -166,7 +166,7 @@ wage_sheets_urls = [
          wage_sheet_views.edit_wage_sheet_page, name="edit_wage_sheet"),
     path('manage_wages/<int:wage_sheet_id>',
          wage_sheet_views.manage_wages_page, name='manage_wages'),
-    path('add_wage_from_phone_number_page/<int:wage_sheet_id>',
+    path('add_wage_from_phone_number_page/<int:wage_sheet_id>/',
          wage_sheet_views.add_wage_from_phone_number_page, name='add_wage_from_phone_number_page'),
 
     path('delete_wage/<int:id>/', wage_sheet_views.delete_wage, name='delete_wage'),

@@ -53,7 +53,7 @@ class WageSheet(models.Model):
         return (self.total_wages + self.total_complaints) - self.total_deductions
 
     class Meta:
-        ordering = ("supervisor_user__first_name",)
+        ordering = ("supervisor_user__first_name","date")
         unique_together = ('supervisor_user', 'field_manager_user', 'date', 'wage_bill')
 
     def __str__(self):
