@@ -84,3 +84,4 @@ whitenoise==5.2.0
 wrapt==1.12.1
 zipp==3.4.0
 xhtml2pdf~=0.2.5
+twilio==6.61.0
