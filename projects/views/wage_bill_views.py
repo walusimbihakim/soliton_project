@@ -16,7 +16,7 @@ from projects.decorators.auth_decorators import finance_office_required
 from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker
 from projects.selectors.user_selectors import get_user_by_id
-from projects.wage_bill_payments_tasks import generate_wage_bill_task_process
+from projects.tasks.wage_bill_payments import generate_wage_bill_task_process
 
 
 @finance_office_required

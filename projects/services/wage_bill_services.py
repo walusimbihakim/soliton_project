@@ -1,7 +1,7 @@
 from projects.models.wage_bills import ConsolidatedWageBillPayment
 from projects.selectors import wage_bill_selectors
 from projects.selectors.user_selectors import get_users
-from projects.tasks import send_wage_created_email_task
+from projects.tasks.random import send_wage_created_email_task
 
 
 def set_current_wage_bill_status_to_done() -> bool:
