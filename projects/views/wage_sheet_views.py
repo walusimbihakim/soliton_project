@@ -362,7 +362,6 @@ def manage_submitted_sheet(request, wage_sheet_id):
         wages = wages.filter(is_pm_approved=True)
         complaints = complaints.filter(is_pm_approved=True)
         deductions = deductions.filter(is_pm_approved=True)
-
     context = {
         "wage_sheets_page": "active",
         "wages": wages,
