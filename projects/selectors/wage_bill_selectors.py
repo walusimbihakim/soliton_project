@@ -47,7 +47,7 @@ def get_wage_bill_worker_wages(wage_bill, worker):
 
 def get_wage_bill_worker_wages_per_day(wage_bill, worker, date):
     wage_bill_sheets = get_wage_bill_sheets_per_day(wage_bill, date)
-    return wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_manage_approved=True)
+    return wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets, worker=worker, is_gm_approved=True)
 
 
 def get_wage_bill_worker_complaints_per_day(wage_bill, worker, date):
