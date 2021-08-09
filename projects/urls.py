@@ -250,6 +250,8 @@ wage_bill_urls = [
          name='current_consolidated_wage_bill'),
     path('consolidated_wage_bill_csv/<int:wage_bill_id>/', wage_bill_views.consolidated_wage_bill_payments_csv,
          name="consolidated_wage_bill_csv"),
+    path('reset_wage_bill_payments/<int:wage_bill_id>/', wage_bill_views.reset_consolidated_wage_bill_payments,
+         name="reset_wage_bill_payments"),
     path('consolidated_wage_bill/<int:wage_bill_id>/', wage_bill_views.consolidated_wage_bill,
          name="consolidated_wage_bill"),
     path('worker_wage_bill_breakdown/<int:wage_bill_id>/<int:worker_id>/', wage_bill_views.worker_wage_bill_breakdown,

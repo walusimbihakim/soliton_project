@@ -16,6 +16,7 @@ from projects.decorators.auth_decorators import finance_office_required
 from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker
 from projects.selectors.user_selectors import get_user_by_id
+from projects.services.wage_bill_services import remove_all_wage_bill_payments
 from projects.tasks.wage_bill_payments import generate_wage_bill_task_process
 
 
@@ -142,6 +143,14 @@ def generate_consolidated_wage_bill_payments(request, wage_bill_id):
     return HttpResponseRedirect(reverse(view_all_wage_bills))
 
 
+@finance_office_required
+def reset_consolidated_wage_bill_payments(request, wage_bill_id):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
+    remove_all_wage_bill_payments(wage_bill_id)
+    messages.success(request, f"Removed wage bill payments for week {wage_bill}")
+    return HttpResponseRedirect(reverse(view_all_wage_bills))
+
+
 def consolidated_wage_bill_payments_csv(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id=wage_bill_id)
     wage_bill_payments = wage_bill_selectors.get_all_consolidated_wage_bill_payments(wage_bill)
@@ -227,6 +236,7 @@ def wage_bill_payment_breakdown(request, wage_bill_id):
 
     return render(request, "wage_bill/wage_bill_break_down.html", context)
 
+
 def wage_bill_manager_total(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
 
@@ -234,10 +244,11 @@ def wage_bill_manager_total(request, wage_bill_id):
 
     context = {
         'wage_bill': wage_bill,
-        'wage_bill_managers':wage_bill_managers,
+        'wage_bill_managers': wage_bill_managers,
     }
 
     return render(request, "wage_bill/wage_bill_managers_total.html", context)
+
 
 def wage_bill_supervisor_total(request, wage_bill_id, manager):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
@@ -246,10 +257,11 @@ def wage_bill_supervisor_total(request, wage_bill_id, manager):
 
     context = {
         'wage_bill': wage_bill,
-        'supervisor_wage_totals':supervisor_wage_totals,
+        'supervisor_wage_totals': supervisor_wage_totals,
     }
 
     return render(request, "wage_bill/wage_bill_supervisors_total.html", context)
+
 
 def wage_bill_manager_payment_breakdown(request, wage_bill_id, manager):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
@@ -257,13 +269,12 @@ def wage_bill_manager_payment_breakdown(request, wage_bill_id, manager):
     manager_wage_sheets = wage_bill_selectors.get_manager_wage_bill_wage_sheets(wage_bill, manager)
 
     manager_total = wage_bill_selectors.get_manager_wage_bill_total(wage_bill, manager)
-    
+
     context = {
         'wage_bill': wage_bill,
-        'manager_wage_sheets':manager_wage_sheets,
+        'manager_wage_sheets': manager_wage_sheets,
         'manager_total': manager_total,
         'manager': get_user_by_id(manager),
     }
 
     return render(request, "wage_bill/wage_bill_manager_wagesheets.html", context)
-
