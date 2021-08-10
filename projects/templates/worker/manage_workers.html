@@ -36,7 +36,6 @@ Manage Workers
                                 <th>Kin contact</th>
                                 <th>Working With</th>
                                 <th>Action</th>
-                                <th>#</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -59,15 +58,6 @@ Manage Workers
                                         Transfer
                                     </a>
                                 </td>
-                                <td>
-                                    <a href="{%url 'edit_worker' worker.id%}" style="color:inherit">
-                                        <i class="fa fa-edit"></i>
-                                    </a> |
-                                    <a href="{%url 'delete_worker' worker.id%}" style="color: inherit">
-                                        <i class="fa fa-trash"
-                                           onclick="return confirm('Do you want to delete {{worker.name}}?')"></i>
-                                    </a>
-                                <td>
                             </tr>
                             {% endfor %}
                             </tbody>
