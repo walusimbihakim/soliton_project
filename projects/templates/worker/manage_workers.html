@@ -7,6 +7,9 @@ Manage Workers
 {% block right_button%}
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-project">
     New Worker
+</button>&nbsp;
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-transfer-worker">
+    Transfer Worker to Account
 </button>
 {% endblock %}
 {% block content %}
@@ -92,6 +95,32 @@ Manage Workers
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modal-transfer-worker">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Transfer Worker To Account</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{%url 'transfer_worker_from_phone_number' %}">
+                    {% csrf_token %}
+                    {{ transfer_form|crispy }}
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

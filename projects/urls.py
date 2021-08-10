@@ -33,6 +33,8 @@ worker_urls = [
          worker_views.delete_worker, name='delete_worker'),
     path('edit_worker/<int:id>/', worker_views.edit_worker_page, name="edit_worker"),
     path('transfer_worker/<int:worker_id>/', worker_views.transfer_worker_view, name="transfer_worker"),
+    path('transfer_worker_from_phone_number/', worker_views.transfer_worker_from_phone_number_view,
+         name="transfer_worker_from_phone_number"),
     path('edit_group_worker/<int:id>/', worker_views.edit_group_worker_page,
          name="edit_group_worker"),
     path('delete_group_worker/<int:id>/',

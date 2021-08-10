@@ -20,5 +20,9 @@ def get_worker(id):
     return Worker.objects.get(pk=id)
 
 
+def get_worker_phone_number(phone_number):
+    return Worker.objects.get(mobile_money_number=phone_number)
+
+
 def get_group_worker(id):
     return GroupWorker.objects.get(pk=id)
