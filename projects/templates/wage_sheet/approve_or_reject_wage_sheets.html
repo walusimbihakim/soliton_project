@@ -21,42 +21,44 @@ Approve/Reject Wage Sheets
                 <!-- /.card-header -->
                 <!-- ./card-body -->
                 <div class="card-body">
-                    <table id="example1" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Wage Bill Week</th>
-                            <th>Day of the week</th>
-                            <th>Total Wages</th>
-                            <th>Total Complaints</th>
-                            <th>Total Deductions</th>
-                            <th>Total Amount</th>
-                            <th>Supervisor</th>
-                            <th>#</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for wage_sheet in wage_sheets%}
-                        <tr data-id={{wage_sheet.id}}>
-                            <td>{{wage_sheet.wage_bill}}</td>
-                            <td>{{wage_sheet.date|date:'l'}}</td>
-                            <td>{{wage_sheet.total_wages|intcomma}}/=</td>
-                            <td>{{wage_sheet.total_complaints|intcomma}}/=</td>
-                            <td>{{wage_sheet.total_deductions|intcomma}}/=</td>
-                            <td>{{wage_sheet.total_amount|intcomma}}/=</td>
-                            <td>
-                                {{wage_sheet.supervisor_user}}
-                            </td>
-                            <td>
-                                <a href="{%url 'manage_submitted_sheet' wage_sheet.id%}">
-                                    <button class="btn-sm btn-outline-info btn-rounded waves-effect">
-                                        View to approve/reject
-                                    </button>
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Wage Bill Week</th>
+                                <th>Day of the week</th>
+                                <th>Total Wages</th>
+                                <th>Total Complaints</th>
+                                <th>Total Deductions</th>
+                                <th>Total Amount</th>
+                                <th>Supervisor</th>
+                                <th>#</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for wage_sheet in wage_sheets%}
+                            <tr data-id={{wage_sheet.id}}>
+                                <td>{{wage_sheet.wage_bill}}</td>
+                                <td>{{wage_sheet.date|date:'l'}}</td>
+                                <td>{{wage_sheet.total_wages|intcomma}}/=</td>
+                                <td>{{wage_sheet.total_complaints|intcomma}}/=</td>
+                                <td>{{wage_sheet.total_deductions|intcomma}}/=</td>
+                                <td>{{wage_sheet.total_amount|intcomma}}/=</td>
+                                <td>
+                                    {{wage_sheet.supervisor_user}}
+                                </td>
+                                <td>
+                                    <a href="{%url 'manage_submitted_sheet' wage_sheet.id%}">
+                                        <button class="btn-sm btn-outline-info btn-rounded waves-effect">
+                                            View to approve/reject
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
                 {%else%}
