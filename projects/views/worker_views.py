@@ -10,18 +10,20 @@ from django.contrib import messages
 from project_manager.settings import BASE_DIR
 from projects.constants import INTEGRITY_ERROR_MESSAGE, INVALID_FORM_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required, project_manager_required
+from projects.forms.transfer_form import TransferForm
 from projects.forms.worker_forms import WorkerForm, GroupWorkerForm
 from projects.procedures import render_to_pdf
 import projects.selectors.user_selectors as user_selectors
-from projects.models.workers import WorkerAssignment
+from projects.models.workers import WorkerAssignment, Worker
 from projects.selectors.workers import get_all_workers, get_worker, get_all_workers_registered_by, \
-    get_all_worker_groups_supervised_by, get_group_worker
+    get_all_worker_groups_supervised_by, get_group_worker, get_worker_phone_number
 
 
 @supervisor_required
 def manage_workers_page(request):
     workers = get_all_workers_registered_by(request.user)
     form = WorkerForm()
+    transfer_form = TransferForm()
     if request.method == "POST":
         form = WorkerForm(request.POST, request.FILES)
         if form.is_valid():
@@ -41,6 +43,7 @@ def manage_workers_page(request):
         "manage_workers": "active",
         "workers": workers,
         'form': form,
+        'transfer_form': transfer_form
     }
     return render(request, "worker/manage_workers.html", context)
 
@@ -211,3 +214,27 @@ def transfer_worker_view(request, worker_id):
     }
 
     return render(request, "worker/transfer_worker.html", context)
+
+
+@supervisor_required
+def transfer_worker_from_phone_number_view(request):
+    if request.method == "POST":
+        form = TransferForm(request.POST)
+        if form.is_valid():
+            phone_number = form.cleaned_data['phone_number']
+            try:
+                worker = get_worker_phone_number(phone_number)
+            except Worker.DoesNotExist:
+                messages.error(request, 'Worker with phone number not registered')
+                return HttpResponseRedirect(reverse(manage_workers_page))
+            worker_assignment = WorkerAssignment(
+                worker=worker,
+                from_supervisor=worker.assigned_to,
+                to_supervisor=request.user
+            )
+            worker_assignment.save()
+            worker.assigned_to = request.user
+            worker.save()
+        messages.success(request, 'Worker transfered')
+        return HttpResponseRedirect(reverse(manage_workers_page))
+

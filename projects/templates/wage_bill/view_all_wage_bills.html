@@ -14,10 +14,10 @@ View All Wage Bills
     <div class="row">
         <!-- ./col -->
         <div class="col-12">
-            {%if wagebills%}                
-                <table id="pageTable" class="table table-striped">                    
-                    <tbody>
-                    <tr><td>
+            {%if wagebills%}
+            <table id="pageTable" class="table table-striped">
+                <tbody>
+                <tr><td>
                     {% for wage_bill in wagebills%}
                         <div class="card">
                             <div class="card-header">
@@ -69,7 +69,13 @@ View All Wage Bills
                                 {%elif wage_bill.is_wage_bill_week_done %}
                                     <a href="{%url 'view_consolidated_wage_bill_payments' wage_bill.id%}">
                                         <button class="btn btn-primary" style="margin-top:1px">View Consolidated Payments</button>
-                                    </a>  
+                                    </a> 
+                                    <a href="{%url 'reset_wage_bill_payments' wage_bill.id %}">
+                                        <button class="btn btn-danger" style="margin-top:1px"
+                                                onclick="return confirm('The operation removes all wage bill payments.\n Are you sure you want to proceed? ')">
+                                            Reset Wage Bill Payments
+                                        </button>
+                                    </a> 
                                 {%endif%}
                                 <a href="{%url 'wage_bill_managers' wage_bill.id%}">
                                     <button class="btn btn-primary" style="margin-top:1px">Wage Bill Managers</button>
@@ -77,21 +83,20 @@ View All Wage Bills
                                 <a href="{%url 'wage_bill_sheets' wage_bill.id%}">
                                      <button class="btn btn-primary" style="margin-top:1px">All Wage Sheets</button>
                                 </a>
-
                             </div>
                         </div>
-                    
+
                     {% endfor %}
-                    </td></tr>
-                    </tbody>
-                </table>
+                </td></tr>
+                </tbody>
+            </table>
 
             {%else%}
-                <div class="card">
-                    <div class="card-body">
-                        <h4>No Wage Bills available</h4>
-                    </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4>No Wage Bills available</h4>
                 </div>
+            </div>
             {%endif%}
         </div>
     </div>

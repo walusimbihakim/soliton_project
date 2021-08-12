@@ -194,3 +194,5 @@ def get_wage_bill_total_payment(wage_bill):
     ).aggregate(total=Sum('total_payment'))
 
     return wage_bill_total['total']
+
+

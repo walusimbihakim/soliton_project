@@ -1,6 +1,7 @@
 from projects.models.wage_bills import ConsolidatedWageBillPayment
 from projects.selectors import wage_bill_selectors
 from projects.selectors.user_selectors import get_users
+from projects.selectors.wage_bill_selectors import get_wage_bill
 from projects.tasks.random import send_wage_created_email_task
 
 
@@ -43,3 +44,8 @@ def create_consolidated_wage_bill(simple_wage_bill_payment):
         total_deductions=simple_wage_bill_payment.total_deductions
     )
     return consolidated_wage_bill
+
+
+def remove_all_wage_bill_payments(wage_bill_id):
+    wage_bill = get_wage_bill(wage_bill_id)
+    ConsolidatedWageBillPayment.objects.filter(wage_bill=wage_bill).delete()
