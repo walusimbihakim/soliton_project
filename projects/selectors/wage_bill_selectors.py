@@ -174,7 +174,7 @@ def get_supervisor_wage_bill_total(wage_bill, manager):
 def get_manager_wage_bill_wage_sheets(wage_bill, manager):
     wage_bill_sheets = get_wage_bill_sheets(wage_bill)
 
-    return wage_bill_sheets.filter(field_manager_user=manager).order_by('supervisor_user')
+    return wage_bill_sheets.filter(field_manager_user=manager, project_manager_status=True).order_by('supervisor_user')
 
 
 def get_manager_wage_bill_total(wage_bill, manager):
