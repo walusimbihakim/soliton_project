@@ -164,7 +164,7 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
         ['No', 'Name', 'Mobile Money Number', 'Mobile Money Name', 'Wednesday', 'Thursday', 'Friday',
          'Saturday', 'Sunday', 'Monday', 'Tuesday',
          'Total Wages', 'Total Complaints', 'Total Deductions', 'Amount', 'Charge',
-         'Total Payment', 'Supervisor Name', 'Supervisor Number'])
+         'Total Payment', 'Supervisor Name', 'Supervisor Number', 'Field Manager', 'Field Manager Number'])
     # Writing other rows
     for index, wage_bill_payment in enumerate(wage_bill_payments):
         number = index + 1
@@ -179,7 +179,6 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
              wage_bill_payment.sunday_total_amount,
              wage_bill_payment.monday_total_amount,
              wage_bill_payment.tuesday_total_amount,
-
              wage_bill_payment.total_wages,
              wage_bill_payment.total_complaints,
              wage_bill_payment.total_deductions,
@@ -187,7 +186,9 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
              wage_bill_payment.charge,
              wage_bill_payment.total_payment,
              wage_bill_payment.supervisor,
-             wage_bill_payment.supervisor_number
+             wage_bill_payment.supervisor_number,
+             wage_bill_payment.field_manager,
+             wage_bill_payment.field_manager_number
              ])
     return response
 
