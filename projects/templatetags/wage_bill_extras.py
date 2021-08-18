@@ -1,3 +1,4 @@
+from django.db.models.aggregates import Count
 from django import template
 from django.db.models import Sum, manager
 
@@ -5,6 +6,7 @@ from projects.selectors.wage_bill_selectors import (
     get_airtel_money_withdraw_charge, 
     get_current_wage_bill,
     get_wage_bill_sheets,
+    get_wage_bill
 )
 from projects.selectors.workers import get_worker
 from projects.selectors.complaints import get_worker_complaints_payment
@@ -60,3 +62,11 @@ def get_wage_bill_total(wage_bill):
         wage_sheet__in=wage_bill_sheets, is_manager_approved=True
         ).aggregate(total = Sum('payment'))
     return sheet_total['total']
+
+@register.filter
+def get_wage_bill_casuals(wage_bill_id):
+    wage_bill = get_wage_bill(wage_bill_id)
+
+    casuals = wage_bill.consolidatedwagebillpayment_set.all().aggregate(total = Count("worker_id"))
+
+    return casuals['total']

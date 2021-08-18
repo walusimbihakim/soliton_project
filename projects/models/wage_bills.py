@@ -51,6 +51,12 @@ class WageBill(models.Model):
         for consolidated_payment in consolidated_payments:
             charges = charges + consolidated_payment.charge
         return charges
+    
+    @property
+    def net_consolidated_payment(self):
+        net_payment = self.total_consolidated_payments - self.total_charges
+        
+        return net_payment
 
 
 class ConsolidatedWageBillPayment(models.Model):
