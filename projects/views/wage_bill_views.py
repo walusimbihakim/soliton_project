@@ -119,13 +119,10 @@ def consolidated_wage_bill(request, wage_bill_id):
 def view_consolidated_wage_bill_payments(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
     wage_bill_payments = wage_bill_selectors.get_all_consolidated_wage_bill_payments(wage_bill)
-    paginator = Paginator(wage_bill_payments, 10)  # Show 10 payments per page.
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         "wage_bill_page": "active",
         "wage_bill": wage_bill,
-        "page_obj": page_obj,
+        "wage_bill_payments": wage_bill_payments,
     }
     return render(request, "wage_bill/consolidated_wage_bill_payments.html", context)
 

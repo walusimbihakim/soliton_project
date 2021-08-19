@@ -40,7 +40,7 @@ def create_consolidated_wage_bill(simple_wage_bill_payment):
         supervisor=simple_wage_bill_payment.worker.assigned_to.name,
         supervisor_number=simple_wage_bill_payment.worker.assigned_to.phone_number,
         field_manager=simple_wage_bill_payment.field_manager,
-        field_manager_number=simple_wage_bill_payment.field_manager_number,
+        field_manager_number=simple_wage_bill_payment.field_manager_phone_number,
         total_wages=simple_wage_bill_payment.total_wages,
         total_complaints=simple_wage_bill_payment.total_complaints,
         total_deductions=simple_wage_bill_payment.total_deductions
