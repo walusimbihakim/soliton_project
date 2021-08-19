@@ -73,13 +73,15 @@ Wage Bill Payment
                                 <th class="text-center">Payment</th>
                                 
                                 {% for wage in sheet.wage_set.all%}
-                                <tr >
-                                    <td class="text-center">{{forloop.counter}}</td>
-                                    <td class="text-center">{{wage.worker}}</td>
-                                    <td class="text-center">{{wage.activity}}</td>
-                                    <td class="text-center">{{wage.quantity}} {{wage.activity.unit_of_measure}}(s)</td>
-                                    <td class="text-center">UGX {{wage.payment | intcomma}}</td>
-                                </tr>
+                                    {% if wage.is_pm_approved %}
+                                        <tr >
+                                            <td class="text-center">{{forloop.counter}}</td>
+                                            <td class="text-center">{{wage.worker}}</td>
+                                            <td class="text-center">{{wage.activity}}</td>
+                                            <td class="text-center">{{wage.quantity}} {{wage.activity.unit_of_measure}}(s)</td>
+                                            <td class="text-center">UGX {{wage.payment | intcomma}}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </table>
 
