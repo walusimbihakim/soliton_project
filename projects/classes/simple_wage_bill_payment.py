@@ -3,7 +3,7 @@ from datetime import timedelta
 from projects.models import WageBill, Worker
 from projects.procedures import calculate_total_wages
 from projects.selectors.complaints import get_worker_complaints_payment
-from projects.selectors.field_managers import get_field_manager_from_worker
+from projects.selectors.field_managers import get_field_manager_from_worker, get_the_latest_wage_field_manager
 from projects.selectors.wage_bill_selectors import \
     get_wage_bill_worker_wages, \
     get_wage_bill_worker_deductions
@@ -11,6 +11,7 @@ from projects.selectors.wage_sheets import get_worker_payment_per_day
 
 
 class SimpleWageBillPayment:
+    #
     def __init__(self, wage_bill: WageBill, worker: Worker):
         self.wage_bill = wage_bill
         self.worker_name = worker.name
@@ -18,7 +19,7 @@ class SimpleWageBillPayment:
         self.worker_mobile_money_number = worker.mobile_money_number
         self.supervisor_mobile_number = worker.assigned_to.phone_number
         self.worker = worker
-        self.field_manager = get_field_manager_from_worker(worker)
+        self.field_manager = get_the_latest_wage_field_manager(worker)
 
     @property
     def field_manager_phone_number(self):

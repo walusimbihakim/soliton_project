@@ -1,4 +1,4 @@
-from projects.models import FieldManager, User
+from projects.models import FieldManager, User, WageSheet, Wage
 from projects.models.users import FieldManagerAssignment
 
 
@@ -19,3 +19,9 @@ def get_field_manager_from_worker(worker):
     return field_manager
 
 
+def get_the_latest_wage_field_manager(worker):
+    try:
+        wage = Wage.objects.filter(worker=worker).order_by('-id')[0]
+    except IndexError:
+        return None
+    return wage.wage_sheet.field_manager_user
