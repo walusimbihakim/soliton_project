@@ -564,14 +564,15 @@
 <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
 <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
 <!-- ChartJS -->
-<script src="{% static 'plugins/chart.js/Chart.min.js'%}"></script>
+<!--<script src="{% static 'plugins/chart.js/Chart.min.js'%}"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- Sparkline -->
 <script src="{% static 'plugins/sparklines/sparkline.js'%}"></script>
 <!-- JQVMap -->
 <script src="{% static 'plugins/jqvmap/jquery.vmap.min.js'%}"></script>
 <script src="{% static 'plugins/jqvmap/maps/jquery.vmap.usa.js'%}"></script>
 <!-- jQuery Knob Chart -->
-<script src="{% static 'plugins/jquery-knob/jquery.knob.min.js'%}"></script>
+<!--<script src="{% static 'plugins/jquery-knob/jquery.knob.min.js'%}"></script>-->
 <!-- daterangepicker -->
 <script src="{% static 'plugins/moment/moment.min.js'%}"></script>
 <script src="{% static 'plugins/daterangepicker/daterangepicker.js'%}"></script>
@@ -606,6 +607,8 @@ $(document).ready(function(){
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+
+   {% block chart_js_scripts %}{% endblock %}
 });
 </script>
 </body>

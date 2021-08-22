@@ -23,7 +23,6 @@ class SimpleWageBillPayment:
 
     @property
     def field_manager_phone_number(self):
-        print("The field manager is", self.field_manager)
         if self.field_manager:
             return self.field_manager.phone_number
         return "N/A"

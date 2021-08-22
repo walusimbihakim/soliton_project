@@ -11,8 +11,11 @@ import datetime
 import projects.forms.wage_bill_forms as wage_bill_forms
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from project_manager.settings import BASE_DIR
-from projects.constants import WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE
+from projects.charts import get_charts
+from projects.classes.charts import Chart, objects_to_df
+from projects.constants import WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE, PALETTE
 from projects.decorators.auth_decorators import finance_office_required
+from projects.dfs import get_amount_per_day_df, get_total_amount_per_field_manager_df
 from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker
 from projects.selectors.user_selectors import get_user_by_id
@@ -276,3 +279,17 @@ def wage_bill_manager_payment_breakdown(request, wage_bill_id, manager):
     }
 
     return render(request, "wage_bill/wage_bill_manager_wagesheets.html", context)
+
+
+def payments_dashboard(request, wage_bill_id):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
+    charts = get_charts(wage_bill)
+    days_amount_per_day = get_amount_per_day_df(wage_bill)
+    fm_df = get_total_amount_per_field_manager_df(wage_bill)
+    context = {
+        "charts": charts,
+        "wage_bill": wage_bill,
+        "df": days_amount_per_day.to_html(classes="table table-striped"),
+        "fm_df": fm_df.to_html(classes="table table-striped")
+    }
+    return render(request, "wage_bill/payments_dashboard.html", context)
