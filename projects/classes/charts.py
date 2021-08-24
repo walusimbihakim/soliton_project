@@ -175,8 +175,13 @@ class Chart:
         self.from_lists(values, labels, stacks)
 
     def get_html(self):
-        code = f'<canvas id="{self.chart_id}"></canvas>'
+        code = f'<canvas id="{self.chart_id}" class ="chartjs-render-monitor" ' \
+               f'style = "min-height: 250px; height: 250px; max-height: 250px; ' \
+               f'max-width: 100%; display: block; width: 289px; width = "867" ' \
+               f'height = "750"></canvas>'
         return code
+
+
 
     def get_elements(self):
         elements = {

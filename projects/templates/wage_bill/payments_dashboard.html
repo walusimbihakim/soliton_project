@@ -11,13 +11,23 @@ Payments Dashboard for {{wage_bill}}
         <!-- ./col -->
         {%for chart in charts%}
         <div class="col-md-6">
-            <div class="card" style="height:100%">
+            <div class="card card-primary" style="height:100%">
                 <!-- ./ card-header -->
                 <div class="card-header">
                     <h3 class="card-title">{{chart.title}}</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
-                    {{chart.html|safe}}
+                    <div class="chart">
+                        {{chart.html|safe}}
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
