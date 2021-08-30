@@ -19,8 +19,9 @@ def get_amount_per_day_df(wage_bill):
 
 def get_total_amount_per_field_manager_df(wage_bill):
     df = objects_to_df(ConsolidatedWageBillPayment, wage_bill=wage_bill)
-    df["amount"] = df["total_wages"]+df["total_complaints"]-df["total_deductions"]
+    df["amount"] = df["total_wages"] + df["total_complaints"] - df["total_deductions"]
     payments = df[['field_manager', 'amount']]
     payments.columns = ["Field Manager", "Amount"]
     amount_per_field_manager = payments.groupby(["Field Manager"]).sum()
+    amount_per_field_manager["Field Managers"] = amount_per_field_manager.index
     return amount_per_field_manager

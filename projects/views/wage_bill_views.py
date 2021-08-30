@@ -12,8 +12,8 @@ import projects.forms.wage_bill_forms as wage_bill_forms
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from project_manager.settings import BASE_DIR
 from projects.charts import get_charts
-from projects.classes.charts import Chart, objects_to_df
-from projects.constants import WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE, PALETTE
+
+from projects.constants import WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE
 from projects.decorators.auth_decorators import finance_office_required
 from projects.dfs import get_amount_per_day_df, get_total_amount_per_field_manager_df
 from projects.procedures import render_to_pdf
@@ -162,8 +162,8 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
     # Writing the first row of the csv
     writer.writerow(
         ['No', 'Name', 'Mobile Money Number', 'Mobile Money Name', 'Wednesday', 'Thursday', 'Friday',
-         'Saturday', 'Sunday', 'Monday', 'Tuesday',
-         'Total Wages', 'Total Complaints', 'Total Deductions', 'Amount', 'Charge',
+         'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Amount',
+         'Total Wages', 'Total Complaints', 'Total Deductions', 'Charge',
          'Total Payment', 'Supervisor Name', 'Supervisor Number', 'Field Manager', 'Field Manager Number'])
     # Writing other rows
     for index, wage_bill_payment in enumerate(wage_bill_payments):
@@ -179,10 +179,10 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
              wage_bill_payment.sunday_total_amount,
              wage_bill_payment.monday_total_amount,
              wage_bill_payment.tuesday_total_amount,
+             wage_bill_payment.total_amount,
              wage_bill_payment.total_wages,
              wage_bill_payment.total_complaints,
              wage_bill_payment.total_deductions,
-             wage_bill_payment.total_amount,
              wage_bill_payment.charge,
              wage_bill_payment.total_payment,
              wage_bill_payment.supervisor,
@@ -290,6 +290,6 @@ def payments_dashboard(request, wage_bill_id):
         "charts": charts,
         "wage_bill": wage_bill,
         "df": days_amount_per_day.to_html(classes="table table-striped"),
-        "fm_df": fm_df.to_html(classes="table table-striped")
+        "fm_df": fm_df.to_html(classes="table table-striped", index="False")
     }
     return render(request, "wage_bill/payments_dashboard.html", context)
