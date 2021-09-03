@@ -16,7 +16,7 @@ def get_total_amount_per_field_manager_chart(wage_bill):
     amount_per_field_manager_df = get_total_amount_per_field_manager_df(wage_bill)
     bar_chart = Chart('doughnut', 'Total Amount Per Field Manager', chart_id='doughnut01', palette=PALETTE)
     bar_chart.from_df(amount_per_field_manager_df, values=['Amount'],
-                      labels=["Field Manager"])
+                      labels=["Field Managers"])
     return bar_chart
 
 
