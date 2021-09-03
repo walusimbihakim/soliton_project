@@ -58,6 +58,10 @@ class WageBill(models.Model):
         
         return net_payment
 
+    @property
+    def number_of_casuals(self):
+        return self.consolidatedwagebillpayment_set.count()
+
 
 class ConsolidatedWageBillPayment(models.Model):
     wage_bill = models.ForeignKey(WageBill, on_delete=models.CASCADE)

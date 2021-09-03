@@ -1,11 +1,47 @@
 {% extends '../base.html' %}
 {% load static %}
+{%load humanize%}
 {%block page_title%}
 Payments Dashboard for {{wage_bill}}
 {% endblock%}
 
 {% block content %}
 <div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-3">
+                    <strong>No. of Casuals:</strong>
+                </div>
+                <div class="col-3">
+                    <h4>{{wage_bill.number_of_casuals}}</h4>
+                </div>
+
+                <div class="col-3">
+                    <strong>Total Charges:</strong>
+                </div>
+                <div class="col-3">
+                    <h4>{{wage_bill.total_charges|intcomma}}/-</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <strong>Total Amount:</strong>
+                </div>
+                <div class="col-3">
+                    <h4>{{wage_bill.total_consolidated_payments|intcomma}}/-</h4>
+                </div>
+
+                <div class="col-3">
+                    <strong>Net Amount:</strong>
+                </div>
+                <div class="col-3">
+                    <h4>{{wage_bill.net_consolidated_payment|intcomma}}/-</h4>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- ./row -->
     <div class="row">
         <!-- ./col -->
@@ -56,6 +92,7 @@ Payments Dashboard for {{wage_bill}}
         </div>
         <!-- /.col -->
         <div class="col-md-6">
+
             <div class="card">
                 <!-- ./ card-header -->
                 <div class="card-header">
@@ -64,6 +101,22 @@ Payments Dashboard for {{wage_bill}}
                 <div class="card-body">
                     <div class="table-responsive">
                         {{fm_df|safe}}
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <div class="col-md-6">
+
+            <div class="card">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Total Payment Per Supervisor</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        {{supervisor_df|safe}}
                     </div>
                 </div>
                 <!-- /.card-body -->

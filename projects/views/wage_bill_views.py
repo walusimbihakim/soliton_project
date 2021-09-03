@@ -15,7 +15,8 @@ from projects.charts import get_charts
 
 from projects.constants import WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE
 from projects.decorators.auth_decorators import finance_office_required
-from projects.dfs import get_amount_per_day_df, get_total_amount_per_field_manager_df
+from projects.dfs import get_amount_per_day_df, get_total_amount_per_field_manager_df, \
+    get_total_amount_per_supervisor_df
 from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker
 from projects.selectors.user_selectors import get_user_by_id
@@ -286,10 +287,12 @@ def payments_dashboard(request, wage_bill_id):
     charts = get_charts(wage_bill)
     days_amount_per_day = get_amount_per_day_df(wage_bill)
     fm_df = get_total_amount_per_field_manager_df(wage_bill)
+    supervisor_df = get_total_amount_per_supervisor_df(wage_bill)
     context = {
         "charts": charts,
         "wage_bill": wage_bill,
         "df": days_amount_per_day.to_html(classes="table table-striped"),
-        "fm_df": fm_df.to_html(classes="table table-striped", index="False")
+        "fm_df": fm_df.to_html(classes="table table-striped", index="False"),
+        "supervisor_df": supervisor_df.to_html(classes="table table-striped", index="False")
     }
     return render(request, "wage_bill/payments_dashboard.html", context)
