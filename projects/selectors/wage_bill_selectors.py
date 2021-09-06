@@ -195,4 +195,10 @@ def get_wage_bill_total_payment(wage_bill):
 
     return wage_bill_total['total']
 
+def get_wage_bill_activity_summary(wage_bill):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+
+    wage_bill_wages = wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets,
+                                                      is_pm_approved=True)
+    return wage_bill_wages                                                    
 

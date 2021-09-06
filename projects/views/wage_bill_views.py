@@ -278,3 +278,11 @@ def wage_bill_manager_payment_breakdown(request, wage_bill_id, manager):
     }
 
     return render(request, "wage_bill/wage_bill_manager_wagesheets.html", context)
+
+def wage_bill_activity_summary(request, wage_bill_id):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
+
+    wage_bill_wages = wage_bill_selectors.get_wage_bill_activity_summary(wage_bill)
+
+    print(wage_bill_wages)
+

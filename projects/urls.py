@@ -273,6 +273,8 @@ wage_bill_urls = [
     path('manager_payment_breakdown/<int:wage_bill_id>/<int:manager>/',
          wage_bill_views.wage_bill_manager_payment_breakdown,
          name="manager_payment_breakdown"),
+     path('wage_bill_activity_summary/<int:wage_bill_id>/',
+     wage_bill_views.wage_bill_activity_summary, name="wage_bill_activity_summary"),
 ]
 
 project_urls = [
