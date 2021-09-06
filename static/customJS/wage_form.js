@@ -3,7 +3,6 @@ $(document).ready(() => {
     $("#id_quantity").on("keyup", () => {
         // Set payment according to quantity and activity rate
         activity_id = document.querySelector('#id_activity').value;
-        alert("A")
         $.ajax({
             type: 'get',
             url: configuration['projects']['get_activity_rate'],
