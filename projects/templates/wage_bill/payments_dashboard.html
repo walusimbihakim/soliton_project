@@ -89,6 +89,19 @@ Payments Dashboard for {{wage_bill}}
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
+            <div class="card">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Total Payment Per Supervisor</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        {{supervisor_df|safe}}
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
         </div>
         <!-- /.col -->
         <div class="col-md-6">
@@ -106,22 +119,18 @@ Payments Dashboard for {{wage_bill}}
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
-        </div>
-        <div class="col-md-6">
-
             <div class="card">
                 <!-- ./ card-header -->
                 <div class="card-header">
-                    <h3 class="card-title">Total Payment Per Supervisor</h3>
+                    <h3 class="card-title">Total Payment Per Activity</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        {{supervisor_df|safe}}
+                        {{total_amount_per_activity_df|safe}}
                     </div>
                 </div>
                 <!-- /.card-body -->
             </div>
-            <!-- /.card -->
         </div>
     </div>
 </div>
