@@ -285,13 +285,13 @@ def payments_dashboard(request, wage_bill_id):
     days_amount_per_day = get_amount_per_day_df(wage_bill)
     fm_df = get_total_amount_per_field_manager_df(wage_bill)
     supervisor_df = get_total_amount_per_supervisor_df(wage_bill)
-
+    total_amount_per_activity_df = get_total_amount_per_activity_df(wage_bill)
     context = {
         "charts": charts,
         "wage_bill": wage_bill,
         "df": days_amount_per_day.to_html(classes="table table-striped"),
         "fm_df": fm_df.to_html(classes="table table-striped", index="False"),
         "supervisor_df": supervisor_df.to_html(classes="table table-striped", index="False"),
-
+        "total_amount_per_activity_df": total_amount_per_activity_df.to_html(classes="table table-striped", index="False"),
     }
     return render(request, "wage_bill/payments_dashboard.html", context)

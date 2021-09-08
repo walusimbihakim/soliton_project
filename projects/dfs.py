@@ -1,10 +1,12 @@
+from django_pandas.io import read_frame
+
 from projects.classes.charts import objects_to_df
 from projects.models import Wage, Activity
 from projects.models.wage_bills import ConsolidatedWageBillPayment
 import pandas as pd
 
 from projects.selectors import wage_bill_selectors
-from projects.selectors.wage_bill_selectors import get_wage_bill_sheets
+from projects.selectors.wage_bill_selectors import get_wage_bill_sheets, get_wage_bill_wages
 
 
 def get_amount_per_day_df(wage_bill):
@@ -31,8 +33,8 @@ def get_total_amount_per_field_manager_df(wage_bill):
     payments.columns = ["Field Manager", "Amount"]
     amount_per_field_manager = payments.groupby(["Field Manager"]).sum()
     amount_per_field_manager["Field Managers"] = amount_per_field_manager.index
-    amount_per_field_manager.reset_index(drop=True, inplace=True)
     amount_per_field_manager.sort_values(by=["Amount"], axis=0, ascending=False, inplace=True)
+    amount_per_field_manager.reset_index(drop=True, inplace=True)
     amount_per_field_manager.index += 1
     return amount_per_field_manager[["Field Managers", "Amount"]]
 
@@ -51,16 +53,12 @@ def get_total_amount_per_supervisor_df(wage_bill):
 
 
 def get_total_amount_per_activity_df(wage_bill):
-    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
-    df = objects_to_df(Wage, wage_sheet__in=wage_bill_sheets,
-                       is_gm_approved=True)
-    activity_df = objects_to_df(Activity)
-    df = pd.merge(df, activity_df, how="inner", left_on="activity",
-                  right_on="id")
-    df = df[["name", "quantity", "payment"]]
-    payment_per_activity = df.groupby(["name"]).sum()
+    wages_qs = get_wage_bill_wages(wage_bill)
+    df = read_frame(wages_qs)
+    df = df[["activity", "quantity", "payment"]]
+    payment_per_activity = df.groupby(["activity"]).sum()
     payment_per_activity["Activity"] = payment_per_activity.index
-    payment_per_activity.sort_values(by=["name"], axis=0, ascending=False, inplace=True)
+    payment_per_activity.sort_values(by=["activity"], axis=0, ascending=False, inplace=True)
     payment_per_activity.columns = ["Quantity(Units)", "Payment(UGX)", "Activity"]
     payment_per_activity.reset_index(drop=True, inplace=True)
     payment_per_activity.index += 1

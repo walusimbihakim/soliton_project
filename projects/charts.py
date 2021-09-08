@@ -41,8 +41,9 @@ def get_charts(wage_bill):
     bar_chart = get_days_of_the_week_chart(wage_bill)
     doughnut_cart = get_total_amount_per_field_manager_chart(wage_bill)
     supervisor_chart = get_total_amount_per_supervisor_chart(wage_bill)
+    payment_per_activity_chart = get_total_amount_per_activity_chart(wage_bill)
     charts.append(bar_chart.get_presentation())
     charts.append(doughnut_cart.get_presentation())
     charts.append(supervisor_chart.get_presentation())
-
+    charts.append(payment_per_activity_chart.get_presentation())
     return charts
