@@ -5,6 +5,14 @@
 Payments Dashboard for {{wage_bill}}
 {% endblock%}
 
+{% block right_button%}
+<a href="{%url 'payment_stats_excel' wage_bill.id%}">
+<button type="button" class="btn btn-outline-primary">
+    Download Excel
+</button>
+</a>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="card">
