@@ -30,7 +30,7 @@ def get_total_amount_per_supervisor_chart(wage_bill):
 
 def get_total_amount_per_activity_chart(wage_bill):
     amount_per_activity_df = get_total_amount_per_activity_df(wage_bill)
-    chart = Chart('polarArea', 'Total Payment Per Activity', chart_id='polar01', palette=PALETTE)
+    chart = Chart('doughnut', 'Total Payment Per Activity', chart_id='polar01', palette=PALETTE)
     chart.from_df(amount_per_activity_df, values=['Payment(UGX)'],
                   labels=["Activity"])
     return chart

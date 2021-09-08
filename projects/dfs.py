@@ -58,7 +58,7 @@ def get_total_amount_per_activity_df(wage_bill):
     df = df[["activity", "quantity", "payment"]]
     payment_per_activity = df.groupby(["activity"]).sum()
     payment_per_activity["Activity"] = payment_per_activity.index
-    payment_per_activity.sort_values(by=["activity"], axis=0, ascending=False, inplace=True)
+    payment_per_activity.sort_values(by=["payment"], axis=0, ascending=False, inplace=True)
     payment_per_activity.columns = ["Quantity(Units)", "Payment(UGX)", "Activity"]
     payment_per_activity.reset_index(drop=True, inplace=True)
     payment_per_activity.index += 1
