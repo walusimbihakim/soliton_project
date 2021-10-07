@@ -1,7 +1,7 @@
 from django_pandas.io import read_frame
 
 from projects.classes.charts import objects_to_df
-from projects.models import Wage, Activity
+from projects.models import Wage, Activity, Worker
 from projects.models.wage_bills import ConsolidatedWageBillPayment
 import pandas as pd
 
@@ -24,6 +24,15 @@ def get_amount_per_day_df(wage_bill):
     days_amount_per_day.reset_index(drop=True, inplace=True)
     days_amount_per_day.index += 1
     return days_amount_per_day[["Days", "Amount"]]
+
+
+def get_genders_df():
+    df = objects_to_df(Worker)
+    df[["Number"]] = 1
+    result_df = pd.pivot_table(df, index='gender', aggfunc='sum', values="Number")
+    result_df["Gender"] = result_df.index
+    result_df.reset_index(drop=True, inplace=True)
+    return result_df
 
 
 def get_total_amount_per_field_manager_df(wage_bill):

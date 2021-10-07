@@ -1,7 +1,8 @@
 from projects.classes.charts import Chart
 from projects.constants import PALETTE
 from projects.dfs import get_amount_per_day_df, get_total_amount_per_field_manager_df, \
-    get_total_amount_per_supervisor_df, get_total_amount_per_activity_df
+    get_total_amount_per_supervisor_df, get_total_amount_per_activity_df, get_genders_df
+from projects.models import Worker
 
 
 def get_days_of_the_week_chart(wage_bill):
@@ -9,6 +10,13 @@ def get_days_of_the_week_chart(wage_bill):
     bar_chart = Chart('bar', 'Total Payment Per Day', chart_id='bar01', palette=PALETTE)
     bar_chart.from_df(days_amount_per_day, values=['Amount'],
                       labels=["Days"])
+    return bar_chart
+
+
+def get_gender_bar_chart():
+    genders_df = get_genders_df()
+    bar_chart = Chart('bar', 'Gender', chart_id='bar02', palette=PALETTE)
+    bar_chart.from_df(genders_df, values=['Number'], labels=['Gender'])
     return bar_chart
 
 
@@ -46,4 +54,11 @@ def get_charts(wage_bill):
     charts.append(doughnut_cart.get_presentation())
     charts.append(supervisor_chart.get_presentation())
     charts.append(payment_per_activity_chart.get_presentation())
+    return charts
+
+
+def get_charts_workers():
+    charts = []
+    gender_bar_chart = get_gender_bar_chart()
+    charts.append(gender_bar_chart.get_presentation())
     return charts

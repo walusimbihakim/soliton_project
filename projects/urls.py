@@ -39,6 +39,7 @@ worker_urls = [
          name="edit_group_worker"),
     path('delete_group_worker/<int:id>/',
          worker_views.delete_group_worker, name='delete_group_worker'),
+    path('workers_dashboard/', worker_views.workers_dashboard, name="workers_dashboard")
 
 ]
 
