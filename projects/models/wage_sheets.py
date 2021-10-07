@@ -32,19 +32,19 @@ class WageSheet(models.Model):
 
     @property
     def total_wages(self) -> int:
-        wage_queryset = self.wage_set.filter(is_pm_approved=True)
+        wage_queryset = self.wage_set.filter(is_manager_approved=True)
         wages = calculate_total_wages(wage_queryset)
         return wages
 
     @property
     def total_complaints(self) -> int:
-        complaint_queryset = self.complaint_set.filter(is_pm_approved=True)
+        complaint_queryset = self.complaint_set.filter(is_manager_approved=True)
         complaints = calculate_total_wages(complaint_queryset)
         return complaints
  
     @property
     def total_deductions(self) -> int:
-        deduction_queryset = self.deduction_set.filter(is_pm_approved=True)
+        deduction_queryset = self.deduction_set.filter(is_manager_approved=True)
         deductions = calculate_total_wages(deduction_queryset)
         return deductions
 

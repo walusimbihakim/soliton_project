@@ -16,7 +16,7 @@ Consolidated Payments
         <!-- ./col -->
         <div class="col-12">
             <div class="card">
-                {%if page_obj%}
+                {%if wage_bill_payments%}
                 <!-- ./ card-header -->
                 <div class="card-header">
                     <h3 class="card-title">Wage Bill - {{wage_bill}}</h3>
@@ -32,9 +32,19 @@ Consolidated Payments
                             Export PDF
                         </button>
                     </a>
+                    <a href="{%url 'payments_dashboard' wage_bill.id%}">
+                        <button class="btn btn-outline-primary" style="margin:5px; float: right" >
+                            Payments Dashboard
+                        </button> 
+                    </a>
+                    <a href="{%url 'wage_bill_activity_summary' wage_bill.id%}">
+                        <button class="btn btn-outline-primary" style="margin:5px; float: right" >
+                            Activity Summary
+                        </button> 
+                    </a>
                     <div class="table-responsive">
                         <table id="consolidated_list" class="table table-striped">
-                            <thead>
+                            <thead> 
                             <tr>
                                 <th class="text-center">No.</th>
                                 <th class="text-center">Worker</th>
@@ -46,17 +56,20 @@ Consolidated Payments
                                 <th class="text-center">Sunday</th>
                                 <th class="text-center">Monday</th>
                                 <th class="text-center">Tuesday</th>
+                                <th class="text-center">Amount</th>
                                 <th class="text-center">Total Wages</th>
                                 <th class="text-center">Total Complaints</th>
                                 <th class="text-center">Total Deductions</th>
-                                <th class="text-center">Amount</th>
                                 <th class="text-center">Charge</th>
                                 <th class="text-center">Total</th>
+                                <th class="text-center">Supervisor</th>
+                                <th class="text-center">Field Manager</th>
+                                <th class="text-center">Field Manager Number</th>
                                 <th class="text-center">#</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for wage_bill_payment in page_obj%}
+                            {% for wage_bill_payment in wage_bill_payments%}
                             <tr>
                                 <td class="text-center">{{forloop.counter }}</td>
                                 <td class="text-center">{{wage_bill_payment.worker_name}}</td>
@@ -68,12 +81,15 @@ Consolidated Payments
                                 <td class="text-center">{{wage_bill_payment.sunday_total_amount}}/-</td>
                                 <td class="text-center">{{wage_bill_payment.monday_total_amount}}/-</td>
                                 <td class="text-center">{{wage_bill_payment.tuesday_total_amount}}/-</td>
+                                <td class="text-center">{{wage_bill_payment.total_amount}}/-</td>
                                 <td class="text-center">{{wage_bill_payment.total_wages}}/-</td>
                                 <td class="text-center">{{wage_bill_payment.total_complaints}}/-</td>
                                 <td class="text-center">{{wage_bill_payment.total_deductions}}/-</td>
-                                <td class="text-center">{{wage_bill_payment.total_amount}}/-</td>
                                 <td class="text-center">{{wage_bill_payment.charge}}/-</td>
                                 <td class="text-center">{{wage_bill_payment.total_payment}}/-</td>
+                                <td class="text-center">{{wage_bill_payment.supervisor}}</td>
+                                <td class="text-center">{{wage_bill_payment.field_manager}}</td>
+                                <td class="text-center">{{wage_bill_payment.field_manager_number}}</td>
                                 <td class="text-center">
                                     <a
                                             href="{%url 'worker_wage_bill_breakdown' wage_bill_payment.wage_bill.id wage_bill_payment.worker_id%}"
@@ -87,7 +103,6 @@ Consolidated Payments
                             </tbody>
                         </table>
                     </div>
-                    {%include "../components/pagination.html"%}
                 </div>
                 <!-- /.card-body -->
 

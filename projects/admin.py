@@ -7,7 +7,7 @@ from projects.models.boqs import BOQ, MaterialBOQItem, ServiceBOQItem
 from projects.models.client_activity_rates import ClientActivityRate
 from projects.models.materials import Material
 from projects.models.segments import Segment
-from projects.models.users import User
+from projects.models.users import User, FieldManagerAssignment
 from projects.models.wage_bills import ConsolidatedWageBillPayment
 from projects.models.wage_sheets import GroupWage
 from projects.models.workers import WorkerAssignment
@@ -37,3 +37,4 @@ admin.site.register(GroupWage)
 admin.site.register(ConsolidatedWageBillPayment)
 admin.site.register(Notification)
 admin.site.register(Deduction)
+admin.site.register(FieldManagerAssignment)

@@ -39,6 +39,8 @@ worker_urls = [
          name="edit_group_worker"),
     path('delete_group_worker/<int:id>/',
          worker_views.delete_group_worker, name='delete_group_worker'),
+    path('workers_by_gender/', worker_views.worker_per_gender,
+         name='workers_by_gender'),
 
 ]
 
@@ -275,6 +277,7 @@ wage_bill_urls = [
          name="manager_payment_breakdown"),
      path('wage_bill_activity_summary/<int:wage_bill_id>/',
      wage_bill_views.wage_bill_activity_summary, name="wage_bill_activity_summary"),
+    path('payments_dashboard/<int:wage_bill_id>/', wage_bill_views.payments_dashboard, name="payments_dashboard"),
 ]
 
 project_urls = [

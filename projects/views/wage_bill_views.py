@@ -11,8 +11,12 @@ import datetime
 import projects.forms.wage_bill_forms as wage_bill_forms
 import projects.selectors.wage_bill_selectors as wage_bill_selectors
 from project_manager.settings import BASE_DIR
+from projects.charts import get_charts
+
 from projects.constants import WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE
 from projects.decorators.auth_decorators import finance_office_required
+from projects.dfs import get_amount_per_day_df, get_total_amount_per_field_manager_df, \
+    get_total_amount_per_supervisor_df
 from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker
 from projects.selectors.user_selectors import get_user_by_id
@@ -119,13 +123,10 @@ def consolidated_wage_bill(request, wage_bill_id):
 def view_consolidated_wage_bill_payments(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
     wage_bill_payments = wage_bill_selectors.get_all_consolidated_wage_bill_payments(wage_bill)
-    paginator = Paginator(wage_bill_payments, 10)  # Show 10 payments per page.
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         "wage_bill_page": "active",
         "wage_bill": wage_bill,
-        "page_obj": page_obj,
+        "wage_bill_payments": wage_bill_payments,
     }
     return render(request, "wage_bill/consolidated_wage_bill_payments.html", context)
 
@@ -162,9 +163,9 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
     # Writing the first row of the csv
     writer.writerow(
         ['No', 'Name', 'Mobile Money Number', 'Mobile Money Name', 'Wednesday', 'Thursday', 'Friday',
-         'Saturday', 'Sunday', 'Monday', 'Tuesday',
-         'Total Wages', 'Total Complaints', 'Total Deductions', 'Amount', 'Charge',
-         'Total Payment', 'Supervisor Name', 'Supervisor Number'])
+         'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Amount',
+         'Total Wages', 'Total Complaints', 'Total Deductions', 'Charge',
+         'Total Payment', 'Supervisor Name', 'Supervisor Number', 'Field Manager', 'Field Manager Number'])
     # Writing other rows
     for index, wage_bill_payment in enumerate(wage_bill_payments):
         number = index + 1
@@ -179,15 +180,16 @@ def consolidated_wage_bill_payments_csv(request, wage_bill_id):
              wage_bill_payment.sunday_total_amount,
              wage_bill_payment.monday_total_amount,
              wage_bill_payment.tuesday_total_amount,
-
+             wage_bill_payment.total_amount,
              wage_bill_payment.total_wages,
              wage_bill_payment.total_complaints,
              wage_bill_payment.total_deductions,
-             wage_bill_payment.total_amount,
              wage_bill_payment.charge,
              wage_bill_payment.total_payment,
              wage_bill_payment.supervisor,
-             wage_bill_payment.supervisor_number
+             wage_bill_payment.supervisor_number,
+             wage_bill_payment.field_manager,
+             wage_bill_payment.field_manager_number
              ])
     return response
 
@@ -279,10 +281,32 @@ def wage_bill_manager_payment_breakdown(request, wage_bill_id, manager):
 
     return render(request, "wage_bill/wage_bill_manager_wagesheets.html", context)
 
+
+def payments_dashboard(request, wage_bill_id):
+    wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
+    charts = get_charts(wage_bill)
+    days_amount_per_day = get_amount_per_day_df(wage_bill)
+    fm_df = get_total_amount_per_field_manager_df(wage_bill)
+    supervisor_df = get_total_amount_per_supervisor_df(wage_bill)
+    context = {
+        "charts": charts,
+        "wage_bill": wage_bill,
+        "df": days_amount_per_day.to_html(classes="table table-striped"),
+        "fm_df": fm_df.to_html(classes="table table-striped", index="False"),
+        "supervisor_df": supervisor_df.to_html(classes="table table-striped", index="False")
+    }
+    return render(request, "wage_bill/payments_dashboard.html", context)
+
+
 def wage_bill_activity_summary(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
 
-    wage_bill_wages = wage_bill_selectors.get_wage_bill_activity_summary(wage_bill)
+    activity_summary = wage_bill_selectors.get_wage_bill_activity_summary(wage_bill)
 
-    print(wage_bill_wages)
 
+    context = {
+        "wage_bill": wage_bill,
+        "activity_summary": activity_summary
+    }
+
+    return render(request, "wage_bill/activity_summary.html", context)
