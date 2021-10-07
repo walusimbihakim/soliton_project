@@ -29,7 +29,6 @@ Your submitted Wage Sheets
                                 <th>Wage bill Week</th>
                                 <th>Field Manager Approval</th>
                                 <th>Project Manager Approval</th>
-                                <th>General Manager Approval</th>
                                 <th>#</th>
                             </tr>
                             </thead>
@@ -54,15 +53,6 @@ Your submitted Wage Sheets
                                     {%if wage_sheet.project_manager_status is None%}
                                     <span style="font-size: 3em; font-weight: bold">-</span>
                                     {%elif wage_sheet.project_manager_status%}
-                                    <i class="fas fa-check" style="color:green; font-size: 1.5em"></i>
-                                    {%else%}
-                                    <i class="fas fa-times" style="color:red; font-size: 1.5em"></i>
-                                    {%endif%}
-                                </td>
-                                <td>
-                                    {%if wage_sheet.gm_status is None%}
-                                    <span style="font-size: 3em; font-weight: bold">-</span>
-                                    {%elif wage_sheet.gm_status%}
                                     <i class="fas fa-check" style="color:green; font-size: 1.5em"></i>
                                     {%else%}
                                     <i class="fas fa-times" style="color:red; font-size: 1.5em"></i>

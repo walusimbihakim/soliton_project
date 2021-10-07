@@ -1,0 +1,152 @@
+{% extends '../base.html' %}
+{% load static %}
+{%load humanize%}
+{%block page_title%}
+Payments Dashboard for {{wage_bill}}
+{% endblock%}
+
+{% block right_button%}
+<a href="{%url 'payment_stats_excel' wage_bill.id%}">
+<button type="button" class="btn btn-outline-primary">
+    Download Excel
+</button>
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-3">
+                    <strong>No. of Casuals:</strong>
+                </div>
+                <div class="col-3">
+                    <h4>{{wage_bill.number_of_casuals}}</h4>
+                </div>
+
+                <div class="col-3">
+                    <strong>Total Charges:</strong>
+                </div>
+                <div class="col-3">
+                    <h4>{{wage_bill.total_charges|intcomma}}/-</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <strong>Total Amount:</strong>
+                </div>
+                <div class="col-3">
+                    <h4>{{wage_bill.total_consolidated_payments|intcomma}}/-</h4>
+                </div>
+
+                <div class="col-3">
+                    <strong>Net Amount:</strong>
+                </div>
+                <div class="col-3">
+                    <h4>{{wage_bill.net_consolidated_payment|intcomma}}/-</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        {%for chart in charts%}
+        <div class="col-md-6" style="margin-bottom:5px;">
+            <div class="card card-primary">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">{{chart.title}}</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        {{chart.html|safe}}
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        {%endfor%}
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-md-6">
+            <div class="card">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Total Payment Per Day</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        {{df|safe}}
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            <div class="card">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Total Payment Per Supervisor</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        {{supervisor_df|safe}}
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-6">
+
+            <div class="card">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Total Payment Per Field Manager</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        {{fm_df|safe}}
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            <div class="card">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Total Payment Per Activity</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        {{total_amount_per_activity_df|safe}}
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+{% endblock content %}
+
+{% block chart_js_scripts %}
+{% for chart in charts %}
+     {{ chart.js|safe }}
+{% endfor %}
+{% endblock %}

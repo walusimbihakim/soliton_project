@@ -58,6 +58,10 @@ class WageBill(models.Model):
         
         return net_payment
 
+    @property
+    def number_of_casuals(self):
+        return self.consolidatedwagebillpayment_set.count()
+
 
 class ConsolidatedWageBillPayment(models.Model):
     wage_bill = models.ForeignKey(WageBill, on_delete=models.CASCADE)
@@ -68,6 +72,8 @@ class ConsolidatedWageBillPayment(models.Model):
     supervisor_id = models.IntegerField(null=True, blank=True)
     supervisor = models.CharField(max_length=50, blank=True, null=True)
     supervisor_number = models.CharField(max_length=50, blank=True, null=True)
+    field_manager = models.CharField(max_length=50, blank=True, null=True)
+    field_manager_number = models.CharField(max_length=50, blank=True, null=True)
     total_wages = models.IntegerField(default=0)
     total_complaints = models.IntegerField(default=0)
     total_deductions = models.IntegerField(default=0)

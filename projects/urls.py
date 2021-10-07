@@ -1,5 +1,5 @@
 from django.urls import path, include
-
+import xlsxwriter
 from projects.views import scope_views, team_views, wage_sheet_views, boq_views
 from projects.views.auth_views import super_admin_required_page, project_manager_required_page, \
     supervisor_required_page, finance_officer_required_page
@@ -39,6 +39,7 @@ worker_urls = [
          name="edit_group_worker"),
     path('delete_group_worker/<int:id>/',
          worker_views.delete_group_worker, name='delete_group_worker'),
+    path('workers_dashboard/', worker_views.workers_dashboard, name="workers_dashboard")
 
 ]
 
@@ -273,6 +274,9 @@ wage_bill_urls = [
     path('manager_payment_breakdown/<int:wage_bill_id>/<int:manager>/',
          wage_bill_views.wage_bill_manager_payment_breakdown,
          name="manager_payment_breakdown"),
+    path('payments_dashboard/<int:wage_bill_id>/', wage_bill_views.payments_dashboard, name="payments_dashboard"),
+    path('payment_stats_excel/<int:wage_bill_id>/', wage_bill_views.payment_stats_excel, name="payment_stats_excel"),
+
 ]
 
 project_urls = [

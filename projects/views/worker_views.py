@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.contrib import messages
 
 from project_manager.settings import BASE_DIR
+from projects.charts import get_charts_workers
 from projects.constants import INTEGRITY_ERROR_MESSAGE, INVALID_FORM_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required, project_manager_required
 from projects.forms.transfer_form import TransferForm
@@ -238,3 +239,10 @@ def transfer_worker_from_phone_number_view(request):
         messages.success(request, 'Worker transfered')
         return HttpResponseRedirect(reverse(manage_workers_page))
 
+
+def workers_dashboard(request):
+    charts = get_charts_workers()
+    context = {
+        "charts": charts
+    }
+    return render(request, "worker/workers_dashboard.html", context)

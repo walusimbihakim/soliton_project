@@ -1,0 +1,49 @@
+{% extends '../base.html' %}
+{% load static %}
+{%load humanize%}
+{%block page_title%}
+Workers Dashboard
+{% endblock%}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <!-- ./col -->
+                {%for chart in charts%}
+                <div class="col-md-6" style="margin-bottom:5px;">
+                    <div class="card card-primary">
+                        <!-- ./ card-header -->
+                        <div class="card-header">
+                            <h3 class="card-title">{{chart.title}}</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart">
+                                {{chart.html|safe}}
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                {%endfor%}
+                <!-- /.col -->
+            </div>
+        </div>
+<!-- /.container-fluid -->
+{% endblock content %}
+
+{% block chart_js_scripts %}
+{% for chart in charts %}
+{{ chart.js|safe }}
+{% endfor %}
+{% endblock %}

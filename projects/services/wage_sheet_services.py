@@ -61,7 +61,7 @@ def approve_or_reject_wage_sheet_by_project_manager(is_approved, wage_sheet, com
     wage_sheet.project_manager_status = is_approved
     wage_sheet.project_manager_comment = comment
     wage_sheet.project_manager_approval_time = timezone.now()
-    wage_sheet.approved = True
+    wage_sheet.approved = is_approved
     wage_sheet.save()
 
 

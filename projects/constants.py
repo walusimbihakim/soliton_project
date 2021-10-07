@@ -47,4 +47,5 @@ WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE \
       "submitted wage sheets will not be included in the wage bill payments " \
       "for Wage bill week"
 
-
+PALETTE = ['#465b65', '#184c9c', '#d33035', '#ffc107', '#28a745', '#6f7f8c', '#6610f2', '#6e9fa5', '#fd7e14',
+           '#e83e8c', '#17a2b8', '#6f42c1']

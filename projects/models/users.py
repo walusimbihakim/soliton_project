@@ -84,3 +84,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def unread_notifications(self):
         return self.notification_set.filter(is_read=False)
+
+
+class FieldManagerAssignment(models.Model):
+    field_manager_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="field_manager_assignments")
+    supervisor_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="field_manager_assignment")
+
+    def __str__(self):
+        return f"{self.supervisor_user} FM Assignment"

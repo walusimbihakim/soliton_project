@@ -1,6 +1,5 @@
 from django.db import IntegrityError
 from django.db.models import Q
-from django.utils import timezone
 
 from project_manager.settings import BASE_DIR
 from projects.constants import GENERAL_MANAGER, PROJECT_MANAGER, FIELD_MANAGER, INVALID_FORM_MESSAGE, \
