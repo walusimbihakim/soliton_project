@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 django-storages = "*"
 django-simple-autocomplete = "*"
+django-xlsxwriter = "*"
+xlsxwriter = "*"
 
 [requires]
 python_version = "3.7"
