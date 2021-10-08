@@ -1,5 +1,6 @@
 import csv
-
+from io import BytesIO
+import pandas as pd
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
@@ -16,7 +17,7 @@ from projects.charts import get_charts
 from projects.constants import WAGE_BILL_PAYMENT_GENERATION_CONFIRM_MESSAGE
 from projects.decorators.auth_decorators import finance_office_required
 from projects.dfs import get_amount_per_day_df, get_total_amount_per_field_manager_df, \
-    get_total_amount_per_supervisor_df
+    get_total_amount_per_supervisor_df, get_total_amount_per_activity_df
 from projects.procedures import render_to_pdf
 from projects.selectors.workers import get_worker
 from projects.selectors.user_selectors import get_user_by_id
@@ -267,11 +268,8 @@ def wage_bill_supervisor_total(request, wage_bill_id, manager):
 
 def wage_bill_manager_payment_breakdown(request, wage_bill_id, manager):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
-
     manager_wage_sheets = wage_bill_selectors.get_manager_wage_bill_wage_sheets(wage_bill, manager)
-
     manager_total = wage_bill_selectors.get_manager_wage_bill_total(wage_bill, manager)
-
     context = {
         'wage_bill': wage_bill,
         'manager_wage_sheets': manager_wage_sheets,
@@ -288,25 +286,38 @@ def payments_dashboard(request, wage_bill_id):
     days_amount_per_day = get_amount_per_day_df(wage_bill)
     fm_df = get_total_amount_per_field_manager_df(wage_bill)
     supervisor_df = get_total_amount_per_supervisor_df(wage_bill)
+    total_amount_per_activity_df = get_total_amount_per_activity_df(wage_bill)
     context = {
         "charts": charts,
         "wage_bill": wage_bill,
         "df": days_amount_per_day.to_html(classes="table table-striped"),
         "fm_df": fm_df.to_html(classes="table table-striped", index="False"),
-        "supervisor_df": supervisor_df.to_html(classes="table table-striped", index="False")
+        "supervisor_df": supervisor_df.to_html(classes="table table-striped", index="False"),
+        "total_amount_per_activity_df": total_amount_per_activity_df.to_html(classes="table table-striped",
+                                                                             index="False"),
     }
     return render(request, "wage_bill/payments_dashboard.html", context)
 
 
-def wage_bill_activity_summary(request, wage_bill_id):
+def payment_stats_excel(request, wage_bill_id):
     wage_bill = wage_bill_selectors.get_wage_bill(wage_bill_id)
-
-    activity_summary = wage_bill_selectors.get_wage_bill_activity_summary(wage_bill)
-
-
-    context = {
-        "wage_bill": wage_bill,
-        "activity_summary": activity_summary
-    }
-
-    return render(request, "wage_bill/activity_summary.html", context)
+    days_amount_per_day = get_amount_per_day_df(wage_bill)
+    payment_per_field_manager_df = get_total_amount_per_field_manager_df(wage_bill)
+    payment_per_supervisor_df = get_total_amount_per_supervisor_df(wage_bill)
+    payment_per_activity_df = get_total_amount_per_activity_df(wage_bill)
+    with BytesIO() as b:
+        # Use the StringIO object as the filehandle.
+        writer = pd.ExcelWriter(b, engine='xlsxwriter')
+        days_amount_per_day.to_excel(writer, sheet_name='Payment Per Day')
+        payment_per_field_manager_df.to_excel(writer, sheet_name='Payment Per Field Manager')
+        payment_per_supervisor_df.to_excel(writer, sheet_name='Payment Per Supervisor')
+        payment_per_activity_df.to_excel(writer, sheet_name='Payment Per Activity')
+        writer.save()
+        # Set up the Http response.
+        filename = f'{wage_bill} stats.xlsx'
+        response = HttpResponse(
+            b.getvalue(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        return response

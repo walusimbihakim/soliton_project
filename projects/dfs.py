@@ -1,6 +1,12 @@
+from django_pandas.io import read_frame
+
 from projects.classes.charts import objects_to_df
+from projects.models import Wage, Activity, Worker
 from projects.models.wage_bills import ConsolidatedWageBillPayment
 import pandas as pd
+
+from projects.selectors import wage_bill_selectors
+from projects.selectors.wage_bill_selectors import get_wage_bill_sheets, get_wage_bill_wages
 
 
 def get_amount_per_day_df(wage_bill):
@@ -20,6 +26,15 @@ def get_amount_per_day_df(wage_bill):
     return days_amount_per_day[["Days", "Amount"]]
 
 
+def get_genders_df():
+    df = objects_to_df(Worker)
+    df[["Number"]] = 1
+    result_df = pd.pivot_table(df, index='gender', aggfunc='sum', values="Number")
+    result_df["Gender"] = result_df.index
+    result_df.reset_index(drop=True, inplace=True)
+    return result_df
+
+
 def get_total_amount_per_field_manager_df(wage_bill):
     df = objects_to_df(ConsolidatedWageBillPayment, wage_bill=wage_bill)
     df["amount"] = df["total_wages"] + df["total_complaints"] - df["total_deductions"]
@@ -27,8 +42,8 @@ def get_total_amount_per_field_manager_df(wage_bill):
     payments.columns = ["Field Manager", "Amount"]
     amount_per_field_manager = payments.groupby(["Field Manager"]).sum()
     amount_per_field_manager["Field Managers"] = amount_per_field_manager.index
-    amount_per_field_manager.reset_index(drop=True, inplace=True)
     amount_per_field_manager.sort_values(by=["Amount"], axis=0, ascending=False, inplace=True)
+    amount_per_field_manager.reset_index(drop=True, inplace=True)
     amount_per_field_manager.index += 1
     return amount_per_field_manager[["Field Managers", "Amount"]]
 
@@ -40,7 +55,20 @@ def get_total_amount_per_supervisor_df(wage_bill):
     payments.columns = ["Supervisors", "Amount"]
     amount_per_supervisor = payments.groupby(["Supervisors"]).sum()
     amount_per_supervisor["Supervisors"] = amount_per_supervisor.index
-    amount_per_supervisor.reset_index(drop=True, inplace=True)
     amount_per_supervisor.sort_values(by=["Amount"], axis=0, ascending=False, inplace=True)
+    amount_per_supervisor.reset_index(drop=True, inplace=True)
     amount_per_supervisor.index += 1
     return amount_per_supervisor[["Supervisors", "Amount"]]
+
+
+def get_total_amount_per_activity_df(wage_bill):
+    wages_qs = get_wage_bill_wages(wage_bill)
+    df = read_frame(wages_qs)
+    df = df[["activity", "quantity", "payment"]]
+    payment_per_activity = df.groupby(["activity"]).sum()
+    payment_per_activity["Activity"] = payment_per_activity.index
+    payment_per_activity.sort_values(by=["payment"], axis=0, ascending=False, inplace=True)
+    payment_per_activity.columns = ["Quantity(Units)", "Payment(UGX)", "Activity"]
+    payment_per_activity.reset_index(drop=True, inplace=True)
+    payment_per_activity.index += 1
+    return payment_per_activity[["Activity", "Quantity(Units)", "Payment(UGX)"]]

@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.contrib import messages
 
 from project_manager.settings import BASE_DIR
+from projects.charts import get_charts_workers
 from projects.constants import INTEGRITY_ERROR_MESSAGE, INVALID_FORM_MESSAGE
 from projects.decorators.auth_decorators import supervisor_required, project_manager_required
 from projects.forms.transfer_form import TransferForm
@@ -249,3 +250,9 @@ def worker_per_gender(request):
     return render(request, "worker/workers_by_gender.html", context)
 
 
+def workers_dashboard(request):
+    charts = get_charts_workers()
+    context = {
+        "charts": charts
+    }
+    return render(request, "worker/workers_dashboard.html", context)

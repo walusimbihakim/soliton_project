@@ -5,6 +5,14 @@
 Payments Dashboard for {{wage_bill}}
 {% endblock%}
 
+{% block right_button%}
+<a href="{%url 'payment_stats_excel' wage_bill.id%}">
+<button type="button" class="btn btn-outline-primary">
+    Download Excel
+</button>
+</a>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="card">
@@ -89,6 +97,19 @@ Payments Dashboard for {{wage_bill}}
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
+            <div class="card">
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Total Payment Per Supervisor</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        {{supervisor_df|safe}}
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
         </div>
         <!-- /.col -->
         <div class="col-md-6">
@@ -106,22 +127,18 @@ Payments Dashboard for {{wage_bill}}
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
-        </div>
-        <div class="col-md-6">
-
             <div class="card">
                 <!-- ./ card-header -->
                 <div class="card-header">
-                    <h3 class="card-title">Total Payment Per Supervisor</h3>
+                    <h3 class="card-title">Total Payment Per Activity</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        {{supervisor_df|safe}}
+                        {{total_amount_per_activity_df|safe}}
                     </div>
                 </div>
                 <!-- /.card-body -->
             </div>
-            <!-- /.card -->
         </div>
     </div>
 </div>
@@ -130,6 +147,6 @@ Payments Dashboard for {{wage_bill}}
 
 {% block chart_js_scripts %}
 {% for chart in charts %}
-{{ chart.js|safe }}
+     {{ chart.js|safe }}
 {% endfor %}
 {% endblock %}

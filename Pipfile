@@ -9,6 +9,7 @@ verify_ssl = true
 django-storages = "*"
 django-simple-autocomplete = "*"
 pandas = "*"
+xlsxwriter = "*"
 
 [requires]
 python_version = "3.7"
