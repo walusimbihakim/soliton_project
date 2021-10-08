@@ -1,0 +1,130 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load javascript_settings_tags %}
+{% load wage_bill_extras %}
+{% load humanize %}
+
+{%block page_title%}
+Activity Summary
+{% endblock%}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+            <div class="card">
+                {%if activity_summary%}
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Wage Bill - {{wage_bill}}</h3>
+                </div>
+                <div class="card-body">                    
+                    <div class="table-responsive">
+                        <table id="consolidated_list" class="table table-striped">
+                            <thead> 
+                            <tr>
+                                <th class="text-center">No.</th>
+                                <th class="text-center">Activity</th>
+                                <th class="text-center">Scope</th>
+                                <th class="text-center">#</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for activity in activity_summary%}
+                            <tr>
+                                <td class="text-center">{{forloop.counter }}</td>
+                                <td class="text-center">{{activity.activity}}</td>
+                                <td class="text-center">{{activity.total_qty}}</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-info">
+                                        Manager Summary
+                                    </a>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+
+                {%else%}
+                <div class="card-body">
+                    <h4>No Activity Summary Listed</h4>
+                </div>
+                {%endif%}
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+<div class="modal fade" id="modal-add-bill">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Wage Bill</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ wage_bill_form|crispy }}
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Confirm Submit -->
+<div class="modal fade" id="modal-confirm-submit">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Submit</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to submit this Wagesheet?
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                <button type="submit" class="btn btn-success">Confirm</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{% static 'JS/custom_js.js' %}"></script>
+<script type="text/javascript">{% javascript_settings %}</script>
+
+<!-- DataTables -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+
+
+{% endblock content %}

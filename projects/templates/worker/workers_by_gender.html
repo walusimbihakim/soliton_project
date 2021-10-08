@@ -1,0 +1,84 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{%block page_title%}
+Workers By Gender
+{% endblock%}
+{% block content %}
+<div class="container-fluid">
+    <!-- ./row -->
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-12">
+            <div class="card">
+                {%if workers%}
+                <!-- ./ card-header -->
+                <div class="card-header">
+                    <h3 class="card-title">Workers</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- ./card-body -->
+                <div class="card-body">                    
+                    <div class="table-responsive">
+                        <table id="pageTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Gender</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for worker in workers%}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>
+                                    {{worker.gender}}<br/>
+                                </td>
+                                <td>{{worker.total}}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                {%else%}
+                <div class="card-body">
+                    <h4>No records available</h4>
+                </div>
+                {%endif%}
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+<!-- page script -->
+{% block customJS %}
+<script>
+  $(function () {
+    $("#workertable").DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "responsive": true,
+      "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+{% endblock customJS %}
+{% endblock content %}

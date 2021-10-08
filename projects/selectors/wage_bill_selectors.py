@@ -1,5 +1,5 @@
 from projects.procedures import calculate_total_wages
-from django.db.models import Sum
+from django.db.models import Sum, Count
 import projects.models.wage_bills as wage_bills
 import projects.models.wage_sheets as wage_sheets
 import projects.models.complaints as complaints
@@ -23,11 +23,11 @@ def get_current_wage_bill() -> wage_bills.WageBill:
 
 
 def get_wage_bill_sheets(wage_bill):
-    return wage_sheets.WageSheet.objects.filter(wage_bill=wage_bill, manager_status=True)
+    return wage_sheets.WageSheet.objects.filter(wage_bill=wage_bill, project_manager_status=True)
 
 
 def get_wage_bill_sheets_per_day(wage_bill, date):
-    return wage_sheets.WageSheet.objects.filter(wage_bill=wage_bill, date=date, manager_status=True)
+    return wage_sheets.WageSheet.objects.filter(wage_bill=wage_bill, date=date, project_manager_status=True)
 
 
 def get_wage_bill_wages(wage_bill):
@@ -195,4 +195,13 @@ def get_wage_bill_total_payment(wage_bill):
 
     return wage_bill_total['total']
 
+def get_wage_bill_activity_summary(wage_bill):
+    wage_bill_sheets = get_wage_bill_sheets(wage_bill)
+
+    wage_bill_wages = wage_sheets.Wage.objects.filter(wage_sheet__in=wage_bill_sheets,
+                                                      is_pm_approved=True)
+    activity_summary = wage_bill_wages.values("activity").annotate(total_qty = Sum('quantity'))
+
+    
+    return activity_summary                                                    
 

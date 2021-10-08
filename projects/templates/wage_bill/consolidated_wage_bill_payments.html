@@ -35,11 +35,16 @@ Consolidated Payments
                     <a href="{%url 'payments_dashboard' wage_bill.id%}">
                         <button class="btn btn-outline-primary" style="margin:5px; float: right" >
                             Payments Dashboard
-                        </button>
+                        </button> 
+                    </a>
+                    <a href="{%url 'wage_bill_activity_summary' wage_bill.id%}">
+                        <button class="btn btn-outline-primary" style="margin:5px; float: right" >
+                            Activity Summary
+                        </button> 
                     </a>
                     <div class="table-responsive">
                         <table id="consolidated_list" class="table table-striped">
-                            <thead>
+                            <thead> 
                             <tr>
                                 <th class="text-center">No.</th>
                                 <th class="text-center">Worker</th>

@@ -17,7 +17,7 @@ from projects.procedures import render_to_pdf
 import projects.selectors.user_selectors as user_selectors
 from projects.models.workers import WorkerAssignment, Worker
 from projects.selectors.workers import get_all_workers, get_worker, get_all_workers_registered_by, \
-    get_all_worker_groups_supervised_by, get_group_worker, get_worker_phone_number
+    get_all_worker_groups_supervised_by, get_group_worker, get_worker_phone_number, get_workers_per_gender
 
 
 @supervisor_required
@@ -238,6 +238,16 @@ def transfer_worker_from_phone_number_view(request):
             worker.save()
         messages.success(request, 'Worker transfered')
         return HttpResponseRedirect(reverse(manage_workers_page))
+
+def worker_per_gender(request):
+    gender_workers = get_workers_per_gender()
+
+    context = {
+        "workers_page": "active",
+        "gender_workers": "active",
+        "workers": gender_workers,
+    }
+    return render(request, "worker/workers_by_gender.html", context)
 
 
 def workers_dashboard(request):
