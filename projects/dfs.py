@@ -27,7 +27,8 @@ def get_amount_per_day_df(wage_bill):
 
 
 def get_genders_df():
-    df = objects_to_df(Worker)
+    qs = Worker.objects.all()
+    df = read_frame(qs)
     df[["Number"]] = 1
     result_df = pd.pivot_table(df, index='gender', aggfunc='sum', values="Number")
     result_df["Gender"] = result_df.index
